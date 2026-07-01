@@ -19,7 +19,8 @@ alwaysApply: true
 - Uses plain `git` only — `gh` is not required
 
 ```bash
-cd Anti-GEO && git pull origin main
+# Works from repo root or any subdirectory — do not `cd Anti-GEO` (fails if workspace is already Anti-GEO)
+git -C "$(git rev-parse --show-toplevel)" pull origin main
 ```
 
 **End of session (after user approves or explicitly asks to commit):**
