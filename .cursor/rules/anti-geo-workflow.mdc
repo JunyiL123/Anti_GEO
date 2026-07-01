@@ -13,9 +13,13 @@ alwaysApply: true
 
 ## Git workflow (local + cloud agents)
 
-**Start of session:**
+**Start of session (mandatory, no user prompt needed):**
+- Run this **before answering the first message** in any Anti-GEO session
+- Do not wait for the user to ask; `git fetch` alone is not enough
+- Uses plain `git` only — `gh` is not required
+
 ```bash
-git pull origin main
+cd Anti-GEO && git pull origin main
 ```
 
 **End of session (after user approves or explicitly asks to commit):**
