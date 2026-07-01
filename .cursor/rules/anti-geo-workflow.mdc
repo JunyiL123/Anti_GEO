@@ -1,0 +1,55 @@
+---
+description: Anti_GEO git workflow, repo boundaries, and agent conventions
+alwaysApply: true
+---
+
+# Anti_GEO project rules
+
+## Repository
+
+- **This repo only**: `JunyiL123/Anti_GEO` — https://github.com/JunyiL123/Anti_GEO
+- **Never push to** `GEO-optim/GEO` (upstream Princeton code; read-only for us)
+- Project root: `Anti-GEO/` with `src/anti_geo/`, `demo/`, `tests/`, `geo-optimizer/`
+
+## Git workflow (local + cloud agents)
+
+**Start of session:**
+```bash
+git pull origin main
+```
+
+**End of session (after user approves or explicitly asks to commit):**
+```bash
+git add <relevant files>
+git commit -m "concise message"
+git push origin main
+```
+
+- Prefer feature branches (`feature/...`) for large changes; merge via PR when possible
+- Never commit `.env`, `.venv/`, API keys, or credentials
+- Only commit when the user asks (unless pre-commit hook auto-fix requires amend)
+
+## Code layout
+
+| Path | Purpose |
+|---|---|
+| `src/anti_geo/` | Production pipeline (fetch → score → decide) |
+| `demo/` | Simulations and CLIs (`defense_demo.py`, `analyze_url.py`) |
+| `geo-optimizer/` | Vendored Princeton GEO (attack/benchmark); cite upstream |
+| `tests/` | `pytest` offline tests |
+
+Run tests: `PYTHONPATH=src python3 -m pytest tests/ -q`
+
+## Defense design principles
+
+- No blanket blocking of UGC domains (Reddit, Wikipedia, etc.)
+- No perplexity-only filters for GEO detection
+- Three layers: semantic scoring (L1), source trust (L2), synthesis guard (L3)
+- Downrank/gate rather than hard-block when uncertain
+- Distinguish **mention** vs **endorsement** in synthesis
+
+## Python conventions
+
+- Python 3.11+, match existing style in `src/anti_geo/`
+- Minimal diffs; no over-engineering
+- Infer trust/scores from signals — avoid hardcoded per-domain labels in production code
