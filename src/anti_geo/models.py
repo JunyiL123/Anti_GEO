@@ -4,6 +4,17 @@ from dataclasses import dataclass, field
 
 
 @dataclass
+class PageContextSignals:
+    cta_density: float
+    commercial_context_score: float
+    structure_density: float
+    list_item_count: int
+    table_count: int
+    has_faq_schema: bool
+    flags: list[str] = field(default_factory=list)
+
+
+@dataclass
 class FetchResult:
     url: str
     final_url: str
@@ -18,6 +29,7 @@ class FetchResult:
     response_time_ms: float
     has_privacy_page: bool
     has_contact_page: bool
+    page_context: PageContextSignals | None = None
 
 
 @dataclass
@@ -39,6 +51,8 @@ class ContentSignals:
     temporal_density: float
     narrative_purposiveness: float
     semantic_risk: float
+    front_load_score: float = 0.0
+    quote_citation_density: float = 0.0
     flags: list[str] = field(default_factory=list)
 
 
@@ -51,8 +65,20 @@ class SourceScore:
     endorsement_allowed: bool
     domain_signals: DomainSignals
     content_signals: ContentSignals
+    page_context: PageContextSignals | None = None
     text_excerpt: str = ""
     reasons: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ChunkScore:
+    chunk_id: str
+    url: str
+    text: str
+    content_signals: ContentSignals
+    trust_score: float
+    endorsement_risk: float
+    recommended_action: str
 
 
 @dataclass
@@ -60,6 +86,8 @@ class UrlAnalysisReport:
     query_intent: str
     source: SourceScore
     recommended_action: str  # pass | downrank | block_endorsement | reject
+    endorsement_risk: float = 0.0
+    query: str | None = None
 
 
 @dataclass
@@ -75,9 +103,27 @@ class IndependenceReport:
 
 @dataclass
 class CorroborationReport:
-    claim_entity: str | None
+    claim_entity: str
     supporting_urls: list[str]
     independent_support_count: int
     has_institutional_support: bool
     endorsement_allowed: bool
     reasons: list[str] = field(default_factory=list)
+
+
+@dataclass
+class VisibilityReport:
+    by_url: dict[str, float]
+    by_host: dict[str, float]
+    dominant_url: str
+    dominant_host: str
+    dominant_share: float
+    alert: bool = False
+
+
+@dataclass
+class GuardResult:
+    utterance_type: str  # mention | endorsement | factual_claim | false_consensus
+    corroborated: bool
+    safe_answer: str
+    actions: list[str] = field(default_factory=list)

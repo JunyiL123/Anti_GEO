@@ -73,15 +73,17 @@ OFFLINE_SAMPLES = {
 }
 
 
-def run_offline_demo() -> None:
+def run_offline_demo(query: str | None = None) -> None:
     print("=" * 60)
     print("OFFLINE DEMO — inferred scores (no network)")
     print("=" * 60)
+    if query:
+        print(f"Query: {query}\n")
 
     for label, fetch in OFFLINE_SAMPLES.items():
         print(f"\n--- {label} ---\n")
-        source = score_source(fetch.url, fetch)
-        report = decide_single_source(source, "informational")
+        source = score_source(fetch.url, fetch, query=query)
+        report = decide_single_source(source, "informational", query=query)
         print(format_report(report))
 
 
@@ -90,22 +92,23 @@ def main() -> None:
     parser.add_argument("urls", nargs="*", help="URL(s) to analyze")
     parser.add_argument("--compare", action="store_true", help="Multi-URL independence + corroboration")
     parser.add_argument("--intent", default="informational", help="Query intent context")
+    parser.add_argument("--query", default=None, help="User query for endorsement-risk gating")
     parser.add_argument("--claim", default=None, help="Entity to check corroboration for")
     parser.add_argument("--offline-demo", action="store_true", help="Run without network")
     args = parser.parse_args()
 
     if args.offline_demo:
-        run_offline_demo()
+        run_offline_demo(query=args.query)
         return
 
     if not args.urls:
         parser.error("Provide at least one URL, or use --offline-demo")
 
     if args.compare or len(args.urls) > 1:
-        bundle = analyze_urls(args.urls, args.intent, args.claim)
+        bundle = analyze_urls(args.urls, args.intent, args.claim, query=args.query)
         print(format_multi_report(bundle))
     else:
-        report = analyze_url(args.urls[0], args.intent)
+        report = analyze_url(args.urls[0], args.intent, query=args.query)
         print(format_report(report))
 
 

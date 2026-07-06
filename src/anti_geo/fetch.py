@@ -8,8 +8,9 @@ import httpx
 from bs4 import BeautifulSoup
 
 from anti_geo.models import FetchResult
+from anti_geo.page_context import extract_page_context
 
-USER_AGENT = "AntiGEO-Analyzer/0.1 (research; +https://github.com/example/anti-geo)"
+USER_AGENT = "AntiGEO-Analyzer/0.1 (research; +https://github.com/JunyiL123/Anti_GEO)"
 MAX_LINKS_TO_CHECK = 8
 MAX_TEXT_CHARS = 50_000
 
@@ -50,10 +51,13 @@ def fetch_page(url: str, timeout: float = 12.0) -> FetchResult:
             response_time_ms=elapsed,
             has_privacy_page=False,
             has_contact_page=False,
+            page_context=None,
         )
 
     elapsed = (time.perf_counter() - start) * 1000
     soup = BeautifulSoup(html, "html.parser")
+    page_context = extract_page_context(soup, re.sub(r"\s+", " ", soup.get_text(separator=" ", strip=True))[:MAX_TEXT_CHARS])
+
     for tag in soup(["script", "style", "noscript"]):
         tag.decompose()
 
@@ -105,4 +109,5 @@ def fetch_page(url: str, timeout: float = 12.0) -> FetchResult:
         response_time_ms=elapsed,
         has_privacy_page=has_privacy,
         has_contact_page=has_contact,
+        page_context=page_context,
     )
