@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+import re
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
@@ -8,6 +10,7 @@ from anti_geo.content_signals import extract_content_signals, compute_endorsemen
 from anti_geo.models import ChunkScore, SourceScore, VisibilityReport
 
 PAWC_POSITION_WEIGHTS = [1.0, 0.62, 0.38, 0.22, 0.15]
+_TOKEN_RE = re.compile(r"[a-z0-9]+")
 
 
 @dataclass
@@ -25,6 +28,46 @@ class ScoredChunk:
 
 def _host(url: str) -> str:
     return urlparse(url).netloc or url
+
+
+def _tokenize(text: str) -> list[str]:
+    return _TOKEN_RE.findall(text.lower())
+
+
+def _tfidf_vector(tokens: list[str], df: dict[str, int], n_docs: int) -> dict[str, float]:
+    counts: dict[str, int] = {}
+    for term in tokens:
+        counts[term] = counts.get(term, 0) + 1
+    vec: dict[str, float] = {}
+    for term, tf in counts.items():
+        idf = math.log((1 + n_docs) / (1 + df.get(term, 0))) + 1.0
+        vec[term] = (1 + math.log(tf)) * idf
+    return vec
+
+
+def _cosine(a: dict[str, float], b: dict[str, float]) -> float:
+    if not a or not b:
+        return 0.0
+    dot = sum(v * b.get(k, 0.0) for k, v in a.items())
+    na = math.sqrt(sum(v * v for v in a.values()))
+    nb = math.sqrt(sum(v * v for v in b.values()))
+    if na == 0 or nb == 0:
+        return 0.0
+    return dot / (na * nb)
+
+
+def tfidf_retrieval_scores(query: str, texts: list[str]) -> list[float]:
+    """Baseline TF-IDF relevance scores for query–chunk pairs."""
+    if not texts:
+        return []
+    all_docs = [_tokenize(query)] + [_tokenize(text) for text in texts]
+    df: dict[str, int] = {}
+    for tokens in all_docs:
+        for term in set(tokens):
+            df[term] = df.get(term, 0) + 1
+    n_docs = len(all_docs)
+    q_vec = _tfidf_vector(_tokenize(query), df, n_docs)
+    return [_cosine(q_vec, _tfidf_vector(_tokenize(text), df, n_docs)) for text in texts]
 
 
 def compute_pawc(
@@ -84,7 +127,7 @@ def diversify_by_host(ranked: list[ScoredChunk], top_k: int) -> list[ScoredChunk
 def defended_rerank(
     query: str,
     chunks: list[tuple[str, str, str, float]],
-    source: SourceScore,
+    sources: dict[str, SourceScore],
     query_intent: str = "informational",
     top_k: int = 5,
     config: DefenseConfig = DEFAULT_CONFIG,
@@ -93,9 +136,13 @@ def defended_rerank(
     Re-rank retrieved chunks with L1/L2 penalties and endorsement risk.
 
     chunks: list of (chunk_id, url, text, base_retrieval_score)
+    sources: url → inferred source scores from fetch + domain signals
     """
     scored: list[ScoredChunk] = []
     for chunk_id, url, text, base in chunks:
+        source = sources.get(url)
+        if source is None:
+            continue
         content = extract_content_signals(text, query, config)
         risk = compute_endorsement_risk(
             query,
@@ -111,6 +158,8 @@ def defended_rerank(
         l2_penalty = min(0.85, (1.0 - source.trust_score) * config.l2_penalty_weight)
         if source.fetch_ok and source.content_signals.word_count < config.thin_content_words:
             l2_penalty = min(0.85, l2_penalty + 0.05)
+        if not source.fetch_ok:
+            l2_penalty = min(0.85, l2_penalty + config.l2_faulty_penalty)
         combined = base * (1.0 - l1_penalty) * (1.0 - l2_penalty)
         action = action_from_endorsement_risk(risk, config)
         scored.append(

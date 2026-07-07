@@ -25,7 +25,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from anti_geo.models import FetchResult
-from anti_geo.pipeline import analyze_url, analyze_urls, format_multi_report, format_report
+from anti_geo.pipeline import (
+    analyze_query,
+    analyze_url,
+    analyze_urls,
+    format_defended_report,
+    format_multi_report,
+    format_report,
+)
 from anti_geo.scorer import score_source
 from anti_geo.decisions import decide_single_source
 
@@ -73,17 +80,25 @@ OFFLINE_SAMPLES = {
 }
 
 
-def run_offline_demo(query: str | None = None) -> None:
+def run_offline_demo(query: str | None = None, defended: bool = False) -> None:
     print("=" * 60)
-    print("OFFLINE DEMO — inferred scores (no network)")
+    title = "OFFLINE DEFENDED DEMO" if defended else "OFFLINE DEMO"
+    print(f"{title} — inferred scores (no network)")
     print("=" * 60)
-    if query:
-        print(f"Query: {query}\n")
+    q = query or "what is the best project management tool for small teams"
+    print(f"Query: {q}\n")
+
+    if defended:
+        fetches = {fetch.url: fetch for fetch in OFFLINE_SAMPLES.values()}
+        urls = list(fetches.keys())
+        bundle = analyze_query(q, urls, fetches=fetches)
+        print(format_defended_report(bundle))
+        return
 
     for label, fetch in OFFLINE_SAMPLES.items():
         print(f"\n--- {label} ---\n")
-        source = score_source(fetch.url, fetch, query=query)
-        report = decide_single_source(source, "informational", query=query)
+        source = score_source(fetch.url, fetch, query=q)
+        report = decide_single_source(source, "informational", query=q)
         print(format_report(report))
 
 
@@ -95,14 +110,22 @@ def main() -> None:
     parser.add_argument("--query", default=None, help="User query for endorsement-risk gating")
     parser.add_argument("--claim", default=None, help="Entity to check corroboration for")
     parser.add_argument("--offline-demo", action="store_true", help="Run without network")
+    parser.add_argument("--defended", action="store_true", help="Full defended query pipeline (requires --query)")
     args = parser.parse_args()
 
     if args.offline_demo:
-        run_offline_demo(query=args.query)
+        run_offline_demo(query=args.query, defended=args.defended)
         return
 
     if not args.urls:
         parser.error("Provide at least one URL, or use --offline-demo")
+
+    if args.defended:
+        if not args.query:
+            parser.error("--defended requires --query")
+        bundle = analyze_query(args.query, args.urls, args.intent, args.claim)
+        print(format_defended_report(bundle))
+        return
 
     if args.compare or len(args.urls) > 1:
         bundle = analyze_urls(args.urls, args.intent, args.claim, query=args.query)

@@ -8,11 +8,16 @@ from anti_geo.decisions import (
 )
 from anti_geo.fetch import fetch_page
 from anti_geo.independence import analyze_independence
-from anti_geo.models import UrlAnalysisReport
-from anti_geo.retrieval import score_page_chunks
+from anti_geo.models import FetchResult, GuardResult, SourceScore, UrlAnalysisReport, VisibilityReport
+from anti_geo.retrieval import (
+    ScoredChunk,
+    compute_pawc,
+    defended_rerank,
+    score_page_chunks,
+    tfidf_retrieval_scores,
+)
 from anti_geo.scorer import score_source
 from anti_geo.synthesis_guard import apply_synthesis_guard
-from anti_geo.retrieval import defended_rerank
 
 
 def analyze_url(
@@ -73,6 +78,92 @@ def analyze_urls(
         "corroboration": corroboration,
         "claim_entity": entity,
         "query": query,
+    }
+
+
+def analyze_query(
+    query: str,
+    urls: list[str],
+    query_intent: str = "informational",
+    claim_entity: str | None = None,
+    top_k: int = 5,
+    fetches: dict[str, FetchResult] | None = None,
+) -> dict:
+    """
+    Full defended pipeline for a query over multiple URLs:
+      fetch → score → chunk → TF-IDF retrieve → defended rerank → PAWC → L3 guard
+    """
+    sources_by_url: dict[str, SourceScore] = {}
+    reports: list[UrlAnalysisReport] = []
+    chunk_rows: list[tuple[str, str, str]] = []
+
+    for url in urls:
+        fetch = (fetches or {}).get(url) or fetch_page(url)
+        source = score_source(url, fetch, query=query)
+        sources_by_url[source.url] = source
+        reports.append(decide_single_source(source, query_intent, query=query))
+        for chunk_id, text in chunk_from_fetch(fetch):
+            chunk_rows.append((chunk_id, source.url, text))
+
+    base_scores = tfidf_retrieval_scores(query, [text for _, _, text in chunk_rows])
+    chunk_tuples = [
+        (chunk_id, url, text, base)
+        for (chunk_id, url, text), base in zip(chunk_rows, base_scores, strict=True)
+    ]
+
+    baseline_scored = sorted(
+        [
+            ScoredChunk(
+                chunk_id=cid,
+                url=url,
+                text=text,
+                base_score=base,
+                trust_score=sources_by_url[url].trust_score,
+                semantic_risk=0.0,
+                endorsement_risk=0.0,
+                combined_score=base,
+                recommended_action="pass",
+            )
+            for cid, url, text, base in chunk_tuples
+            if url in sources_by_url
+        ],
+        key=lambda row: row.combined_score,
+        reverse=True,
+    )
+    baseline_pawc = compute_pawc(baseline_scored[:top_k])
+
+    defended, pawc = defended_rerank(
+        query, chunk_tuples, sources_by_url, query_intent, top_k=top_k
+    )
+    entity = claim_entity or extract_shared_claim([r.source for r in reports])
+    guard = apply_synthesis_guard(
+        query, defended, sources_by_url, query_intent, attack_entity=entity
+    )
+
+    url_texts = {s.url: s.text_excerpt for s in sources_by_url.values() if s.text_excerpt}
+    independence = analyze_independence(url_texts) if len(url_texts) >= 2 else None
+    corroboration = None
+    if entity and independence:
+        corroboration = decide_corroboration_for_claim(
+            list(sources_by_url.values()),
+            entity,
+            independence.cluster_count,
+            query_intent,
+        )
+
+    return {
+        "query": query,
+        "query_intent": query_intent,
+        "sources": reports,
+        "sources_by_url": sources_by_url,
+        "baseline_ranked": baseline_scored[:top_k],
+        "baseline_pawc": baseline_pawc,
+        "defended_ranked": defended,
+        "pawc": pawc,
+        "guard": guard,
+        "independence": independence,
+        "corroboration": corroboration,
+        "claim_entity": entity,
     }
 
 
@@ -160,6 +251,86 @@ def format_multi_report(bundle: dict) -> str:
             f"  Claim entity: {corr.claim_entity}",
             f"  Independent clusters: {corr.independent_support_count}",
             f"  Institutional support: {corr.has_institutional_support}",
+            f"  Endorsement allowed: {corr.endorsement_allowed}",
+            f"  Reasons: {', '.join(corr.reasons) or 'none'}",
+        ])
+
+    return "\n".join(parts)
+
+
+def _format_pawc(label: str, pawc: VisibilityReport) -> list[str]:
+    if not pawc.by_host:
+        return [f"── {label} ──", "  (no chunks ranked)", ""]
+    lines = [
+        f"── {label} ──",
+        f"  Dominant host: {pawc.dominant_host} ({pawc.dominant_share:.1f}%)",
+        f"  Dominant URL: {pawc.dominant_url}",
+        f"  PAWC alert: {pawc.alert}",
+    ]
+    for host, share in sorted(pawc.by_host.items(), key=lambda item: item[1], reverse=True):
+        lines.append(f"    {host}: {share:.1f}%")
+    lines.append("")
+    return lines
+
+
+def _format_ranked_chunks(label: str, ranked: list[ScoredChunk]) -> list[str]:
+    lines = [f"── {label} ──"]
+    if not ranked:
+        lines.extend(["  (empty)", ""])
+        return lines
+    for i, row in enumerate(ranked, 1):
+        lines.append(
+            f"  {i}. [{row.url}] base={row.base_score:.3f} combined={row.combined_score:.3f} "
+            f"trust={row.trust_score:.2f} action={row.recommended_action}"
+        )
+        lines.append(f"     {row.text[:120]}{'...' if len(row.text) > 120 else ''}")
+    lines.append("")
+    return lines
+
+
+def format_defended_report(bundle: dict) -> str:
+    parts = ["=" * 60, "DEFENDED QUERY PIPELINE", "=" * 60, ""]
+    parts.append(f"Query: {bundle['query']}")
+    parts.append(f"Query intent: {bundle['query_intent']}")
+    if bundle.get("claim_entity"):
+        parts.append(f"Claim entity: {bundle['claim_entity']}")
+    parts.append("")
+
+    for i, report in enumerate(bundle["sources"], 1):
+        parts.append(f"--- Source {i} ---")
+        parts.append(format_report(report))
+        parts.append("")
+
+    parts.extend(_format_ranked_chunks("Baseline retrieval (TF-IDF)", bundle["baseline_ranked"]))
+    parts.extend(_format_pawc("Baseline PAWC", bundle["baseline_pawc"]))
+    parts.extend(_format_ranked_chunks("Defended rerank (L1+L2)", bundle["defended_ranked"]))
+    parts.extend(_format_pawc("Defended PAWC", bundle["pawc"]))
+
+    guard: GuardResult = bundle["guard"]
+    parts.extend([
+        "── L3 synthesis guard ──",
+        f"  Utterance type: {guard.utterance_type}",
+        f"  Corroborated: {guard.corroborated}",
+        f"  Actions: {', '.join(guard.actions) or 'none'}",
+        "",
+        "── Safe answer ──",
+        f"  {guard.safe_answer}",
+        "",
+    ])
+
+    ind = bundle.get("independence")
+    if ind:
+        parts.extend([
+            "── Independence ──",
+            f"  Text clusters: {ind.cluster_count}",
+            f"  Likely coordinated: {ind.is_likely_coordinated}",
+            "",
+        ])
+
+    corr = bundle.get("corroboration")
+    if corr:
+        parts.extend([
+            "── Corroboration gate ──",
             f"  Endorsement allowed: {corr.endorsement_allowed}",
             f"  Reasons: {', '.join(corr.reasons) or 'none'}",
         ])
