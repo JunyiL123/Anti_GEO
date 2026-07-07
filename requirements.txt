@@ -3,6 +3,10 @@ pytest>=8.0
 httpx>=0.27
 beautifulsoup4>=4.12
 
+# Browser fetch fallback (Akamai / Cloudflare / JS-only pages)
+playwright>=1.40
+# After pip install: `playwright install chromium` OR use system Chrome/Edge (auto-detected)
+
 # Phase 2+ (optional)
 # sentence-transformers>=3.0
 # pyyaml>=6.0

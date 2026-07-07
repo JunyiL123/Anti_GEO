@@ -100,4 +100,5 @@ def score_source(
         page_context=fetch.page_context,
         text_excerpt=fetch.text[:500],
         reasons=reasons,
+        fetch_engine=fetch.fetch_engine,
     )

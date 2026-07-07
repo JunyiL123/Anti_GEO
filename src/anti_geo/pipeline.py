@@ -90,6 +90,7 @@ def format_report(result: UrlAnalysisReport) -> str:
         "",
         "── Fetch ──",
         f"  OK: {s.fetch_ok}",
+        f"  Engine: {s.fetch_engine}",
         "",
         "── Domain signals (inferred) ──",
         f"  Host: {d.hostname}",

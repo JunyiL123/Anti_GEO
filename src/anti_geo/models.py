@@ -30,6 +30,7 @@ class FetchResult:
     has_privacy_page: bool
     has_contact_page: bool
     page_context: PageContextSignals | None = None
+    fetch_engine: str = "httpx"
 
 
 @dataclass
@@ -68,6 +69,7 @@ class SourceScore:
     page_context: PageContextSignals | None = None
     text_excerpt: str = ""
     reasons: list[str] = field(default_factory=list)
+    fetch_engine: str = "httpx"
 
 
 @dataclass
