@@ -8,7 +8,7 @@ from anti_geo.decisions import (
 )
 from anti_geo.fetch import fetch_page
 from anti_geo.independence import analyze_independence
-from anti_geo.models import FetchResult, GuardResult, SourceScore, UrlAnalysisReport, VisibilityReport
+from anti_geo.models import FetchResult, GuardResult, QueryContextScores, SourcePermissions, SourceScore, UrlAnalysisReport, VisibilityReport
 from anti_geo.retrieval import (
     ScoredChunk,
     compute_pawc,
@@ -17,6 +17,7 @@ from anti_geo.retrieval import (
     tfidf_retrieval_scores,
 )
 from anti_geo.scorer import score_source
+from anti_geo.subscores import build_query_context_scores
 from anti_geo.synthesis_guard import apply_synthesis_guard
 
 
@@ -136,10 +137,11 @@ def analyze_query(
         query, chunk_tuples, sources_by_url, query_intent, top_k=top_k
     )
     entity = claim_entity or extract_shared_claim([r.source for r in reports])
-    guard = apply_synthesis_guard(
-        query, defended, sources_by_url, query_intent, attack_entity=entity
-    )
-
+    source_permissions: dict[str, SourcePermissions] = {
+        report.source.url: report.permissions
+        for report in reports
+        if report.permissions is not None
+    }
     url_texts = {s.url: s.text_excerpt for s in sources_by_url.values() if s.text_excerpt}
     independence = analyze_independence(url_texts) if len(url_texts) >= 2 else None
     corroboration = None
@@ -150,6 +152,28 @@ def analyze_query(
             independence.cluster_count,
             query_intent,
         )
+    corroboration_strength = 0.0
+    if corroboration:
+        corroboration_strength = min(
+            1.0,
+            corroboration.independent_support_count / 3.0 + (0.25 if corroboration.has_institutional_support else 0.0),
+        )
+    query_context = build_query_context_scores(
+        independence_cluster_count=independence.cluster_count if independence else None,
+        is_likely_coordinated=independence.is_likely_coordinated if independence else False,
+        corroboration_strength=corroboration_strength,
+        visibility_dominance=pawc.dominant_share / 100.0 if pawc.dominant_share else 0.0,
+        visibility_alert=pawc.alert,
+    )
+    guard = apply_synthesis_guard(
+        query,
+        defended,
+        sources_by_url,
+        query_intent,
+        attack_entity=entity,
+        source_permissions=source_permissions,
+        query_context=query_context,
+    )
 
     return {
         "query": query,
@@ -163,8 +187,37 @@ def analyze_query(
         "guard": guard,
         "independence": independence,
         "corroboration": corroboration,
+        "query_context": query_context,
         "claim_entity": entity,
     }
+
+
+def _format_subscores_permissions(result: UrlAnalysisReport) -> list[str]:
+    lines: list[str] = []
+    if result.subscores:
+        s = result.subscores
+        lines.extend([
+            "",
+            "── Subscores ──",
+            f"  Fetch confidence: {s.fetch_confidence:.3f}",
+            f"  Source trust: {s.source_trust:.3f}",
+            f"  Rhetorical manipulation: {s.rhetorical_manipulation:.3f}",
+            f"  Retrieval manipulation: {s.retrieval_manipulation_risk:.3f}",
+            f"  Factual claim reliability: {s.factual_claim_reliability:.3f}",
+            f"  Intent mismatch: {s.intent_mismatch:.3f}",
+            f"  Harm severity: {s.harm_severity:.3f}",
+        ])
+    if result.permissions:
+        p = result.permissions
+        lines.extend([
+            "",
+            "── Permissions ──",
+            f"  Retrieve: {p.retrieve_permission}",
+            f"  Mention: {p.mention_permission}",
+            f"  Factual: {p.factual_permission}",
+            f"  Endorsement: {p.endorsement_permission}",
+        ])
+    return lines
 
 
 def format_report(result: UrlAnalysisReport) -> str:
@@ -213,6 +266,9 @@ def format_report(result: UrlAnalysisReport) -> str:
         f"  Trust score: {s.trust_score:.3f}",
         f"  Endorsement allowed: {s.endorsement_allowed}",
         f"  Reasons: {', '.join(s.reasons) or 'none'}",
+    ])
+    lines.extend(_format_subscores_permissions(result))
+    lines.extend([
         "",
         "── Text excerpt ──",
         f"  {s.text_excerpt[:280]}{'...' if len(s.text_excerpt) > 280 else ''}",
@@ -310,6 +366,7 @@ def format_defended_report(bundle: dict) -> str:
     parts.extend([
         "── L3 synthesis guard ──",
         f"  Utterance type: {guard.utterance_type}",
+        f"  Response mode: {guard.response_mode}",
         f"  Corroborated: {guard.corroborated}",
         f"  Actions: {', '.join(guard.actions) or 'none'}",
         "",
@@ -324,6 +381,16 @@ def format_defended_report(bundle: dict) -> str:
             "── Independence ──",
             f"  Text clusters: {ind.cluster_count}",
             f"  Likely coordinated: {ind.is_likely_coordinated}",
+            "",
+        ])
+
+    qctx: QueryContextScores | None = bundle.get("query_context")
+    if qctx:
+        parts.extend([
+            "── Query context scores ──",
+            f"  Consensus integrity: {qctx.consensus_integrity}",
+            f"  Corroboration strength: {qctx.corroboration_strength:.3f}",
+            f"  Visibility dominance: {qctx.visibility_dominance:.3f}",
             "",
         ])
 

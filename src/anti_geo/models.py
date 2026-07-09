@@ -58,6 +58,33 @@ class ContentSignals:
 
 
 @dataclass
+class SourceSubscores:
+    fetch_confidence: float
+    source_trust: float
+    rhetorical_manipulation: float
+    retrieval_manipulation_risk: float
+    endorsement_risk: float
+    factual_claim_reliability: float
+    intent_mismatch: float
+    harm_severity: float
+
+
+@dataclass
+class SourcePermissions:
+    retrieve_permission: str  # allow | downrank | defer | reject
+    mention_permission: str  # allow | deny
+    factual_permission: str  # allow | attribute_only | require_corroboration | deny
+    endorsement_permission: str  # allow | deny
+
+
+@dataclass
+class QueryContextScores:
+    consensus_integrity: str  # healthy | shaky | coordinated
+    corroboration_strength: float
+    visibility_dominance: float
+
+
+@dataclass
 class SourceScore:
     url: str
     fetch_ok: bool
@@ -87,9 +114,11 @@ class ChunkScore:
 class UrlAnalysisReport:
     query_intent: str
     source: SourceScore
-    recommended_action: str  # pass | downrank | block_endorsement | reject
+    recommended_action: str  # pass | downrank | block_endorsement | defer_fetch | reject
     endorsement_risk: float = 0.0
     query: str | None = None
+    subscores: SourceSubscores | None = None
+    permissions: SourcePermissions | None = None
 
 
 @dataclass
@@ -129,3 +158,4 @@ class GuardResult:
     corroborated: bool
     safe_answer: str
     actions: list[str] = field(default_factory=list)
+    response_mode: str = "direct_answer"

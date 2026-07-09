@@ -3,11 +3,9 @@ from __future__ import annotations
 import re
 
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
-from anti_geo.content_signals import (
-    action_from_endorsement_risk,
-    compute_endorsement_risk,
-)
-from anti_geo.models import CorroborationReport, SourceScore, UrlAnalysisReport
+from anti_geo.models import CorroborationReport, SourcePermissions, SourceScore, UrlAnalysisReport
+from anti_geo.permissions import derive_permissions, summarize_recommended_action
+from anti_geo.subscores import _fetch_failure_kind, compute_subscores
 
 ENTITY_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+){0,2})\b")
 
@@ -16,80 +14,56 @@ def _entities_in_text(text: str) -> list[str]:
     return [m.group(1) for m in ENTITY_RE.finditer(text)]
 
 
+def _has_persuasive_content(source: SourceScore) -> bool:
+    flags = source.content_signals.flags
+    return (
+        "comparative_superlatives" in flags
+        or "authority_stacking" in flags
+        or source.content_signals.comparative_density > DEFAULT_CONFIG.comparative_flag_threshold
+    )
+
+
 def decide_single_source(
     source: SourceScore,
     query_intent: str = "informational",
     query: str | None = None,
     config: DefenseConfig = DEFAULT_CONFIG,
 ) -> UrlAnalysisReport:
-    """Map inferred scores → retrieval/synthesis action."""
-    if not source.fetch_ok:
-        return UrlAnalysisReport(
-            query_intent=query_intent,
-            source=source,
-            recommended_action="reject",
-            query=query,
-        )
-
-    endorsement_risk = compute_endorsement_risk(
-        query,
-        source.text_excerpt,
-        source.content_signals,
-        source.trust_score,
-        source.page_context,
-        query_intent,
+    """Map inferred subscores → permissions → retrieval/synthesis action."""
+    subscores = compute_subscores(source, query, query_intent, config)
+    fetch_failure = _fetch_failure_kind(source) if not source.fetch_ok else None
+    permissions = derive_permissions(
+        subscores,
+        fetch_failure_kind=fetch_failure,
+        has_persuasive_content=_has_persuasive_content(source),
+        config=config,
     )
+    action = summarize_recommended_action(permissions, subscores, config)
 
-    if query and query_intent.startswith("informational"):
-        action = action_from_endorsement_risk(endorsement_risk, config)
-        if (
-            query_intent.endswith("high_stakes")
-            and "high_stakes_medical_claim" in source.content_signals.flags
-            and source.trust_score < 0.55
-            and chunk_endorses_high_stakes(source)
-        ):
-            action = "block_endorsement"
-        return UrlAnalysisReport(
-            query_intent=query_intent,
-            source=source,
-            recommended_action=action,
-            endorsement_risk=endorsement_risk,
-            query=query,
-        )
-
-    high_stakes = query_intent.endswith("high_stakes")
-    risk = source.semantic_risk
-    trust = source.trust_score
-
-    if not query_intent.startswith("informational"):
-        action = "pass"
-        if high_stakes and risk > config.high_stakes_risk_threshold and trust < config.high_stakes_trust_threshold:
-            action = "block_endorsement"
-        elif risk > config.downrank_risk_threshold and trust < config.downrank_trust_threshold:
-            action = "downrank"
-        return UrlAnalysisReport(
-            query_intent=query_intent,
-            source=source,
-            recommended_action=action,
-            endorsement_risk=endorsement_risk,
-            query=query,
-        )
-
-    if high_stakes and risk > config.high_stakes_risk_threshold and trust < config.high_stakes_trust_threshold:
+    if (
+        query
+        and query_intent.startswith("informational")
+        and query_intent.endswith("high_stakes")
+        and "high_stakes_medical_claim" in source.content_signals.flags
+        and source.trust_score < 0.55
+        and chunk_endorses_high_stakes(source)
+    ):
         action = "block_endorsement"
-    elif risk > config.downrank_risk_threshold and trust < config.downrank_trust_threshold:
-        action = "downrank"
-    elif not source.endorsement_allowed:
-        action = "block_endorsement"
-    else:
-        action = "pass"
+        permissions = SourcePermissions(
+            retrieve_permission=permissions.retrieve_permission,
+            mention_permission=permissions.mention_permission,
+            factual_permission=permissions.factual_permission,
+            endorsement_permission="deny",
+        )
 
     return UrlAnalysisReport(
         query_intent=query_intent,
         source=source,
         recommended_action=action,
-        endorsement_risk=endorsement_risk,
+        endorsement_risk=subscores.endorsement_risk,
         query=query,
+        subscores=subscores,
+        permissions=permissions,
     )
 
 

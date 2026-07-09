@@ -34,6 +34,10 @@ class DefenseConfig:
     l1_penalty_weight: float = 0.5
     l2_penalty_weight: float = 0.45
     l2_faulty_penalty: float = 0.35
+    retrieval_manipulation_penalty_weight: float = 0.35
+    intent_mismatch_penalty_weight: float = 0.3
+    retrieve_downrank_penalty: float = 0.25
+    dominant_host_penalty: float = 0.45
 
 
 DEFAULT_CONFIG = DefenseConfig()

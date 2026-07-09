@@ -35,7 +35,11 @@ class EvalResult:
     source_trust: float
     source_semantic_risk: float
     source_endorsement_risk: float
+    retrieve_permission: str
+    factual_permission: str
+    endorsement_permission: str
     guard_type: str
+    guard_response_mode: str
     guard_actions: tuple[str, ...]
     attacked_excerpt: str
 
@@ -662,6 +666,7 @@ def evaluate_case(case: EvalCase, method: str, transform: callable | None = None
     defended_pawc = bundle["pawc"]
     source_report = next(r for r in bundle["sources"] if r.source.url == case.target_url)
     guard = bundle["guard"]
+    perms = source_report.permissions
 
     return EvalResult(
         suite=case.suite,
@@ -678,7 +683,11 @@ def evaluate_case(case: EvalCase, method: str, transform: callable | None = None
         source_trust=source_report.source.trust_score,
         source_semantic_risk=source_report.source.semantic_risk,
         source_endorsement_risk=source_report.endorsement_risk,
+        retrieve_permission=perms.retrieve_permission if perms else "allow",
+        factual_permission=perms.factual_permission if perms else "allow",
+        endorsement_permission=perms.endorsement_permission if perms else "allow",
         guard_type=guard.utterance_type,
+        guard_response_mode=guard.response_mode,
         guard_actions=tuple(guard.actions),
         attacked_excerpt=attacked_text[:220],
     )
@@ -710,13 +719,14 @@ def summarize_eval_results(results: list[EvalResult]) -> str:
             lines.append(f"Case: {case_name}")
             lines.append(
                 "method | base_share | defended_share | base_rank -> defended_rank | "
-                "source_action | L3"
+                "source_action | retrieve | factual | endorsement | L3"
             )
             for row in case_rows:
                 lines.append(
                     f"{row.method} | {row.baseline_share:5.1f}% | {row.defended_share:5.1f}% | "
                     f"{row.baseline_rank}->{row.defended_rank} | {row.source_action} | "
-                    f"{row.guard_type}:{','.join(row.guard_actions) or 'none'}"
+                    f"{row.retrieve_permission} | {row.factual_permission} | {row.endorsement_permission} | "
+                    f"{row.guard_type}:{row.guard_response_mode}:{','.join(row.guard_actions) or 'none'}"
                 )
             lines.append("")
     return "\n".join(lines)

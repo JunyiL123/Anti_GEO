@@ -224,3 +224,22 @@ def action_from_endorsement_risk(risk: float, config: DefenseConfig = DEFAULT_CO
     if risk >= config.endorsement_risk_downrank:
         return "downrank"
     return "pass"
+
+
+def rhetorical_manipulation_score(content: ContentSignals) -> float:
+    """Persuasive/rhetorical risk without retrieval front-load amplification."""
+    fl = content.front_load_score
+    risk = content.semantic_risk
+    if fl > 0.6 and risk > 0:
+        risk = risk / (1.0 + 0.25 * fl)
+    return min(1.0, max(0.0, risk))
+
+
+def retrieval_manipulation_score(
+    content: ContentSignals,
+    rhetorical: float | None = None,
+) -> float:
+    """SEO/front-load manipulation risk, scaled by persuasive content signals."""
+    rhet = rhetorical if rhetorical is not None else rhetorical_manipulation_score(content)
+    persuasive = max(rhet, content.comparative_density, content.authority_density * 0.5)
+    return min(1.0, max(0.0, content.front_load_score * max(0.2, persuasive)))

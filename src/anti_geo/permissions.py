@@ -1,0 +1,146 @@
+from __future__ import annotations
+
+from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
+from anti_geo.models import QueryContextScores, SourcePermissions, SourceSubscores
+
+
+def derive_permissions(
+    subscores: SourceSubscores,
+    query_context: QueryContextScores | None = None,
+    fetch_failure_kind: str | None = None,
+    has_persuasive_content: bool = False,
+    config: DefenseConfig = DEFAULT_CONFIG,
+) -> SourcePermissions:
+    """Map subscores → explicit retrieve/mention/factual/endorsement permissions."""
+    ctx = query_context or QueryContextScores("healthy", 0.0, 0.0)
+
+    retrieve = _derive_retrieve_permission(subscores, ctx, fetch_failure_kind)
+    mention = _derive_mention_permission(subscores, fetch_failure_kind)
+    factual = _derive_factual_permission(subscores, ctx, fetch_failure_kind)
+    endorsement = _derive_endorsement_permission(
+        subscores, factual, ctx, has_persuasive_content, config
+    )
+
+    return SourcePermissions(
+        retrieve_permission=retrieve,
+        mention_permission=mention,
+        factual_permission=factual,
+        endorsement_permission=endorsement,
+    )
+
+
+def _derive_retrieve_permission(
+    subscores: SourceSubscores,
+    ctx: QueryContextScores,
+    fetch_failure_kind: str | None,
+) -> str:
+    if fetch_failure_kind == "reject":
+        return "reject"
+    if fetch_failure_kind == "defer" or subscores.fetch_confidence < 0.25:
+        return "defer"
+    if (
+        subscores.retrieval_manipulation_risk >= 0.55
+        or subscores.intent_mismatch >= 0.5
+        or ctx.visibility_dominance >= 0.6
+        or ctx.consensus_integrity == "coordinated"
+    ):
+        return "downrank"
+    if subscores.source_trust < 0.35:
+        return "downrank"
+    return "allow"
+
+
+def _derive_mention_permission(
+    subscores: SourceSubscores,
+    fetch_failure_kind: str | None,
+) -> str:
+    if fetch_failure_kind == "reject":
+        return "deny"
+    if subscores.fetch_confidence < 0.1:
+        return "deny"
+    return "allow"
+
+
+def _derive_factual_permission(
+    subscores: SourceSubscores,
+    ctx: QueryContextScores,
+    fetch_failure_kind: str | None,
+) -> str:
+    if fetch_failure_kind in ("reject", "defer") or subscores.fetch_confidence < 0.25:
+        return "deny"
+
+    if ctx.consensus_integrity == "coordinated" and subscores.factual_claim_reliability < 0.5:
+        return "deny"
+
+    if subscores.harm_severity >= 0.7:
+        if subscores.factual_claim_reliability < 0.45 or subscores.source_trust < 0.5:
+            return "deny"
+        if subscores.factual_claim_reliability < 0.6 or subscores.source_trust < 0.6:
+            return "require_corroboration"
+
+    if subscores.source_trust < 0.45 or subscores.factual_claim_reliability < 0.45:
+        return "attribute_only"
+
+    if (
+        subscores.source_trust >= 0.55
+        and subscores.factual_claim_reliability >= 0.55
+        and subscores.intent_mismatch < 0.35
+    ):
+        return "allow"
+
+    return "attribute_only"
+
+
+def _derive_endorsement_permission(
+    subscores: SourceSubscores,
+    factual: str,
+    ctx: QueryContextScores,
+    has_persuasive_content: bool,
+    config: DefenseConfig,
+) -> str:
+    if factual == "deny":
+        return "deny"
+    if ctx.consensus_integrity == "coordinated":
+        return "deny"
+    if subscores.endorsement_risk >= config.endorsement_risk_block:
+        return "deny"
+    if (
+        subscores.endorsement_risk > 0
+        and subscores.source_trust < config.trust_endorsement_min
+    ):
+        return "deny"
+    if has_persuasive_content and subscores.rhetorical_manipulation >= 0.35:
+        return "deny"
+    if (
+        subscores.endorsement_risk >= config.endorsement_risk_downrank
+        and subscores.source_trust < config.trust_endorsement_min
+    ):
+        return "deny"
+    return "allow"
+
+
+def summarize_recommended_action(
+    permissions: SourcePermissions,
+    subscores: SourceSubscores,
+    config: DefenseConfig = DEFAULT_CONFIG,
+) -> str:
+    """Backward-compatible summary action from permissions + subscores."""
+    if permissions.retrieve_permission == "reject":
+        return "reject"
+    if permissions.retrieve_permission == "defer":
+        return "defer_fetch"
+    if permissions.endorsement_permission == "deny":
+        if subscores.endorsement_risk >= config.endorsement_risk_downrank:
+            return "block_endorsement"
+        if subscores.rhetorical_manipulation >= 0.35:
+            return "block_endorsement"
+    if (
+        permissions.retrieve_permission == "downrank"
+        or subscores.endorsement_risk >= config.endorsement_risk_downrank
+        or (
+            subscores.rhetorical_manipulation >= config.downrank_risk_threshold
+            and subscores.source_trust < config.downrank_trust_threshold
+        )
+    ):
+        return "downrank"
+    return "pass"

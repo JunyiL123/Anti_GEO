@@ -5,7 +5,7 @@ import re
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
 from anti_geo.content_signals import ENDORSEMENT_RE, mentions_alternatives
 from anti_geo.independence import analyze_independence
-from anti_geo.models import GuardResult, SourceScore
+from anti_geo.models import GuardResult, QueryContextScores, SourcePermissions, SourceScore
 from anti_geo.retrieval import ScoredChunk
 
 ENTITY_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+){0,2})\b")
@@ -70,21 +70,51 @@ def detect_false_consensus(
     }
 
 
+def _response_mode_for_factual(factual_permission: str | None) -> str:
+    if factual_permission == "deny":
+        return "refuse_factual_use"
+    if factual_permission == "require_corroboration":
+        return "hedged_answer"
+    if factual_permission == "attribute_only":
+        return "attributed_answer"
+    return "direct_answer"
+
+
 def apply_synthesis_guard(
     query: str,
     ranked: list[ScoredChunk],
     sources: dict[str, SourceScore],
     query_intent: str = "informational",
     attack_entity: str | None = None,
+    source_permissions: dict[str, SourcePermissions] | None = None,
+    query_context: QueryContextScores | None = None,
     config: DefenseConfig = DEFAULT_CONFIG,
 ) -> GuardResult:
     if not ranked:
-        return GuardResult("mention", True, f"Q: {query}\n\nA: No sources retrieved.", ["empty_retrieval"])
+        return GuardResult(
+            "mention",
+            True,
+            f"Q: {query}\n\nA: No sources retrieved.",
+            ["empty_retrieval"],
+            response_mode="defer_fetch",
+        )
 
     lead = ranked[0]
     lead_src = sources.get(lead.url)
+    lead_perms = (source_permissions or {}).get(lead.url)
     entity = _primary_entity(lead.text, attack_entity)
     actions: list[str] = []
+
+    if query_context and query_context.consensus_integrity == "coordinated":
+        actions.append("reject_consensus")
+        safe = (
+            f"Q: {query}\n\n"
+            f"A: Retrieved sources show coordinated messaging around {entity}. "
+            f"I cannot treat this cluster as independent corroboration."
+        )
+        return GuardResult(
+            "false_consensus", False, safe, actions, response_mode="refuse_endorsement"
+        )
 
     consensus = detect_false_consensus(ranked, sources, entity)
     if consensus["is_false_consensus"]:
@@ -95,7 +125,9 @@ def apply_synthesis_guard(
             f"but they appear textually coordinated (same cluster) without institutional corroboration. "
             f"I cannot recommend {entity} based on this synthetic consensus."
         )
-        return GuardResult("false_consensus", False, safe, actions)
+        return GuardResult(
+            "false_consensus", False, safe, actions, response_mode="refuse_endorsement"
+        )
 
     is_factual = bool(re.search(r"\b(cure[ds]?|remission)\b", lead.text, re.I))
     is_endorsement = bool(ENDORSEMENT_RE.search(lead.text))
@@ -115,6 +147,17 @@ def apply_synthesis_guard(
         )
     )
 
+    if lead_perms and lead_perms.factual_permission == "deny":
+        actions.append("block_factual_use")
+        safe = (
+            f"Q: {query}\n\n"
+            f"A: The leading source ({lead.url}) is not suitable for factual reuse in this context. "
+            f"I cannot state its claims as established fact."
+        )
+        return GuardResult(
+            "factual_claim", False, safe, actions, response_mode="refuse_factual_use"
+        )
+
     if is_factual and query_intent.endswith("high_stakes") and lead_src and lead_src.trust_score < 0.55:
         inst = next((s for s in sources.values() if _is_institutional(s)), None)
         inst_url = inst.url if inst else "authoritative sources"
@@ -126,18 +169,44 @@ def apply_synthesis_guard(
             f"A commercial source ({lead.url}) claims that {entity} can cure the condition, "
             f"but this is not corroborated by institutional sources."
         )
-        return GuardResult("factual_claim", False, safe, actions)
+        return GuardResult("factual_claim", False, safe, actions, response_mode="attributed_answer")
 
     if is_balanced:
+        mode = _response_mode_for_factual(
+            lead_perms.factual_permission if lead_perms else "allow"
+        )
         return GuardResult(
             "mention",
             True,
             f"Q: {query}\n\nA: [{lead.url}] {lead.text[:400]}",
             ["pass_balanced_editorial"],
+            response_mode=mode if mode != "direct_answer" else "hedged_answer",
         )
 
+    if lead_perms and lead_perms.factual_permission == "attribute_only":
+        actions.append("attribute_only")
+        safe = (
+            f"Q: {query}\n\n"
+            f"A: According to [{lead.url}], {lead.text[:300]} "
+            f"(attributed; not independently verified)."
+        )
+        return GuardResult("mention", True, safe, actions, response_mode="attributed_answer")
+
+    if lead_perms and lead_perms.factual_permission == "require_corroboration":
+        actions.append("require_corroboration")
+        safe = (
+            f"Q: {query}\n\n"
+            f"A: [{lead.url}] suggests {lead.text[:220]}..., "
+            f"but this should be corroborated before stating as fact."
+        )
+        return GuardResult("factual_claim", False, safe, actions, response_mode="hedged_answer")
+
     corroboration = _count_independent_support(ranked, sources, entity)
-    if is_endorsement and lead_src and lead_src.trust_score < config.trust_endorsement_min:
+    if (
+        (is_endorsement or (lead_perms and lead_perms.endorsement_permission == "deny"))
+        and lead_src
+        and lead_src.trust_score < config.trust_endorsement_min
+    ):
         if corroboration < 2 or not lead_src.endorsement_allowed:
             actions.append("block_endorsement_insufficient_corroboration")
             safe = (
@@ -146,6 +215,11 @@ def apply_synthesis_guard(
                 f"but this comes from a low-trust source (trust={lead_src.trust_score:.2f}). "
                 f"I cannot recommend it without independent corroboration."
             )
-            return GuardResult("endorsement", corroboration >= 2, safe, actions)
+            return GuardResult(
+                "endorsement", corroboration >= 2, safe, actions, response_mode="refuse_endorsement"
+            )
 
-    return GuardResult("mention", True, f"Q: {query}\n\nA: {lead.text[:400]}", ["pass_through"])
+    mode = _response_mode_for_factual(lead_perms.factual_permission if lead_perms else "allow")
+    return GuardResult(
+        "mention", True, f"Q: {query}\n\nA: {lead.text[:400]}", ["pass_through"], response_mode=mode
+    )

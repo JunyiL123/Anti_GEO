@@ -6,8 +6,17 @@ from dataclasses import dataclass
 from urllib.parse import urlparse
 
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
-from anti_geo.content_signals import extract_content_signals, compute_endorsement_risk, action_from_endorsement_risk
-from anti_geo.models import ChunkScore, SourceScore, VisibilityReport
+from anti_geo.content_signals import (
+    action_from_endorsement_risk,
+    compute_endorsement_risk,
+    extract_content_signals,
+    retrieval_manipulation_score,
+    rhetorical_manipulation_score,
+)
+from anti_geo.decisions import _has_persuasive_content
+from anti_geo.models import ChunkScore, SourcePermissions, SourceScore, VisibilityReport
+from anti_geo.permissions import derive_permissions
+from anti_geo.subscores import _fetch_failure_kind, compute_subscores
 
 PAWC_POSITION_WEIGHTS = [1.0, 0.62, 0.38, 0.22, 0.15]
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
@@ -54,6 +63,68 @@ def _cosine(a: dict[str, float], b: dict[str, float]) -> float:
     if na == 0 or nb == 0:
         return 0.0
     return dot / (na * nb)
+
+
+def _source_permissions(
+    source: SourceScore,
+    query: str | None,
+    query_intent: str,
+    config: DefenseConfig,
+) -> SourcePermissions:
+    subscores = compute_subscores(source, query, query_intent, config)
+    fetch_failure = _fetch_failure_kind(source) if not source.fetch_ok else None
+    return derive_permissions(
+        subscores,
+        fetch_failure_kind=fetch_failure,
+        has_persuasive_content=_has_persuasive_content(source),
+        config=config,
+    )
+
+
+def _dominant_host_trust(sources: dict[str, SourceScore], host: str) -> float | None:
+    trusts = [
+        source.trust_score
+        for url, source in sources.items()
+        if _host(url) == host or _host(source.url) == host
+    ]
+    return min(trusts) if trusts else None
+
+
+def downrank_dominant_risky_host(
+    ranked: list[ScoredChunk],
+    sources: dict[str, SourceScore],
+    pawc: VisibilityReport,
+    config: DefenseConfig = DEFAULT_CONFIG,
+) -> list[ScoredChunk]:
+    """Apply extra penalty when one low-trust host dominates defended visibility."""
+    if not pawc.alert or not pawc.dominant_host:
+        return ranked
+
+    dominant_trust = _dominant_host_trust(sources, pawc.dominant_host)
+    if dominant_trust is None or dominant_trust >= config.downrank_trust_threshold:
+        return ranked
+
+    adjusted: list[ScoredChunk] = []
+    penalty = 1.0 - config.dominant_host_penalty
+    for row in ranked:
+        if _host(row.url) == pawc.dominant_host:
+            adjusted.append(
+                ScoredChunk(
+                    chunk_id=row.chunk_id,
+                    url=row.url,
+                    text=row.text,
+                    base_score=row.base_score,
+                    trust_score=row.trust_score,
+                    semantic_risk=row.semantic_risk,
+                    endorsement_risk=row.endorsement_risk,
+                    combined_score=row.combined_score * penalty,
+                    recommended_action=row.recommended_action,
+                )
+            )
+        else:
+            adjusted.append(row)
+    adjusted.sort(key=lambda row: row.combined_score, reverse=True)
+    return adjusted
 
 
 def tfidf_retrieval_scores(query: str, texts: list[str]) -> list[float]:
@@ -133,7 +204,7 @@ def defended_rerank(
     config: DefenseConfig = DEFAULT_CONFIG,
 ) -> tuple[list[ScoredChunk], VisibilityReport]:
     """
-    Re-rank retrieved chunks with L1/L2 penalties and endorsement risk.
+    Re-rank retrieved chunks with L1/L2 penalties, permission gates, and visibility guard.
 
     chunks: list of (chunk_id, url, text, base_retrieval_score)
     sources: url → inferred source scores from fetch + domain signals
@@ -143,7 +214,18 @@ def defended_rerank(
         source = sources.get(url)
         if source is None:
             continue
+
+        permissions = _source_permissions(source, query, query_intent, config)
+        if permissions.retrieve_permission == "reject":
+            continue
+        if permissions.retrieve_permission == "defer" and base < 0.35:
+            continue
+
         content = extract_content_signals(text, query, config)
+        rhetorical = rhetorical_manipulation_score(content)
+        retrieval_risk = retrieval_manipulation_score(content, rhetorical)
+        source_subscores = compute_subscores(source, query, query_intent, config)
+
         risk = compute_endorsement_risk(
             query,
             text,
@@ -152,14 +234,27 @@ def defended_rerank(
             source.page_context,
             query_intent,
         )
+
         l1_penalty = 0.0
         if query_intent.startswith("informational"):
-            l1_penalty = content.semantic_risk * config.l1_penalty_weight
+            l1_penalty = rhetorical * config.l1_penalty_weight
+            l1_penalty = min(
+                0.85,
+                l1_penalty + retrieval_risk * config.retrieval_manipulation_penalty_weight,
+            )
+            l1_penalty = min(
+                0.85,
+                l1_penalty + source_subscores.intent_mismatch * config.intent_mismatch_penalty_weight,
+            )
+
         l2_penalty = min(0.85, (1.0 - source.trust_score) * config.l2_penalty_weight)
         if source.fetch_ok and source.content_signals.word_count < config.thin_content_words:
             l2_penalty = min(0.85, l2_penalty + 0.05)
         if not source.fetch_ok:
             l2_penalty = min(0.85, l2_penalty + config.l2_faulty_penalty)
+        if permissions.retrieve_permission == "downrank":
+            l2_penalty = min(0.85, l2_penalty + config.retrieve_downrank_penalty)
+
         combined = base * (1.0 - l1_penalty) * (1.0 - l2_penalty)
         action = action_from_endorsement_risk(risk, config)
         scored.append(
@@ -169,15 +264,20 @@ def defended_rerank(
                 text=text,
                 base_score=base,
                 trust_score=source.trust_score,
-                semantic_risk=content.semantic_risk,
+                semantic_risk=rhetorical,
                 endorsement_risk=risk,
                 combined_score=combined,
                 recommended_action=action,
             )
         )
-    scored.sort(key=lambda r: r.combined_score, reverse=True)
+
+    scored.sort(key=lambda row: row.combined_score, reverse=True)
     selected = diversify_by_host(scored, top_k)
     pawc = compute_pawc(selected, config)
+    if pawc.alert:
+        adjusted = downrank_dominant_risky_host(scored, sources, pawc, config)
+        selected = diversify_by_host(adjusted, top_k)
+        pawc = compute_pawc(selected, config)
     return selected, pawc
 
 

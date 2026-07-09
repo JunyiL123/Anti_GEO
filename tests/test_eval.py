@@ -124,3 +124,15 @@ def test_live_nih_identity_stays_allowed():
 
     assert result.source_action == "pass"
     assert result.guard_type in {"mention", "factual_claim"}
+    assert result.factual_permission in {"allow", "attribute_only", "require_corroboration"}
+    assert result.endorsement_permission in {"allow", "deny"}
+
+
+def test_eval_tracks_permission_fields_separately():
+    case = next(c for c in build_proxy_benchmark_cases() if c.name == "pm_tools")
+    attacked = evaluate_case(case, "authoritative_mine")
+    assert attacked.retrieve_permission in {"allow", "downrank", "defer", "reject"}
+    assert attacked.factual_permission in {"allow", "attribute_only", "require_corroboration", "deny"}
+    assert attacked.endorsement_permission in {"allow", "deny"}
+    assert attacked.guard_response_mode
+    assert attacked.source_action in {"pass", "downrank", "block_endorsement", "defer_fetch", "reject"}

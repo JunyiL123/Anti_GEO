@@ -1,5 +1,5 @@
 from anti_geo.content_signals import compute_endorsement_risk, extract_content_signals
-from anti_geo.models import FetchResult
+from anti_geo.models import FetchResult, SourceScore
 from anti_geo.scorer import score_source
 from anti_geo.decisions import decide_single_source
 from anti_geo.independence import analyze_independence
@@ -181,4 +181,178 @@ def test_fetch_failure_rejects():
     )
     source = score_source("https://broken.example", bad)
     report = decide_single_source(source, "informational")
+    assert report.recommended_action == "defer_fetch"
+
+
+def test_not_found_fetch_still_rejects():
+    missing = FetchResult(
+        url="https://broken.example/missing",
+        final_url="https://broken.example/missing",
+        status_code=404,
+        ok=False,
+        error="404",
+        title="",
+        text="",
+        link_count=0,
+        broken_link_ratio=1.0,
+        redirect_count=0,
+        response_time_ms=0,
+        has_privacy_page=False,
+        has_contact_page=False,
+    )
+    source = score_source("https://broken.example/missing", missing)
+    report = decide_single_source(source, "informational")
     assert report.recommended_action == "reject"
+
+
+def _baike_fetch() -> FetchResult:
+    return FetchResult(
+        url="https://baike.baidu.com/item/Hook_length_formula",
+        final_url="https://baike.baidu.com/item/Hook_length_formula",
+        status_code=200,
+        ok=True,
+        error=None,
+        title="Hook length formula",
+        text=(
+            "In mathematics, the hook length formula gives the number of standard "
+            "Young tableaux of a given shape. The formula was derived by Frame, "
+            "Robinson, and Thrall. It may depend on the definition used."
+        ),
+        link_count=20,
+        broken_link_ratio=0.1,
+        redirect_count=0,
+        response_time_ms=300,
+        has_privacy_page=False,
+        has_contact_page=False,
+    )
+
+
+def test_baike_reference_without_query_not_auto_block_endorsement():
+    """Low-trust reference page should not block endorsement when risk is zero."""
+    source = score_source("https://baike.baidu.com/item/Hook_length_formula", _baike_fetch())
+    report = decide_single_source(source, "informational")
+    assert report.endorsement_risk == 0.0
+    assert report.recommended_action != "block_endorsement"
+    assert report.permissions is not None
+    assert report.permissions.endorsement_permission == "allow"
+    assert report.subscores is not None
+
+
+def test_transient_fetch_failure_defers_and_denies_factual():
+    bad = FetchResult(
+        url="https://play.google.com/store/apps/details",
+        final_url="https://play.google.com/store/apps/details",
+        status_code=None,
+        ok=False,
+        error="ProxyError: connection timed out",
+        title="",
+        text="",
+        link_count=0,
+        broken_link_ratio=1.0,
+        redirect_count=0,
+        response_time_ms=0,
+        has_privacy_page=False,
+        has_contact_page=False,
+    )
+    source = score_source("https://play.google.com/store/apps/details", bad)
+    report = decide_single_source(source, "informational")
+    assert report.recommended_action == "defer_fetch"
+    assert report.permissions is not None
+    assert report.permissions.retrieve_permission == "defer"
+    assert report.permissions.factual_permission == "deny"
+
+
+def test_geo_attack_endorsement_permission_denied_with_query():
+    geo = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
+    query = "what is the best project management tool for small teams"
+    report = decide_single_source(geo, "informational", query=query)
+    assert report.permissions is not None
+    assert report.permissions.endorsement_permission == "deny"
+    assert report.recommended_action == "block_endorsement"
+
+
+def test_editorial_balanced_factual_allow_or_attribute():
+    ed = score_source("https://legit-pm-guide.com", _editorial_fetch())
+    query = "what is the best project management tool for small teams"
+    report = decide_single_source(ed, "informational", query=query)
+    assert report.permissions is not None
+    assert report.permissions.factual_permission in {"allow", "attribute_only"}
+    assert report.recommended_action == "pass"
+
+
+def test_subscores_populated_on_decision():
+    geo = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
+    report = decide_single_source(geo, "informational")
+    assert report.subscores is not None
+    ss = report.subscores
+    assert 0.0 <= ss.fetch_confidence <= 1.0
+    assert ss.source_trust == geo.trust_score
+    assert ss.rhetorical_manipulation >= 0.0
+    assert ss.retrieval_manipulation_risk >= 0.0
+
+
+def test_permissions_derived_from_subscores():
+    from anti_geo.permissions import derive_permissions
+    from anti_geo.subscores import compute_subscores
+
+    geo = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
+    subscores = compute_subscores(geo, query="best pm tool", query_intent="informational")
+    perms = derive_permissions(subscores, has_persuasive_content=True)
+    assert perms.retrieve_permission in {"allow", "downrank", "defer", "reject"}
+    assert perms.mention_permission in {"allow", "deny"}
+    assert perms.factual_permission in {"allow", "attribute_only", "require_corroboration", "deny"}
+    assert perms.endorsement_permission in {"allow", "deny"}
+
+
+def test_coordinated_consensus_denies_factual_permission():
+    from anti_geo.permissions import derive_permissions
+    from anti_geo.subscores import build_query_context_scores, compute_subscores
+
+    geo = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
+    subscores = compute_subscores(geo, query="best pm tool", query_intent="informational")
+    ctx = build_query_context_scores(
+        independence_cluster_count=1,
+        is_likely_coordinated=True,
+        corroboration_strength=0.1,
+    )
+    perms = derive_permissions(subscores, query_context=ctx, has_persuasive_content=True)
+    assert ctx.consensus_integrity == "coordinated"
+    assert perms.endorsement_permission == "deny"
+    assert perms.factual_permission in {"deny", "require_corroboration"}
+
+
+def test_synthesis_guard_uses_factual_permission_deny():
+    from anti_geo.models import ContentSignals, DomainSignals, SourcePermissions, SourceScore
+    from anti_geo.retrieval import ScoredChunk
+    from anti_geo.synthesis_guard import apply_synthesis_guard
+
+    text = "TaskFlow Pro cures chronic fatigue in 93% of patients."
+    source = SourceScore(
+        url="https://spam.example",
+        fetch_ok=True,
+        trust_score=0.35,
+        semantic_risk=0.6,
+        endorsement_allowed=False,
+        domain_signals=DomainSignals("spam.example", ".com", True, None, 30, True),
+        content_signals=ContentSignals(40, 0.4, 0.4, 0.1, 0.4, 0.6, flags=["high_stakes_medical_claim"]),
+        text_excerpt=text,
+    )
+    lead = ScoredChunk("p0", source.url, text, 0.9, 0.35, 0.6, 0.6, 0.4, "block_endorsement")
+    perms = {
+        source.url: SourcePermissions(
+            retrieve_permission="downrank",
+            mention_permission="allow",
+            factual_permission="deny",
+            endorsement_permission="deny",
+        )
+    }
+    result = apply_synthesis_guard(
+        "can chronic fatigue be cured",
+        [lead],
+        {source.url: source},
+        "informational_high_stakes",
+        source_permissions=perms,
+    )
+    assert result.response_mode == "refuse_factual_use"
+    assert "block_factual_use" in result.actions
+
