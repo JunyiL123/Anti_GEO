@@ -8,7 +8,15 @@ from anti_geo.decisions import (
 )
 from anti_geo.fetch import fetch_page
 from anti_geo.independence import analyze_independence
-from anti_geo.models import FetchResult, GuardResult, QueryContextScores, SourcePermissions, SourceScore, UrlAnalysisReport, VisibilityReport
+from anti_geo.models import (
+    FetchResult,
+    GuardResult,
+    QueryContextScores,
+    SourcePermissions,
+    SourceScore,
+    UrlAnalysisReport,
+    VisibilityReport,
+)
 from anti_geo.retrieval import (
     ScoredChunk,
     compute_pawc,
@@ -16,6 +24,7 @@ from anti_geo.retrieval import (
     score_page_chunks,
     tfidf_retrieval_scores,
 )
+from anti_geo.permissions import derive_llm_actions
 from anti_geo.scorer import score_source
 from anti_geo.subscores import build_query_context_scores
 from anti_geo.synthesis_guard import apply_synthesis_guard
@@ -192,21 +201,92 @@ def analyze_query(
     }
 
 
-def _format_subscores_permissions(result: UrlAnalysisReport) -> list[str]:
+def _format_query_context_scores(query_context: QueryContextScores | None) -> list[str]:
+    if not query_context:
+        return []
+    return [
+        "",
+        "── Query Context Scores (3, multi-source only) ──",
+        f"  Consensus integrity: {query_context.consensus_integrity}",
+        f"  Corroboration strength: {query_context.corroboration_strength:.3f}",
+        f"  Visibility dominance: {query_context.visibility_dominance:.3f}",
+    ]
+
+
+def _format_llm_actions(
+    result: UrlAnalysisReport,
+    query_context: QueryContextScores | None = None,
+    synthesis_response_mode: str | None = None,
+    *,
+    compact: bool = False,
+) -> list[str]:
+    if not result.permissions:
+        return []
+    primary, actions = derive_llm_actions(
+        result.permissions,
+        result.subscores,
+        query_context,
+    )
+    if compact:
+        lines = [
+            f"Recommended LLM action: {primary}",
+            f"LLM action set: {', '.join(actions)}",
+        ]
+        if synthesis_response_mode:
+            lines.append(f"Synthesis response mode: {synthesis_response_mode}")
+        return lines
+
+    lines = [
+        "",
+        "── Recommended LLM Actions ──",
+        f"  Primary: {primary}",
+        f"  All actions: {', '.join(actions)}",
+    ]
+    if synthesis_response_mode:
+        lines.append(f"  Synthesis response mode: {synthesis_response_mode}")
+    return lines
+
+
+def _format_report_header(
+    result: UrlAnalysisReport,
+    query_context: QueryContextScores | None = None,
+    synthesis_response_mode: str | None = None,
+) -> list[str]:
+    s = result.source
+    lines = [
+        f"URL: {s.url}",
+        f"Query: {result.query or '(none)'}",
+        f"Query intent: {result.query_intent}",
+    ]
+    lines.extend(_format_llm_actions(
+        result, query_context, synthesis_response_mode, compact=True
+    ))
+    lines.append(f"Legacy recommended action: {result.recommended_action}")
+    lines.append("")
+    return lines
+
+
+def _format_subscores_permissions(
+    result: UrlAnalysisReport,
+    query_context: QueryContextScores | None = None,
+    synthesis_response_mode: str | None = None,
+) -> list[str]:
     lines: list[str] = []
     if result.subscores:
         s = result.subscores
         lines.extend([
             "",
-            "── Subscores ──",
+            "── Source Subscores (8) ──",
             f"  Fetch confidence: {s.fetch_confidence:.3f}",
             f"  Source trust: {s.source_trust:.3f}",
             f"  Rhetorical manipulation: {s.rhetorical_manipulation:.3f}",
-            f"  Retrieval manipulation: {s.retrieval_manipulation_risk:.3f}",
+            f"  Retrieval manipulation risk: {s.retrieval_manipulation_risk:.3f}",
+            f"  Endorsement risk: {s.endorsement_risk:.3f}",
             f"  Factual claim reliability: {s.factual_claim_reliability:.3f}",
             f"  Intent mismatch: {s.intent_mismatch:.3f}",
             f"  Harm severity: {s.harm_severity:.3f}",
         ])
+    lines.extend(_format_query_context_scores(query_context))
     if result.permissions:
         p = result.permissions
         lines.extend([
@@ -225,13 +305,8 @@ def format_report(result: UrlAnalysisReport) -> str:
     d = s.domain_signals
     c = s.content_signals
     pc = s.page_context
-    lines = [
-        f"URL: {s.url}",
-        f"Query: {result.query or '(none)'}",
-        f"Query intent: {result.query_intent}",
-        f"Recommended action: {result.recommended_action}",
-        f"Endorsement risk: {result.endorsement_risk:.3f}",
-        "",
+    lines = _format_report_header(result)
+    lines.extend([
         "── Fetch ──",
         f"  OK: {s.fetch_ok}",
         f"  Engine: {s.fetch_engine}",
@@ -251,7 +326,7 @@ def format_report(result: UrlAnalysisReport) -> str:
         f"  Authority density: {c.authority_density:.3f}",
         f"  Comparative density: {c.comparative_density:.3f}",
         f"  Flags: {', '.join(c.flags) or 'none'}",
-    ]
+    ])
     if pc:
         lines.extend([
             "",
@@ -260,15 +335,80 @@ def format_report(result: UrlAnalysisReport) -> str:
             f"  Structure density: {pc.structure_density:.3f}",
             f"  Flags: {', '.join(pc.flags) or 'none'}",
         ])
-    lines.extend([
-        "",
-        "── Scores ──",
-        f"  Trust score: {s.trust_score:.3f}",
-        f"  Endorsement allowed: {s.endorsement_allowed}",
-        f"  Reasons: {', '.join(s.reasons) or 'none'}",
-    ])
     lines.extend(_format_subscores_permissions(result))
     lines.extend([
+        "",
+        "── Legacy Compatibility ──",
+        f"  trust_score: {s.trust_score:.3f}",
+        f"  semantic_risk: {s.semantic_risk:.3f}",
+        f"  endorsement_allowed: {s.endorsement_allowed}",
+        f"  Reasons: {', '.join(s.reasons) or 'none'}",
+    ])
+    lines.extend([
+        "",
+        "── Text excerpt ──",
+        f"  {s.text_excerpt[:280]}{'...' if len(s.text_excerpt) > 280 else ''}",
+    ])
+    return "\n".join(lines)
+
+
+def format_score_report(
+    result: UrlAnalysisReport,
+    query_context: QueryContextScores | None = None,
+    synthesis_response_mode: str | None = None,
+) -> str:
+    if query_context is None:
+        return format_report(result)
+    return _format_report_with_context(result, query_context, synthesis_response_mode)
+
+
+def _format_report_with_context(
+    result: UrlAnalysisReport,
+    query_context: QueryContextScores,
+    synthesis_response_mode: str | None = None,
+) -> str:
+    s = result.source
+    d = s.domain_signals
+    c = s.content_signals
+    pc = s.page_context
+    lines = _format_report_header(result, query_context, synthesis_response_mode)
+    lines.extend([
+        "── Fetch ──",
+        f"  OK: {s.fetch_ok}",
+        f"  Engine: {s.fetch_engine}",
+        "",
+        "── Domain signals (inferred) ──",
+        f"  Host: {d.hostname}",
+        f"  HTTPS: {d.is_https}",
+        f"  WHOIS age (days): {d.whois_age_days if d.whois_age_days is not None else 'unknown'}",
+        f"  Cert age (days): {d.cert_age_days if d.cert_age_days is not None else 'unknown'}",
+        f"  Flags: {', '.join(d.signals) or 'none'}",
+        "",
+        "── Content signals (inferred) ──",
+        f"  Words: {c.word_count}",
+        f"  Semantic risk: {c.semantic_risk:.3f}",
+        f"  Front-load score: {c.front_load_score:.3f}",
+        f"  Quote/citation density: {c.quote_citation_density:.3f}",
+        f"  Authority density: {c.authority_density:.3f}",
+        f"  Comparative density: {c.comparative_density:.3f}",
+        f"  Flags: {', '.join(c.flags) or 'none'}",
+    ])
+    if pc:
+        lines.extend([
+            "",
+            "── Page context ──",
+            f"  Commercial context: {pc.commercial_context_score:.3f}",
+            f"  Structure density: {pc.structure_density:.3f}",
+            f"  Flags: {', '.join(pc.flags) or 'none'}",
+        ])
+    lines.extend(_format_subscores_permissions(result, query_context))
+    lines.extend([
+        "",
+        "── Legacy Compatibility ──",
+        f"  trust_score: {s.trust_score:.3f}",
+        f"  semantic_risk: {s.semantic_risk:.3f}",
+        f"  endorsement_allowed: {s.endorsement_allowed}",
+        f"  Reasons: {', '.join(s.reasons) or 'none'}",
         "",
         "── Text excerpt ──",
         f"  {s.text_excerpt[:280]}{'...' if len(s.text_excerpt) > 280 else ''}",
@@ -283,7 +423,7 @@ def format_multi_report(bundle: dict) -> str:
         parts.append("")
     for i, report in enumerate(bundle["sources"], 1):
         parts.append(f"--- Source {i} ---")
-        parts.append(format_report(report))
+        parts.append(format_score_report(report))
         parts.append("")
 
     ind = bundle.get("independence")
@@ -352,9 +492,17 @@ def format_defended_report(bundle: dict) -> str:
         parts.append(f"Claim entity: {bundle['claim_entity']}")
     parts.append("")
 
+    guard: GuardResult = bundle["guard"]
+    parts.extend([
+        "── Recommended LLM Action (synthesis) ──",
+        f"  Response mode: {guard.response_mode}",
+        f"  Utterance type: {guard.utterance_type}",
+        "",
+    ])
+
     for i, report in enumerate(bundle["sources"], 1):
         parts.append(f"--- Source {i} ---")
-        parts.append(format_report(report))
+        parts.append(format_score_report(report, bundle.get("query_context"), guard.response_mode))
         parts.append("")
 
     parts.extend(_format_ranked_chunks("Baseline retrieval (TF-IDF)", bundle["baseline_ranked"]))
@@ -362,7 +510,6 @@ def format_defended_report(bundle: dict) -> str:
     parts.extend(_format_ranked_chunks("Defended rerank (L1+L2)", bundle["defended_ranked"]))
     parts.extend(_format_pawc("Defended PAWC", bundle["pawc"]))
 
-    guard: GuardResult = bundle["guard"]
     parts.extend([
         "── L3 synthesis guard ──",
         f"  Utterance type: {guard.utterance_type}",

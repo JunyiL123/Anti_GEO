@@ -1,5 +1,6 @@
 from anti_geo.content_signals import compute_endorsement_risk, extract_content_signals
 from anti_geo.models import FetchResult, SourceScore
+from anti_geo.pipeline import analyze_query, format_report, format_score_report
 from anti_geo.scorer import score_source
 from anti_geo.decisions import decide_single_source
 from anti_geo.independence import analyze_independence
@@ -355,4 +356,59 @@ def test_synthesis_guard_uses_factual_permission_deny():
     )
     assert result.response_mode == "refuse_factual_use"
     assert "block_factual_use" in result.actions
+
+
+def test_single_url_report_is_score_graph_first():
+    source = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
+    report = decide_single_source(source, "informational", query="best pm tool")
+    rendered = format_report(report)
+    assert "Recommended LLM action:" in rendered
+    assert "LLM action set:" in rendered
+    assert "── Source Subscores (8) ──" in rendered
+    assert "── Permissions ──" in rendered
+    assert "── Legacy Compatibility ──" in rendered
+    assert "Trust score:" not in rendered
+    assert "trust_score:" in rendered
+
+
+def test_geo_attack_llm_action_blocks_endorsement():
+    geo = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
+    query = "what is the best project management tool for small teams"
+    report = decide_single_source(geo, "informational", query=query)
+    rendered = format_report(report)
+    assert "block_endorsement" in rendered
+    assert "Recommended LLM action:" in rendered
+
+
+def test_defended_report_source_includes_query_context_scores():
+    fetches = {
+        _geo_fetch().url: _geo_fetch(),
+        _editorial_fetch().url: _editorial_fetch(),
+    }
+    bundle = analyze_query(
+        "what is the best project management tool for small teams",
+        list(fetches.keys()),
+        fetches=fetches,
+    )
+    rendered = format_score_report(bundle["sources"][0], bundle["query_context"])
+    assert "── Query Context Scores (3, multi-source only) ──" in rendered
+    assert "Consensus integrity:" in rendered
+    assert "Recommended LLM action:" in rendered
+
+
+def test_defended_report_includes_synthesis_llm_action():
+    from anti_geo.pipeline import format_defended_report
+
+    fetches = {
+        _geo_fetch().url: _geo_fetch(),
+        _editorial_fetch().url: _editorial_fetch(),
+    }
+    bundle = analyze_query(
+        "what is the best project management tool for small teams",
+        list(fetches.keys()),
+        fetches=fetches,
+    )
+    rendered = format_defended_report(bundle)
+    assert "── Recommended LLM Action (synthesis) ──" in rendered
+    assert "Response mode:" in rendered
 

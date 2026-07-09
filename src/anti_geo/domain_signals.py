@@ -12,11 +12,76 @@ from anti_geo.models import DomainSignals, FetchResult
 SUSPICIOUS_TLDS = {".xyz", ".top", ".click", ".loan", ".work", ".fit", ".icu"}
 
 
+def _apex_hostname(hostname: str) -> str:
+    host = hostname.lower().strip(".")
+    if host.startswith("www."):
+        return host[4:]
+    return host
+
+
+def _parse_whois_datetime(raw: str) -> datetime | None:
+    cleaned = raw.strip()
+    formats = (
+        "%Y-%m-%dT%H:%M:%SZ",
+        "%Y-%m-%dT%H:%M:%S%z",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%d",
+        "%d-%b-%Y",
+    )
+    for fmt in formats:
+        try:
+            parsed = datetime.strptime(cleaned[:25], fmt)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            return parsed
+        except ValueError:
+            continue
+    return None
+
+
+def _registrar_whois_block(hostname: str, output: str) -> str:
+    """Prefer the registrar record over IANA TLD metadata."""
+    apex = _apex_hostname(hostname)
+    match = re.search(
+        rf"domain name:\s*{re.escape(apex)}\b.*",
+        output,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    return match.group(0) if match else ""
+
+
+def _parse_whois_creation_days(hostname: str, output: str) -> int | None:
+    apex = _apex_hostname(hostname)
+    match = re.search(
+        rf"domain name:\s*{re.escape(apex)}\b.*",
+        output,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if not match:
+        return None
+    block = match.group(0)
+    patterns = [
+        r"creation date:\s*([^\n]+)",
+        r"created:\s*([^\n]+)",
+        r"registered on:\s*([^\n]+)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, block, flags=re.IGNORECASE)
+        if not match:
+            continue
+        created = _parse_whois_datetime(match.group(1))
+        if created is None:
+            continue
+        return (datetime.now(timezone.utc) - created).days
+    return None
+
+
 def _parse_whois_age_days(hostname: str) -> int | None:
     """Best-effort WHOIS creation date via system whois CLI."""
+    apex = _apex_hostname(hostname)
     try:
         proc = subprocess.run(
-            ["whois", hostname],
+            ["whois", apex],
             capture_output=True,
             text=True,
             timeout=8,
@@ -25,24 +90,7 @@ def _parse_whois_age_days(hostname: str) -> int | None:
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return None
 
-    output = proc.stdout.lower()
-    patterns = [
-        r"creation date:\s*([^\n]+)",
-        r"created:\s*([^\n]+)",
-        r"registered on:\s*([^\n]+)",
-    ]
-    for pattern in patterns:
-        match = re.search(pattern, output)
-        if not match:
-            continue
-        raw = match.group(1).strip()
-        for fmt in ("%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "%d-%b-%Y"):
-            try:
-                created = datetime.strptime(raw[:19], fmt).replace(tzinfo=timezone.utc)
-                return (datetime.now(timezone.utc) - created).days
-            except ValueError:
-                continue
-    return None
+    return _parse_whois_creation_days(apex, proc.stdout)
 
 
 def _cert_age_days(hostname: str) -> int | None:

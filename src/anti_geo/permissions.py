@@ -119,6 +119,69 @@ def _derive_endorsement_permission(
     return "allow"
 
 
+_LLM_ACTION_PRIORITY = (
+    "reject",
+    "reject_consensus",
+    "defer_fetch",
+    "block_factual_use",
+    "block_endorsement",
+    "require_corroboration",
+    "require_authoritative_corroboration",
+    "attribute_only",
+    "mention_only",
+    "downrank",
+    "pass",
+)
+
+
+def derive_llm_actions(
+    permissions: SourcePermissions,
+    subscores: SourceSubscores | None = None,
+    query_context: QueryContextScores | None = None,
+) -> tuple[str, list[str]]:
+    """Map permissions to explicit LLM-facing actions for retrieval and synthesis."""
+    ctx = query_context or QueryContextScores("healthy", 0.0, 0.0)
+    actions: list[str] = []
+
+    retrieve = permissions.retrieve_permission
+    if retrieve == "reject":
+        actions.append("reject")
+    elif retrieve == "defer":
+        actions.append("defer_fetch")
+    elif retrieve == "downrank":
+        actions.append("downrank")
+
+    if ctx.consensus_integrity == "coordinated":
+        actions.append("reject_consensus")
+
+    if permissions.mention_permission == "deny":
+        actions.append("reject")
+
+    factual = permissions.factual_permission
+    if factual == "deny":
+        actions.append("block_factual_use")
+    elif factual == "require_corroboration":
+        actions.append("require_corroboration")
+        if subscores and subscores.harm_severity >= 0.7:
+            actions.append("require_authoritative_corroboration")
+    elif factual == "attribute_only":
+        actions.append("attribute_only")
+
+    if permissions.endorsement_permission == "deny":
+        actions.append("block_endorsement")
+
+    if not actions:
+        actions.append("pass")
+    elif permissions.mention_permission == "allow" and factual == "allow" and permissions.endorsement_permission == "allow":
+        actions.append("pass")
+    elif permissions.mention_permission == "allow":
+        actions.append("mention_only")
+
+    deduped = list(dict.fromkeys(actions))
+    primary = min(deduped, key=lambda action: _LLM_ACTION_PRIORITY.index(action))
+    return primary, deduped
+
+
 def summarize_recommended_action(
     permissions: SourcePermissions,
     subscores: SourceSubscores,
