@@ -101,9 +101,18 @@ def apply_synthesis_guard(
     is_endorsement = bool(ENDORSEMENT_RE.search(lead.text))
     is_balanced = (
         lead_src
-        and lead_src.trust_score >= 0.7
-        and (_is_institutional(lead_src) or mentions_alternatives(lead.text))
-        and ("balanced_hedging" in lead_src.content_signals.flags or mentions_alternatives(lead.text))
+        and lead_src.trust_score >= 0.55
+        and (
+            _is_institutional(lead_src)
+            or "balanced_hedging" in lead_src.content_signals.flags
+            or mentions_alternatives(lead.text)
+            or "mentions_alternatives" in lead_src.content_signals.flags
+        )
+        and (
+            "balanced_hedging" in lead_src.content_signals.flags
+            or mentions_alternatives(lead.text)
+            or "mentions_alternatives" in lead_src.content_signals.flags
+        )
     )
 
     if is_factual and query_intent.endswith("high_stakes") and lead_src and lead_src.trust_score < 0.55:

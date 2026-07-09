@@ -61,6 +61,20 @@ def decide_single_source(
     risk = source.semantic_risk
     trust = source.trust_score
 
+    if not query_intent.startswith("informational"):
+        action = "pass"
+        if high_stakes and risk > config.high_stakes_risk_threshold and trust < config.high_stakes_trust_threshold:
+            action = "block_endorsement"
+        elif risk > config.downrank_risk_threshold and trust < config.downrank_trust_threshold:
+            action = "downrank"
+        return UrlAnalysisReport(
+            query_intent=query_intent,
+            source=source,
+            recommended_action=action,
+            endorsement_risk=endorsement_risk,
+            query=query,
+        )
+
     if high_stakes and risk > config.high_stakes_risk_threshold and trust < config.high_stakes_trust_threshold:
         action = "block_endorsement"
     elif risk > config.downrank_risk_threshold and trust < config.downrank_trust_threshold:

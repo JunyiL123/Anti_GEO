@@ -69,7 +69,7 @@ def _quote_citation_density(text: str) -> float:
 def mentions_alternatives(text: str) -> bool:
     return bool(
         re.search(
-            r"\b(options include|alternatives include|such as Trello|compared to| versus | vs\.|none is universally)\b",
+            r"\b(options include|alternatives include|include trello|include asana|such as trello|compared to| versus | vs\.|no single app is universally best|everyone has a different workflow|none is universally)\b",
             text,
             re.I,
         )

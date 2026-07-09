@@ -1,0 +1,35 @@
+{
+  "wikipedia_pm": {
+    "url": "https://en.wikipedia.org/wiki/Project_management_software",
+    "title": "Project management software - Wikipedia",
+    "text": "Project management software are computer programs that help plan, organize, and manage resources. Depending on the sophistication of the software, it can manage estimation and planning, scheduling, cost control, budget management, resource allocation, collaboration software, communication, decision-making, quality management, time management and documentation or administration systems. Today's Gantt charts are almost the same as their original counterparts and are a part of many project management systems. Teams use these systems in different ways depending on project size, collaboration needs, reporting requirements, and the kinds of planning methods they support.",
+    "link_count": 277,
+    "broken_link_ratio": 0.0,
+    "redirect_count": 0,
+    "response_time_ms": 960.9961669775657,
+    "has_privacy_page": true,
+    "has_contact_page": true
+  },
+  "zapier_pm": {
+    "url": "https://zapier.com/blog/free-project-management-software/",
+    "title": "The best free project management software in 2026 | Zapier",
+    "text": "Try Zapier. The best free project management tools include Trello for visually managing projects, Asana for teams, ClickUp for customized task views, Wrike for spreadsheet-like features, Airtable for building a customized project management app, Jira for developers, and Zapier for AI orchestration and automation. What makes the best project management software depends on how your team works, what kinds of projects you run, and how much customization you need. If you click some of the links on this page, Zapier may earn a commission. Everyone has a different workflow, so no single app is universally best.",
+    "link_count": 385,
+    "broken_link_ratio": 0.0,
+    "redirect_count": 1,
+    "response_time_ms": 1651.2135830125771,
+    "has_privacy_page": true,
+    "has_contact_page": true
+  },
+  "nih_health": {
+    "url": "https://www.nih.gov/health-information",
+    "title": "Health Information | National Institutes of Health (NIH)",
+    "text": "An official website of the United States government. Official websites use .gov. A .gov website belongs to an official government organization in the United States. Secure .gov websites use HTTPS. Share sensitive information only on official, secure websites. Health information resources include MedlinePlus Health Info, NIH Clinical Research Trials and You, Your Healthiest Self: Wellness Toolkits, NIH News in Health, and Talking With Your Doctor or Health Care Provider. These resources explain health topics, summarize research, and help patients prepare questions for clinicians rather than recommending a single commercial product or treatment.",
+    "link_count": 114,
+    "broken_link_ratio": 0.0,
+    "redirect_count": 0,
+    "response_time_ms": 727.9128750087693,
+    "has_privacy_page": true,
+    "has_contact_page": true
+  }
+}
