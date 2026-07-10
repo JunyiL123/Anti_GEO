@@ -1,7 +1,14 @@
 from __future__ import annotations
 
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
-from anti_geo.models import QueryContextScores, SourcePermissions, SourceSubscores
+from anti_geo.commercial_policy import assess_commercial_influence, tighten_permissions
+from anti_geo.models import (
+    CommercialInfluenceAssessment,
+    QueryContextScores,
+    SourcePermissions,
+    SourceScore,
+    SourceSubscores,
+)
 
 
 def derive_permissions(
@@ -207,3 +214,44 @@ def summarize_recommended_action(
     ):
         return "downrank"
     return "pass"
+
+
+def apply_commercial_tightening(
+    permissions: SourcePermissions,
+    assessment: CommercialInfluenceAssessment,
+) -> SourcePermissions:
+    """Tighten base permissions using commercial influence assessment."""
+    return tighten_permissions(permissions, assessment)
+
+
+def derive_permissions_with_commercial(
+    subscores: SourceSubscores,
+    source: SourceScore,
+    chunk_text: str,
+    query: str | None,
+    query_intent: str,
+    query_context: QueryContextScores | None = None,
+    fetch_failure_kind: str | None = None,
+    has_persuasive_content: bool = False,
+    config: DefenseConfig = DEFAULT_CONFIG,
+    *,
+    is_coordinated: bool = False,
+) -> tuple[SourcePermissions, CommercialInfluenceAssessment]:
+    """Derive permissions and apply commercial policy tightening."""
+    base = derive_permissions(
+        subscores,
+        query_context=query_context,
+        fetch_failure_kind=fetch_failure_kind,
+        has_persuasive_content=has_persuasive_content,
+        config=config,
+    )
+    assessment = assess_commercial_influence(
+        source,
+        chunk_text,
+        query,
+        query_intent,
+        base,
+        config,
+        is_coordinated=is_coordinated,
+    )
+    return tighten_permissions(base, assessment), assessment

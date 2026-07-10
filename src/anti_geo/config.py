@@ -39,5 +39,10 @@ class DefenseConfig:
     retrieve_downrank_penalty: float = 0.25
     dominant_host_penalty: float = 0.45
 
+    commercial_label_min_tier: str = "high"
+    commercial_hedge_min_tier: str = "medium"
+    claim_chunk_overlap_min: float = 0.15
+    audit_persistence_window_days: int = 7
+
 
 DEFAULT_CONFIG = DefenseConfig()

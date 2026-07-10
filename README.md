@@ -28,7 +28,26 @@ PYTHONPATH=src python3 demo/analyze_url.py --offline-demo
 PYTHONPATH=src python3 demo/analyze_url.py https://example.com
 
 # Force browser fetch: ANTI_GEO_FETCH=browser PYTHONPATH=src python3 demo/analyze_url.py URL
+
+# Defended query pipeline with contestability + commercial disclosure
+PYTHONPATH=src python3 demo/analyze_url.py --offline-demo --defended --query "what is the best project management tool for small teams"
+PYTHONPATH=src python3 demo/analyze_url.py --defended --json --query "..." URL1 URL2
+
+# Longitudinal audit harness (mock offline; Perplexity requires PERPLEXITY_API_KEY)
+PYTHONPATH=src python3 demo/audit_harness.py --engine mock
+PERPLEXITY_API_KEY=... PYTHONPATH=src python3 demo/audit_harness.py --engine perplexity
 ```
+
+## Governance modules
+
+| Module | Purpose |
+|---|---|
+| `commercial_policy.py` | Precision-first commercial tier policy (block / hedge / disclose) |
+| `disclosure.py` | Answer-level commercial influence labels |
+| `contestability.py` | Baseline vs defended passage provenance export |
+| `audit/` | Longitudinal citation auditing (mock + Perplexity adapters) |
+
+Commercial disclosure labels appear only for **high-tier** signals (`affiliate_disclosure`, `link_sponsored`, etc.) when the source materially contributes to the defended answer.
 
 ## Attribution
 

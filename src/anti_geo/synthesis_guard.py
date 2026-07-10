@@ -3,9 +3,17 @@ from __future__ import annotations
 import re
 
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
+from anti_geo.commercial_policy import LABEL_TEXT_COORDINATED
 from anti_geo.content_signals import ENDORSEMENT_RE, mentions_alternatives
+from anti_geo.disclosure import apply_disclosures_to_answer, build_disclosure_report
 from anti_geo.independence import analyze_independence
-from anti_geo.models import GuardResult, QueryContextScores, SourcePermissions, SourceScore
+from anti_geo.models import (
+    CommercialInfluenceAssessment,
+    GuardResult,
+    QueryContextScores,
+    SourcePermissions,
+    SourceScore,
+)
 from anti_geo.retrieval import ScoredChunk
 
 ENTITY_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+){0,2})\b")
@@ -89,6 +97,8 @@ def apply_synthesis_guard(
     source_permissions: dict[str, SourcePermissions] | None = None,
     query_context: QueryContextScores | None = None,
     config: DefenseConfig = DEFAULT_CONFIG,
+    lead_commercial: CommercialInfluenceAssessment | None = None,
+    commercial_assessments: dict[str, CommercialInfluenceAssessment] | None = None,
 ) -> GuardResult:
     if not ranked:
         return GuardResult(
@@ -112,9 +122,19 @@ def apply_synthesis_guard(
             f"A: Retrieved sources show coordinated messaging around {entity}. "
             f"I cannot treat this cluster as independent corroboration."
         )
-        return GuardResult(
+        if lead_commercial and lead_commercial.disclosure_level == "label":
+            safe = f"## Disclosure\n{LABEL_TEXT_COORDINATED}\n\n{safe}"
+        result = GuardResult(
             "false_consensus", False, safe, actions, response_mode="refuse_endorsement"
         )
+        disclosure_report = build_disclosure_report(
+            ranked, sources, commercial_assessments or {}, result, config
+        )
+        if disclosure_report.show_label:
+            result.safe_answer = apply_disclosures_to_answer(result.safe_answer, disclosure_report)
+            result.disclosure_report = disclosure_report
+            result.disclosures = disclosure_report.disclosures
+        return result
 
     consensus = detect_false_consensus(ranked, sources, entity)
     if consensus["is_false_consensus"]:
@@ -220,6 +240,16 @@ def apply_synthesis_guard(
             )
 
     mode = _response_mode_for_factual(lead_perms.factual_permission if lead_perms else "allow")
-    return GuardResult(
+    if lead_commercial and lead_commercial.response_mode:
+        mode = lead_commercial.response_mode
+    result = GuardResult(
         "mention", True, f"Q: {query}\n\nA: {lead.text[:400]}", ["pass_through"], response_mode=mode
     )
+    disclosure_report = build_disclosure_report(
+        ranked, sources, commercial_assessments or {}, result, config
+    )
+    if disclosure_report.show_label:
+        result.safe_answer = apply_disclosures_to_answer(result.safe_answer, disclosure_report)
+        result.disclosure_report = disclosure_report
+        result.disclosures = disclosure_report.disclosures
+    return result

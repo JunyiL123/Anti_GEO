@@ -238,7 +238,7 @@ def _build_fetch_result(
 
     soup = BeautifulSoup(raw.html, "html.parser")
     visible_text = _extract_visible_text(raw.html)
-    page_context = extract_page_context(soup, visible_text)
+    page_context = extract_page_context(soup, visible_text, url=raw.final_url or url)
 
     title = soup.title.get_text(strip=True) if soup.title else ""
     text = visible_text

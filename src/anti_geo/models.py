@@ -12,6 +12,9 @@ class PageContextSignals:
     table_count: int
     has_faq_schema: bool
     flags: list[str] = field(default_factory=list)
+    commercial_tier: str = "none"
+    commercial_triggers: list[str] = field(default_factory=list)
+    has_affiliate_links: bool = False
 
 
 @dataclass
@@ -153,9 +156,65 @@ class VisibilityReport:
 
 
 @dataclass
+class CommercialInfluenceAssessment:
+    tier: str
+    triggers: list[str]
+    retrieval_action: str | None = None
+    factual_action: str | None = None
+    endorsement_action: str | None = None
+    disclosure_level: str = "none"  # none | hedge | label
+    disclosure_text: str = ""
+    response_mode: str | None = None
+
+
+@dataclass
+class CommercialDisclosure:
+    trigger: str
+    source_urls: list[str]
+    label_text: str
+    confidence: str
+    applies_to_chunks: list[str] = field(default_factory=list)
+
+
+@dataclass
+class DisclosureReport:
+    disclosures: list[CommercialDisclosure] = field(default_factory=list)
+    show_label: bool = False
+    combined_label_text: str = ""
+
+
+@dataclass
+class PassageProvenance:
+    chunk_id: str
+    url: str
+    host: str
+    text_excerpt: str
+    baseline_rank: int | None
+    defended_rank: int | None
+    status: str
+    exclusion_reasons: list[str] = field(default_factory=list)
+    commercial_tier: str = "none"
+    permissions_summary: str = ""
+
+
+@dataclass
+class ContestabilityReport:
+    query: str
+    included: list[PassageProvenance] = field(default_factory=list)
+    excluded_alternatives: list[PassageProvenance] = field(default_factory=list)
+    baseline_pawc: VisibilityReport | None = None
+    defended_pawc: VisibilityReport | None = None
+    dominance_delta: float = 0.0
+    alternative_pools_available: bool = False
+
+
+@dataclass
 class GuardResult:
     utterance_type: str  # mention | endorsement | factual_claim | false_consensus
     corroborated: bool
     safe_answer: str
     actions: list[str] = field(default_factory=list)
     response_mode: str = "direct_answer"
+    disclosures: list[CommercialDisclosure] = field(default_factory=list)
+    disclosure_report: DisclosureReport | None = None
+    contestability: ContestabilityReport | None = None

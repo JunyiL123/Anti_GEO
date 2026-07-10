@@ -24,7 +24,14 @@ from anti_geo.retrieval import (
     score_page_chunks,
     tfidf_retrieval_scores,
 )
-from anti_geo.permissions import derive_llm_actions
+from anti_geo.contestability import (
+    assess_chunks_commercial,
+    build_contestability_report,
+    chunk_key,
+    format_contestability_report,
+)
+from anti_geo.disclosure import apply_disclosures_to_answer, build_disclosure_report
+from anti_geo.permissions import apply_commercial_tightening, derive_llm_actions
 from anti_geo.scorer import score_source
 from anti_geo.subscores import build_query_context_scores
 from anti_geo.synthesis_guard import apply_synthesis_guard
@@ -174,6 +181,28 @@ def analyze_query(
         visibility_dominance=pawc.dominant_share / 100.0 if pawc.dominant_share else 0.0,
         visibility_alert=pawc.alert,
     )
+    is_coordinated = (
+        independence.is_likely_coordinated if independence else False
+    ) or query_context.consensus_integrity == "coordinated"
+
+    commercial_assessments = assess_chunks_commercial(
+        defended,
+        sources_by_url,
+        source_permissions,
+        query,
+        query_intent,
+        is_coordinated=is_coordinated,
+    )
+    for chunk in defended:
+        assessment = commercial_assessments.get(chunk_key(chunk))
+        if assessment and chunk.url in source_permissions:
+            source_permissions[chunk.url] = apply_commercial_tightening(
+                source_permissions[chunk.url], assessment
+            )
+
+    lead_commercial = (
+        commercial_assessments.get(chunk_key(defended[0])) if defended else None
+    )
     guard = apply_synthesis_guard(
         query,
         defended,
@@ -182,7 +211,31 @@ def analyze_query(
         attack_entity=entity,
         source_permissions=source_permissions,
         query_context=query_context,
+        lead_commercial=lead_commercial,
+        commercial_assessments=commercial_assessments,
     )
+
+    contestability = build_contestability_report(
+        query,
+        baseline_scored[:top_k],
+        defended,
+        baseline_pawc,
+        pawc,
+        sources_by_url,
+        source_permissions,
+        commercial_assessments,
+        independence=independence,
+        query_context=query_context,
+    )
+    guard.contestability = contestability
+    if guard.disclosure_report is None:
+        disclosure_report = build_disclosure_report(
+            defended, sources_by_url, commercial_assessments, guard
+        )
+        if disclosure_report.show_label:
+            guard.safe_answer = apply_disclosures_to_answer(guard.safe_answer, disclosure_report)
+            guard.disclosure_report = disclosure_report
+            guard.disclosures = disclosure_report.disclosures
 
     return {
         "query": query,
@@ -198,6 +251,8 @@ def analyze_query(
         "corroboration": corroboration,
         "query_context": query_context,
         "claim_entity": entity,
+        "commercial_assessments": commercial_assessments,
+        "contestability": contestability,
     }
 
 
@@ -522,6 +577,18 @@ def format_defended_report(bundle: dict) -> str:
         "",
     ])
 
+    if guard.disclosure_report and guard.disclosure_report.show_label:
+        parts.extend([
+            "── Commercial disclosure ──",
+            f"  {guard.disclosure_report.combined_label_text}",
+            "",
+        ])
+
+    contestability = bundle.get("contestability") or guard.contestability
+    if contestability:
+        parts.append(format_contestability_report(contestability))
+        parts.append("")
+
     ind = bundle.get("independence")
     if ind:
         parts.extend([
@@ -550,3 +617,35 @@ def format_defended_report(bundle: dict) -> str:
         ])
 
     return "\n".join(parts)
+
+
+def bundle_to_json(bundle: dict) -> dict:
+    """Serialize defended query bundle for API/UI consumers."""
+    from anti_geo.contestability import contestability_to_json
+
+    guard: GuardResult = bundle["guard"]
+    contestability = bundle.get("contestability") or guard.contestability
+    return {
+        "query": bundle["query"],
+        "query_intent": bundle["query_intent"],
+        "claim_entity": bundle.get("claim_entity"),
+        "guard": {
+            "utterance_type": guard.utterance_type,
+            "corroborated": guard.corroborated,
+            "response_mode": guard.response_mode,
+            "actions": guard.actions,
+            "safe_answer": guard.safe_answer,
+            "disclosures": [
+                {
+                    "trigger": d.trigger,
+                    "source_urls": d.source_urls,
+                    "label_text": d.label_text,
+                    "confidence": d.confidence,
+                }
+                for d in guard.disclosures
+            ],
+        },
+        "contestability": contestability_to_json(contestability) if contestability else None,
+        "baseline_dominant_share": bundle["baseline_pawc"].dominant_share,
+        "defended_dominant_share": bundle["pawc"].dominant_share,
+    }

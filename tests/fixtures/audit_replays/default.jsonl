@@ -1,0 +1,12 @@
+{"query": "What are the best moisturizers for dry skin?", "text": "Answer citing skincare sources.", "cited_domains": ["healthline.com", "allure.com"], "cited_urls": ["https://healthline.com/moisturizers", "https://allure.com/best-moisturizer"]}
+{"query": "Which moisturizers work best for dry skin?", "text": "Paraphrased answer with different citations.", "cited_domains": ["reddit.com", "amazon.com"], "cited_urls": ["https://reddit.com/r/skincare", "https://amazon.com/moisturizer"]}
+{"query": "What is the best ergonomic office chair?", "text": "Chair recommendations.", "cited_domains": ["wirecutter.com", "nytimes.com"], "cited_urls": ["https://wirecutter.com/chairs"]}
+{"query": "Which office chair has the best ergonomics?", "text": "Ergonomic chair paraphrase.", "cited_domains": ["wirecutter.com", "forbes.com"], "cited_urls": ["https://wirecutter.com/chairs", "https://forbes.com/chairs"]}
+{"query": "What are the best things to do in Los Angeles?", "text": "LA travel guide.", "cited_domains": ["tripadvisor.com", "lonelyplanet.com"], "cited_urls": ["https://tripadvisor.com/la"]}
+{"query": "Top attractions and activities in LA?", "text": "LA activities paraphrase.", "cited_domains": ["timeout.com", "yelp.com"], "cited_urls": ["https://timeout.com/la"]}
+{"query": "What are evidence-based treatments for seasonal allergies?", "text": "Allergy treatments.", "cited_domains": ["nih.gov", "mayoclinic.org"], "cited_urls": ["https://nih.gov/allergies"]}
+{"query": "How can I treat seasonal allergies based on medical evidence?", "text": "Allergy paraphrase.", "cited_domains": ["nih.gov", "cdc.gov"], "cited_urls": ["https://nih.gov/allergies", "https://cdc.gov/allergies"]}
+{"query": "What is the best password manager for small businesses?", "text": "Password manager picks.", "cited_domains": ["pcmag.com", "bitwarden.com"], "cited_urls": ["https://pcmag.com/pm"]}
+{"query": "Which password manager should small businesses use?", "text": "PM paraphrase.", "cited_domains": ["reddit.com", "1password.com"], "cited_urls": ["https://reddit.com/r/sysadmin"]}
+{"query": "What are the best index funds for long-term investing?", "text": "Index fund guide.", "cited_domains": ["investopedia.com", "vanguard.com"], "cited_urls": ["https://investopedia.com/index-funds"]}
+{"query": "Which index funds are recommended for long-term investors?", "text": "Index fund paraphrase.", "cited_domains": ["bogleheads.org", "fidelity.com"], "cited_urls": ["https://bogleheads.org/"]}

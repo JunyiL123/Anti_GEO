@@ -17,3 +17,7 @@ htmlcov/
 
 # GEO optimizer scratch
 geo-optimizer/scratch/
+
+# Audit logs (fixtures under tests/fixtures/ are kept)
+data/audits/*.jsonl
+data/audits/summary_*.json
