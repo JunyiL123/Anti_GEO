@@ -48,3 +48,6 @@ class AuditSummary:
     persistence_rate: float | None = None
     geo_risk_share: float | None = None
     commercial_high_share: float | None = None
+    target_domain: str | None = None
+    platform_role_shares: dict[str, float] | None = None
+    referral_convergence_hosts: int | None = None

@@ -15,6 +15,7 @@ from anti_geo.audit.metrics import (
 from anti_geo.audit.models import AuditRun, AuditSummary, CitationRecord
 from anti_geo.audit.overlay import score_citations_overlay
 from anti_geo.audit.query_sets import get_query_pairs
+from anti_geo.audit.referral import build_referral_audit_report, platform_role_citation_share
 from anti_geo.config import DEFAULT_CONFIG
 
 
@@ -48,6 +49,9 @@ def summarize_audit(
     *,
     with_overlay: bool = False,
     window_days: int = DEFAULT_CONFIG.audit_persistence_window_days,
+    target_domain: str | None = None,
+    fetches: dict | None = None,
+    fetcher=None,
 ) -> AuditSummary:
     mean_jd, pct_change = compute_jaccard_sensitivity(records)
     shares = domain_citation_share(records)
@@ -60,6 +64,18 @@ def summarize_audit(
         geo_risk_share = overlay["geo_risk_share"]
         commercial_high_share = overlay["commercial_high_share"]
 
+    platform_role_shares = platform_role_citation_share(records)
+    referral_convergence_hosts = None
+    if target_domain:
+        referral = build_referral_audit_report(
+            records,
+            target_domain,
+            fetches=fetches,
+            fetcher=fetcher,
+        )
+        if referral.link_graph:
+            referral_convergence_hosts = len(referral.link_graph.convergent_hosts)
+
     engine = records[0].engine if records else "unknown"
     return AuditSummary(
         engine=engine,
@@ -70,6 +86,9 @@ def summarize_audit(
         persistence_rate=persistence,
         geo_risk_share=geo_risk_share,
         commercial_high_share=commercial_high_share,
+        target_domain=target_domain,
+        platform_role_shares=platform_role_shares,
+        referral_convergence_hosts=referral_convergence_hosts,
     )
 
 
@@ -86,6 +105,14 @@ def format_audit_summary(summary: AuditSummary) -> str:
         lines.append(f"GEO-risk citation share: {summary.geo_risk_share:.1%}")
     if summary.commercial_high_share is not None:
         lines.append(f"High-commercial citation share: {summary.commercial_high_share:.1%}")
+    if summary.target_domain:
+        lines.append(f"Target domain filter: {summary.target_domain}")
+    if summary.platform_role_shares:
+        lines.append("Platform role citation mix:")
+        for role, share in sorted(summary.platform_role_shares.items(), key=lambda x: -x[1])[:8]:
+            lines.append(f"  {role}: {share:.1f}%")
+    if summary.referral_convergence_hosts is not None:
+        lines.append(f"Referral convergence hosts: {summary.referral_convergence_hosts}")
     if summary.domain_shares:
         lines.append("Domain citation shares:")
         for domain, share in sorted(summary.domain_shares.items(), key=lambda x: -x[1])[:10]:
@@ -106,6 +133,9 @@ def save_summary(summary: AuditSummary, path: Path) -> None:
                 "persistence_rate": summary.persistence_rate,
                 "geo_risk_share": summary.geo_risk_share,
                 "commercial_high_share": summary.commercial_high_share,
+                "target_domain": summary.target_domain,
+                "platform_role_shares": summary.platform_role_shares,
+                "referral_convergence_hosts": summary.referral_convergence_hosts,
             },
             indent=2,
         )
