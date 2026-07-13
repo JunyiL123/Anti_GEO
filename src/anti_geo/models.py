@@ -18,6 +18,14 @@ class PageContextSignals:
 
 
 @dataclass
+class PageSegment:
+    segment_id: str
+    role: str  # main_post | comment | nested_comment | sidebar | footer | body
+    text: str
+    ordinal: int = 0
+
+
+@dataclass
 class FetchResult:
     url: str
     final_url: str
@@ -34,6 +42,7 @@ class FetchResult:
     has_contact_page: bool
     page_context: PageContextSignals | None = None
     fetch_engine: str = "httpx"
+    segments: list[PageSegment] = field(default_factory=list)
 
 
 @dataclass
@@ -111,6 +120,11 @@ class ChunkScore:
     trust_score: float
     endorsement_risk: float
     recommended_action: str
+    segment_role: str = "body"
+    rhetorical_risk: float = 0.0
+    retrieval_risk: float = 0.0
+    l1_penalty: float = 0.0
+    l2_penalty: float = 0.0
 
 
 @dataclass

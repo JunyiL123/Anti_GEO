@@ -16,6 +16,8 @@ from anti_geo.content_signals import (
 from anti_geo.decisions import _has_persuasive_content
 from anti_geo.models import ChunkScore, SourcePermissions, SourceScore, VisibilityReport
 from anti_geo.permissions import derive_permissions
+from anti_geo.platform_role import classify_content_role
+from anti_geo.segments import segment_role_from_chunk_id, segment_retrieval_multiplier, segment_trust_ceiling
 from anti_geo.subscores import _fetch_failure_kind, compute_subscores
 
 PAWC_POSITION_WEIGHTS = [1.0, 0.62, 0.38, 0.22, 0.15]
@@ -63,6 +65,62 @@ def _cosine(a: dict[str, float], b: dict[str, float]) -> float:
     if na == 0 or nb == 0:
         return 0.0
     return dot / (na * nb)
+
+
+def _chunk_trust_score(
+    source: SourceScore,
+    segment_role: str,
+    rhetorical: float,
+) -> float:
+    page_role = classify_content_role(source.url, source=source)
+    ceiling = segment_trust_ceiling(segment_role, page_role)
+    adjusted = min(source.trust_score, ceiling)
+    return max(0.05, adjusted * (1.0 - min(0.25, rhetorical * 0.35)))
+
+
+def _chunk_l1_penalty(
+    *,
+    query_intent: str,
+    segment_role: str,
+    page_role: str,
+    rhetorical: float,
+    retrieval_risk: float,
+    intent_mismatch: float,
+    config: DefenseConfig,
+) -> float:
+    intent_scale = 1.0 if query_intent.startswith("informational") else 0.8
+    l1_penalty = rhetorical * config.l1_penalty_weight * intent_scale
+    l1_penalty = min(
+        0.85,
+        l1_penalty + retrieval_risk * config.retrieval_manipulation_penalty_weight,
+    )
+    if query_intent.startswith("informational"):
+        l1_penalty = min(
+            0.85,
+            l1_penalty + intent_mismatch * config.intent_mismatch_penalty_weight,
+        )
+    if segment_role in ("comment", "nested_comment"):
+        l1_penalty = min(0.85, l1_penalty + (0.3 if query_intent == "commercial" else 0.15))
+    if page_role == "ugc_thread" and segment_role in ("comment", "nested_comment", "sidebar"):
+        l1_penalty = min(0.85, l1_penalty + 0.12)
+    return l1_penalty
+
+
+def _chunk_l2_penalty(
+    *,
+    chunk_trust: float,
+    source: SourceScore,
+    permissions: SourcePermissions,
+    config: DefenseConfig,
+) -> float:
+    l2_penalty = min(0.85, (1.0 - chunk_trust) * config.l2_penalty_weight)
+    if source.fetch_ok and source.content_signals.word_count < config.thin_content_words:
+        l2_penalty = min(0.85, l2_penalty + 0.05)
+    if not source.fetch_ok:
+        l2_penalty = min(0.85, l2_penalty + config.l2_faulty_penalty)
+    if permissions.retrieve_permission == "downrank":
+        l2_penalty = min(0.85, l2_penalty + config.retrieve_downrank_penalty)
+    return l2_penalty
 
 
 def _source_permissions(
@@ -215,6 +273,8 @@ def defended_rerank(
         if source is None:
             continue
 
+        segment_role = segment_role_from_chunk_id(chunk_id)
+        page_role = classify_content_role(url, source=source)
         permissions = _source_permissions(source, query, query_intent, config)
         if permissions.retrieve_permission == "reject":
             continue
@@ -225,45 +285,49 @@ def defended_rerank(
         rhetorical = rhetorical_manipulation_score(content)
         retrieval_risk = retrieval_manipulation_score(content, rhetorical)
         source_subscores = compute_subscores(source, query, query_intent, config)
+        chunk_trust = _chunk_trust_score(source, segment_role, rhetorical)
 
         risk = compute_endorsement_risk(
             query,
             text,
             content,
-            source.trust_score,
+            chunk_trust,
             source.page_context,
             query_intent,
         )
 
-        l1_penalty = 0.0
-        if query_intent.startswith("informational"):
-            l1_penalty = rhetorical * config.l1_penalty_weight
-            l1_penalty = min(
-                0.85,
-                l1_penalty + retrieval_risk * config.retrieval_manipulation_penalty_weight,
-            )
-            l1_penalty = min(
-                0.85,
-                l1_penalty + source_subscores.intent_mismatch * config.intent_mismatch_penalty_weight,
-            )
+        l1_penalty = _chunk_l1_penalty(
+            query_intent=query_intent,
+            segment_role=segment_role,
+            page_role=page_role,
+            rhetorical=rhetorical,
+            retrieval_risk=retrieval_risk,
+            intent_mismatch=source_subscores.intent_mismatch,
+            config=config,
+        )
+        l2_penalty = _chunk_l2_penalty(
+            chunk_trust=chunk_trust,
+            source=source,
+            permissions=permissions,
+            config=config,
+        )
 
-        l2_penalty = min(0.85, (1.0 - source.trust_score) * config.l2_penalty_weight)
-        if source.fetch_ok and source.content_signals.word_count < config.thin_content_words:
-            l2_penalty = min(0.85, l2_penalty + 0.05)
-        if not source.fetch_ok:
-            l2_penalty = min(0.85, l2_penalty + config.l2_faulty_penalty)
-        if permissions.retrieve_permission == "downrank":
-            l2_penalty = min(0.85, l2_penalty + config.retrieve_downrank_penalty)
-
-        combined = base * (1.0 - l1_penalty) * (1.0 - l2_penalty)
+        combined = (
+            base
+            * (1.0 - l1_penalty)
+            * (1.0 - l2_penalty)
+            * segment_retrieval_multiplier(segment_role, page_role, query_intent)
+        )
         action = action_from_endorsement_risk(risk, config)
+        if segment_role in ("comment", "nested_comment") and risk > 0.4:
+            action = "mention_only"
         scored.append(
             ScoredChunk(
                 chunk_id=chunk_id,
                 url=url,
                 text=text,
                 base_score=base,
-                trust_score=source.trust_score,
+                trust_score=chunk_trust,
                 semantic_risk=rhetorical,
                 endorsement_risk=risk,
                 combined_score=combined,
@@ -288,26 +352,56 @@ def score_page_chunks(
     query_intent: str = "informational",
     config: DefenseConfig = DEFAULT_CONFIG,
 ) -> list[ChunkScore]:
+    page_role = classify_content_role(source.url, source=source)
+    permissions = _source_permissions(source, query, query_intent, config)
+    source_subscores = compute_subscores(source, query, query_intent, config)
     results: list[ChunkScore] = []
     for chunk_id, text in chunk_pairs:
+        segment_role = segment_role_from_chunk_id(chunk_id)
         content = extract_content_signals(text, query, config)
+        rhetorical = rhetorical_manipulation_score(content)
+        retrieval_risk = retrieval_manipulation_score(content, rhetorical)
+        chunk_trust = _chunk_trust_score(source, segment_role, rhetorical)
         risk = compute_endorsement_risk(
             query,
             text,
             content,
-            source.trust_score,
+            chunk_trust,
             source.page_context,
             query_intent,
         )
+        l1_penalty = _chunk_l1_penalty(
+            query_intent=query_intent,
+            segment_role=segment_role,
+            page_role=page_role,
+            rhetorical=rhetorical,
+            retrieval_risk=retrieval_risk,
+            intent_mismatch=source_subscores.intent_mismatch,
+            config=config,
+        )
+        l2_penalty = _chunk_l2_penalty(
+            chunk_trust=chunk_trust,
+            source=source,
+            permissions=permissions,
+            config=config,
+        )
+        action = action_from_endorsement_risk(risk, config)
+        if segment_role in ("comment", "nested_comment") and risk > 0.4:
+            action = "mention_only"
         results.append(
             ChunkScore(
                 chunk_id=chunk_id,
                 url=source.url,
                 text=text,
                 content_signals=content,
-                trust_score=source.trust_score,
+                trust_score=chunk_trust,
                 endorsement_risk=risk,
-                recommended_action=action_from_endorsement_risk(risk, config),
+                recommended_action=action,
+                segment_role=segment_role,
+                rhetorical_risk=rhetorical,
+                retrieval_risk=retrieval_risk,
+                l1_penalty=l1_penalty,
+                l2_penalty=l2_penalty,
             )
         )
     results.sort(key=lambda c: c.endorsement_risk, reverse=True)

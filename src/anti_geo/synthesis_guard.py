@@ -15,6 +15,8 @@ from anti_geo.models import (
     SourceScore,
 )
 from anti_geo.retrieval import ScoredChunk
+from anti_geo.platform_role import classify_content_role
+from anti_geo.segments import is_low_trust_segment, segment_role_from_chunk_id
 
 ENTITY_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+){0,2})\b")
 
@@ -47,8 +49,60 @@ def _count_independent_support(
         src = sources.get(row.url)
         if not src or src.trust_score < 0.5:
             continue
+        seg_role = segment_role_from_chunk_id(row.chunk_id)
+        page_role = classify_content_role(row.url, source=src)
+        if is_low_trust_segment(seg_role, page_role):
+            continue
         hosts.add(src.domain_signals.hostname or row.url)
     return len(hosts)
+
+
+def _has_editorial_corroboration(
+    ranked: list[ScoredChunk],
+    sources: dict[str, SourceScore],
+    entity: str,
+) -> bool:
+    entity_l = entity.lower()
+    for row in ranked:
+        if entity_l not in row.text.lower():
+            continue
+        src = sources.get(row.url)
+        if not src:
+            continue
+        seg_role = segment_role_from_chunk_id(row.chunk_id)
+        page_role = classify_content_role(row.url, source=src)
+        if page_role in ("institutional", "editorial"):
+            return True
+        if page_role == "factual_blog" and seg_role in ("main_post", "body") and src.trust_score >= 0.55:
+            return True
+    return False
+
+
+def _ugc_only_endorsement_cluster(
+    ranked: list[ScoredChunk],
+    sources: dict[str, SourceScore],
+    entity: str,
+) -> bool:
+    """True when entity support comes only from low-trust UGC/review fragments."""
+    entity_l = entity.lower()
+    supporting = 0
+    low_trust_only = 0
+    for row in ranked:
+        if entity_l not in row.text.lower():
+            continue
+        src = sources.get(row.url)
+        if not src:
+            continue
+        supporting += 1
+        seg_role = segment_role_from_chunk_id(row.chunk_id)
+        page_role = classify_content_role(row.url, source=src)
+        if is_low_trust_segment(seg_role, page_role) or page_role in (
+            "ugc_thread",
+            "review_profile",
+            "expert_listicle",
+        ):
+            low_trust_only += 1
+    return supporting >= 1 and supporting == low_trust_only
 
 
 def detect_false_consensus(
@@ -222,11 +276,24 @@ def apply_synthesis_guard(
         return GuardResult("factual_claim", False, safe, actions, response_mode="hedged_answer")
 
     corroboration = _count_independent_support(ranked, sources, entity)
+    editorial_support = _has_editorial_corroboration(ranked, sources, entity)
+    ugc_only = _ugc_only_endorsement_cluster(ranked, sources, entity)
     if (
         (is_endorsement or (lead_perms and lead_perms.endorsement_permission == "deny"))
         and lead_src
         and lead_src.trust_score < config.trust_endorsement_min
     ):
+        if ugc_only and not editorial_support:
+            actions.append("block_endorsement_ugc_only_cluster")
+            safe = (
+                f"Q: {query}\n\n"
+                f"A: Retrieved sources mention {entity}, but support appears only in "
+                f"user-generated or review-profile fragments without editorial or institutional corroboration. "
+                f"I can mention {entity} but cannot recommend it."
+            )
+            return GuardResult(
+                "endorsement", False, safe, actions, response_mode="refuse_endorsement"
+            )
         if corroboration < 2 or not lead_src.endorsement_allowed:
             actions.append("block_endorsement_insufficient_corroboration")
             safe = (
