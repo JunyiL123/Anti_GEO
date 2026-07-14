@@ -250,7 +250,7 @@ def query_with_web_search(
     *,
     config: AzureOpenAIConfig | None = None,
 ) -> tuple[str, list[str], list[str], list[str]]:
-    """Run grounded web search.
+    """Run grounded web search (always calls Bing ``web_search``).
 
     Returns ``(text, cited_urls, cited_domains, source_pool_urls)``.
     ``cited_urls`` prefers answer annotations; ``source_pool_urls`` is the full
@@ -261,9 +261,14 @@ def query_with_web_search(
         raise ValueError("Azure OpenAI is not configured.")
     client = get_azure_responses_client(cfg)
     with azure_api_slot():
+        # Force Bing web_search specifically. With tool_choice="auto" the model
+        # often answers from memory (zero cites). With tool_choice="required"
+        # gpt-5.5 sometimes satisfies the requirement via a calculator/api
+        # search that has no URLs — still zero cites for Mode A.
         response = client.responses.create(
             model=cfg.deployment,
             tools=[{"type": "web_search"}],
+            tool_choice={"type": "web_search"},
             input=query,
             include=["web_search_call.action.sources"],
         )

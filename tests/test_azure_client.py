@@ -7,6 +7,7 @@ from anti_geo.azure_client import (
     azure_api_slot,
     extract_urls_from_response,
     load_azure_config,
+    query_with_web_search,
     reset_azure_api_semaphore_for_tests,
 )
 from anti_geo.seed_generation import resolve_seed_queries
@@ -53,6 +54,63 @@ def test_load_azure_config_from_env(monkeypatch):
     assert cfg is not None
     assert cfg.deployment == "gpt-5.5"
     assert cfg.responses_base_url.endswith("/openai/v1/")
+
+
+def test_query_with_web_search_forces_tool_choice(monkeypatch):
+    """Mode A must force Bing web_search (not auto / generic required)."""
+    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.openai.azure.com/")
+    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "secret")
+    monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.5")
+    reset_azure_api_semaphore_for_tests()
+
+    captured: dict = {}
+
+    class _FakeResponses:
+        def create(self, **kwargs):
+            captured.update(kwargs)
+            return SimpleNamespace(
+                output_text="recipe",
+                output=[
+                    SimpleNamespace(
+                        type="web_search_call",
+                        action=SimpleNamespace(
+                            sources=[
+                                SimpleNamespace(
+                                    type="url",
+                                    url="https://example.com/chicken-parm",
+                                )
+                            ]
+                        ),
+                    ),
+                    SimpleNamespace(
+                        type="message",
+                        content=[
+                            SimpleNamespace(
+                                annotations=[
+                                    SimpleNamespace(
+                                        type="url_citation",
+                                        url="https://example.com/chicken-parm",
+                                    )
+                                ]
+                            )
+                        ],
+                    ),
+                ],
+            )
+
+    class _FakeClient:
+        responses = _FakeResponses()
+
+    monkeypatch.setattr(
+        "anti_geo.azure_client.get_azure_responses_client",
+        lambda config=None: _FakeClient(),
+    )
+    text, cited, domains, pool = query_with_web_search("how do i cook chicken parm?")
+    assert captured["tool_choice"] == {"type": "web_search"}
+    assert captured["tools"] == [{"type": "web_search"}]
+    assert "chicken-parm" in cited[0]
+    assert text == "recipe"
+    reset_azure_api_semaphore_for_tests()
 
 
 def test_extract_urls_prefers_answer_citations_over_search_sources():
