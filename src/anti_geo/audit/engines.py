@@ -119,7 +119,7 @@ class AzureEngine:
                 "Azure OpenAI is not configured. Set AZURE_OPENAI_ENDPOINT, "
                 "AZURE_OPENAI_API_KEY, and AZURE_OPENAI_DEPLOYMENT."
             )
-        text, cited_urls, cited_domains = query_with_web_search(q)
+        text, cited_urls, cited_domains, source_pool = query_with_web_search(q)
         if not cited_urls:
             cited_urls = _extract_urls(text)
             cited_domains = _domains_from_urls(cited_urls)
@@ -127,6 +127,7 @@ class AzureEngine:
             text=text,
             cited_domains=cited_domains,
             cited_urls=cited_urls,
+            source_pool_urls=source_pool,
         )
 
 

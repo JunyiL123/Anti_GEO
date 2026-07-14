@@ -160,7 +160,7 @@ def main() -> None:
     if min_seeds is None:
         min_seeds = DEEP_MIN_SEEDS_BEFORE_STOP if deep else DEFAULT_MIN_SEEDS_BEFORE_STOP
 
-    progress = make_progress(enabled=enabled, label="Anti-GEO Mode A")
+    progress = make_progress(enabled=enabled, label="Anti-GEO Mode A", unit="cites")
     result = investigate_query(
         args.query,
         query_intent=args.intent,

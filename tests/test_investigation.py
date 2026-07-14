@@ -668,3 +668,23 @@ def test_tighten_does_not_loosen_reject():
         content_role="commercial_product",
     )
     assert primary == "reject"
+
+
+def test_tighten_editorial_mix_does_not_flag():
+    """Editorial/institutional referrers present → no structural mix tighten."""
+    profile = ReferralProfile(
+        status="complete",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=20,
+        mix={"ugc_thread": 10, "editorial": 10},
+        geo_suspected=False,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="commercial_product",
+    )
+    assert primary == "pass"
+    assert actions == ["pass"]

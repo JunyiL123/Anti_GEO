@@ -461,6 +461,7 @@ def test_mode_a_zero_verified_soft_downranks_non_editorial(monkeypatch):
     assert row.n_verified == 0
     assert row.llm_action == "downrank"
     assert "downrank" in row.llm_actions
+    assert any("structural UGC/editorial mix" in n for n in result.notes)
 
 
 def test_mode_a_geo_suspected_tightens_pass(monkeypatch):

@@ -25,9 +25,19 @@ def test_load_azure_config_from_env(monkeypatch):
     assert cfg.responses_base_url.endswith("/openai/v1/")
 
 
-def test_extract_urls_from_response_annotations():
+def test_extract_urls_prefers_answer_citations_over_search_sources():
     response = SimpleNamespace(
         output=[
+            SimpleNamespace(
+                type="web_search_call",
+                action=SimpleNamespace(
+                    sources=[
+                        SimpleNamespace(url="https://noise.example/a"),
+                        SimpleNamespace(url="https://noise.example/b"),
+                        SimpleNamespace(url="https://noise.example/c"),
+                    ]
+                ),
+            ),
             SimpleNamespace(
                 type="message",
                 content=[
@@ -35,17 +45,32 @@ def test_extract_urls_from_response_annotations():
                         annotations=[
                             SimpleNamespace(
                                 type="url_citation",
-                                url="https://www.example.com/article",
+                                url="https://www.example.com/cited",
                             )
                         ]
                     )
                 ],
-            )
+            ),
         ],
-        output_text="See https://www.example.com/article for details.",
+        output_text="see https://www.example.com/cited",
     )
     urls = extract_urls_from_response(response)
-    assert urls == ["https://www.example.com/article"]
+    assert urls == ["https://www.example.com/cited"]
+
+
+def test_extract_urls_falls_back_to_search_sources_without_annotations():
+    response = SimpleNamespace(
+        output=[
+            SimpleNamespace(
+                type="web_search_call",
+                action=SimpleNamespace(
+                    sources=[SimpleNamespace(url="https://fallback.example/x")]
+                ),
+            )
+        ],
+        output_text="",
+    )
+    assert extract_urls_from_response(response) == ["https://fallback.example/x"]
 
 
 def test_resolve_seed_queries_template_fallback(monkeypatch):

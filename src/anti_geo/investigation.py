@@ -953,12 +953,14 @@ def tighten_actions_with_referral(
     content_role: str = "",
     engine_cited: bool = False,
 ) -> tuple[str, list[str]]:
-    """Map referral-profile risk into LLM actions (tightens only).
+    """Tighten actions from structural referrer mix (never score referrers with L1-L2).
 
-    - geo_suspected / sparse_suspicious → at least attribute_only (+ block endorsement
-      when geo_suspected)
-    - successful discovery, N=0, and AI-visible (engine cite or seed-cited) → mild
-      downrank (weaker than young WHOIS trust penalty); skip editorial/institutional
+    Graded severity from UGC/editorial mix (and related flags already set on profile):
+    - geo_suspected (high UGC share, no editorial, sufficient N / mismatch) →
+      attribute_only + block_endorsement
+    - sparse_suspicious (small N, homogeneous UGC cluster) → attribute_only
+    - N=0 with AI visibility → mild downrank; skip editorial/institutional targets
+    - Editorial/institutional referrers present → geo_suspected stays false (no mix tighten)
     """
     if profile is None or profile.status == "skipped":
         return primary, list(actions)
@@ -990,11 +992,20 @@ def _build_verdict(
     if profile.status == "skipped":
         return f"L1-L3 primary ({llm_action}); referral profile skipped."
     if profile.status == "inconclusive":
-        return f"L1-L3 primary ({llm_action}); referral profile inconclusive — do not infer clean."
+        return (
+            f"L1-L3 primary ({llm_action}); "
+            "referral profile inconclusive — do not infer clean."
+        )
     if profile.geo_suspected:
-        return f"GEO suspected (referral tightened); primary action: {llm_action}."
+        return (
+            f"GEO suspected from structural UGC mix (referral tightened); "
+            f"primary action: {llm_action}."
+        )
     if profile.status == "sparse_suspicious":
-        return f"Sparse UGC-heavy footprint (referral tightened); primary action: {llm_action}."
+        return (
+            f"Sparse UGC-heavy footprint (referral tightened); "
+            f"primary action: {llm_action}."
+        )
     if (
         profile.n_verified == 0
         and profile.discovery_status in ("success", "partial")
@@ -1006,7 +1017,10 @@ def _build_verdict(
             f"primary action: {llm_action}."
         )
     if content_role == "editorial":
-        return f"Editorial target — L1-L3 primary ({llm_action}); low external referrer N is expected."
+        return (
+            f"Editorial target — L1-L3 primary ({llm_action}); "
+            "low external referrer N is expected."
+        )
     return f"L1-L3 primary ({llm_action}); referral profile: {profile.status}."
 
 
@@ -1029,7 +1043,7 @@ def investigate_url(
     adaptive_stop: bool = False,
     engine: EngineAdapter | None = None,
 ) -> InvestigationResult:
-    """Mode B: URL in → L1-L3 always → optional referral discovery."""
+    """Mode B: L1-L3 + structural referral mix (UGC/editorial) → LLM actions."""
     prog = progress or NullProgress()
     prog.set_counts(0, max_verified_referrers, status="fetch target page")
     fetch = fetch_page(url)
@@ -1181,7 +1195,7 @@ def format_investigation_report(result: InvestigationResult) -> str:
         f"  Endorsement risk: {sp.endorsement_risk:.3f}",
         f"  Legacy action: {sp.recommended_action}",
         "",
-        "── Referral profile ──",
+        "── Referral profile (structural mix; may tighten LLM actions) ──",
         f"  Status: {rp.status}",
         f"  Discovery: {rp.discovery_status}",
         f"  Confidence: {rp.confidence}",

@@ -9,6 +9,8 @@ class EngineResponse:
     text: str
     cited_domains: list[str]
     cited_urls: list[str] = field(default_factory=list)
+    # Full web_search grounding pool (often larger than answer citations).
+    source_pool_urls: list[str] = field(default_factory=list)
 
 
 @dataclass

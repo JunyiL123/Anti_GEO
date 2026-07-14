@@ -137,9 +137,15 @@ def _domains_from_urls(urls: list[str]) -> list[str]:
     return domains
 
 
-def extract_urls_from_response(response: Any, *, fallback_text: str = "") -> list[str]:
-    """Collect citation URLs from an Azure/OpenAI Responses API payload."""
-    urls: list[str] = []
+def extract_citation_sets(
+    response: Any, *, fallback_text: str = ""
+) -> tuple[list[str], list[str]]:
+    """Split answer citations from the web_search grounding pool.
+
+    Returns ``(answer_urls, source_pool_urls)``, each deduped in order.
+    """
+    answer_urls: list[str] = []
+    source_urls: list[str] = []
 
     for item in getattr(response, "output", None) or []:
         item_type = getattr(item, "type", None) or (item.get("type") if isinstance(item, dict) else None)
@@ -159,7 +165,7 @@ def extract_urls_from_response(response: Any, *, fallback_text: str = "") -> lis
                         ann.get("url") if isinstance(ann, dict) else None
                     )
                     if ann_type == "url_citation" and url:
-                        urls.append(url)
+                        answer_urls.append(url)
         if item_type == "web_search_call":
             action = getattr(item, "action", None) or (
                 item.get("action") if isinstance(item, dict) else None
@@ -172,21 +178,35 @@ def extract_urls_from_response(response: Any, *, fallback_text: str = "") -> lis
                     source.get("url") if isinstance(source, dict) else None
                 )
                 if url:
-                    urls.append(url)
+                    source_urls.append(url)
 
     text = fallback_text or getattr(response, "output_text", "") or ""
-    for url in _URL_RE.findall(text):
-        urls.append(url)
+    text_urls = _URL_RE.findall(text)
 
-    return list(dict.fromkeys(urls))
+    answer = list(dict.fromkeys(answer_urls))
+    pool = list(dict.fromkeys(source_urls or text_urls))
+    return answer, pool
+
+
+def extract_urls_from_response(response: Any, *, fallback_text: str = "") -> list[str]:
+    """Collect citation URLs, preferring in-answer annotations over the source pool."""
+    answer, pool = extract_citation_sets(response, fallback_text=fallback_text)
+    if answer:
+        return answer
+    return pool
 
 
 def query_with_web_search(
     query: str,
     *,
     config: AzureOpenAIConfig | None = None,
-) -> tuple[str, list[str], list[str]]:
-    """Run a grounded web search via Azure Responses API. Returns text, urls, domains."""
+) -> tuple[str, list[str], list[str], list[str]]:
+    """Run grounded web search.
+
+    Returns ``(text, cited_urls, cited_domains, source_pool_urls)``.
+    ``cited_urls`` prefers answer annotations; ``source_pool_urls`` is the full
+    grounding set for extreme fallback when all answer cites are rejected.
+    """
     cfg = config or load_azure_config()
     if cfg is None:
         raise ValueError("Azure OpenAI is not configured.")
@@ -198,5 +218,6 @@ def query_with_web_search(
         include=["web_search_call.action.sources"],
     )
     text = getattr(response, "output_text", "") or ""
-    urls = extract_urls_from_response(response, fallback_text=text)
-    return text, urls, _domains_from_urls(urls)
+    answer, pool = extract_citation_sets(response, fallback_text=text)
+    cited = answer if answer else pool
+    return text, cited, _domains_from_urls(cited), pool

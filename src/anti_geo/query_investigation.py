@@ -1,4 +1,8 @@
-"""Mode A — search query → engine cites → per-cite actions (+ Mode B for non-UGC)."""
+"""Mode A — search query → engine cites → L1-L3 + L3 independence.
+
+Non-UGC cites may run Mode B structural referral mix (UGC/editorial proportions),
+which can tighten LLM actions. Referrers are not re-scored with L1-L2.
+"""
 
 from __future__ import annotations
 
@@ -139,7 +143,7 @@ def _row_from_report(
     from_source_pool: bool = False,
 ) -> CiteInvestigationRow:
     primary, actions = _llm_actions_for_report(report)
-    # Mode A rows are engine cites — N=0 successful discovery is AI-visible soft caution.
+    # Structural referral mix may tighten; never from referrer L1-L2 scores.
     primary, actions = tighten_actions_with_referral(
         primary,
         actions,
@@ -588,6 +592,10 @@ def investigate_query(
         f"Mode B skipped for {ugc_skipped} UGC cites; "
         f"ran on {mode_b_ran} non-UGC (site_workers={site_workers})."
     )
+    notes.append(
+        "Per-cite actions: L1-L3, optionally tightened by Mode B structural "
+        "UGC/editorial mix; L3 independence runs on the cite set."
+    )
     if mode_b_errors:
         notes.append(f"Mode B errors: {len(mode_b_errors)}")
 
@@ -646,6 +654,10 @@ def format_query_investigation_report(
                     )
                 else:
                     lines.append(f"   Verified connections: {row.n_verified}")
+                if row.referral_profile and row.referral_profile.geo_suspected:
+                    lines.append(
+                        "   Referral mix: GEO suspected (tightens actions)"
+                    )
             elif row.mode_b_error:
                 lines.append(f"   Mode B error: {row.mode_b_error}")
             else:
