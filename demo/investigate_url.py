@@ -19,6 +19,9 @@ Examples:
   export AZURE_OPENAI_API_KEY=...
   export AZURE_OPENAI_DEPLOYMENT=gpt-5.5
   PYTHONPATH=src python demo/investigate_url.py URL --engine azure
+
+  # Progress bar + ETA on stderr (auto on TTY; use --no-progress to hide)
+  PYTHONPATH=src python demo/investigate_url.py URL --engine azure --json
 """
 
 from __future__ import annotations
@@ -35,6 +38,7 @@ from anti_geo.investigation import (
     investigation_to_dict,
     investigate_url,
 )
+from anti_geo.progress import make_progress
 
 
 def main() -> None:
@@ -90,8 +94,28 @@ def main() -> None:
         help="Minimum seed queries before verified-referrer stop applies",
     )
     parser.add_argument("--json", action="store_true", help="Output JSON")
+    progress_group = parser.add_mutually_exclusive_group()
+    progress_group.add_argument(
+        "--progress",
+        action="store_true",
+        help="Force stderr progress bar + ETA (default: on when stderr is a TTY)",
+    )
+    progress_group.add_argument(
+        "--no-progress",
+        action="store_true",
+        help="Disable progress bar",
+    )
     args = parser.parse_args()
 
+    enabled: bool | None
+    if args.progress:
+        enabled = True
+    elif args.no_progress:
+        enabled = False
+    else:
+        enabled = None  # TTY auto-detect
+
+    progress = make_progress(enabled=enabled, label="Anti-GEO")
     result = investigate_url(
         args.url,
         query_intent=args.intent,
@@ -104,6 +128,7 @@ def main() -> None:
         max_fetches_per_seed=args.max_fetches_per_seed,
         max_verified_referrers=args.max_verified,
         min_seeds_before_verified_stop=args.min_seeds_before_stop,
+        progress=progress,
     )
 
     if args.json:

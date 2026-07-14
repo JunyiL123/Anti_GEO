@@ -14,6 +14,7 @@ from anti_geo.fetch import fetch_page
 from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
 from anti_geo.permissions import derive_llm_actions
 from anti_geo.platform_role import classify_content_role, registrable_domain
+from anti_geo.progress import NullProgress, Progress
 from anti_geo.scorer import score_source
 from anti_geo.seed_generation import resolve_seed_queries
 
@@ -397,7 +398,9 @@ def discover_referrers(
     query_delay_s: float = 0.0,
     target_role: str = "unknown",
     target_commercial_tier: str = "none",
+    progress: Progress | None = None,
 ) -> ReferralProfile:
+    prog = progress or NullProgress()
     if engine is None:
         return ReferralProfile(
             status="skipped",
@@ -416,6 +419,10 @@ def discover_referrers(
     seen_verified: set[str] = set()
     fetched_ok: set[str] = set()
     stopped_early = False
+    n_seeds = len(seed_queries)
+    # Rough plan: 1 unit per seed query + ~half of max fetches (grows when candidates known).
+    prog.add_work(n_seeds)
+    prog.set_status(f"discover 0/{n_seeds} seeds")
 
     for i, q in enumerate(seed_queries):
         if (
@@ -430,13 +437,19 @@ def discover_referrers(
             break
         if i > 0 and query_delay_s > 0:
             time.sleep(query_delay_s)
+        short_q = q if len(q) <= 42 else q[:39] + "..."
+        prog.set_status(
+            f"seed {i + 1}/{n_seeds} engine · verified={len(verified)} · {short_q}"
+        )
         try:
             resp = engine.query(q)
         except Exception as exc:
             errors.append(f"engine query failed ({q[:40]}...): {exc}")
+            prog.advance(1, status=f"seed {i + 1}/{n_seeds} engine failed")
             continue
 
         queries_run += 1
+        prog.advance(1)
         if _target_cited_in_response(resp.cited_urls, target_url):
             target_cited += 1
         for url in resp.cited_urls:
@@ -454,25 +467,37 @@ def discover_referrers(
                 continue
             candidates.append(cited)
         random.shuffle(candidates)
+        if candidates:
+            prog.add_work(len(candidates))
 
         confirmed_this_seed = 0
+        fetch_i = 0
         for cited in candidates:
             if confirmed_this_seed >= max_fetches_per_seed:
                 errors.append(f"per-seed fetch cap reached ({max_fetches_per_seed}) for: {q[:40]}")
+                prog.advance(len(candidates) - fetch_i)
                 break
             if (
                 queries_run >= min_seeds_before_verified_stop
                 and len(verified) >= max_verified_referrers
             ):
                 stopped_early = True
+                prog.advance(len(candidates) - fetch_i)
                 break
+            fetch_i += 1
+            prog.set_status(
+                f"seed {i + 1}/{n_seeds} fetch {fetch_i}/{len(candidates)} "
+                f"· verified={len(verified)}"
+            )
             try:
                 fr = fetch_page(cited, timeout=12.0)
                 if not fr.ok:
+                    prog.advance(1)
                     continue
                 cited_norm = cited.rstrip("/").lower()
                 fetched_ok.add(cited_norm)
                 confirmed_this_seed += 1
+                prog.advance(1)
                 final = (fr.final_url or cited).rstrip("/")
                 if final.lower() in seen_verified:
                     continue
@@ -493,6 +518,7 @@ def discover_referrers(
                     )
             except Exception as exc:
                 errors.append(f"fetch failed ({cited}): {exc}")
+                prog.advance(1)
 
         if stopped_early:
             if not notes:
@@ -674,13 +700,20 @@ def investigate_url(
     max_fetches_per_seed: int = 30,
     max_verified_referrers: int = 100,
     min_seeds_before_verified_stop: int = 4,
+    progress: Progress | None = None,
 ) -> InvestigationResult:
     """Mode B: URL in → L1-L3 always → optional referral discovery."""
+    prog = progress or NullProgress()
+    # Setup work units; discovery adds more once seed count / citations are known.
+    prog.add_work(3)
+    prog.set_status("fetch target page")
     fetch = fetch_page(url)
+    prog.advance(1, status="score L1-L3")
     source = score_source(url, fetch, query=query)
     report = decide_single_source(source, query_intent, query=query)
     role = classify_content_role(url, fetch=fetch, source=source)
     meta = extract_page_metadata(fetch)
+    prog.advance(1, status="generate seed queries")
     seeds, seed_source, seed_conf = resolve_seed_queries(
         role,
         meta,
@@ -690,6 +723,7 @@ def investigate_url(
         limit=seed_limit,
         mode=seed_mode,
     )
+    prog.advance(1, status=f"seeds ready ({len(seeds)}, {seed_source})")
 
     engine: EngineAdapter | None = None
     if engine_name and engine_name != "none":
@@ -699,26 +733,35 @@ def investigate_url(
     if source.page_context and source.page_context.commercial_tier:
         commercial_tier = source.page_context.commercial_tier
 
-    profile = discover_referrers(
-        url,
-        meta.entity,
-        seeds,
-        engine,
-        org=meta.org,
-        query_delay_s=query_delay_s,
-        max_fetches_per_seed=max_fetches_per_seed,
-        max_verified_referrers=max_verified_referrers,
-        min_seeds_before_verified_stop=min_seeds_before_verified_stop,
-        target_role=role,
-        target_commercial_tier=commercial_tier,
-    )
+    try:
+        profile = discover_referrers(
+            url,
+            meta.entity,
+            seeds,
+            engine,
+            org=meta.org,
+            query_delay_s=query_delay_s,
+            max_fetches_per_seed=max_fetches_per_seed,
+            max_verified_referrers=max_verified_referrers,
+            min_seeds_before_verified_stop=min_seeds_before_verified_stop,
+            target_role=role,
+            target_commercial_tier=commercial_tier,
+            progress=prog,
+        )
 
-    primary, actions = derive_llm_actions(
-        report.permissions,
-        report.subscores,
-    ) if report.permissions and report.subscores else (report.recommended_action, [report.recommended_action])
+        primary, actions = derive_llm_actions(
+            report.permissions,
+            report.subscores,
+        ) if report.permissions and report.subscores else (
+            report.recommended_action,
+            [report.recommended_action],
+        )
 
-    verdict = _build_verdict(primary, profile, role)
+        verdict = _build_verdict(primary, profile, role)
+        prog.close(final_status=f"done · verified={profile.n_verified}")
+    except Exception:
+        prog.close(final_status="failed")
+        raise
 
     return InvestigationResult(
         target_url=fetch.final_url or url,
