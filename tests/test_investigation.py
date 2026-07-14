@@ -267,10 +267,62 @@ def test_discover_referrers_stops_after_verified_cap(monkeypatch):
         max_fetches_per_seed=30,
         max_verified_referrers=3,
         min_seeds_before_verified_stop=4,
+        seed_workers=1,
+        fetch_workers=1,
     )
     assert profile.seed_queries_run == 4
     assert profile.n_verified == 3
     assert any("Stopped after" in note for note in profile.notes)
+
+
+def test_discover_referrers_parallel_finds_verified(monkeypatch):
+    target = "https://www.pcmag.com/picks/the-best-budget-laptops"
+    calls = {"n": 0}
+
+    class _Engine:
+        name = "parallel"
+
+        def query(self, q: str):
+            from anti_geo.audit.models import EngineResponse
+
+            calls["n"] += 1
+            i = calls["n"]
+            return EngineResponse(
+                text="answer",
+                cited_domains=["reddit.com"],
+                cited_urls=[f"https://www.reddit.com/r/laptops/comments/{i}/"],
+            )
+
+    def fake_fetch(url: str, **kwargs):
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="Reddit",
+            text="See pcmag.com/picks/the-best-budget-laptops for picks.",
+            link_count=1,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=100,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    profile = discover_referrers(
+        target,
+        "Budget Laptops",
+        [f"seed {i}" for i in range(6)],
+        _Engine(),
+        seed_workers=3,
+        fetch_workers=4,
+        max_verified_referrers=100,
+        min_seeds_before_verified_stop=4,
+    )
+    assert profile.seed_queries_run == 6
+    assert profile.n_verified == 6
 
 
 def test_discover_referrers_shuffles_per_seed(monkeypatch):

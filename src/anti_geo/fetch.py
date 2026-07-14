@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import re
+import threading
 import time
 from dataclasses import dataclass
 from urllib.parse import urljoin, urlparse
@@ -103,8 +104,14 @@ def _fetch_html_httpx(url: str, timeout: float) -> _HtmlFetch:
         )
 
 
+_PLAYWRIGHT_LOCK = threading.Lock()
+
+
 def _fetch_html_playwright(url: str, timeout: float) -> _HtmlFetch | None:
-    """Headless Chromium fetch. Returns None if playwright is not installed."""
+    """Headless Chromium fetch. Returns None if playwright is not installed.
+
+    Sync Playwright is not thread-safe; serialize browser launches.
+    """
     try:
         from playwright.sync_api import TimeoutError as PlaywrightTimeout
         from playwright.sync_api import sync_playwright
@@ -116,7 +123,7 @@ def _fetch_html_playwright(url: str, timeout: float) -> _HtmlFetch | None:
         "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
     )
     try:
-        with sync_playwright() as playwright:
+        with _PLAYWRIGHT_LOCK, sync_playwright() as playwright:
             browser = None
             for launch_kwargs in (
                 {

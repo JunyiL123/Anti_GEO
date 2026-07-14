@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+import threading
 import time
 from dataclasses import dataclass, field
 from typing import TextIO, Protocol
@@ -59,43 +60,50 @@ class ProgressBar:
     _t0: float = field(default_factory=time.monotonic)
     _last_draw: float = 0.0
     _closed: bool = False
+    _lock: threading.Lock = field(default_factory=threading.Lock)
 
     def add_work(self, n: int) -> None:
-        if n <= 0 or self._closed:
+        if n <= 0:
             return
-        self._total += n
-        self._draw(force=True)
+        with self._lock:
+            if self._closed:
+                return
+            self._total += n
+            self._draw(force=True)
 
     def advance(self, n: int = 1, *, status: str = "") -> None:
-        if self._closed:
-            return
-        if status:
-            self._status = status
-        self._done += max(0, n)
-        if self._total < self._done:
-            self._total = self._done
-        self._draw()
+        with self._lock:
+            if self._closed:
+                return
+            if status:
+                self._status = status
+            self._done += max(0, n)
+            if self._total < self._done:
+                self._total = self._done
+            self._draw()
 
     def set_status(self, status: str) -> None:
-        if self._closed:
-            return
-        self._status = status
-        self._draw(force=True)
+        with self._lock:
+            if self._closed:
+                return
+            self._status = status
+            self._draw(force=True)
 
     def close(self, final_status: str | None = None) -> None:
-        if self._closed:
-            return
-        if final_status:
-            self._status = final_status
-        if self._total > 0:
-            self._done = self._total
-        self._draw(force=True)
-        try:
-            self.stream.write("\n")
-            self.stream.flush()
-        except Exception:
-            pass
-        self._closed = True
+        with self._lock:
+            if self._closed:
+                return
+            if final_status:
+                self._status = final_status
+            if self._total > 0:
+                self._done = self._total
+            self._draw(force=True)
+            try:
+                self.stream.write("\n")
+                self.stream.flush()
+            except Exception:
+                pass
+            self._closed = True
 
     def _eta_s(self) -> float | None:
         if self._done <= 0 or self._total <= 0 or self._done >= self._total:

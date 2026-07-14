@@ -21,6 +21,7 @@ Examples:
   PYTHONPATH=src python demo/investigate_url.py URL --engine azure
 
   # Progress bar + ETA on stderr (auto on TTY; use --no-progress to hide)
+  # Parallel discovery: --seed-workers 4 (engine queries) --fetch-workers 8 (citation pages)
   PYTHONPATH=src python demo/investigate_url.py URL --engine azure --json
 """
 
@@ -93,6 +94,18 @@ def main() -> None:
         default=4,
         help="Minimum seed queries before verified-referrer stop applies",
     )
+    parser.add_argument(
+        "--seed-workers",
+        type=int,
+        default=4,
+        help="Parallel Azure/engine seed queries (default 4; use 12 to run all seeds at once)",
+    )
+    parser.add_argument(
+        "--fetch-workers",
+        type=int,
+        default=8,
+        help="Parallel citation page fetches per seed (default 8)",
+    )
     parser.add_argument("--json", action="store_true", help="Output JSON")
     progress_group = parser.add_mutually_exclusive_group()
     progress_group.add_argument(
@@ -129,6 +142,8 @@ def main() -> None:
         max_verified_referrers=args.max_verified,
         min_seeds_before_verified_stop=args.min_seeds_before_stop,
         progress=progress,
+        seed_workers=args.seed_workers,
+        fetch_workers=args.fetch_workers,
     )
 
     if args.json:
