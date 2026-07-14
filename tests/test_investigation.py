@@ -2,12 +2,14 @@ from pathlib import Path
 
 from anti_geo.audit.models import EngineResponse
 from anti_geo.investigation import (
+    VerifiedReferrer,
+    _is_generic_topic_marker,
+    _verify_connection,
     assess_semantic_alignment,
     discover_referrers,
     extract_page_metadata,
     generate_seed_queries,
     investigate_url,
-    VerifiedReferrer,
 )
 from anti_geo.models import FetchResult, PageContextSignals
 
@@ -138,7 +140,8 @@ def test_assess_semantic_alignment_coordinated_commercial():
         VerifiedReferrer(
             url=f"https://amazon.com/p{i}",
             role="commercial_product",
-            connection="entity_mention",
+            connection="brand_mention",
+            connection_confidence="weak",
         )
         for i in range(3)
     ]
@@ -215,8 +218,116 @@ def test_discover_referrers_mock_verification(monkeypatch):
     assert profile.seed_queries_run == 4
     assert profile.target_cited_in_answers >= 1
     assert profile.n_verified >= 1
-    assert profile.referrers_verified[0].connection in ("url_link", "entity_mention")
+    assert profile.referrers_verified[0].connection == "url_link"
+    assert profile.referrers_verified[0].connection_confidence == "high"
     assert profile.discovery_status in ("success", "partial")
+
+
+def test_discover_referrers_stops_after_verified_cap(monkeypatch):
+    target = "https://www.pcmag.com/picks/the-best-budget-laptops"
+    calls = {"n": 0}
+
+    class _CountingEngine:
+        name = "counting"
+
+        def query(self, q: str):
+            from anti_geo.audit.models import EngineResponse
+
+            calls["n"] += 1
+            return EngineResponse(
+                text="answer",
+                cited_domains=["reddit.com"],
+                cited_urls=[f"https://www.reddit.com/r/laptops/comments/{calls['n']}/"],
+            )
+
+    def fake_fetch(url: str, **kwargs):
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="Reddit",
+            text="See pcmag.com/picks/the-best-budget-laptops for picks.",
+            link_count=1,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=100,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    seeds = [f"seed {i}" for i in range(10)]
+    profile = discover_referrers(
+        target,
+        "Budget Laptops",
+        seeds,
+        _CountingEngine(),
+        max_fetches_per_seed=30,
+        max_verified_referrers=3,
+        min_seeds_before_verified_stop=4,
+    )
+    assert profile.seed_queries_run == 4
+    assert profile.n_verified == 3
+    assert any("Stopped after" in note for note in profile.notes)
+
+
+def test_discover_referrers_shuffles_per_seed(monkeypatch):
+    target = "https://example.com/product"
+    seen_orders: list[list[str]] = []
+
+    class _ShuffleEngine:
+        name = "shuffle"
+
+        def query(self, q: str):
+            from anti_geo.audit.models import EngineResponse
+
+            return EngineResponse(
+                text="answer",
+                cited_domains=["a.com", "b.com", "c.com"],
+                cited_urls=[
+                    "https://a.com/1",
+                    "https://b.com/2",
+                    "https://c.com/3",
+                ],
+            )
+
+    def fake_shuffle(items):
+        seen_orders.append(list(items))
+
+    def fake_fetch(url: str, **kwargs):
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=404,
+            ok=False,
+            error="nf",
+            title="",
+            text="",
+            link_count=0,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=50,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.random.shuffle", fake_shuffle)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    discover_referrers(
+        target,
+        "Example",
+        ["one seed"],
+        _ShuffleEngine(),
+        max_fetches_per_seed=30,
+    )
+    assert len(seen_orders) == 1
+    assert sorted(seen_orders[0]) == [
+        "https://a.com/1",
+        "https://b.com/2",
+        "https://c.com/3",
+    ]
 
 
 def test_investigate_url_with_mock_engine(monkeypatch):
@@ -273,3 +384,87 @@ def test_investigate_url_with_mock_engine(monkeypatch):
     )
     assert result.referral_profile.status != "skipped"
     assert result.referral_profile.citations_sampled > 0
+
+
+def test_is_generic_topic_marker():
+    assert _is_generic_topic_marker("best ad blockers")
+    assert _is_generic_topic_marker("best budget laptops 2026")
+    assert _is_generic_topic_marker("The Best Ad Blockers We've Tested for 2026")
+    assert not _is_generic_topic_marker("theograce")
+    assert not _is_generic_topic_marker("superblock pro")
+
+
+def test_verify_connection_rejects_generic_topic_overlap():
+    target = "https://www.pcmag.com/picks/best-ad-blockers"
+    entity = "The Best Ad Blockers We've Tested for 2026"
+    text = "Here are the best ad blockers we recommend for Chrome and Safari."
+    assert _verify_connection(text, text, target, entity, org="PCMag") is None
+
+
+def test_verify_connection_url_link():
+    target = "https://www.pcmag.com/picks/the-best-budget-laptops"
+    conn = _verify_connection(
+        "See pcmag.com/picks/the-best-budget-laptops for editor picks.",
+        "See pcmag.com/picks/the-best-budget-laptops for editor picks.",
+        target,
+        "The Best Cheap Laptops We've Tested for 2026",
+        org="PCMag",
+    )
+    assert conn is not None
+    assert conn.kind == "url_link"
+    assert conn.confidence == "high"
+
+
+def test_verify_connection_brand_mention():
+    target = "https://shop.theograce.com/products/bracelet"
+    conn = _verify_connection(
+        "I got a bracelet from theograce and love it.",
+        "I got a bracelet from theograce and love it.",
+        target,
+        "Theo Grace Engraved Bracelet",
+        org="Theo Grace",
+    )
+    assert conn is not None
+    assert conn.kind == "brand_mention"
+    assert conn.confidence == "weak"
+    assert conn.marker == "theograce"
+
+
+def test_discover_referrers_ignores_generic_topic_pages(monkeypatch):
+    target = "https://www.pcmag.com/picks/best-ad-blockers"
+    engine = _StubEngine(
+        {
+            "best ad blockers": EngineResponse(
+                text="answer",
+                cited_domains=["cybernews.com"],
+                cited_urls=["https://cybernews.com/best-ad-blockers/"],
+            )
+        }
+    )
+
+    def fake_fetch(url: str, **kwargs):
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="Best ad blockers",
+            text="Our roundup of the best ad blockers for privacy in 2026.",
+            link_count=1,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=100,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    profile = discover_referrers(
+        target,
+        "The Best Ad Blockers We've Tested for 2026",
+        ["best ad blockers"],
+        engine,
+        org="PCMag",
+    )
+    assert profile.n_verified == 0

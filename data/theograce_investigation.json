@@ -1,0 +1,305 @@
+{
+  "target_url": "https://www.theograce.com/",
+  "content_role": "commercial_product",
+  "seed_confidence": "high",
+  "seed_source": "llm",
+  "seed_queries": [
+    "theo grace personalized jewelry",
+    "theo grace custom name necklaces",
+    "theo grace jewelry reviews and quality",
+    "theo grace Nicky Hilton collection bracelets and necklaces"
+  ],
+  "metadata": {
+    "entity": "theo grace",
+    "category": "product",
+    "topic": "theo grace",
+    "price_hint": "1000",
+    "org": "theo"
+  },
+  "llm_action": "pass",
+  "llm_actions": [
+    "pass"
+  ],
+  "verdict": "L1-L3 primary (pass); referral profile: complete.",
+  "referral_profile": {
+    "status": "complete",
+    "discovery_status": "success",
+    "confidence": "medium",
+    "n_verified": 40,
+    "mix": {
+      "factual_blog": 34,
+      "review_profile": 3,
+      "commercial_product": 3
+    },
+    "citations_domain_mix": {
+      "review_profile": 9,
+      "factual_blog": 68,
+      "commercial_product": 3
+    },
+    "geo_suspected": false,
+    "citations_sampled": 80,
+    "seed_queries_run": 4,
+    "target_cited_in_answers": 3,
+    "semantic_alignment": {
+      "target_commercial_tier": "medium",
+      "referrer_commercial_share": 0.15,
+      "aligned": false,
+      "label": "mismatch"
+    },
+    "referrers_verified": [
+      {
+        "url": "https://www.theograce.co.uk/",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://www.theograce.co.uk/categories/all-bracelets",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://resident.com/fashion-and-style/2025/07/01/nicky-hilton-launches-theo-grace-a-new-chapter-in-personalized-jewelry",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://jewelryreviewsonline.com/theo-grace-jewelry-review/",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://idealrobo.com/theo-grace-review-personalized-jewelry-turns-memory/",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/3E22D62F-4DCF-4954-BE9F-15E845E55543",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/F5386999-BCD2-42C8-9DF8-D908484DDF6D",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://resident.com/business-leader/2025/07/21/nicky-hilton-launches-theo-grace-a-personalized-jewelry-collection-inspired-by-love-legacy-and-everyday-moments",
+        "role": "factual_blog",
+        "connection": "url_link",
+        "seed_query": "theo grace personalized jewelry"
+      },
+      {
+        "url": "https://www.theograce.co.uk/categories/name-necklaces",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace custom name necklaces"
+      },
+      {
+        "url": "https://www.theograce.co.uk/products/korean-handwriting-name-necklace-in-gold-plating",
+        "role": "review_profile",
+        "connection": "entity_mention",
+        "seed_query": "theo grace custom name necklaces"
+      },
+      {
+        "url": "https://www.theograce.co.uk/articles/about-us",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/8AAAD61A-5AC9-4844-BCB7-9198A3EA1A1A",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.theograce.co.uk/articles/why-we-changed-our-name-from-myka-to-theo-grace",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/Theo-Grace-Necklace-Sterling-Z/dp/B0FYQBD8GB",
+        "role": "commercial_product",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.theograce.co.uk/articles/customer-reviews",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://ouispeakfashion.com/2025-06-23-nicky-hilton/",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=7bggIgZTxh0",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/908DCEFC-EAAE-4DEC-A6AE-580BFF8D419F",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Theo_Grace",
+        "role": "factual_blog",
+        "connection": "url_link",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.honestbrandreviews.com/reviews/theo-grace-review/",
+        "role": "review_profile",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/theo-grace-jewelry/s?k=theo+grace+jewelry",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/C9002B78-115D-4D09-BDCC-F049DDDA45D4",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.scamadviser.com/check-website/theograce.com",
+        "role": "factual_blog",
+        "connection": "url_link",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/83555A08-E2EE-4C75-8204-7BD5730458CF",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/Theo-Grace-Necklace-Personalized-Lab-Grown/dp/B0FSLN9WCR",
+        "role": "commercial_product",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.thezoereport.com/culture/nicky-hilton-jewelry-brand-theo-grace",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/8B1DA355-BC02-4F47-AD79-7A437B0F6541",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.retailcoupons.com/reviews/theograce.com",
+        "role": "review_profile",
+        "connection": "url_link",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/1EE3F17C-7874-4021-8AB5-A50586196A44",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/19DE6CD1-0C40-4DB6-8135-BE4C2AD13D05",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.bestproductsreviews.com/theograce-jewelry",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.amazon.com/stores/TheoGrace/page/F5161ECB-2FBD-4A4B-BE4B-B4C17720F177",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://www.scam-detector.com/validator/theograce-com-review/",
+        "role": "factual_blog",
+        "connection": "url_link",
+        "seed_query": "theo grace jewelry reviews and quality"
+      },
+      {
+        "url": "https://news.designrush.com/nicky-hilton-theo-grace-jewelry-collab",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      },
+      {
+        "url": "https://hauteliving.com/2025/09/nicky-hilton-rothschild-theo-grace-jewelry-brand/775728/",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      },
+      {
+        "url": "https://xodivad.com/2025/09/01/nicky-hilton-celebrates-love-and-connection-with-theo-grace/",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      },
+      {
+        "url": "https://www.amazon.com/Theo-Grace-Personalized-Adjustable-Collection/dp/B0FQCQPV8H",
+        "role": "commercial_product",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      },
+      {
+        "url": "https://www.theograce.co.uk/articles/introducing-charmed-collection",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      },
+      {
+        "url": "https://www.lofficielusa.com/fashion/theo-grace-nicky-hilton-jewelry-brand",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      },
+      {
+        "url": "https://www.aureusboutique.com/collections/theo-grace-by-nicky-hilton",
+        "role": "factual_blog",
+        "connection": "entity_mention",
+        "seed_query": "theo grace Nicky Hilton collection bracelets and necklaces"
+      }
+    ],
+    "discovery_errors": [],
+    "notes": [
+      "Target cited in 3/4 seed answers (AI-visible footprint, not a verified referrer).",
+      "Verified referrers skew non-commercial while target is product/commercial."
+    ]
+  },
+  "single_page": {
+    "recommended_action": "pass",
+    "endorsement_risk": 0.0,
+    "trust_score": 0.7100000000000001,
+    "semantic_risk": 0.04600638977635782,
+    "retrieval_manipulation_risk": 0.04405458089668616
+  },
+  "timestamp": "2026-07-13T16:50:32.320926+00:00"
+}

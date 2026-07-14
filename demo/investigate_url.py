@@ -13,6 +13,12 @@ Examples:
     --fixture tests/fixtures/audit_replays/budget_laptops.jsonl
 
   PERPLEXITY_API_KEY=... PYTHONPATH=src python demo/investigate_url.py URL --engine perplexity
+
+  # Azure: LLM seeds (auto when env set) + web_search citation discovery
+  export AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+  export AZURE_OPENAI_API_KEY=...
+  export AZURE_OPENAI_DEPLOYMENT=gpt-5.5
+  PYTHONPATH=src python demo/investigate_url.py URL --engine azure
 """
 
 from __future__ import annotations
@@ -43,10 +49,16 @@ def main() -> None:
     parser.add_argument(
         "--engine",
         default="none",
-        choices=["none", "mock", "perplexity"],
+        choices=["none", "mock", "perplexity", "azure"],
         help="Referral discovery engine (default: none — L1-L3 only)",
     )
-    parser.add_argument("--seed-limit", type=int, default=12, help="Max auto-generated seed queries")
+    parser.add_argument("--seed-limit", type=int, default=12, help="Max seed queries")
+    parser.add_argument(
+        "--seed-mode",
+        default="auto",
+        choices=["auto", "template", "llm"],
+        help="Seed query source: auto=Azure LLM if configured else templates",
+    )
     parser.add_argument(
         "--fixture",
         type=Path,
@@ -57,13 +69,25 @@ def main() -> None:
         "--query-delay",
         type=float,
         default=0.0,
-        help="Seconds between Perplexity seed queries (rate limiting)",
+        help="Seconds between live engine seed queries (rate limiting)",
     )
     parser.add_argument(
-        "--max-fetches",
+        "--max-fetches-per-seed",
         type=int,
-        default=40,
-        help="Max cited pages to fetch for referrer verification",
+        default=30,
+        help="Max successful page fetches per seed (random order)",
+    )
+    parser.add_argument(
+        "--max-verified",
+        type=int,
+        default=100,
+        help="Stop after this many verified referrers (once min seeds met)",
+    )
+    parser.add_argument(
+        "--min-seeds-before-stop",
+        type=int,
+        default=4,
+        help="Minimum seed queries before verified-referrer stop applies",
     )
     parser.add_argument("--json", action="store_true", help="Output JSON")
     args = parser.parse_args()
@@ -74,9 +98,12 @@ def main() -> None:
         query=args.query,
         engine_name=None if args.engine == "none" else args.engine,
         seed_limit=args.seed_limit,
+        seed_mode=args.seed_mode,
         fixture_path=args.fixture,
         query_delay_s=args.query_delay,
-        max_fetches=args.max_fetches,
+        max_fetches_per_seed=args.max_fetches_per_seed,
+        max_verified_referrers=args.max_verified,
+        min_seeds_before_verified_stop=args.min_seeds_before_stop,
     )
 
     if args.json:

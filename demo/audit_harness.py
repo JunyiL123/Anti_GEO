@@ -25,7 +25,7 @@ from anti_geo.audit.referral import build_referral_audit_report, format_referral
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Anti-GEO longitudinal audit harness")
-    parser.add_argument("--engine", default="mock", choices=["mock", "perplexity"])
+    parser.add_argument("--engine", default="mock", choices=["mock", "perplexity", "azure"])
     parser.add_argument("--query-set", default="default")
     parser.add_argument("--log-dir", default="data/audits")
     parser.add_argument("--with-overlay", action="store_true", help="Score cited URLs with analyze_url")

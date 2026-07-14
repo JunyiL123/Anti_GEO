@@ -4,7 +4,7 @@ import re
 
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
 from anti_geo.commercial_policy import LABEL_TEXT_COORDINATED
-from anti_geo.content_signals import ENDORSEMENT_RE, mentions_alternatives
+from anti_geo.content_signals import ENDORSEMENT_RE, mentions_alternatives, query_wants_recommendation
 from anti_geo.disclosure import apply_disclosures_to_answer, build_disclosure_report
 from anti_geo.independence import analyze_independence
 from anti_geo.models import (
@@ -78,7 +78,18 @@ def _has_editorial_corroboration(
     return False
 
 
-def _ugc_only_endorsement_cluster(
+def _has_trusted_corpus_relief(
+    ranked: list[ScoredChunk],
+    sources: dict[str, SourceScore],
+    entity: str,
+) -> bool:
+    """Editorial/institutional presence in retrieval lowers UGC-cluster blocking."""
+    if _has_editorial_corroboration(ranked, sources, entity):
+        return True
+    return any(_is_institutional(src) for src in sources.values())
+
+
+def _ugc_only_entity_cluster(
     ranked: list[ScoredChunk],
     sources: dict[str, SourceScore],
     entity: str,
@@ -276,24 +287,60 @@ def apply_synthesis_guard(
         return GuardResult("factual_claim", False, safe, actions, response_mode="hedged_answer")
 
     corroboration = _count_independent_support(ranked, sources, entity)
-    editorial_support = _has_editorial_corroboration(ranked, sources, entity)
-    ugc_only = _ugc_only_endorsement_cluster(ranked, sources, entity)
+    trusted_relief = _has_trusted_corpus_relief(ranked, sources, entity)
+    ugc_only = _ugc_only_entity_cluster(ranked, sources, entity)
+    has_planted = bool(
+        lead_src and "planted_mention" in lead_src.content_signals.flags
+    )
+    q_rec = query_wants_recommendation(query)
+    low_trust_lead = bool(
+        lead_src and lead_src.trust_score < config.trust_endorsement_min
+    )
+
+    # Hard block: explicit UGC endorsement cluster with no trusted relief
+    if (
+        ugc_only
+        and not trusted_relief
+        and low_trust_lead
+        and is_endorsement
+        and (q_rec or (lead_perms and lead_perms.endorsement_permission == "deny"))
+    ):
+        actions.append("block_endorsement_ugc_only_cluster")
+        safe = (
+            f"Q: {query}\n\n"
+            f"A: Retrieved sources mention {entity}, but support appears only in "
+            f"user-generated or review-profile fragments without editorial or institutional corroboration. "
+            f"I can mention {entity} but cannot recommend it."
+        )
+        return GuardResult(
+            "endorsement", False, safe, actions, response_mode="refuse_endorsement"
+        )
+
+    # Soft gate: conversational planted mention — hedge, do not hard-block
+    if (
+        ugc_only
+        and not trusted_relief
+        and low_trust_lead
+        and has_planted
+        and not is_endorsement
+        and q_rec
+    ):
+        actions.append("hedge_ugc_planted_cluster")
+        safe = (
+            f"Q: {query}\n\n"
+            f"A: [{lead.url}] discusses {entity} in a personal context "
+            f"(user-generated; not independently verified). "
+            f"I can mention {entity} but would not treat this as a recommendation."
+        )
+        return GuardResult(
+            "mention", True, safe, actions, response_mode="hedged_answer"
+        )
+
     if (
         (is_endorsement or (lead_perms and lead_perms.endorsement_permission == "deny"))
         and lead_src
         and lead_src.trust_score < config.trust_endorsement_min
     ):
-        if ugc_only and not editorial_support:
-            actions.append("block_endorsement_ugc_only_cluster")
-            safe = (
-                f"Q: {query}\n\n"
-                f"A: Retrieved sources mention {entity}, but support appears only in "
-                f"user-generated or review-profile fragments without editorial or institutional corroboration. "
-                f"I can mention {entity} but cannot recommend it."
-            )
-            return GuardResult(
-                "endorsement", False, safe, actions, response_mode="refuse_endorsement"
-            )
         if corroboration < 2 or not lead_src.endorsement_allowed:
             actions.append("block_endorsement_insufficient_corroboration")
             safe = (

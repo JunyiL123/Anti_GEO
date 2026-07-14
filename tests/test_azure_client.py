@@ -1,0 +1,106 @@
+from types import SimpleNamespace
+
+from anti_geo.azure_client import (
+    AzureOpenAIConfig,
+    extract_urls_from_response,
+    load_azure_config,
+)
+from anti_geo.seed_generation import resolve_seed_queries
+
+
+def test_load_azure_config_missing(monkeypatch):
+    monkeypatch.delenv("AZURE_OPENAI_ENDPOINT", raising=False)
+    monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("AZURE_OPENAI_DEPLOYMENT", raising=False)
+    assert load_azure_config() is None
+
+
+def test_load_azure_config_from_env(monkeypatch):
+    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.openai.azure.com/")
+    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "secret")
+    monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.5")
+    cfg = load_azure_config()
+    assert cfg is not None
+    assert cfg.deployment == "gpt-5.5"
+    assert cfg.responses_base_url.endswith("/openai/v1/")
+
+
+def test_extract_urls_from_response_annotations():
+    response = SimpleNamespace(
+        output=[
+            SimpleNamespace(
+                type="message",
+                content=[
+                    SimpleNamespace(
+                        annotations=[
+                            SimpleNamespace(
+                                type="url_citation",
+                                url="https://www.example.com/article",
+                            )
+                        ]
+                    )
+                ],
+            )
+        ],
+        output_text="See https://www.example.com/article for details.",
+    )
+    urls = extract_urls_from_response(response)
+    assert urls == ["https://www.example.com/article"]
+
+
+def test_resolve_seed_queries_template_fallback(monkeypatch):
+    from anti_geo.investigation import PageMetadata, generate_seed_queries
+
+    monkeypatch.delenv("AZURE_OPENAI_ENDPOINT", raising=False)
+    meta = PageMetadata(
+        entity="Example Product",
+        category="widgets",
+        topic="widgets",
+        price_hint="100",
+        org="Example",
+    )
+    queries, source, confidence = resolve_seed_queries(
+        "commercial_product",
+        meta,
+        url="https://example.com/product",
+        mode="auto",
+        limit=4,
+    )
+    assert source == "template"
+    assert queries == generate_seed_queries("commercial_product", meta, limit=4)
+    assert confidence == "high"
+
+
+def test_resolve_seed_queries_llm(monkeypatch):
+    from anti_geo.investigation import PageMetadata
+
+    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.openai.azure.com/")
+    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "secret")
+    monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.5")
+
+    def fake_chat(messages, **kwargs):
+        return {
+            "queries": [
+                "WHO diabetes screening guidelines 2026",
+                "latest CDC diabetes prevention recommendations",
+            ]
+        }
+
+    monkeypatch.setattr("anti_geo.seed_generation.chat_completion_json", fake_chat)
+    meta = PageMetadata(
+        entity="Diabetes prevention overview",
+        category="health",
+        topic="diabetes prevention",
+        price_hint="1000",
+        org="CDC",
+    )
+    queries, source, confidence = resolve_seed_queries(
+        "institutional",
+        meta,
+        url="https://www.cdc.gov/diabetes/prevention",
+        mode="llm",
+        limit=5,
+    )
+    assert source == "llm"
+    assert "diabetes" in queries[0].lower()
+    assert confidence == "high"

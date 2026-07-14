@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 import re
 import time
 from dataclasses import asdict, dataclass, field
@@ -14,6 +15,7 @@ from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
 from anti_geo.permissions import derive_llm_actions
 from anti_geo.platform_role import classify_content_role, registrable_domain
 from anti_geo.scorer import score_source
+from anti_geo.seed_generation import resolve_seed_queries
 
 PRODUCT_SEED_TEMPLATES = (
     "best {category} 2026",
@@ -57,11 +59,22 @@ class PageMetadata:
     org: str
 
 
+@dataclass(frozen=True)
+class ReferrerConnection:
+    """Deterministic referrer tie — no LLM required for tiering."""
+
+    kind: str  # url_link | brand_mention
+    confidence: str  # high | weak
+    marker: str = ""
+
+
 @dataclass
 class VerifiedReferrer:
     url: str
     role: str
-    connection: str  # url_link | entity_mention
+    connection: str  # url_link | brand_mention
+    connection_confidence: str = "high"  # high | weak
+    matched_marker: str = ""
     seed_query: str = ""
 
 
@@ -96,6 +109,7 @@ class InvestigationResult:
     target_url: str
     content_role: str
     seed_confidence: str
+    seed_source: str  # llm | template
     seed_queries: list[str]
     single_page: UrlAnalysisReport
     llm_action: str
@@ -197,28 +211,65 @@ def generate_seed_queries(role: str, meta: PageMetadata, *, limit: int = 12) -> 
     return queries
 
 
-def _target_connection_markers(target_url: str, entity: str) -> list[str]:
-    parsed = urlparse(target_url)
-    path = parsed.path.strip("/")
-    slug = path.split("/")[-1] if path else ""
-    slug_words = slug.replace("-", " ").strip()
-    markers = [
-        target_url.lower(),
-        f"{parsed.netloc.lower()}{parsed.path}".lower(),
-        f"{registrable_domain(parsed.netloc)}{parsed.path}".lower(),
-    ]
-    if slug:
-        markers.append(slug.lower())
-    if slug_words and len(slug_words) >= 8:
-        markers.append(slug_words.lower())
+_ORG_STOPWORDS = frozenset(
+    {
+        "the",
+        "a",
+        "an",
+        "and",
+        "for",
+        "our",
+        "your",
+        "best",
+        "top",
+        "new",
+        "www",
+    }
+)
+
+_GENERIC_TOPIC_PATTERNS = (
+    re.compile(r"^the\s+best\s+", re.I),
+    re.compile(r"^best\s+", re.I),
+    re.compile(r"^top\s+", re.I),
+    re.compile(r"^cheap(est)?\s+", re.I),
+    re.compile(r"^budget\s+", re.I),
+    re.compile(r"\bbuying guide\b", re.I),
+    re.compile(r"\bpicks?\b", re.I),
+    re.compile(r"we'?ve tested", re.I),
+    re.compile(r"\bfor\s+20\d{2}\b", re.I),
+    re.compile(r"\breview(ed|s)?\b", re.I),
+    re.compile(r"\bcomparison(s)?\b", re.I),
+    re.compile(r"\bvs\.?\b", re.I),
+)
+
+
+def _is_generic_topic_marker(marker: str) -> bool:
+    """True for listicle slugs and headline boilerplate — not target-specific ties."""
+    text = " ".join(marker.strip().lower().split())
+    if not text:
+        return True
+    return any(pattern.search(text) for pattern in _GENERIC_TOPIC_PATTERNS)
+
+
+def _distinctive_markers(target_url: str, entity: str, org: str) -> list[str]:
+    """Publisher, org, or product tokens that identify the target — not generic topics."""
+    markers: list[str] = []
+    domain = registrable_domain(urlparse(target_url).netloc)
+    publisher = domain.split(".")[0] if domain else ""
+    if len(publisher) >= 4 and publisher not in _ORG_STOPWORDS:
+        markers.append(publisher)
+    org_clean = " ".join(org.strip().lower().split())
+    if len(org_clean) >= 4 and org_clean not in _ORG_STOPWORDS:
+        markers.append(org_clean)
     if entity:
-        markers.append(entity.lower())
-        # Shorter product-like tokens from title (e.g. "MacBook Neo" from long headline)
+        ent = entity.strip().lower()
+        if 4 <= len(ent) <= 80 and not _is_generic_topic_marker(ent):
+            markers.append(ent)
         for chunk in re.split(r"[\|\-–—:]", entity):
-            chunk = chunk.strip()
-            if 4 <= len(chunk) <= 60:
-                markers.append(chunk.lower())
-    return list(dict.fromkeys(m for m in markers if m))
+            chunk = " ".join(chunk.strip().lower().split())
+            if 4 <= len(chunk) <= 60 and not _is_generic_topic_marker(chunk):
+                markers.append(chunk)
+    return list(dict.fromkeys(markers))
 
 
 def _target_cited_in_response(cited_urls: list[str], target_url: str) -> bool:
@@ -299,19 +350,27 @@ def _verify_connection(
     text: str,
     target_url: str,
     entity: str,
-) -> str | None:
+    *,
+    org: str = "",
+) -> ReferrerConnection | None:
+    """Return a referrer tie only for explicit links or distinctive brand/publisher mentions."""
     blob = (html + " " + text).lower()
     parsed = urlparse(target_url)
     target_domain = registrable_domain(parsed.netloc)
-    if target_domain in blob and parsed.path.lower().strip("/") in blob:
-        return "url_link"
-    for marker in _target_connection_markers(target_url, entity):
-        if len(marker) >= 8 and marker in blob:
-            return "url_link" if "/" in marker or ".com" in marker else "entity_mention"
-    if entity and len(entity) >= 5:
-        ent = entity.lower()
-        if ent in blob:
-            return "entity_mention"
+    path = parsed.path.lower().strip("/")
+    target_norm = target_url.rstrip("/").lower()
+
+    if target_norm in blob:
+        return ReferrerConnection("url_link", "high", target_norm)
+    if target_domain in blob and path and path in blob:
+        return ReferrerConnection("url_link", "high", f"{target_domain}/{path}")
+    host_path = f"{parsed.netloc.lower()}{parsed.path}".lower()
+    if host_path in blob:
+        return ReferrerConnection("url_link", "high", host_path)
+
+    for marker in _distinctive_markers(target_url, entity, org):
+        if marker in blob:
+            return ReferrerConnection("brand_mention", "weak", marker)
     return None
 
 
@@ -331,7 +390,10 @@ def discover_referrers(
     seed_queries: list[str],
     engine: EngineAdapter | None,
     *,
-    max_fetches: int = 40,
+    org: str = "",
+    max_fetches_per_seed: int = 30,
+    max_verified_referrers: int = 100,
+    min_seeds_before_verified_stop: int = 4,
     query_delay_s: float = 0.0,
     target_role: str = "unknown",
     target_commercial_tier: str = "none",
@@ -345,24 +407,100 @@ def discover_referrers(
         )
 
     errors: list[str] = []
+    notes: list[str] = []
     citations: set[str] = set()
     citation_sources: dict[str, str] = {}
     queries_run = 0
     target_cited = 0
+    verified: list[VerifiedReferrer] = []
+    seen_verified: set[str] = set()
+    fetched_ok: set[str] = set()
+    stopped_early = False
 
     for i, q in enumerate(seed_queries):
+        if (
+            queries_run >= min_seeds_before_verified_stop
+            and len(verified) >= max_verified_referrers
+        ):
+            stopped_early = True
+            notes.append(
+                f"Stopped after {queries_run} seeds: {len(verified)} verified referrers "
+                f"(cap {max_verified_referrers})."
+            )
+            break
         if i > 0 and query_delay_s > 0:
             time.sleep(query_delay_s)
         try:
             resp = engine.query(q)
-            queries_run += 1
-            if _target_cited_in_response(resp.cited_urls, target_url):
-                target_cited += 1
-            for url in resp.cited_urls:
-                citations.add(url)
-                citation_sources.setdefault(url, q)
         except Exception as exc:
             errors.append(f"engine query failed ({q[:40]}...): {exc}")
+            continue
+
+        queries_run += 1
+        if _target_cited_in_response(resp.cited_urls, target_url):
+            target_cited += 1
+        for url in resp.cited_urls:
+            citations.add(url)
+            citation_sources.setdefault(url, q)
+
+        candidates: list[str] = []
+        for cited in resp.cited_urls:
+            cited_norm = cited.rstrip("/").lower()
+            if cited_norm == target_url.rstrip("/").lower():
+                continue
+            if _is_same_brand(cited, target_url):
+                continue
+            if cited_norm in fetched_ok:
+                continue
+            candidates.append(cited)
+        random.shuffle(candidates)
+
+        confirmed_this_seed = 0
+        for cited in candidates:
+            if confirmed_this_seed >= max_fetches_per_seed:
+                errors.append(f"per-seed fetch cap reached ({max_fetches_per_seed}) for: {q[:40]}")
+                break
+            if (
+                queries_run >= min_seeds_before_verified_stop
+                and len(verified) >= max_verified_referrers
+            ):
+                stopped_early = True
+                break
+            try:
+                fr = fetch_page(cited, timeout=12.0)
+                if not fr.ok:
+                    continue
+                cited_norm = cited.rstrip("/").lower()
+                fetched_ok.add(cited_norm)
+                confirmed_this_seed += 1
+                final = (fr.final_url or cited).rstrip("/")
+                if final.lower() in seen_verified:
+                    continue
+                conn = _verify_connection(
+                    fr.text, fr.text, target_url, entity, org=org
+                )
+                if conn:
+                    seen_verified.add(final.lower())
+                    verified.append(
+                        VerifiedReferrer(
+                            url=fr.final_url or cited,
+                            role=_role_for_url(fr.final_url or cited),
+                            connection=conn.kind,
+                            connection_confidence=conn.confidence,
+                            matched_marker=conn.marker,
+                            seed_query=q,
+                        )
+                    )
+            except Exception as exc:
+                errors.append(f"fetch failed ({cited}): {exc}")
+
+        if stopped_early:
+            if not notes:
+                notes.append(
+                    f"Stopped after {queries_run} seeds: {len(verified)} verified referrers "
+                    f"(cap {max_verified_referrers})."
+                )
+            break
 
     domain_mix = _citation_domain_mix(citations)
 
@@ -378,40 +516,6 @@ def discover_referrers(
             notes=["Discovery failed; do not treat as zero referrers."],
         )
 
-    verified: list[VerifiedReferrer] = []
-    seen_urls: set[str] = set()
-    fetches = 0
-    for cited in sorted(citations):
-        cited_norm = cited.rstrip("/").lower()
-        if cited_norm == target_url.rstrip("/").lower():
-            continue
-        if _is_same_brand(cited, target_url):
-            continue
-        if fetches >= max_fetches:
-            errors.append(f"fetch budget exhausted ({max_fetches})")
-            break
-        try:
-            fr = fetch_page(cited, timeout=12.0)
-            fetches += 1
-            if not fr.ok:
-                continue
-            final = (fr.final_url or cited).rstrip("/")
-            if final.lower() in seen_urls:
-                continue
-            conn = _verify_connection(fr.text, fr.text, target_url, entity)
-            if conn:
-                seen_urls.add(final.lower())
-                verified.append(
-                    VerifiedReferrer(
-                        url=fr.final_url or cited,
-                        role=_role_for_url(fr.final_url or cited),
-                        connection=conn,
-                        seed_query=citation_sources.get(cited, ""),
-                    )
-                )
-        except Exception as exc:
-            errors.append(f"fetch failed ({cited}): {exc}")
-
     mix: dict[str, int] = {}
     for ref in verified:
         mix[ref.role] = mix.get(ref.role, 0) + 1
@@ -424,7 +528,6 @@ def discover_referrers(
         target_commercial_tier=target_commercial_tier,
     )
 
-    notes: list[str] = []
     if target_cited > 0:
         notes.append(
             f"Target cited in {target_cited}/{queries_run} seed answers "
@@ -487,6 +590,12 @@ def discover_referrers(
             notes.append("UGC-heavy verified referrer mix with no editorial/institutional share.")
         elif editorial > 0:
             notes.append("Editorial/institutional referrers present — organic buzz likely for large brands.")
+    elif n >= 10:
+        status = "sparse"
+        confidence = "medium"
+        if ugc_share > 0.6 and editorial == 0:
+            geo_suspected = True
+            notes.append("UGC-heavy referrer mix (medium N) with no editorial/institutional share.")
     elif n < 10:
         status = "sparse"
         confidence = "low"
@@ -499,6 +608,18 @@ def discover_referrers(
     else:
         status = "sparse"
         confidence = "medium"
+
+    if (
+        alignment.label == "mismatch"
+        and ugc_share >= 0.8
+        and n >= 5
+        and editorial == 0
+        and geo_suspected is not True
+    ):
+        geo_suspected = True
+        notes.append(
+            "Semantic mismatch: commercial target amplified via homogeneous non-commercial UGC."
+        )
 
     if alignment.label == "coordinated_commercial" and geo_suspected is not True:
         geo_suspected = None
@@ -547,9 +668,12 @@ def investigate_url(
     query: str | None = None,
     engine_name: str | None = None,
     seed_limit: int = 12,
+    seed_mode: str = "auto",
     fixture_path: Path | None = None,
     query_delay_s: float = 0.0,
-    max_fetches: int = 40,
+    max_fetches_per_seed: int = 30,
+    max_verified_referrers: int = 100,
+    min_seeds_before_verified_stop: int = 4,
 ) -> InvestigationResult:
     """Mode B: URL in → L1-L3 always → optional referral discovery."""
     fetch = fetch_page(url)
@@ -557,8 +681,15 @@ def investigate_url(
     report = decide_single_source(source, query_intent, query=query)
     role = classify_content_role(url, fetch=fetch, source=source)
     meta = extract_page_metadata(fetch)
-    seed_conf = seed_confidence_for_role(role)
-    seeds = generate_seed_queries(role, meta, limit=seed_limit)
+    seeds, seed_source, seed_conf = resolve_seed_queries(
+        role,
+        meta,
+        url=fetch.final_url or url,
+        fetch=fetch,
+        source=source,
+        limit=seed_limit,
+        mode=seed_mode,
+    )
 
     engine: EngineAdapter | None = None
     if engine_name and engine_name != "none":
@@ -573,8 +704,11 @@ def investigate_url(
         meta.entity,
         seeds,
         engine,
+        org=meta.org,
         query_delay_s=query_delay_s,
-        max_fetches=max_fetches,
+        max_fetches_per_seed=max_fetches_per_seed,
+        max_verified_referrers=max_verified_referrers,
+        min_seeds_before_verified_stop=min_seeds_before_verified_stop,
         target_role=role,
         target_commercial_tier=commercial_tier,
     )
@@ -590,6 +724,7 @@ def investigate_url(
         target_url=fetch.final_url or url,
         content_role=role,
         seed_confidence=seed_conf,
+        seed_source=seed_source,
         seed_queries=seeds,
         single_page=report,
         llm_action=primary,
@@ -606,6 +741,7 @@ def investigation_to_dict(result: InvestigationResult) -> dict:
         "target_url": result.target_url,
         "content_role": result.content_role,
         "seed_confidence": result.seed_confidence,
+        "seed_source": result.seed_source,
         "seed_queries": result.seed_queries,
         "metadata": asdict(result.metadata),
         "llm_action": result.llm_action,
@@ -648,7 +784,7 @@ def format_investigation_report(result: InvestigationResult) -> str:
         "=" * 60,
         f"Target: {result.target_url}",
         f"Content role: {result.content_role}",
-        f"Seed confidence: {result.seed_confidence}",
+        f"Seed confidence: {result.seed_confidence} ({result.seed_source})",
         f"Entity/topic: {result.metadata.entity}",
         "",
         "── Verdict ──",
@@ -688,7 +824,11 @@ def format_investigation_report(result: InvestigationResult) -> str:
     if rp.referrers_verified:
         lines.extend(["", "── Verified referrers ──"])
         for ref in rp.referrers_verified[:15]:
-            lines.append(f"  [{ref.role}] {ref.connection}: {ref.url}")
+            marker = f" ({ref.matched_marker})" if ref.matched_marker else ""
+            lines.append(
+                f"  [{ref.connection_confidence}] [{ref.role}] "
+                f"{ref.connection}{marker}: {ref.url}"
+            )
     lines.extend(["", "── Seed queries (for optional audit) ──"])
     for i, q in enumerate(result.seed_queries, 1):
         lines.append(f"  {i}. {q}")

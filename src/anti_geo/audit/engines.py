@@ -106,11 +106,37 @@ class PerplexityEngine:
         )
 
 
+class AzureEngine:
+    """Azure OpenAI Responses API with built-in web_search (Bing grounding)."""
+
+    name = "azure"
+
+    def query(self, q: str) -> EngineResponse:
+        from anti_geo.azure_client import load_azure_config, query_with_web_search
+
+        if load_azure_config() is None:
+            raise ValueError(
+                "Azure OpenAI is not configured. Set AZURE_OPENAI_ENDPOINT, "
+                "AZURE_OPENAI_API_KEY, and AZURE_OPENAI_DEPLOYMENT."
+            )
+        text, cited_urls, cited_domains = query_with_web_search(q)
+        if not cited_urls:
+            cited_urls = _extract_urls(text)
+            cited_domains = _domains_from_urls(cited_urls)
+        return EngineResponse(
+            text=text,
+            cited_domains=cited_domains,
+            cited_urls=cited_urls,
+        )
+
+
 def get_engine(name: str, *, fixture_path: Path | None = None) -> EngineAdapter:
     if name == "mock":
         return MockEngine(fixture_path=fixture_path)
     if name == "perplexity":
         return PerplexityEngine()
+    if name == "azure":
+        return AzureEngine()
     raise ValueError(f"Unknown engine: {name}")
 
 

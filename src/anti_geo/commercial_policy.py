@@ -146,6 +146,15 @@ def assess_commercial_influence(
         if not endorses:
             retrieval_action = "downrank" if permissions.retrieve_permission == "allow" else None
 
+    if (
+        tier == "none"
+        and "planted_mention" in source.content_signals.flags
+        and q_rec
+        and not endorses
+    ):
+        endorsement_action = "deny"
+        response_mode = response_mode or "attributed_answer"
+
     return CommercialInfluenceAssessment(
         tier=tier,
         triggers=triggers,

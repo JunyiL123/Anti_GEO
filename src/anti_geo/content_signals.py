@@ -49,6 +49,31 @@ ENDORSEMENT_RE = re.compile(
     r"\b(the best|you should|recommend|go with|breakthrough|widely regarded|outperforms?)\b",
     re.I,
 )
+PERSONAL_NARRATIVE_RE = re.compile(
+    r"\b("
+    r"my (?:dad|mom|father|mother|girlfriend|boyfriend|husband|wife|partner|friends?)|"
+    r"i (?:got|gave|bought|wear|love|dont|don't|wasn't|wasnt|genuinely)|"
+    r"(?:for|on) (?:his|her|my) (?:birthday|anniversary|father'?s day)|"
+    r"every day|still (?:holding|thinking)"
+    r")\b",
+    re.I,
+)
+CONSUMER_CONTEXT_RE = re.compile(
+    r"\b("
+    r"bracelet|pendant|necklace|ring|engraved|jewelry|jewellery|gift|"
+    r"portfolio|trading|invest(?:ing|or|ments)?|lump sum|long[- ]term|broker|market"
+    r")\b",
+    re.I,
+)
+BRAND_IN_NARRATIVE_RE = re.compile(
+    r"\b("
+    r"(?:got|gave|bought|ordered|wear(?:ing)?|using|collecting)\s+(?:\w+\s+){0,10}?"
+    r"(?:from|on|with)\s+[a-z][a-z0-9-]{3,}"
+    r"|"
+    r"(?:bracelet|pendant|necklace|app|platform)\s+(?:from|on)\s+[a-z][a-z0-9-]{3,}"
+    r")\b",
+    re.I,
+)
 TOKEN_RE = re.compile(r"[a-z0-9]+")
 QUERY_STOP = frozenset({"a", "an", "the", "is", "are", "what", "how", "for", "to", "of", "in", "on"})
 
@@ -88,6 +113,34 @@ def chunk_endorses(text: str, content: ContentSignals) -> bool:
     if content.comparative_density > DEFAULT_CONFIG.comparative_flag_threshold:
         return True
     return "comparative_superlatives" in content.flags
+
+
+def detect_planted_mention(text: str, entity: str | None = None) -> bool:
+    """
+    Conversational brand placement: personal narrative + product context, no superlatives.
+    Typical of native Reddit GEO (GrowReddit-style) posts.
+    """
+    words = text.split()
+    if len(words) < 25:
+        return False
+    if ENDORSEMENT_RE.search(text):
+        return False
+    if mentions_alternatives(text):
+        return False
+
+    has_narrative = bool(PERSONAL_NARRATIVE_RE.search(text))
+    has_consumer = bool(CONSUMER_CONTEXT_RE.search(text))
+    has_placement = bool(BRAND_IN_NARRATIVE_RE.search(text))
+
+    if entity:
+        ent_compact = entity.lower().replace(" ", "")
+        text_compact = re.sub(r"\s+", "", text.lower())
+        entity_present = ent_compact in text_compact or entity.lower() in text.lower()
+        if not entity_present:
+            return False
+        return has_narrative and has_consumer
+
+    return has_narrative and has_consumer and has_placement
 
 
 def compute_front_load_score(
@@ -166,6 +219,8 @@ def extract_content_signals(
         flags.append("quote_citation_heavy")
     if mentions_alternatives(text):
         flags.append("mentions_alternatives")
+    if detect_planted_mention(text):
+        flags.append("planted_mention")
 
     return ContentSignals(
         word_count=len(text.split()),
@@ -214,6 +269,10 @@ def compute_endorsement_risk(
     # Underserved endorsement: recommendation query + persuasive chunk + insufficient trust
     if q_rec and endorses and trust_score < config.trust_endorsement_min and not balanced:
         risk = max(risk, config.endorsement_risk_block)
+
+    planted = "planted_mention" in content.flags
+    if planted and q_rec and trust_score < config.trust_endorsement_min:
+        risk = max(risk, config.endorsement_risk_downrank)
 
     return min(1.0, max(0.0, risk))
 

@@ -7,6 +7,9 @@ beautifulsoup4>=4.12
 playwright>=1.40
 # After pip install: `playwright install chromium` OR use system Chrome/Edge (auto-detected)
 
-# Phase 2+ (optional)
-# sentence-transformers>=3.0
-# pyyaml>=6.0
+# Optional: Azure OpenAI (LLM seeds + --engine azure web search)
+# openai>=1.40
+# AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+# AZURE_OPENAI_API_KEY=...
+# AZURE_OPENAI_DEPLOYMENT=gpt-5.5
+# AZURE_OPENAI_API_VERSION=2024-12-01-preview
