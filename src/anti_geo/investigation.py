@@ -17,6 +17,13 @@ from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
 from anti_geo.permissions import derive_llm_actions, merge_llm_actions
 from anti_geo.platform_role import classify_content_role, registrable_domain
 from anti_geo.progress import NullProgress, Progress
+from anti_geo.referrer_content import (
+    ReferrerContentSummary,
+    ReferrerExcerptCandidate,
+    build_excerpt_candidate,
+    referrer_content_tighten_extras,
+    score_top_referrers,
+)
 from anti_geo.scorer import score_source
 from anti_geo.seed_generation import resolve_seed_queries
 
@@ -79,6 +86,13 @@ class VerifiedReferrer:
     connection_confidence: str = "high"  # high | weak
     matched_marker: str = ""
     seed_query: str = ""
+    # Entity-scoped referrer L1 (top-K manipulable only); does not rewrite target trust.
+    content_scored: bool = False
+    content_high_risk: bool = False
+    content_semantic_risk: float = 0.0
+    content_flags: list[str] = field(default_factory=list)
+    content_manipulability: float = 0.0
+    content_segment_role: str = ""
 
 
 @dataclass
@@ -105,6 +119,9 @@ class ReferralProfile:
     referrers_verified: list[VerifiedReferrer] = field(default_factory=list)
     discovery_errors: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
+    referrer_content_scored: int = 0
+    referrer_content_high_risk: int = 0
+    referrer_content_coordinated: bool = False
 
 
 @dataclass
@@ -377,8 +394,25 @@ def _verify_connection(
     return None
 
 
-def _role_for_url(url: str) -> str:
-    return classify_content_role(url)
+def _role_for_url(url: str, fetch: FetchResult | None = None) -> str:
+    return classify_content_role(url, fetch=fetch)
+
+
+def _apply_referrer_content_scores(
+    verified: list[VerifiedReferrer],
+    summary: ReferrerContentSummary,
+) -> None:
+    by_url = {s.url.rstrip("/").lower(): s for s in summary.scores if s.scored}
+    for ref in verified:
+        hit = by_url.get(ref.url.rstrip("/").lower())
+        if hit is None:
+            continue
+        ref.content_scored = True
+        ref.content_high_risk = hit.high_risk
+        ref.content_semantic_risk = hit.semantic_risk
+        ref.content_flags = list(hit.content_flags)
+        ref.content_manipulability = hit.manipulability
+        ref.content_segment_role = hit.segment_role
 
 
 def _is_same_brand(referrer_url: str, target_url: str) -> bool:
@@ -400,6 +434,7 @@ class _DiscoveryState:
     errors: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     stopped_early: bool = False
+    excerpt_candidates: list[ReferrerExcerptCandidate] = field(default_factory=list)
 
 
 def ugc_share_from_mix(mix: dict[str, int], n_verified: int) -> float | None:
@@ -603,14 +638,26 @@ def _parallel_fetch_candidates(
                         hit_fetch_cap = True
                     if final.lower() not in state.seen_verified and conn:
                         state.seen_verified.add(final.lower())
+                        ref_url = fr.final_url or url
+                        role = _role_for_url(ref_url, fr)
                         state.verified.append(
                             VerifiedReferrer(
-                                url=fr.final_url or url,
-                                role=_role_for_url(fr.final_url or url),
+                                url=ref_url,
+                                role=role,
                                 connection=conn.kind,
                                 connection_confidence=conn.confidence,
                                 matched_marker=conn.marker,
                                 seed_query=seed_query,
+                            )
+                        )
+                        state.excerpt_candidates.append(
+                            build_excerpt_candidate(
+                                ref_url,
+                                role=role,
+                                text=fr.text or "",
+                                segments=list(fr.segments or []),
+                                entity=entity,
+                                marker=conn.marker,
                             )
                         )
                     if _verified_cap_reached(
@@ -813,6 +860,10 @@ def discover_referrers(
     target_cited = state.target_cited
     verified = state.verified
 
+    content_summary = score_top_referrers(state.excerpt_candidates, entity=entity)
+    _apply_referrer_content_scores(verified, content_summary)
+    notes.extend(content_summary.notes)
+
     domain_mix = _citation_domain_mix(citations)
 
     if not citations and errors:
@@ -968,7 +1019,33 @@ def discover_referrers(
         referrers_verified=verified,
         discovery_errors=errors,
         notes=notes,
+        referrer_content_scored=content_summary.scored,
+        referrer_content_high_risk=content_summary.high_risk_count,
+        referrer_content_coordinated=content_summary.coordinated,
     )
+
+
+def _mix_tighten_extras(
+    profile: ReferralProfile,
+    *,
+    content_role: str,
+    engine_cited: bool,
+) -> list[str]:
+    if profile.geo_suspected is True:
+        return ["attribute_only", "block_endorsement"]
+    if profile.status == "sparse_suspicious":
+        return ["attribute_only"]
+    if ugc_soft_downrank_band(profile):
+        return ["downrank"]
+    if (
+        profile.n_verified == 0
+        and profile.discovery_status in ("success", "partial")
+        and profile.status != "inconclusive"
+        and content_role not in ("editorial", "institutional")
+        and (engine_cited or profile.target_cited_in_answers > 0)
+    ):
+        return ["downrank"]
+    return []
 
 
 def tighten_actions_with_referral(
@@ -979,35 +1056,25 @@ def tighten_actions_with_referral(
     content_role: str = "",
     engine_cited: bool = False,
 ) -> tuple[str, list[str]]:
-    """Tighten actions from structural referrer mix (never score referrers with L1-L2).
+    """Tighten target actions from referrer mix + top-K referrer L1 evidence.
 
-    Graded severity from UGC/editorial mix (and related flags already set on profile):
-    - geo_suspected (UGC share > 60%, no editorial, sufficient N / mismatch) →
-      attribute_only + block_endorsement
-    - sparse_suspicious (small N, homogeneous UGC cluster) → attribute_only
-    - soft band (UGC share 40–60%, no editorial, N >= 10) → mild downrank
-    - N=0 with AI visibility → mild downrank; skip editorial/institutional targets
-    - Editorial/institutional referrers present → no mix tighten from UGC share
+    Does not mutate the target's trust_score. Referrer content extras come from
+    entity-scoped L1 on structurally manipulable referrers (not host allowlists).
     """
     if profile is None or profile.status == "skipped":
         return primary, list(actions)
 
-    extra: list[str] = []
-    if profile.geo_suspected is True:
-        extra.extend(("attribute_only", "block_endorsement"))
-    elif profile.status == "sparse_suspicious":
-        extra.append("attribute_only")
-    elif ugc_soft_downrank_band(profile):
-        extra.append("downrank")
-    elif (
-        profile.n_verified == 0
-        and profile.discovery_status in ("success", "partial")
-        and profile.status != "inconclusive"
-        and content_role not in ("editorial", "institutional")
-        and (engine_cited or profile.target_cited_in_answers > 0)
-    ):
-        extra.append("downrank")
-
+    content_summary = ReferrerContentSummary(
+        scored=profile.referrer_content_scored,
+        high_risk_count=profile.referrer_content_high_risk,
+        coordinated=profile.referrer_content_coordinated,
+    )
+    extra = [
+        *_mix_tighten_extras(
+            profile, content_role=content_role, engine_cited=engine_cited
+        ),
+        *referrer_content_tighten_extras(content_summary),
+    ]
     if not extra:
         return primary, list(actions)
     return merge_llm_actions(primary, actions, *extra)
@@ -1030,9 +1097,22 @@ def _build_verdict(
             f"GEO suspected from structural UGC mix (referral tightened); "
             f"primary action: {llm_action}."
         )
+    if profile.referrer_content_high_risk >= 2 or profile.referrer_content_coordinated:
+        return (
+            f"High-risk referrer content "
+            f"(scored={profile.referrer_content_scored}, "
+            f"high_risk={profile.referrer_content_high_risk}, "
+            f"coordinated={profile.referrer_content_coordinated}); "
+            f"primary action: {llm_action}."
+        )
     if profile.status == "sparse_suspicious":
         return (
             f"Sparse UGC-heavy footprint (referral tightened); "
+            f"primary action: {llm_action}."
+        )
+    if profile.referrer_content_high_risk == 1:
+        return (
+            f"One high-risk referrer excerpt — soft downrank; "
             f"primary action: {llm_action}."
         )
     if ugc_soft_downrank_band(profile):
@@ -1257,6 +1337,9 @@ def format_investigation_report(result: InvestigationResult) -> str:
         f"  Citation mix (all): {rp.citations_domain_mix or '{}'}",
         f"  Verified mix: {rp.mix or '{}'}",
         f"  GEO suspected: {rp.geo_suspected}",
+        f"  Referrer content scored: {rp.referrer_content_scored} "
+        f"(high_risk={rp.referrer_content_high_risk}, "
+        f"coordinated={rp.referrer_content_coordinated})",
     ]
     if rp.semantic_alignment:
         sa = rp.semantic_alignment
@@ -1272,9 +1355,16 @@ def format_investigation_report(result: InvestigationResult) -> str:
         lines.extend(["", "── Verified referrers ──"])
         for ref in rp.referrers_verified[:15]:
             marker = f" ({ref.matched_marker})" if ref.matched_marker else ""
+            content_bit = ""
+            if ref.content_scored:
+                risk = "high-risk" if ref.content_high_risk else "ok"
+                content_bit = (
+                    f" | L1 {risk} sem={ref.content_semantic_risk:.2f}"
+                    f" flags={ref.content_flags or []}"
+                )
             lines.append(
                 f"  [{ref.connection_confidence}] [{ref.role}] "
-                f"{ref.connection}{marker}: {ref.url}"
+                f"{ref.connection}{marker}: {ref.url}{content_bit}"
             )
     lines.extend(["", "── Seed queries (for optional audit) ──"])
     for i, q in enumerate(result.seed_queries, 1):

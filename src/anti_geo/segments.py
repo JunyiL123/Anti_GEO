@@ -11,9 +11,8 @@ _FOOTER_HINTS = ("copyright", "all rights reserved", "privacy policy", "terms of
 
 
 def _is_ugc_url(url: str) -> bool:
-    host = urlparse(url).netloc.lower()
     path = urlparse(url).path.lower()
-    return "reddit.com" in host or bool(UGC_PATH_RE.search(path))
+    return bool(UGC_PATH_RE.search(path))
 
 
 def _segment_from_element(tag, role: str, ordinal: int) -> PageSegment | None:

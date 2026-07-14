@@ -713,6 +713,17 @@ def format_query_investigation_report(
                     lines.append(
                         "   Referral mix: GEO suspected (tightens actions)"
                     )
+                if row.referral_profile and (
+                    row.referral_profile.referrer_content_high_risk
+                    or row.referral_profile.referrer_content_coordinated
+                ):
+                    rp = row.referral_profile
+                    lines.append(
+                        f"   Referrer content: {rp.referrer_content_high_risk}/"
+                        f"{rp.referrer_content_scored} high-risk"
+                        f"{' (coordinated)' if rp.referrer_content_coordinated else ''} "
+                        "(tightens actions)"
+                    )
             elif row.mode_b_error:
                 lines.append(f"   Mode B error: {row.mode_b_error}")
             else:

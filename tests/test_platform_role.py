@@ -29,6 +29,22 @@ def test_classify_editorial_picks():
     )
 
 
+def test_classify_post_shaped_path_without_host_allowlist():
+    assert (
+        classify_content_role(
+            "https://www.example.com/posts/UGwxyz_best-earbuds-rec"
+        )
+        == "expert_listicle"
+    )
+
+
+def test_classify_medium_style_p_path():
+    assert (
+        classify_content_role("https://writer.example.com/p/abc123earfun")
+        == "expert_listicle"
+    )
+
+
 def test_classify_commercial_product_amazon():
     fetch = FetchResult(
         url="https://www.amazon.com/dp/B08SHN3TZP",

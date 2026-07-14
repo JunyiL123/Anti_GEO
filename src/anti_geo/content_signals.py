@@ -61,6 +61,7 @@ PERSONAL_NARRATIVE_RE = re.compile(
 CONSUMER_CONTEXT_RE = re.compile(
     r"\b("
     r"bracelet|pendant|necklace|ring|engraved|jewelry|jewellery|gift|"
+    r"earbud(?:s)?|headphones?|buds|wireless|"
     r"portfolio|trading|invest(?:ing|or|ments)?|lump sum|long[- ]term|broker|market"
     r")\b",
     re.I,

@@ -6,21 +6,17 @@ from urllib.parse import urlparse
 from anti_geo.models import FetchResult, PageContextSignals, SourceScore
 
 UGC_PATH_RE = re.compile(r"/(comments|comment|forum|thread|questions|discussion)\b", re.I)
-REVIEW_PROFILE_RE = re.compile(r"/(products/|p/|product-reviews/|reviews/)", re.I)
-EDITORIAL_PICKS_RE = re.compile(r"/(picks|reviews|best-|roundup|guide)/", re.I)
-PRODUCT_PATH_RE = re.compile(r"/(dp/|product/|products/|shop/|buy/|item/)\b", re.I)
-LISTICLE_HOSTS = ("medium.com", "substack.com", "linkedin.com", "dev.to")
-REVIEW_HOSTS = ("g2.com", "capterra.com", "trustpilot.com", "getapp.com", "softwareadvice.com")
-EDITORIAL_HOSTS = (
-    "pcmag.com",
-    "wirecutter.com",
-    "cnet.com",
-    "techradar.com",
-    "theverge.com",
-    "tomsguide.com",
-    "nytimes.com",
-    "forbes.com",
+# Post / newsletter shaped pages — path only, no host brand lists.
+POST_SHAPED_PATH_RE = re.compile(
+    r"/(posts?|pulse|newsletter)/\b|/(posts?|pulse|newsletter)\b|/p/[a-z0-9]",
+    re.I,
 )
+REVIEW_PROFILE_RE = re.compile(
+    r"/(product-reviews/|products/[^/]+/reviews(?:/|$)|/reviews(?:/|$))",
+    re.I,
+)
+EDITORIAL_PICKS_RE = re.compile(r"/(picks|best-|roundup|guide)/", re.I)
+PRODUCT_PATH_RE = re.compile(r"/(dp/|product/|products/|shop/|buy/|item/)\b", re.I)
 
 
 def registrable_domain(hostname: str) -> str:
@@ -29,10 +25,6 @@ def registrable_domain(hostname: str) -> str:
     if len(parts) >= 2:
         return ".".join(parts[-2:])
     return host
-
-
-def _host_matches(host: str, suffixes: tuple[str, ...]) -> bool:
-    return any(host == s or host.endswith("." + s) for s in suffixes)
 
 
 def is_ugc_role(role: str) -> bool:
@@ -46,7 +38,7 @@ def classify_content_role(
     fetch: FetchResult | None = None,
     source: SourceScore | None = None,
 ) -> str:
-    """Infer page role from URL structure and page signals — no domain blocklists."""
+    """Infer page role from URL structure and page signals — no domain brand lists."""
     parsed = urlparse(url)
     host = parsed.netloc.lower().removeprefix("www.")
     path = parsed.path.lower()
@@ -54,17 +46,17 @@ def classify_content_role(
     if host.endswith(".gov") or host.endswith(".edu"):
         return "institutional"
 
-    if "reddit.com" in host or UGC_PATH_RE.search(path):
+    if UGC_PATH_RE.search(path):
         return "ugc_thread"
 
-    if _host_matches(host, REVIEW_HOSTS) or REVIEW_PROFILE_RE.search(path):
+    if EDITORIAL_PICKS_RE.search(path):
+        return "editorial"
+
+    if REVIEW_PROFILE_RE.search(path):
         return "review_profile"
 
-    if _host_matches(host, LISTICLE_HOSTS) or (host.endswith("medium.com") and "/p/" in path):
+    if POST_SHAPED_PATH_RE.search(path):
         return "expert_listicle"
-
-    if _host_matches(host, EDITORIAL_HOSTS) or EDITORIAL_PICKS_RE.search(path):
-        return "editorial"
 
     page_ctx: PageContextSignals | None = None
     if source and source.page_context:
