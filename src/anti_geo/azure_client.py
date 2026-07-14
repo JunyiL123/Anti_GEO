@@ -3,11 +3,59 @@ from __future__ import annotations
 import json
 import os
 import re
+import threading
+from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Iterator
 from urllib.parse import urlparse
 
 _URL_RE = re.compile(r"https?://[^\s\])>\"']+")
+
+# Cap concurrent Azure calls so Mode A can raise site_workers without
+# bursting RPM (web_search + seed chat share this gate).
+_DEFAULT_AZURE_API_MAX_CONCURRENCY = 8
+_azure_api_sem: threading.Semaphore | None = None
+_azure_api_sem_n: int | None = None
+_azure_api_sem_lock = threading.Lock()
+
+
+def azure_api_max_concurrency() -> int:
+    raw = os.environ.get("AZURE_API_MAX_CONCURRENCY", "").strip()
+    if not raw:
+        return _DEFAULT_AZURE_API_MAX_CONCURRENCY
+    try:
+        return max(1, int(raw))
+    except ValueError:
+        return _DEFAULT_AZURE_API_MAX_CONCURRENCY
+
+
+def _get_azure_api_semaphore() -> threading.Semaphore:
+    global _azure_api_sem, _azure_api_sem_n
+    n = azure_api_max_concurrency()
+    with _azure_api_sem_lock:
+        if _azure_api_sem is None or _azure_api_sem_n != n:
+            _azure_api_sem = threading.Semaphore(n)
+            _azure_api_sem_n = n
+        return _azure_api_sem
+
+
+@contextmanager
+def azure_api_slot() -> Iterator[None]:
+    """Acquire one global Azure API concurrency slot."""
+    sem = _get_azure_api_semaphore()
+    sem.acquire()
+    try:
+        yield
+    finally:
+        sem.release()
+
+
+def reset_azure_api_semaphore_for_tests() -> None:
+    """Drop the cached semaphore (tests only)."""
+    global _azure_api_sem, _azure_api_sem_n
+    with _azure_api_sem_lock:
+        _azure_api_sem = None
+        _azure_api_sem_n = None
 
 
 @dataclass(frozen=True)
@@ -96,13 +144,14 @@ def chat_completion_json(
         base_kwargs["temperature"] = temperature
 
     last_exc: Exception | None = None
-    for extra in ({"response_format": {"type": "json_object"}}, {}):
-        try:
-            response = client.chat.completions.create(**base_kwargs, **extra)
-            raw = response.choices[0].message.content or "{}"
-            return _parse_json_object(raw)
-        except Exception as exc:
-            last_exc = exc
+    with azure_api_slot():
+        for extra in ({"response_format": {"type": "json_object"}}, {}):
+            try:
+                response = client.chat.completions.create(**base_kwargs, **extra)
+                raw = response.choices[0].message.content or "{}"
+                return _parse_json_object(raw)
+            except Exception as exc:
+                last_exc = exc
     assert last_exc is not None
     raise last_exc
 
@@ -211,12 +260,13 @@ def query_with_web_search(
     if cfg is None:
         raise ValueError("Azure OpenAI is not configured.")
     client = get_azure_responses_client(cfg)
-    response = client.responses.create(
-        model=cfg.deployment,
-        tools=[{"type": "web_search"}],
-        input=query,
-        include=["web_search_call.action.sources"],
-    )
+    with azure_api_slot():
+        response = client.responses.create(
+            model=cfg.deployment,
+            tools=[{"type": "web_search"}],
+            input=query,
+            include=["web_search_call.action.sources"],
+        )
     text = getattr(response, "output_text", "") or ""
     answer, pool = extract_citation_sets(response, fallback_text=text)
     cited = answer if answer else pool

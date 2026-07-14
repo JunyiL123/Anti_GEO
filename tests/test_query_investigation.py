@@ -499,3 +499,50 @@ def test_mode_a_geo_suspected_tightens_pass(monkeypatch):
     row = result.rows[0]
     assert row.llm_action in ("attribute_only", "block_endorsement")
     assert "attribute_only" in row.llm_actions
+
+
+def test_mode_a_reuses_scored_cite_for_mode_b(monkeypatch):
+    """Mode B must not re-fetch/re-score the target after Mode A scoring."""
+    engine = _QueryEngine([COMMERCIAL])
+    fetch_calls: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        fetch_calls.append(url)
+        return _fetch_for(
+            url,
+            title="Neo Laptop | BrandShop",
+            text="Buy the Neo Laptop now. Add to cart. Free shipping.",
+            commercial=True,
+        )
+
+    def boom_fetch(url: str, **kwargs):
+        raise AssertionError(f"Mode B must not re-fetch target: {url}")
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", boom_fetch)
+    monkeypatch.setattr(
+        "anti_geo.investigation.discover_referrers",
+        lambda *a, **k: ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="medium",
+            n_verified=3,
+            mix={"editorial": 2, "ugc_thread": 1},
+        ),
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query(
+        "best neo laptop",
+        engine=engine,
+        site_workers=1,
+        seed_workers=1,
+        fetch_workers=1,
+    )
+    assert result.mode_b_ran == 1
+    assert len(fetch_calls) == 1
+    assert fetch_calls[0] == COMMERCIAL
+    assert result.rows[0].n_verified == 3

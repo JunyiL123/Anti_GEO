@@ -21,6 +21,7 @@ from anti_geo.investigation import (
     ugc_share_from_mix,
 )
 from anti_geo.models import (
+    FetchResult,
     GuardResult,
     IndependenceReport,
     SourceScore,
@@ -35,7 +36,8 @@ from anti_geo.scorer import score_source
 from anti_geo.synthesis_guard import apply_synthesis_guard
 
 # Mode A fast defaults (forensics / --deep uses Mode B CLI caps).
-DEFAULT_SITE_WORKERS = 3
+# site_workers can be high; Azure peak concurrency is capped in azure_client.
+DEFAULT_SITE_WORKERS = 8
 DEFAULT_SEED_LIMIT = 5
 DEFAULT_MAX_VERIFIED = 15
 DEFAULT_MAX_FETCHES_PER_SEED = 12
@@ -125,12 +127,12 @@ def _score_cite(
     *,
     query: str,
     query_intent: str,
-) -> tuple[UrlAnalysisReport, str, bool]:
+) -> tuple[UrlAnalysisReport, str, bool, FetchResult]:
     fetch = fetch_page(url)
     source = score_source(url, fetch, query=query)
     report = decide_single_source(source, query_intent, query=query)
     role = classify_content_role(url, fetch=fetch, source=source)
-    return report, role, is_ugc_role(role)
+    return report, role, is_ugc_role(role), fetch
 
 
 def _row_from_report(
@@ -200,6 +202,9 @@ def _run_mode_b_for_cite(
     seed_workers: int,
     fetch_workers: int,
     adaptive_stop: bool,
+    fetch: FetchResult | None = None,
+    single_page: UrlAnalysisReport | None = None,
+    content_role: str | None = None,
 ) -> CiteInvestigationRow:
     result = investigate_url(
         url,
@@ -218,6 +223,9 @@ def _run_mode_b_for_cite(
         fetch_workers=fetch_workers,
         adaptive_stop=adaptive_stop,
         progress=NullProgress(),
+        fetch=fetch,
+        single_page=single_page,
+        content_role=content_role,
     )
     return _row_from_report(
         result.single_page,
@@ -315,7 +323,28 @@ def investigate_query(
     row_by_url: dict[str, CiteInvestigationRow] = {}
     reports: list[UrlAnalysisReport] = []
     sources_by_url: dict[str, SourceScore] = {}
+    # Mode A fetch/role cache → Mode B reuses (no second target fetch/score).
+    scored_cache: dict[str, tuple[FetchResult, UrlAnalysisReport, str]] = {}
     tried_norms: set[str] = {_norm_url(u) for u in cited_urls}
+
+    def _cache_scored(
+        url: str,
+        fetch: FetchResult,
+        report: UrlAnalysisReport,
+        role: str,
+    ) -> None:
+        scored_cache[url] = (fetch, report, role)
+        scored_cache[report.source.url] = (fetch, report, role)
+        scored_cache[_norm_url(url)] = (fetch, report, role)
+        scored_cache[_norm_url(report.source.url)] = (fetch, report, role)
+
+    def _lookup_scored(
+        url: str,
+    ) -> tuple[FetchResult, UrlAnalysisReport, str] | None:
+        return (
+            scored_cache.get(url)
+            or scored_cache.get(_norm_url(url))
+        )
 
     def _score_batch(
         urls: list[str],
@@ -326,12 +355,16 @@ def investigate_query(
         if not urls:
             return []
         workers = max(1, min(site_workers, len(urls)))
-        results: list[tuple[int, UrlAnalysisReport, str, bool]] = []
+        results: list[tuple[int, UrlAnalysisReport, str, bool, FetchResult]] = []
 
-        def _one(idx_url: tuple[int, str]) -> tuple[int, UrlAnalysisReport, str, bool]:
+        def _one(
+            idx_url: tuple[int, str],
+        ) -> tuple[int, UrlAnalysisReport, str, bool, FetchResult]:
             idx, url = idx_url
-            report, role, is_ugc = _score_cite(url, query=query, query_intent=query_intent)
-            return idx, report, role, is_ugc
+            report, role, is_ugc, fetch = _score_cite(
+                url, query=query, query_intent=query_intent
+            )
+            return idx, report, role, is_ugc, fetch
 
         with ThreadPoolExecutor(max_workers=workers) as pool:
             futures = {pool.submit(_one, (i, u)): i for i, u in enumerate(urls)}
@@ -346,9 +379,10 @@ def investigate_query(
                 )
         results.sort(key=lambda row: row[0])
         out: list[tuple[UrlAnalysisReport, str, bool]] = []
-        for _, report, role, is_ugc in results:
+        for idx, report, role, is_ugc, fetch in results:
             reports.append(report)
             sources_by_url[report.source.url] = report.source
+            _cache_scored(urls[idx], fetch, report, role)
             if is_ugc:
                 row_by_url[report.source.url] = _row_from_report(
                     report,
@@ -454,6 +488,10 @@ def investigate_query(
 
         def _job(url: str) -> tuple[str, CiteInvestigationRow | None, str | None]:
             try:
+                cached = _lookup_scored(url)
+                pre_fetch = cached[0] if cached else None
+                pre_report = cached[1] if cached else None
+                pre_role = cached[2] if cached else None
                 row = _run_mode_b_for_cite(
                     url,
                     query=query,
@@ -470,6 +508,9 @@ def investigate_query(
                     seed_workers=seed_workers,
                     fetch_workers=fetch_workers,
                     adaptive_stop=adaptive_stop,
+                    fetch=pre_fetch,
+                    single_page=pre_report,
+                    content_role=pre_role,
                 )
                 # Preserve from_source_pool flag from pre-score row if present.
                 prior = row_by_url.get(url) or next(

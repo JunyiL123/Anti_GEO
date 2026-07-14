@@ -123,6 +123,31 @@ def test_investigate_url_offline_editorial(monkeypatch):
     assert "L1-L3 primary" in result.verdict
 
 
+def test_investigate_url_reuses_precomputed_score(monkeypatch):
+    fetch = _editorial_fetch()
+    from anti_geo.decisions import decide_single_source
+    from anti_geo.scorer import score_source
+
+    source = score_source(fetch.url, fetch, query=None)
+    report = decide_single_source(source, "commercial", query=None)
+
+    def boom_fetch(url: str, **kwargs):
+        raise AssertionError("precomputed path must not fetch")
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", boom_fetch)
+    result = investigate_url(
+        fetch.url,
+        query_intent="commercial",
+        engine_name=None,
+        fetch=fetch,
+        single_page=report,
+        content_role="editorial",
+    )
+    assert result.content_role == "editorial"
+    assert result.single_page is report
+    assert result.referral_profile.status == "skipped"
+
+
 def test_target_cited_in_response():
     target = "https://www.pcmag.com/picks/the-best-budget-laptops"
     from anti_geo.investigation import _target_cited_in_response

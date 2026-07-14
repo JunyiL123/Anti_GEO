@@ -1,9 +1,13 @@
+import threading
+import time
 from types import SimpleNamespace
 
 from anti_geo.azure_client import (
     AzureOpenAIConfig,
+    azure_api_slot,
     extract_urls_from_response,
     load_azure_config,
+    reset_azure_api_semaphore_for_tests,
 )
 from anti_geo.seed_generation import resolve_seed_queries
 
@@ -13,6 +17,32 @@ def test_load_azure_config_missing(monkeypatch):
     monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
     monkeypatch.delenv("AZURE_OPENAI_DEPLOYMENT", raising=False)
     assert load_azure_config() is None
+
+
+def test_azure_api_slot_caps_concurrency(monkeypatch):
+    monkeypatch.setenv("AZURE_API_MAX_CONCURRENCY", "2")
+    reset_azure_api_semaphore_for_tests()
+    active = 0
+    peak = 0
+    lock = threading.Lock()
+
+    def worker() -> None:
+        nonlocal active, peak
+        with azure_api_slot():
+            with lock:
+                active += 1
+                peak = max(peak, active)
+            time.sleep(0.05)
+            with lock:
+                active -= 1
+
+    threads = [threading.Thread(target=worker) for _ in range(6)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert peak <= 2
+    reset_azure_api_semaphore_for_tests()
 
 
 def test_load_azure_config_from_env(monkeypatch):

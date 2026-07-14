@@ -1042,15 +1042,32 @@ def investigate_url(
     fetch_workers: int = 8,
     adaptive_stop: bool = False,
     engine: EngineAdapter | None = None,
+    fetch: FetchResult | None = None,
+    single_page: UrlAnalysisReport | None = None,
+    content_role: str | None = None,
 ) -> InvestigationResult:
-    """Mode B: L1-L3 + structural referral mix (UGC/editorial) → LLM actions."""
+    """Mode B: L1-L3 + structural referral mix (UGC/editorial) → LLM actions.
+
+    When ``fetch`` and ``single_page`` are provided (Mode A already scored the
+    cite), skip the redundant target fetch + L1-L3 pass.
+    """
     prog = progress or NullProgress()
-    prog.set_counts(0, max_verified_referrers, status="fetch target page")
-    fetch = fetch_page(url)
-    prog.set_status("score L1-L3")
-    source = score_source(url, fetch, query=query)
-    report = decide_single_source(source, query_intent, query=query)
-    role = classify_content_role(url, fetch=fetch, source=source)
+    if fetch is not None and single_page is not None:
+        prog.set_counts(0, max_verified_referrers, status="reuse scored cite")
+        report = single_page
+        source = report.source
+        role = content_role or classify_content_role(
+            url, fetch=fetch, source=source
+        )
+    else:
+        prog.set_counts(0, max_verified_referrers, status="fetch target page")
+        fetch = fetch_page(url)
+        prog.set_status("score L1-L3")
+        source = score_source(url, fetch, query=query)
+        report = decide_single_source(source, query_intent, query=query)
+        role = content_role or classify_content_role(
+            url, fetch=fetch, source=source
+        )
     meta = extract_page_metadata(fetch)
     prog.set_status("generate seed queries")
     seeds, seed_source, seed_conf = resolve_seed_queries(
