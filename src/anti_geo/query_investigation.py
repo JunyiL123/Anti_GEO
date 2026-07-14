@@ -31,6 +31,7 @@ from anti_geo.permissions import derive_llm_actions
 from anti_geo.pipeline import _format_subscores_permissions
 from anti_geo.platform_role import classify_content_role, is_ugc_role
 from anti_geo.progress import NullProgress, Progress
+from anti_geo.query_intent import resolve_query_intent
 from anti_geo.retrieval import ScoredChunk
 from anti_geo.scorer import score_source
 from anti_geo.synthesis_guard import apply_synthesis_guard
@@ -83,6 +84,8 @@ class QueryInvestigationResult:
     ugc_skipped: int
     mode_b_ran: int
     notes: list[str] = field(default_factory=list)
+    intent_source: str = "manual"
+    intent_rule: str | None = None
 
 
 def _dedupe_urls(urls: list[str], *, cap: int | None = DEFAULT_CITE_CAP) -> list[str]:
@@ -263,7 +266,7 @@ def _build_ranked_chunks(
 def investigate_query(
     query: str,
     *,
-    query_intent: str = "commercial",
+    query_intent: str = "auto",
     engine_name: str = "mock",
     fixture_path: Path | None = None,
     engine: EngineAdapter | None = None,
@@ -283,6 +286,8 @@ def investigate_query(
 ) -> QueryInvestigationResult:
     """Mode A: query → cites → L1-L3 all; Mode B only for non-UGC (parallel)."""
     prog = progress or NullProgress()
+    intent_hit = resolve_query_intent(query, query_intent)
+    query_intent = intent_hit.intent
     if deep:
         seed_limit = DEEP_SEED_LIMIT
         max_verified_referrers = DEEP_MAX_VERIFIED
@@ -296,6 +301,9 @@ def investigate_query(
     cited_urls = _dedupe_urls(resp.cited_urls, cap=cite_cap)
     source_pool = _dedupe_urls(getattr(resp, "source_pool_urls", None) or [], cap=None)
     notes: list[str] = []
+    if intent_hit.source != "manual":
+        rule = f", rule={intent_hit.matched_rule}" if intent_hit.matched_rule else ""
+        notes.append(f"Intent resolved via {intent_hit.source}{rule}.")
     if not cited_urls and source_pool:
         cited_urls = source_pool[:POOL_FALLBACK_TRY]
         notes.append(
@@ -316,6 +324,8 @@ def investigate_query(
             ugc_skipped=0,
             mode_b_ran=0,
             notes=notes,
+            intent_source=intent_hit.source,
+            intent_rule=intent_hit.matched_rule,
         )
 
     prog.set_counts(0, len(cited_urls), status="score citations")
@@ -653,6 +663,8 @@ def investigate_query(
         ugc_skipped=ugc_skipped,
         mode_b_ran=mode_b_ran,
         notes=notes,
+        intent_source=intent_hit.source,
+        intent_rule=intent_hit.matched_rule,
     )
 
 
@@ -666,7 +678,9 @@ def format_query_investigation_report(
         "ANTI-GEO INVESTIGATION (Mode A — query)",
         "=" * 60,
         f"Query: {result.query}",
-        f"Intent: {result.query_intent}",
+        f"Intent: {result.query_intent} ({result.intent_source}"
+        + (f", {result.intent_rule}" if result.intent_rule else "")
+        + ")",
         f"Citations: {len(result.rows)}",
     ]
     if result.claim_entity:
@@ -777,6 +791,8 @@ def query_investigation_to_dict(result: QueryInvestigationResult) -> dict:
     return {
         "query": result.query,
         "query_intent": result.query_intent,
+        "intent_source": result.intent_source,
+        "intent_rule": result.intent_rule,
         "cited_urls": result.cited_urls,
         "claim_entity": result.claim_entity,
         "site_workers": result.site_workers,

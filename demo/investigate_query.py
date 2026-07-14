@@ -45,8 +45,11 @@ def main() -> None:
     parser.add_argument("query", help="Search / user query to investigate")
     parser.add_argument(
         "--intent",
-        default="commercial",
-        help="Query intent context (default: commercial)",
+        default="auto",
+        help=(
+            "Query intent: auto (heuristics, then LLM if Azure configured), "
+            "or informational / informational_high_stakes / commercial / navigational"
+        ),
     )
     parser.add_argument(
         "--engine",
