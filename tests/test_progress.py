@@ -4,6 +4,11 @@ import time
 from anti_geo.progress import NullProgress, ProgressBar, _fmt_duration, make_progress
 
 
+class _TtyStringIO(io.StringIO):
+    def isatty(self) -> bool:
+        return True
+
+
 def test_fmt_duration():
     assert _fmt_duration(None) == "--:--"
     assert _fmt_duration(9) == "9s"
@@ -11,25 +16,23 @@ def test_fmt_duration():
     assert _fmt_duration(3661) == "1h01m"
 
 
-def test_progress_bar_draws_and_eta():
-    buf = io.StringIO()
-    bar = ProgressBar(label="Test", stream=buf, min_draw_interval_s=0.0)
-    bar.add_work(4)
-    bar.advance(1, status="step a")
+def test_progress_bar_overwrites_same_line():
+    buf = _TtyStringIO()
+    bar = ProgressBar(label="Test", stream=buf, unit="verified", min_draw_interval_s=0.0)
+    bar.set_counts(0, 50, status="start")
     time.sleep(0.05)
-    bar.advance(1, status="step b")
-    bar.close(final_status="done")
+    bar.set_counts(12, 50, status="mid")
+    bar.close(final_status="done", fill=False)
     out = buf.getvalue()
-    assert "Test [" in out
-    assert "ETA" in out
-    assert "done" in out
+    assert "\r\033[2K" in out
+    assert out.count("\n") == 1  # only the final close newline
+    assert "12/50 verified" in out
     assert out.endswith("\n")
 
 
 def test_null_progress_is_silent():
     prog = NullProgress()
-    prog.add_work(10)
-    prog.advance(3, status="x")
+    prog.set_counts(3, 50, status="x")
     prog.close("y")
 
 

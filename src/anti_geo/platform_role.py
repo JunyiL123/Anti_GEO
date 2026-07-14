@@ -35,6 +35,11 @@ def _host_matches(host: str, suffixes: tuple[str, ...]) -> bool:
     return any(host == s or host.endswith("." + s) for s in suffixes)
 
 
+def is_ugc_role(role: str) -> bool:
+    """True for forums/Reddit-style UGC — Mode A skips Mode B on these cites."""
+    return role == "ugc_thread"
+
+
 def classify_content_role(
     url: str,
     *,

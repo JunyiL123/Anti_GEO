@@ -270,7 +270,7 @@ def test_discover_referrers_stops_after_verified_cap(monkeypatch):
         seed_workers=1,
         fetch_workers=1,
     )
-    assert profile.seed_queries_run == 4
+    assert profile.seed_queries_run == 3
     assert profile.n_verified == 3
     assert any("Stopped after" in note for note in profile.notes)
 
@@ -323,6 +323,57 @@ def test_discover_referrers_parallel_finds_verified(monkeypatch):
     )
     assert profile.seed_queries_run == 6
     assert profile.n_verified == 6
+
+
+def test_parallel_fetch_respects_max_fetches_per_seed(monkeypatch):
+    target = "https://www.pcmag.com/picks/the-best-budget-laptops"
+    fetch_ok = {"n": 0}
+
+    class _Engine:
+        name = "cap"
+
+        def query(self, q: str):
+            from anti_geo.audit.models import EngineResponse
+
+            return EngineResponse(
+                text="answer",
+                cited_domains=["reddit.com"],
+                cited_urls=[
+                    f"https://www.reddit.com/r/laptops/comments/{i}/" for i in range(40)
+                ],
+            )
+
+    def fake_fetch(url: str, **kwargs):
+        fetch_ok["n"] += 1
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="Reddit",
+            text="See pcmag.com/picks/the-best-budget-laptops for picks.",
+            link_count=1,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=20,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    profile = discover_referrers(
+        target,
+        "Budget Laptops",
+        ["one seed"],
+        _Engine(),
+        seed_workers=1,
+        fetch_workers=8,
+        max_fetches_per_seed=5,
+    )
+    assert fetch_ok["n"] == 5
+    assert profile.n_verified == 5
+    assert any("per-seed fetch cap reached" in e for e in profile.discovery_errors)
 
 
 def test_discover_referrers_shuffles_per_seed(monkeypatch):

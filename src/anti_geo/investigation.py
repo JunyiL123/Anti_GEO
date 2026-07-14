@@ -402,13 +402,82 @@ class _DiscoveryState:
     stopped_early: bool = False
 
 
+def ugc_share_from_mix(mix: dict[str, int], n_verified: int) -> float | None:
+    """UGC proportion among verified referrers; None when N is 0."""
+    if n_verified <= 0:
+        return None
+    return mix.get("ugc_thread", 0) / n_verified
+
+
+def _referral_mix_decisive(verified: list[VerifiedReferrer]) -> bool:
+    """True when UGC/editorial mix is already enough to stop early (Mode A fast)."""
+    n = len(verified)
+    if n < 8:
+        return False
+    mix: dict[str, int] = {}
+    for ref in verified:
+        mix[ref.role] = mix.get(ref.role, 0) + 1
+    ugc = mix.get("ugc_thread", 0)
+    editorial = mix.get("editorial", 0) + mix.get("institutional", 0)
+    ugc_share = ugc / n
+    if ugc_share >= 0.8 and editorial == 0:
+        return True
+    if n >= 10 and editorial > 0:
+        return True
+    return False
+
+
 def _verified_cap_reached(
     state: _DiscoveryState,
     *,
     min_seeds: int,
     max_verified: int,
+    adaptive_stop: bool = False,
 ) -> bool:
-    return state.queries_run >= min_seeds and len(state.verified) >= max_verified
+    # Stop as soon as we hit the verified target (min_seeds kept for call-site compat).
+    del min_seeds
+    if max_verified > 0 and len(state.verified) >= max_verified:
+        return True
+    if adaptive_stop and _referral_mix_decisive(state.verified):
+        return True
+    return False
+
+
+def _engine_query_with_heartbeat(
+    engine: EngineAdapter,
+    query: str,
+    *,
+    prog: Progress,
+    status_prefix: str,
+    interval_s: float = 2.0,
+):
+    """Run engine.query while refreshing status so long Azure waits don't look hung."""
+    t0 = time.monotonic()
+    done = threading.Event()
+
+    def _beat() -> None:
+        while not done.wait(interval_s):
+            waited = int(time.monotonic() - t0)
+            prog.set_status(f"{status_prefix} waiting Azure {waited}s")
+
+    thread = threading.Thread(target=_beat, name="anti-geo-azure-beat", daemon=True)
+    thread.start()
+    try:
+        return engine.query(query)
+    finally:
+        done.set()
+        thread.join(timeout=interval_s + 0.5)
+
+
+def _report_verified(
+    prog: Progress,
+    state: _DiscoveryState,
+    max_verified: int,
+    status: str,
+) -> None:
+    with state.lock:
+        n = len(state.verified)
+    prog.set_counts(n, max_verified, status=status)
 
 
 def _parallel_fetch_candidates(
@@ -427,6 +496,7 @@ def _parallel_fetch_candidates(
     fetch_workers: int,
     prog: Progress,
     stop: threading.Event,
+    adaptive_stop: bool = False,
 ) -> None:
     """Fetch citation pages concurrently; cap on successful fetches and verified total."""
     if not candidates:
@@ -434,24 +504,25 @@ def _parallel_fetch_candidates(
 
     workers = max(1, fetch_workers)
     ok_fetches = 0
-    accounted = 0
     hit_fetch_cap = False
     pending: dict[Future, str] = {}
     cand_iter = iter(candidates)
 
-    def _account(n: int = 1) -> None:
-        nonlocal accounted
-        accounted += n
-        prog.advance(n)
+    def _at_success_budget() -> bool:
+        # Reserve in-flight slots so parallel workers cannot overshoot the ok-fetch cap.
+        return ok_fetches + len(pending) >= max_fetches_per_seed
 
     def _should_stop_submitting() -> bool:
         if stop.is_set():
             return True
+        if _at_success_budget():
+            return True
         with state.lock:
-            return ok_fetches >= max_fetches_per_seed or _verified_cap_reached(
+            return _verified_cap_reached(
                 state,
                 min_seeds=min_seeds_before_verified_stop,
                 max_verified=max_verified_referrers,
+                adaptive_stop=adaptive_stop,
             )
 
     def _submit_more(pool: ThreadPoolExecutor) -> None:
@@ -464,7 +535,6 @@ def _parallel_fetch_candidates(
             with state.lock:
                 already = norm in state.fetched_ok
             if already:
-                _account(1)
                 continue
             pending[pool.submit(fetch_page, url, timeout=12.0)] = url
 
@@ -480,17 +550,28 @@ def _parallel_fetch_candidates(
                 except Exception as exc:
                     with state.lock:
                         state.errors.append(f"fetch failed ({url}): {exc}")
-                    prog.set_status(f"{short} fetch error · verified={len(state.verified)}")
-                    _account(1)
+                    _report_verified(
+                        prog,
+                        state,
+                        max_verified_referrers,
+                        f"{short} fetch error",
+                    )
                     _submit_more(pool)
                     continue
 
                 if not fr.ok:
-                    prog.set_status(
-                        f"{short} fetch fail · verified={len(state.verified)}"
+                    _report_verified(
+                        prog,
+                        state,
+                        max_verified_referrers,
+                        f"{short} fetch fail",
                     )
-                    _account(1)
                     _submit_more(pool)
+                    continue
+
+                # Hard cap: ignore extra successes if a race slipped through.
+                if ok_fetches >= max_fetches_per_seed:
+                    hit_fetch_cap = True
                     continue
 
                 cited_norm = url.rstrip("/").lower()
@@ -519,24 +600,24 @@ def _parallel_fetch_candidates(
                         state,
                         min_seeds=min_seeds_before_verified_stop,
                         max_verified=max_verified_referrers,
+                        adaptive_stop=adaptive_stop,
                     ):
                         state.stopped_early = True
                         stop.set()
                     verified_n = len(state.verified)
 
-                prog.set_status(
+                _report_verified(
+                    prog,
+                    state,
+                    max_verified_referrers,
                     f"{short} ok_fetch={ok_fetches}/{max_fetches_per_seed} "
-                    f"· verified={verified_n}"
+                    f"· verified={verified_n}",
                 )
-                _account(1)
                 _submit_more(pool)
 
             if _should_stop_submitting() and not pending:
                 break
 
-    leftover = len(candidates) - accounted
-    if leftover > 0:
-        prog.advance(leftover)
     if hit_fetch_cap:
         with state.lock:
             state.errors.append(
@@ -552,7 +633,7 @@ def discover_referrers(
     *,
     org: str = "",
     max_fetches_per_seed: int = 30,
-    max_verified_referrers: int = 100,
+    max_verified_referrers: int = 50,
     min_seeds_before_verified_stop: int = 4,
     query_delay_s: float = 0.0,
     target_role: str = "unknown",
@@ -560,6 +641,7 @@ def discover_referrers(
     progress: Progress | None = None,
     seed_workers: int = 4,
     fetch_workers: int = 8,
+    adaptive_stop: bool = False,
 ) -> ReferralProfile:
     prog = progress or NullProgress()
     if engine is None:
@@ -578,22 +660,25 @@ def discover_referrers(
     query_gate = threading.Lock()
     last_query_start = 0.0
 
-    prog.add_work(n_seeds)
-    prog.set_status(
-        f"discover 0/{n_seeds} seeds · seed_workers={seed_workers} "
-        f"fetch_workers={fetch_workers}"
+    prog.set_counts(
+        0,
+        max_verified_referrers,
+        status=(
+            f"discover 0/{n_seeds} seeds · seed_workers={seed_workers} "
+            f"fetch_workers={fetch_workers}"
+        ),
     )
 
     def _process_seed(seed_idx: int, q: str) -> None:
         nonlocal last_query_start
         if stop.is_set():
-            prog.advance(1)
             return
 
         short_q = q if len(q) <= 42 else q[:39] + "..."
-        prog.set_status(
+        status_prefix = (
             f"seed {seed_idx + 1}/{n_seeds} engine · verified={len(state.verified)} · {short_q}"
         )
+        _report_verified(prog, state, max_verified_referrers, status_prefix)
 
         with query_gate:
             if query_delay_s > 0 and last_query_start > 0:
@@ -603,11 +688,21 @@ def discover_referrers(
             last_query_start = time.monotonic()
 
         try:
-            resp = engine.query(q)
+            resp = _engine_query_with_heartbeat(
+                engine,
+                q,
+                prog=prog,
+                status_prefix=status_prefix,
+            )
         except Exception as exc:
             with state.lock:
                 state.errors.append(f"engine query failed ({q[:40]}...): {exc}")
-            prog.advance(1, status=f"seed {seed_idx + 1}/{n_seeds} engine failed")
+            _report_verified(
+                prog,
+                state,
+                max_verified_referrers,
+                f"seed {seed_idx + 1}/{n_seeds} engine failed",
+            )
             return
 
         with state.lock:
@@ -621,12 +716,18 @@ def discover_referrers(
                 state,
                 min_seeds=min_seeds_before_verified_stop,
                 max_verified=max_verified_referrers,
+                adaptive_stop=adaptive_stop,
             ):
                 # Cap already met by other workers — skip new fetches.
                 state.stopped_early = True
                 stop.set()
 
-        prog.advance(1)
+        _report_verified(
+            prog,
+            state,
+            max_verified_referrers,
+            f"seed {seed_idx + 1}/{n_seeds} citations={len(resp.cited_urls)}",
+        )
 
         if stop.is_set():
             return
@@ -644,8 +745,6 @@ def discover_referrers(
                 continue
             candidates.append(cited)
         random.shuffle(candidates)
-        if candidates:
-            prog.add_work(len(candidates))
 
         _parallel_fetch_candidates(
             candidates=candidates,
@@ -662,6 +761,7 @@ def discover_referrers(
             fetch_workers=fetch_workers,
             prog=prog,
             stop=stop,
+            adaptive_stop=adaptive_stop,
         )
 
         if state.stopped_early:
@@ -681,9 +781,12 @@ def discover_referrers(
     if state.stopped_early:
         with state.lock:
             if not any("Stopped after" in n for n in state.notes):
+                reason = f"cap {max_verified_referrers}"
+                if adaptive_stop and _referral_mix_decisive(state.verified):
+                    reason = "adaptive mix decisive"
                 state.notes.append(
                     f"Stopped after {state.queries_run} seeds: {len(state.verified)} "
-                    f"verified referrers (cap {max_verified_referrers})."
+                    f"verified referrers ({reason})."
                 )
 
     citations = state.citations
@@ -863,24 +966,24 @@ def investigate_url(
     fixture_path: Path | None = None,
     query_delay_s: float = 0.0,
     max_fetches_per_seed: int = 30,
-    max_verified_referrers: int = 100,
+    max_verified_referrers: int = 50,
     min_seeds_before_verified_stop: int = 4,
     progress: Progress | None = None,
     seed_workers: int = 4,
     fetch_workers: int = 8,
+    adaptive_stop: bool = False,
+    engine: EngineAdapter | None = None,
 ) -> InvestigationResult:
     """Mode B: URL in → L1-L3 always → optional referral discovery."""
     prog = progress or NullProgress()
-    # Setup work units; discovery adds more once seed count / citations are known.
-    prog.add_work(3)
-    prog.set_status("fetch target page")
+    prog.set_counts(0, max_verified_referrers, status="fetch target page")
     fetch = fetch_page(url)
-    prog.advance(1, status="score L1-L3")
+    prog.set_status("score L1-L3")
     source = score_source(url, fetch, query=query)
     report = decide_single_source(source, query_intent, query=query)
     role = classify_content_role(url, fetch=fetch, source=source)
     meta = extract_page_metadata(fetch)
-    prog.advance(1, status="generate seed queries")
+    prog.set_status("generate seed queries")
     seeds, seed_source, seed_conf = resolve_seed_queries(
         role,
         meta,
@@ -890,11 +993,11 @@ def investigate_url(
         limit=seed_limit,
         mode=seed_mode,
     )
-    prog.advance(1, status=f"seeds ready ({len(seeds)}, {seed_source})")
+    prog.set_status(f"seeds ready ({len(seeds)}, {seed_source})")
 
-    engine: EngineAdapter | None = None
-    if engine_name and engine_name != "none":
-        engine = get_engine(engine_name, fixture_path=fixture_path)
+    resolved_engine = engine
+    if resolved_engine is None and engine_name and engine_name != "none":
+        resolved_engine = get_engine(engine_name, fixture_path=fixture_path)
 
     commercial_tier = "none"
     if source.page_context and source.page_context.commercial_tier:
@@ -905,7 +1008,7 @@ def investigate_url(
             url,
             meta.entity,
             seeds,
-            engine,
+            resolved_engine,
             org=meta.org,
             query_delay_s=query_delay_s,
             max_fetches_per_seed=max_fetches_per_seed,
@@ -916,6 +1019,7 @@ def investigate_url(
             progress=prog,
             seed_workers=seed_workers,
             fetch_workers=fetch_workers,
+            adaptive_stop=adaptive_stop,
         )
 
         primary, actions = derive_llm_actions(
@@ -927,7 +1031,11 @@ def investigate_url(
         )
 
         verdict = _build_verdict(primary, profile, role)
-        prog.close(final_status=f"done · verified={profile.n_verified}")
+        hit_cap = profile.n_verified >= max_verified_referrers
+        prog.close(
+            final_status=f"done · verified={profile.n_verified}/{max_verified_referrers}",
+            fill=hit_cap,
+        )
     except Exception:
         prog.close(final_status="failed")
         raise

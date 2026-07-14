@@ -85,8 +85,8 @@ def main() -> None:
     parser.add_argument(
         "--max-verified",
         type=int,
-        default=100,
-        help="Stop after this many verified referrers (once min seeds met)",
+        default=50,
+        help="Stop after this many verified referrers (default 50)",
     )
     parser.add_argument(
         "--min-seeds-before-stop",
