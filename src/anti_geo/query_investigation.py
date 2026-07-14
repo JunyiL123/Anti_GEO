@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
 from anti_geo.audit.engines import EngineAdapter, get_engine
@@ -13,6 +13,7 @@ from anti_geo.independence import analyze_independence
 from anti_geo.investigation import (
     ReferralProfile,
     investigate_url,
+    tighten_actions_with_referral,
     ugc_share_from_mix,
 )
 from anti_geo.models import (
@@ -35,7 +36,10 @@ DEFAULT_SEED_LIMIT = 5
 DEFAULT_MAX_VERIFIED = 15
 DEFAULT_MAX_FETCHES_PER_SEED = 12
 DEFAULT_MIN_SEEDS_BEFORE_STOP = 3
-DEFAULT_CITE_CAP = 15
+DEFAULT_CITE_CAP: int | None = None  # None = keep every unique engine citation
+# When every answer citation is hard-rejected, refill from the grounding pool.
+POOL_FALLBACK_MIN_USABLE = 3  # typical AI answers cite ~3–8; aim for a small usable floor
+POOL_FALLBACK_TRY = 8  # max pool URLs to attempt before giving up
 DEEP_SEED_LIMIT = 12
 DEEP_MAX_VERIFIED = 50
 DEEP_MAX_FETCHES_PER_SEED = 30
@@ -57,6 +61,7 @@ class CiteInvestigationRow:
     ugc_verified_share: float | None = None
     ugc_verified_count: int | None = None
     mode_b_error: str | None = None
+    from_source_pool: bool = False
 
 
 @dataclass
@@ -74,7 +79,7 @@ class QueryInvestigationResult:
     notes: list[str] = field(default_factory=list)
 
 
-def _dedupe_urls(urls: list[str], *, cap: int = DEFAULT_CITE_CAP) -> list[str]:
+def _dedupe_urls(urls: list[str], *, cap: int | None = DEFAULT_CITE_CAP) -> list[str]:
     seen: set[str] = set()
     out: list[str] = []
     for url in urls:
@@ -83,7 +88,7 @@ def _dedupe_urls(urls: list[str], *, cap: int = DEFAULT_CITE_CAP) -> list[str]:
             continue
         seen.add(norm)
         out.append(url)
-        if len(out) >= cap:
+        if cap is not None and len(out) >= cap:
             break
     return out
 
@@ -92,6 +97,23 @@ def _llm_actions_for_report(report: UrlAnalysisReport) -> tuple[str, list[str]]:
     if report.permissions and report.subscores:
         return derive_llm_actions(report.permissions, report.subscores)
     return report.recommended_action, [report.recommended_action]
+
+
+def _cite_is_completely_rejected(report: UrlAnalysisReport) -> bool:
+    """True when the LLM must not mention the source at all."""
+    if report.permissions and report.permissions.mention_permission == "deny":
+        return True
+    primary, _ = _llm_actions_for_report(report)
+    return primary == "reject"
+
+
+def _cite_is_usable(report: UrlAnalysisReport) -> bool:
+    """False only for complete rejection (no mention allowed)."""
+    return not _cite_is_completely_rejected(report)
+
+
+def _norm_url(url: str) -> str:
+    return url.rstrip("/").lower()
 
 
 def _score_cite(
@@ -114,8 +136,17 @@ def _row_from_report(
     is_ugc: bool,
     profile: ReferralProfile | None = None,
     mode_b_error: str | None = None,
+    from_source_pool: bool = False,
 ) -> CiteInvestigationRow:
     primary, actions = _llm_actions_for_report(report)
+    # Mode A rows are engine cites — N=0 successful discovery is AI-visible soft caution.
+    primary, actions = tighten_actions_with_referral(
+        primary,
+        actions,
+        profile,
+        content_role=role,
+        engine_cited=True,
+    )
     trust = report.source.trust_score
     endorsement = (
         report.subscores.endorsement_risk
@@ -144,6 +175,7 @@ def _row_from_report(
         ugc_verified_share=ugc_share,
         ugc_verified_count=ugc_count,
         mode_b_error=mode_b_error,
+        from_source_pool=from_source_pool,
     )
 
 
@@ -233,7 +265,7 @@ def investigate_query(
     max_verified_referrers: int = DEFAULT_MAX_VERIFIED,
     min_seeds_before_verified_stop: int = DEFAULT_MIN_SEEDS_BEFORE_STOP,
     adaptive_stop: bool = True,
-    cite_cap: int = DEFAULT_CITE_CAP,
+    cite_cap: int | None = DEFAULT_CITE_CAP,
     progress: Progress | None = None,
     deep: bool = False,
 ) -> QueryInvestigationResult:
@@ -250,7 +282,14 @@ def investigate_query(
     prog.set_status("engine query for citations")
     resp = resolved.query(query)
     cited_urls = _dedupe_urls(resp.cited_urls, cap=cite_cap)
+    source_pool = _dedupe_urls(getattr(resp, "source_pool_urls", None) or [], cap=None)
     notes: list[str] = []
+    if not cited_urls and source_pool:
+        cited_urls = source_pool[:POOL_FALLBACK_TRY]
+        notes.append(
+            f"No answer citations; starting from grounding pool "
+            f"({len(cited_urls)} of {len(source_pool)})."
+        )
     if not cited_urls:
         notes.append("Engine returned no cited URLs.")
         return QueryInvestigationResult(
@@ -272,35 +311,141 @@ def investigate_query(
     row_by_url: dict[str, CiteInvestigationRow] = {}
     reports: list[UrlAnalysisReport] = []
     sources_by_url: dict[str, SourceScore] = {}
+    tried_norms: set[str] = {_norm_url(u) for u in cited_urls}
 
-    for i, url in enumerate(cited_urls):
-        prog.set_counts(i, len(cited_urls), status=f"score cite {i + 1}/{len(cited_urls)}")
-        report, role, is_ugc = _score_cite(url, query=query, query_intent=query_intent)
-        reports.append(report)
-        sources_by_url[report.source.url] = report.source
-        if is_ugc:
-            row = _row_from_report(
-                report,
-                role=role,
-                is_ugc=True,
-                profile=ReferralProfile(
-                    status="skipped",
-                    discovery_status="skipped",
-                    confidence="low",
-                    notes=["Mode B skipped for UGC cite."],
-                ),
-            )
-            row_by_url[report.source.url] = row
-        else:
-            non_ugc_urls.append(report.source.url)
+    def _score_batch(
+        urls: list[str],
+        *,
+        label: str,
+        from_pool: bool = False,
+    ) -> list[tuple[UrlAnalysisReport, str, bool]]:
+        if not urls:
+            return []
+        workers = max(1, min(site_workers, len(urls)))
+        results: list[tuple[int, UrlAnalysisReport, str, bool]] = []
+
+        def _one(idx_url: tuple[int, str]) -> tuple[int, UrlAnalysisReport, str, bool]:
+            idx, url = idx_url
+            report, role, is_ugc = _score_cite(url, query=query, query_intent=query_intent)
+            return idx, report, role, is_ugc
+
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(_one, (i, u)): i for i, u in enumerate(urls)}
+            done_n = 0
+            for fut in as_completed(futures):
+                results.append(fut.result())
+                done_n += 1
+                prog.set_counts(
+                    done_n,
+                    len(urls),
+                    status=f"{label} {done_n}/{len(urls)} (parallel={workers})",
+                )
+        results.sort(key=lambda row: row[0])
+        out: list[tuple[UrlAnalysisReport, str, bool]] = []
+        for _, report, role, is_ugc in results:
+            reports.append(report)
+            sources_by_url[report.source.url] = report.source
+            if is_ugc:
+                row_by_url[report.source.url] = _row_from_report(
+                    report,
+                    role=role,
+                    is_ugc=True,
+                    profile=ReferralProfile(
+                        status="skipped",
+                        discovery_status="skipped",
+                        confidence="low",
+                        notes=["Mode B skipped for UGC cite."],
+                    ),
+                    from_source_pool=from_pool,
+                )
+            else:
+                non_ugc_urls.append(report.source.url)
+                # Placeholder until Mode B (or keep L1-L3 row if Mode B skipped)
+                if report.source.url not in row_by_url:
+                    row_by_url[report.source.url] = _row_from_report(
+                        report,
+                        role=role,
+                        is_ugc=False,
+                        from_source_pool=from_pool,
+                    )
+            out.append((report, role, is_ugc))
+        return out
+
+    answer_scored = _score_batch(cited_urls, label="score cites")
+    usable_n = sum(1 for report, _, _ in answer_scored if _cite_is_usable(report))
     prog.set_counts(len(cited_urls), len(cited_urls), status="citations scored")
+
+    if usable_n == 0 and source_pool:
+        pool_candidates = [
+            u for u in source_pool if _norm_url(u) not in tried_norms
+        ][:POOL_FALLBACK_TRY]
+        if pool_candidates:
+            notes.append(
+                f"All {len(cited_urls)} answer citations completely rejected "
+                f"(mention denied); trying grounding pool "
+                f"(aim ≥{POOL_FALLBACK_MIN_USABLE} usable, try ≤{len(pool_candidates)})."
+            )
+            # Score pool in small waves so we can stop once we hit the usable floor.
+            pool_usable = 0
+            offset = 0
+            wave = max(1, site_workers)
+            while (
+                offset < len(pool_candidates)
+                and pool_usable < POOL_FALLBACK_MIN_USABLE
+            ):
+                batch = pool_candidates[offset : offset + wave]
+                offset += len(batch)
+                for u in batch:
+                    tried_norms.add(_norm_url(u))
+                    if u not in cited_urls:
+                        cited_urls.append(u)
+                batch_scored = _score_batch(
+                    batch, label="pool fallback", from_pool=True
+                )
+                pool_usable += sum(
+                    1 for report, _, _ in batch_scored if _cite_is_usable(report)
+                )
+            notes.append(
+                f"Pool fallback yielded {pool_usable} usable "
+                f"after trying {min(offset, len(pool_candidates))} URLs."
+            )
+        else:
+            notes.append(
+                "All answer citations completely rejected (mention denied); "
+                "grounding pool empty or exhausted."
+            )
+    elif usable_n == 0:
+        notes.append(
+            "All answer citations completely rejected (mention denied); "
+            "no grounding pool available."
+        )
+    # Mode B only for usable non-UGC (rejected answer cites stay L1-L3 only).
+    mode_b_targets = [
+        u
+        for u in non_ugc_urls
+        if any(
+            _norm_url(r.source.url) == _norm_url(u) and _cite_is_usable(r)
+            for r in reports
+        )
+    ]
+    # Preserve order, unique
+    seen_mb: set[str] = set()
+    mode_b_targets_ordered: list[str] = []
+    for u in mode_b_targets:
+        n = _norm_url(u)
+        if n not in seen_mb:
+            seen_mb.add(n)
+            mode_b_targets_ordered.append(u)
+    non_ugc_urls = mode_b_targets_ordered
 
     site_workers = max(1, min(site_workers, len(non_ugc_urls) or 1))
     mode_b_errors: dict[str, str] = {}
 
     if non_ugc_urls and resolved is not None:
-        prog.set_status(
-            f"Mode B on {len(non_ugc_urls)} non-UGC · site_workers={site_workers}"
+        prog.set_counts(
+            0,
+            len(non_ugc_urls),
+            status=f"Mode B 0/{len(non_ugc_urls)} non-UGC · workers={site_workers}",
         )
 
         def _job(url: str) -> tuple[str, CiteInvestigationRow | None, str | None]:
@@ -322,44 +467,67 @@ def investigate_query(
                     fetch_workers=fetch_workers,
                     adaptive_stop=adaptive_stop,
                 )
+                # Preserve from_source_pool flag from pre-score row if present.
+                prior = row_by_url.get(url) or next(
+                    (
+                        row_by_url[k]
+                        for k in row_by_url
+                        if _norm_url(k) == _norm_url(url)
+                    ),
+                    None,
+                )
+                if prior and prior.from_source_pool:
+                    row = replace(row, from_source_pool=True)
                 return url, row, None
             except Exception as exc:
                 return url, None, str(exc)
 
+        mode_b_done = 0
         with ThreadPoolExecutor(max_workers=site_workers) as pool:
             futures = [pool.submit(_job, u) for u in non_ugc_urls]
             for fut in as_completed(futures):
                 url, row, err = fut.result()
+                mode_b_done += 1
+                prog.set_counts(
+                    mode_b_done,
+                    len(non_ugc_urls),
+                    status=(
+                        f"Mode B {mode_b_done}/{len(non_ugc_urls)} non-UGC "
+                        f"· workers={site_workers}"
+                    ),
+                )
                 if row is not None:
                     row_by_url[row.url] = row
-                    # Prefer Mode B single-page scores for sources map.
                     sources_by_url[row.url] = row.single_page.source
                 elif err:
                     mode_b_errors[url] = err
-                    # Fall back to pre-scored cite row without referral.
                     pre = next(
-                        (r for r in reports if r.source.url.rstrip("/").lower()
-                         == url.rstrip("/").lower()),
+                        (
+                            r
+                            for r in reports
+                            if _norm_url(r.source.url) == _norm_url(url)
+                        ),
                         None,
                     )
                     if pre:
                         role = classify_content_role(url, source=pre.source)
+                        prior = row_by_url.get(pre.source.url)
                         row_by_url[pre.source.url] = _row_from_report(
                             pre,
                             role=role,
                             is_ugc=False,
                             mode_b_error=err,
+                            from_source_pool=bool(prior and prior.from_source_pool),
                         )
 
     elif non_ugc_urls:
         notes.append("No engine — Mode B skipped for non-UGC cites.")
         for url in non_ugc_urls:
             pre = next(
-                (r for r in reports if r.source.url.rstrip("/").lower()
-                 == url.rstrip("/").lower()),
+                (r for r in reports if _norm_url(r.source.url) == _norm_url(url)),
                 None,
             )
-            if pre:
+            if pre and pre.source.url not in row_by_url:
                 role = classify_content_role(url, source=pre.source)
                 row_by_url[pre.source.url] = _row_from_report(
                     pre, role=role, is_ugc=False
@@ -379,23 +547,30 @@ def investigate_query(
         if match:
             ordered_rows.append(match)
 
+    usable_rows = [r for r in ordered_rows if _cite_is_usable(r.single_page)]
+    guard_rows = usable_rows if usable_rows else ordered_rows
     url_texts = {
-        s.url: s.text_excerpt for s in sources_by_url.values() if s.text_excerpt
+        r.url: r.single_page.source.text_excerpt
+        for r in guard_rows
+        if r.single_page.source.text_excerpt
     }
     independence = analyze_independence(url_texts) if len(url_texts) >= 2 else None
-    claim_entity = extract_shared_claim(list(sources_by_url.values()))
-    ranked = _build_ranked_chunks(ordered_rows)
+    claim_entity = extract_shared_claim(
+        [r.single_page.source for r in guard_rows]
+    )
+    ranked = _build_ranked_chunks(guard_rows)
     source_permissions = {
         row.url: row.single_page.permissions
-        for row in ordered_rows
+        for row in guard_rows
         if row.single_page.permissions is not None
     }
+    sources_for_guard = {r.url: r.single_page.source for r in guard_rows}
     guard = None
     if ranked:
         guard = apply_synthesis_guard(
             query,
             ranked,
-            sources_by_url,
+            sources_for_guard,
             query_intent,
             attack_entity=claim_entity,
             source_permissions=source_permissions,
@@ -452,6 +627,8 @@ def format_query_investigation_report(
 
     for i, row in enumerate(result.rows, start=1):
         tag = "ugc" if row.is_ugc else "non-ugc"
+        if row.from_source_pool:
+            tag = f"{tag}+pool"
         lines.append(f"{i}. [{tag}] {row.url}")
         lines.append(
             f"   role={row.content_role}  "
@@ -524,6 +701,7 @@ def query_investigation_to_dict(result: QueryInvestigationResult) -> dict:
             "ugc_verified_share": row.ugc_verified_share,
             "ugc_verified_count": row.ugc_verified_count,
             "mode_b_error": row.mode_b_error,
+            "from_source_pool": row.from_source_pool,
             "subscores": asdict(row.single_page.subscores)
             if row.single_page.subscores
             else None,

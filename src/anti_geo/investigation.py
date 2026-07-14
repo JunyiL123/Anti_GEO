@@ -14,7 +14,7 @@ from anti_geo.audit.engines import EngineAdapter, get_engine
 from anti_geo.decisions import decide_single_source
 from anti_geo.fetch import fetch_page
 from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
-from anti_geo.permissions import derive_llm_actions
+from anti_geo.permissions import derive_llm_actions, merge_llm_actions
 from anti_geo.platform_role import classify_content_role, registrable_domain
 from anti_geo.progress import NullProgress, Progress
 from anti_geo.scorer import score_source
@@ -852,6 +852,15 @@ def discover_referrers(
         )
 
     if n == 0:
+        if not notes:
+            notes = [
+                "No verified referrers after checking citations. Parasitic GEO footprint unlikely."
+            ]
+        if target_cited > 0:
+            notes.append(
+                "AI-cited with zero verified referrers — soft caution "
+                "(milder than young-domain WHOIS; action may downrank)."
+            )
         return ReferralProfile(
             status="sparse",
             discovery_status="success",
@@ -864,8 +873,7 @@ def discover_referrers(
             n_verified=0,
             mix={},
             geo_suspected=False,
-            notes=notes
-            or ["No verified referrers after checking citations. Parasitic GEO footprint unlikely."],
+            notes=notes,
         )
 
     ugc = mix.get("ugc_thread", 0)
@@ -937,6 +945,43 @@ def discover_referrers(
     )
 
 
+def tighten_actions_with_referral(
+    primary: str,
+    actions: list[str],
+    profile: ReferralProfile | None,
+    *,
+    content_role: str = "",
+    engine_cited: bool = False,
+) -> tuple[str, list[str]]:
+    """Map referral-profile risk into LLM actions (tightens only).
+
+    - geo_suspected / sparse_suspicious → at least attribute_only (+ block endorsement
+      when geo_suspected)
+    - successful discovery, N=0, and AI-visible (engine cite or seed-cited) → mild
+      downrank (weaker than young WHOIS trust penalty); skip editorial/institutional
+    """
+    if profile is None or profile.status == "skipped":
+        return primary, list(actions)
+
+    extra: list[str] = []
+    if profile.geo_suspected is True:
+        extra.extend(("attribute_only", "block_endorsement"))
+    elif profile.status == "sparse_suspicious":
+        extra.append("attribute_only")
+    elif (
+        profile.n_verified == 0
+        and profile.discovery_status in ("success", "partial")
+        and profile.status != "inconclusive"
+        and content_role not in ("editorial", "institutional")
+        and (engine_cited or profile.target_cited_in_answers > 0)
+    ):
+        extra.append("downrank")
+
+    if not extra:
+        return primary, list(actions)
+    return merge_llm_actions(primary, actions, *extra)
+
+
 def _build_verdict(
     llm_action: str,
     profile: ReferralProfile,
@@ -947,9 +992,19 @@ def _build_verdict(
     if profile.status == "inconclusive":
         return f"L1-L3 primary ({llm_action}); referral profile inconclusive — do not infer clean."
     if profile.geo_suspected:
-        return f"GEO suspected (profile + L1-L3); primary action: {llm_action}."
+        return f"GEO suspected (referral tightened); primary action: {llm_action}."
     if profile.status == "sparse_suspicious":
-        return f"Sparse UGC-heavy footprint (low confidence); L1-L3 primary ({llm_action})."
+        return f"Sparse UGC-heavy footprint (referral tightened); primary action: {llm_action}."
+    if (
+        profile.n_verified == 0
+        and profile.discovery_status in ("success", "partial")
+        and content_role not in ("editorial", "institutional")
+        and profile.target_cited_in_answers > 0
+    ):
+        return (
+            f"AI-cited with zero verified referrers (soft caution); "
+            f"primary action: {llm_action}."
+        )
     if content_role == "editorial":
         return f"Editorial target — L1-L3 primary ({llm_action}); low external referrer N is expected."
     return f"L1-L3 primary ({llm_action}); referral profile: {profile.status}."
@@ -1028,6 +1083,13 @@ def investigate_url(
         ) if report.permissions and report.subscores else (
             report.recommended_action,
             [report.recommended_action],
+        )
+        primary, actions = tighten_actions_with_referral(
+            primary,
+            actions,
+            profile,
+            content_role=role,
+            engine_cited=False,
         )
 
         verdict = _build_verdict(primary, profile, role)

@@ -1,5 +1,5 @@
 from anti_geo.models import SourcePermissions, SourceSubscores
-from anti_geo.permissions import derive_llm_actions
+from anti_geo.permissions import derive_llm_actions, merge_llm_actions
 
 
 def test_derive_llm_actions_pass_for_clean_source():
@@ -18,3 +18,12 @@ def test_derive_llm_actions_block_endorsement_and_factual():
     assert "downrank" in actions
     assert "block_factual_use" in actions
     assert "block_endorsement" in actions
+
+
+def test_merge_llm_actions_tightens_only():
+    primary, actions = merge_llm_actions("pass", ["pass"], "downrank")
+    assert primary == "downrank"
+    assert "pass" in actions and "downrank" in actions
+
+    primary, actions = merge_llm_actions("reject", ["reject"], "attribute_only")
+    assert primary == "reject"

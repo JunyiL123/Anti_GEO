@@ -189,6 +189,25 @@ def derive_llm_actions(
     return primary, deduped
 
 
+def merge_llm_actions(
+    primary: str,
+    actions: list[str],
+    *extra: str,
+) -> tuple[str, list[str]]:
+    """Tighten (never loosen) primary action by merging extra LLM actions."""
+    if not extra:
+        return primary, list(actions)
+    merged = list(dict.fromkeys([*actions, *extra]))
+
+    def _rank(action: str) -> int:
+        try:
+            return _LLM_ACTION_PRIORITY.index(action)
+        except ValueError:
+            return len(_LLM_ACTION_PRIORITY)
+
+    return min(merged, key=_rank), merged
+
+
 def summarize_recommended_action(
     permissions: SourcePermissions,
     subscores: SourceSubscores,

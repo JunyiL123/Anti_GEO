@@ -277,28 +277,224 @@ def test_parallel_site_workers_completes(monkeypatch):
     assert result.mode_b_ran == 3
 
 
+def test_pool_fallback_when_all_answer_cites_rejected(monkeypatch):
+    from dataclasses import replace
+
+    from anti_geo.decisions import decide_single_source as real_decide
+
+    answer = "https://spam.example/product/bad"
+    pool_good = [
+        "https://www.pcmag.com/picks/the-best-personalized-jewelry",
+        "https://www.wirecutter.com/reviews/best-jewelry/",
+        "https://www.nytimes.com/wirecutter/reviews/jewelry/",
+    ]
+
+    class _EngineWithPool(_QueryEngine):
+        def query(self, q: str) -> EngineResponse:
+            resp = super().query(q)
+            return EngineResponse(
+                text=resp.text,
+                cited_domains=resp.cited_domains,
+                cited_urls=resp.cited_urls,
+                source_pool_urls=list(pool_good),
+            )
+
+    eng = _EngineWithPool([answer])
+
+    def fake_fetch(url: str, **kwargs):
+        return _fetch_for(
+            url,
+            title="Best jewelry",
+            text="Independent editors review personalized jewelry picks carefully.",
+            commercial="spam.example" in url,
+        )
+
+    def fake_decide(source, query_intent="informational", query=None):
+        report = real_decide(source, query_intent, query=query)
+        if "spam.example" in source.url and report.permissions is not None:
+            return replace(
+                report,
+                recommended_action="reject",
+                permissions=replace(
+                    report.permissions,
+                    retrieve_permission="reject",
+                    mention_permission="deny",
+                ),
+            )
+        return report
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.query_investigation.decide_single_source", fake_decide)
+    monkeypatch.setattr(
+        "anti_geo.investigation.discover_referrers",
+        lambda *a, **k: ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="low",
+            n_verified=0,
+            mix={},
+        ),
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query("best jewelry", engine=eng, site_workers=2)
+    assert any("completely rejected" in n or "grounding pool" in n for n in result.notes)
+    pool_rows = [r for r in result.rows if r.from_source_pool]
+    assert len(pool_rows) >= 1
+    usable = [
+        r
+        for r in result.rows
+        if r.single_page.permissions is None
+        or r.single_page.permissions.mention_permission != "deny"
+    ]
+    assert len(usable) >= 1
+
+
 def test_adaptive_stop_helper():
     from anti_geo.investigation import _referral_mix_decisive
 
     few = [
-        VerifiedReferrer(url=f"https://reddit.com/r/x/comments/{i}/", role="ugc_thread", connection="brand_mention")
+        VerifiedReferrer(
+            url=f"https://reddit.com/r/x/comments/{i}/",
+            role="ugc_thread",
+            connection="brand_mention",
+        )
         for i in range(5)
     ]
     assert not _referral_mix_decisive(few)
 
     heavy = [
-        VerifiedReferrer(url=f"https://reddit.com/r/x/comments/{i}/", role="ugc_thread", connection="brand_mention")
+        VerifiedReferrer(
+            url=f"https://reddit.com/r/x/comments/{i}/",
+            role="ugc_thread",
+            connection="brand_mention",
+        )
         for i in range(8)
     ]
     assert _referral_mix_decisive(heavy)
 
     relieved = heavy[:7] + [
-        VerifiedReferrer(url="https://www.pcmag.com/a", role="editorial", connection="url_link")
+        VerifiedReferrer(
+            url="https://www.pcmag.com/a",
+            role="editorial",
+            connection="url_link",
+        )
     ]
     assert not _referral_mix_decisive(relieved)
 
     editorial_n = [
-        VerifiedReferrer(url=f"https://www.pcmag.com/a{i}", role="editorial", connection="url_link")
+        VerifiedReferrer(
+            url=f"https://www.pcmag.com/a{i}",
+            role="editorial",
+            connection="url_link",
+        )
         for i in range(10)
     ]
     assert _referral_mix_decisive(editorial_n)
+
+
+def test_mode_a_zero_verified_soft_downranks_non_editorial(monkeypatch):
+    shop = "https://gldn.example/about/personalized-jewelry-guide"
+    engine = _QueryEngine([shop])
+
+    def fake_fetch(url: str, **kwargs):
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="Personalized Jewelry Guide | GLDN",
+            text=(
+                "A careful overview of personalized jewelry materials, engraving options, "
+                "and sizing tips for buyers who want durable everyday pieces. "
+                "We describe common trade-offs without ranking brands. "
+            )
+            * 8,
+            link_count=12,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=80,
+            has_privacy_page=True,
+            has_contact_page=True,
+            page_context=PageContextSignals(
+                cta_density=0.05,
+                commercial_context_score=0.1,
+                structure_density=0.4,
+                list_item_count=4,
+                table_count=0,
+                has_faq_schema=False,
+                flags=[],
+                commercial_tier="none",
+            ),
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr(
+        "anti_geo.investigation.discover_referrers",
+        lambda *a, **k: ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="medium",
+            n_verified=0,
+            mix={},
+            geo_suspected=False,
+        ),
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query(
+        "personalized jewelry engraving tips",
+        query_intent="informational",
+        engine=engine,
+        site_workers=1,
+    )
+    row = result.rows[0]
+    assert row.n_verified == 0
+    assert row.llm_action == "downrank"
+    assert "downrank" in row.llm_actions
+
+
+def test_mode_a_geo_suspected_tightens_pass(monkeypatch):
+    shop = "https://newbrand.example/products/widget"
+    engine = _QueryEngine([shop])
+
+    def fake_fetch(url: str, **kwargs):
+        return _fetch_for(
+            url,
+            title="Widget | NewBrand",
+            text="Buy the widget now. Best in class. Add to cart today.",
+            commercial=True,
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr(
+        "anti_geo.investigation.discover_referrers",
+        lambda *a, **k: ReferralProfile(
+            status="complete",
+            discovery_status="success",
+            confidence="medium",
+            n_verified=22,
+            mix={"ugc_thread": 20},
+            geo_suspected=True,
+            notes=["UGC-heavy verified referrer mix with no editorial/institutional share."],
+        ),
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query("best widget brand", engine=engine, site_workers=1)
+    row = result.rows[0]
+    assert row.llm_action in ("attribute_only", "block_endorsement")
+    assert "attribute_only" in row.llm_actions

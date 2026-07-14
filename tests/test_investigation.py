@@ -2,6 +2,7 @@ from pathlib import Path
 
 from anti_geo.audit.models import EngineResponse
 from anti_geo.investigation import (
+    ReferralProfile,
     VerifiedReferrer,
     _is_generic_topic_marker,
     _verify_connection,
@@ -10,6 +11,7 @@ from anti_geo.investigation import (
     extract_page_metadata,
     generate_seed_queries,
     investigate_url,
+    tighten_actions_with_referral,
 )
 from anti_geo.models import FetchResult, PageContextSignals
 
@@ -571,3 +573,98 @@ def test_discover_referrers_ignores_generic_topic_pages(monkeypatch):
         org="PCMag",
     )
     assert profile.n_verified == 0
+
+
+def test_tighten_geo_suspected_to_attribute_only():
+    profile = ReferralProfile(
+        status="complete",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=20,
+        mix={"ugc_thread": 18},
+        geo_suspected=True,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="commercial_product",
+    )
+    assert primary in ("attribute_only", "block_endorsement")
+    assert "attribute_only" in actions
+    assert "block_endorsement" in actions
+
+
+def test_tighten_zero_referrers_ai_cited_soft_downrank():
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        mix={},
+        geo_suspected=False,
+        target_cited_in_answers=2,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="commercial_product",
+        engine_cited=False,
+    )
+    assert primary == "downrank"
+    assert "downrank" in actions
+
+
+def test_tighten_zero_referrers_engine_cite_soft_downrank():
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=0,
+    )
+    primary, _ = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="factual_blog",
+        engine_cited=True,
+    )
+    assert primary == "downrank"
+
+
+def test_tighten_zero_referrers_skips_editorial():
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=3,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="editorial",
+        engine_cited=True,
+    )
+    assert primary == "pass"
+    assert actions == ["pass"]
+
+
+def test_tighten_does_not_loosen_reject():
+    profile = ReferralProfile(
+        status="complete",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=25,
+        geo_suspected=True,
+    )
+    primary, _ = tighten_actions_with_referral(
+        "reject",
+        ["reject"],
+        profile,
+        content_role="commercial_product",
+    )
+    assert primary == "reject"
