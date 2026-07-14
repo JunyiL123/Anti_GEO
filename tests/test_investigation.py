@@ -713,3 +713,62 @@ def test_tighten_editorial_mix_does_not_flag():
     )
     assert primary == "pass"
     assert actions == ["pass"]
+
+
+def test_tighten_ugc_soft_band_downranks():
+    """UGC share 40–60%, no editorial, N>=10 → mild downrank (not hard flag)."""
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=19,
+        mix={"ugc_thread": 8, "commercial_product": 11},  # ~42%
+        geo_suspected=False,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="commercial_product",
+    )
+    assert primary == "downrank"
+    assert "downrank" in actions
+    assert "attribute_only" not in actions
+
+
+def test_tighten_ugc_below_soft_band_no_penalty():
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=19,
+        mix={"ugc_thread": 7, "commercial_product": 12},  # ~37%
+        geo_suspected=False,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="commercial_product",
+    )
+    assert primary == "pass"
+    assert actions == ["pass"]
+
+
+def test_tighten_ugc_soft_band_skipped_when_editorial_present():
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=19,
+        mix={"ugc_thread": 8, "editorial": 1, "commercial_product": 10},
+        geo_suspected=False,
+    )
+    primary, actions = tighten_actions_with_referral(
+        "pass",
+        ["pass"],
+        profile,
+        content_role="commercial_product",
+    )
+    assert primary == "pass"
+    assert actions == ["pass"]

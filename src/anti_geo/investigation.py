@@ -409,6 +409,23 @@ def ugc_share_from_mix(mix: dict[str, int], n_verified: int) -> float | None:
     return mix.get("ugc_thread", 0) / n_verified
 
 
+def _editorial_institutional_count(mix: dict[str, int]) -> int:
+    return mix.get("editorial", 0) + mix.get("institutional", 0)
+
+
+def ugc_soft_downrank_band(profile: ReferralProfile) -> bool:
+    """True when UGC share is elevated but below geo_suspected hard flag.
+
+    Soft band: N >= 10, editorial/institutional absent, UGC share in [0.4, 0.6].
+    Hard geo_suspected uses share > 0.6 with the same editorial/N constraints.
+    """
+    n = profile.n_verified
+    if n < 10 or _editorial_institutional_count(profile.mix) > 0:
+        return False
+    share = ugc_share_from_mix(profile.mix, n)
+    return share is not None and 0.4 <= share <= 0.6
+
+
 def _referral_mix_decisive(verified: list[VerifiedReferrer]) -> bool:
     """True when UGC/editorial mix is already enough to stop early (Mode A fast)."""
     n = len(verified)
@@ -877,7 +894,7 @@ def discover_referrers(
         )
 
     ugc = mix.get("ugc_thread", 0)
-    editorial = mix.get("editorial", 0) + mix.get("institutional", 0)
+    editorial = _editorial_institutional_count(mix)
     ugc_share = ugc / n if n else 0.0
 
     status = "sparse"
@@ -892,12 +909,21 @@ def discover_referrers(
             notes.append("UGC-heavy verified referrer mix with no editorial/institutional share.")
         elif editorial > 0:
             notes.append("Editorial/institutional referrers present — organic buzz likely for large brands.")
+        elif editorial == 0 and 0.4 <= ugc_share <= 0.6:
+            notes.append(
+                "Elevated UGC share (40–60%) with no editorial/institutional — soft downrank band."
+            )
     elif n >= 10:
         status = "sparse"
         confidence = "medium"
         if ugc_share > 0.6 and editorial == 0:
             geo_suspected = True
             notes.append("UGC-heavy referrer mix (medium N) with no editorial/institutional share.")
+        elif editorial == 0 and 0.4 <= ugc_share <= 0.6:
+            notes.append(
+                "Elevated UGC share (40–60%, medium N) with no editorial/institutional "
+                "— soft downrank band."
+            )
     elif n < 10:
         status = "sparse"
         confidence = "low"
@@ -956,11 +982,12 @@ def tighten_actions_with_referral(
     """Tighten actions from structural referrer mix (never score referrers with L1-L2).
 
     Graded severity from UGC/editorial mix (and related flags already set on profile):
-    - geo_suspected (high UGC share, no editorial, sufficient N / mismatch) →
+    - geo_suspected (UGC share > 60%, no editorial, sufficient N / mismatch) →
       attribute_only + block_endorsement
     - sparse_suspicious (small N, homogeneous UGC cluster) → attribute_only
+    - soft band (UGC share 40–60%, no editorial, N >= 10) → mild downrank
     - N=0 with AI visibility → mild downrank; skip editorial/institutional targets
-    - Editorial/institutional referrers present → geo_suspected stays false (no mix tighten)
+    - Editorial/institutional referrers present → no mix tighten from UGC share
     """
     if profile is None or profile.status == "skipped":
         return primary, list(actions)
@@ -970,6 +997,8 @@ def tighten_actions_with_referral(
         extra.extend(("attribute_only", "block_endorsement"))
     elif profile.status == "sparse_suspicious":
         extra.append("attribute_only")
+    elif ugc_soft_downrank_band(profile):
+        extra.append("downrank")
     elif (
         profile.n_verified == 0
         and profile.discovery_status in ("success", "partial")
@@ -1004,6 +1033,11 @@ def _build_verdict(
     if profile.status == "sparse_suspicious":
         return (
             f"Sparse UGC-heavy footprint (referral tightened); "
+            f"primary action: {llm_action}."
+        )
+    if ugc_soft_downrank_band(profile):
+        return (
+            f"Elevated UGC share (40–60%, no editorial) — soft downrank; "
             f"primary action: {llm_action}."
         )
     if (
