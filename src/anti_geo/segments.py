@@ -4,15 +4,16 @@ import re
 from urllib.parse import urlparse
 
 from anti_geo.models import PageSegment
-from anti_geo.platform_role import UGC_PATH_RE
+from anti_geo.platform_role import THREAD_PATH_RE
 
 _COMMENT_TESTID_RE = re.compile(r"comment", re.I)
 _FOOTER_HINTS = ("copyright", "all rights reserved", "privacy policy", "terms of use")
 
 
 def _is_ugc_url(url: str) -> bool:
+    """Thread-shaped pages only — comment/main_post HTML split (not LinkedIn/X)."""
     path = urlparse(url).path.lower()
-    return bool(UGC_PATH_RE.search(path))
+    return bool(THREAD_PATH_RE.search(path))
 
 
 def _segment_from_element(tag, role: str, ordinal: int) -> PageSegment | None:

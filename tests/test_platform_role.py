@@ -1,5 +1,10 @@
 from anti_geo.models import FetchResult, PageContextSignals
-from anti_geo.platform_role import classify_content_role, registrable_domain
+from anti_geo.platform_role import (
+    classify_content_role,
+    is_parasitic_referrer,
+    is_ugc_role,
+    registrable_domain,
+)
 
 
 def test_registrable_domain():
@@ -18,6 +23,22 @@ def test_classify_ugc_thread():
     )
 
 
+def test_classify_linkedin_and_x_as_ugc():
+    assert (
+        classify_content_role(
+            "https://www.linkedin.com/posts/someone_activity-123"
+        )
+        == "ugc_thread"
+    )
+    assert (
+        classify_content_role("https://www.linkedin.com/feed/update/urn:li:activity:1")
+        == "ugc_thread"
+    )
+    assert (
+        classify_content_role("https://x.com/user/status/1234567890") == "ugc_thread"
+    )
+
+
 def test_classify_review_profile():
     assert classify_content_role("https://www.g2.com/products/securevault/reviews") == "review_profile"
 
@@ -29,20 +50,39 @@ def test_classify_editorial_picks():
     )
 
 
-def test_classify_post_shaped_path_without_host_allowlist():
+def test_classify_social_posts_are_ugc_not_listicle():
     assert (
         classify_content_role(
             "https://www.example.com/posts/UGwxyz_best-earbuds-rec"
         )
-        == "expert_listicle"
+        == "ugc_thread"
     )
 
 
-def test_classify_medium_style_p_path():
-    assert (
-        classify_content_role("https://writer.example.com/p/abc123earfun")
-        == "expert_listicle"
-    )
+def test_classify_medium_style_p_path_is_listicle_not_ugc():
+    url = "https://writer.example.com/p/abc123earfun"
+    assert classify_content_role(url) == "expert_listicle"
+    assert not is_ugc_role(classify_content_role(url))
+    assert is_parasitic_referrer(url=url, role="expert_listicle")
+
+
+def test_plain_blog_parasitic_only_when_high_risk():
+    url = "https://example.com/blog/my-review"
+    role = classify_content_role(url)
+    assert role == "factual_blog"
+    assert not is_parasitic_referrer(url=url, role=role, content_high_risk=False)
+    assert is_parasitic_referrer(url=url, role=role, content_high_risk=True)
+
+
+def test_editorial_not_parasitic():
+    url = "https://www.pcmag.com/picks/the-best-budget-laptops"
+    assert not is_parasitic_referrer(url=url, role="editorial")
+
+
+def test_is_ugc_role():
+    assert is_ugc_role("ugc_thread")
+    assert not is_ugc_role("expert_listicle")
+    assert not is_ugc_role("editorial")
 
 
 def test_classify_commercial_product_amazon():

@@ -108,6 +108,14 @@ def _cert_age_days(hostname: str) -> int | None:
         return None
 
 
+def _should_flag_deep_subdomain(hostname: str) -> bool:
+    """True for suspiciously deep commercial hosts; .gov/.edu multi-label is normal."""
+    host_l = (hostname or "").lower()
+    if host_l.count(".") < 3:
+        return False
+    return not (host_l.endswith(".gov") or host_l.endswith(".edu"))
+
+
 def extract_domain_signals(url: str, fetch: FetchResult) -> DomainSignals:
     parsed = urlparse(fetch.final_url or url)
     hostname = parsed.hostname or ""
@@ -139,7 +147,8 @@ def extract_domain_signals(url: str, fetch: FetchResult) -> DomainSignals:
     if fetch.redirect_count > 2:
         signals.append(f"excess_redirects_{fetch.redirect_count}")
 
-    if hostname.count(".") >= 3:
+    # Multi-label hosts are normal for .gov/.edu (e.g. www.ncbi.nlm.nih.gov).
+    if _should_flag_deep_subdomain(hostname):
         signals.append("deep_subdomain")
 
     return DomainSignals(

@@ -15,7 +15,10 @@ from anti_geo.models import (
     SourceScore,
 )
 from anti_geo.retrieval import ScoredChunk
-from anti_geo.platform_role import classify_content_role
+from anti_geo.platform_role import (
+    classify_content_role,
+    is_parasitic_referrer,
+)
 from anti_geo.segments import is_low_trust_segment, segment_role_from_chunk_id
 
 ENTITY_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+){0,2})\b")
@@ -94,7 +97,7 @@ def _ugc_only_entity_cluster(
     sources: dict[str, SourceScore],
     entity: str,
 ) -> bool:
-    """True when entity support comes only from low-trust UGC/review fragments."""
+    """True when entity support comes only from parasitic soft surfaces."""
     entity_l = entity.lower()
     supporting = 0
     low_trust_only = 0
@@ -107,11 +110,14 @@ def _ugc_only_entity_cluster(
         supporting += 1
         seg_role = segment_role_from_chunk_id(row.chunk_id)
         page_role = classify_content_role(row.url, source=src)
-        if is_low_trust_segment(seg_role, page_role) or page_role in (
-            "ugc_thread",
-            "review_profile",
-            "expert_listicle",
-        ):
+        flags = list(src.content_signals.flags) if src.content_signals else []
+        high_risk = "planted_mention" in flags or src.semantic_risk >= 0.45
+        parasitic = is_parasitic_referrer(
+            url=row.url,
+            role=page_role,
+            content_high_risk=high_risk,
+        )
+        if is_low_trust_segment(seg_role, page_role) or parasitic:
             low_trust_only += 1
     return supporting >= 1 and supporting == low_trust_only
 

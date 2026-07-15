@@ -72,6 +72,7 @@ Rules:
 - Queries must sound like natural user searches, not SEO keyword stuffing.
 - Content role is "{role}".
 - For commercial_product, review_profile, or expert_listicle: include brand/product names when known (brand hint: "{brand}").
+- For commercial_product, review_profile, expert_listicle, or editorial: at least 3 queries must target community discussion (e.g. "{{brand}} reddit", "site:reddit.com {{brand}}", "is {{brand}} legit", forum/thread phrasing) so referrer discovery can find UGC.
 - For editorial listicles: use comparison/recommendation phrasing ("best X", "top picks", buying guides).
 - For institutional (.gov/.edu style): use organization + policy/topic phrasing.
 - For factual_blog or informational pages: use question-style or explanatory searches grounded in the topic.

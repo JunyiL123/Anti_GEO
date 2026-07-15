@@ -5,6 +5,7 @@ from anti_geo.decisions import (
     decide_corroboration_for_claim,
     decide_single_source,
     extract_shared_claim,
+    resolve_claim_entity,
 )
 from anti_geo.fetch import fetch_page
 from anti_geo.independence import analyze_independence
@@ -79,7 +80,12 @@ def analyze_urls(
     url_texts = {s.url: s.text_excerpt for s in sources if s.text_excerpt}
 
     independence = analyze_independence(url_texts) if len(url_texts) >= 2 else None
-    entity = claim_entity or extract_shared_claim(sources)
+    entity = claim_entity or resolve_claim_entity(
+        sources,
+        query=query,
+        query_intent=query_intent,
+        use_llm=False,
+    )
     corroboration = None
     if entity and independence:
         corroboration = decide_corroboration_for_claim(
@@ -152,7 +158,12 @@ def analyze_query(
     defended, pawc = defended_rerank(
         query, chunk_tuples, sources_by_url, query_intent, top_k=top_k
     )
-    entity = claim_entity or extract_shared_claim([r.source for r in reports])
+    entity = claim_entity or resolve_claim_entity(
+        [r.source for r in reports],
+        query=query,
+        query_intent=query_intent,
+        use_llm=False,
+    )
     source_permissions: dict[str, SourcePermissions] = {
         report.source.url: report.permissions
         for report in reports

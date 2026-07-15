@@ -111,8 +111,10 @@ def _derive_endorsement_permission(
         return "deny"
     if subscores.endorsement_risk >= config.endorsement_risk_block:
         return "deny"
+    # Require a meaningful endorsement-risk floor so 0.001 noise does not
+    # block mid-trust encyclopedias / institutional pages.
     if (
-        subscores.endorsement_risk > 0
+        subscores.endorsement_risk >= config.endorsement_risk_trust_gate
         and subscores.source_trust < config.trust_endorsement_min
     ):
         return "deny"

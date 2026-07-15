@@ -26,6 +26,8 @@ class DefenseConfig:
 
     endorsement_risk_downrank: float = 0.2
     endorsement_risk_block: float = 0.5
+    # Ignore tiny endorsement scores when gating on trust (noise floor).
+    endorsement_risk_trust_gate: float = 0.05
 
     independence_jaccard_threshold: float = 0.45
     pawc_dominance_alert: float = 0.60

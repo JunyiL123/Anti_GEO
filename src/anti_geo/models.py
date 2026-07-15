@@ -4,6 +4,17 @@ from dataclasses import dataclass, field
 
 
 @dataclass
+class PageIdentity:
+    """Brand/org/product hints from og tags + JSON-LD (see page_identity)."""
+
+    site_name: str = ""
+    organization: str = ""
+    brand: str = ""
+    product: str = ""
+    aliases: list[str] = field(default_factory=list)
+
+
+@dataclass
 class PageContextSignals:
     cta_density: float
     commercial_context_score: float
@@ -43,6 +54,7 @@ class FetchResult:
     page_context: PageContextSignals | None = None
     fetch_engine: str = "httpx"
     segments: list[PageSegment] = field(default_factory=list)
+    identity: PageIdentity | None = None
 
 
 @dataclass
@@ -109,6 +121,7 @@ class SourceScore:
     text_excerpt: str = ""
     reasons: list[str] = field(default_factory=list)
     fetch_engine: str = "httpx"
+    identity: PageIdentity | None = None
 
 
 @dataclass

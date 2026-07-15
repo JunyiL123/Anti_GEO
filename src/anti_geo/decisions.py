@@ -2,16 +2,46 @@ from __future__ import annotations
 
 import re
 
+from anti_geo.claim_entity import (
+    brand_from_sources,
+    is_junk_entity,
+    normalize_query_topic,
+    resolve_claim_entity,
+    shared_title_case_claim,
+)
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
 from anti_geo.models import CorroborationReport, SourcePermissions, SourceScore, UrlAnalysisReport
 from anti_geo.permissions import derive_permissions, summarize_recommended_action
 from anti_geo.subscores import _fetch_failure_kind, compute_subscores
 
+# Back-compat aliases used by older tests/importers.
 ENTITY_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+){0,2})\b")
+_is_junk_entity = is_junk_entity
+_normalize_query_topic = normalize_query_topic
+_brand_from_sources = brand_from_sources
+_shared_title_case_claim = shared_title_case_claim
 
 
 def _entities_in_text(text: str) -> list[str]:
-    return [m.group(1) for m in ENTITY_RE.finditer(text)]
+    return [m.group(1) for m in ENTITY_RE.finditer(text or "")]
+
+
+def extract_shared_claim(
+    sources: list[SourceScore],
+    *,
+    query: str | None = None,
+    query_intent: str = "informational",
+    content_roles: list[str] | None = None,
+    use_llm: bool | None = False,
+) -> str | None:
+    """Resolve claim entity (defaults ``use_llm=False`` for offline callers)."""
+    return resolve_claim_entity(
+        sources,
+        query=query,
+        query_intent=query_intent,
+        content_roles=content_roles,
+        use_llm=use_llm,
+    )
 
 
 def _has_persuasive_content(source: SourceScore) -> bool:
@@ -115,17 +145,3 @@ def decide_corroboration_for_claim(
         endorsement_allowed=endorsement_ok,
         reasons=reasons,
     )
-
-
-def extract_shared_claim(sources: list[SourceScore]) -> str | None:
-    """Find capitalized entity mentioned by multiple sources."""
-    counts: dict[str, int] = {}
-    for s in sources:
-        for ent in set(_entities_in_text(s.text_excerpt)):
-            if len(ent) < 4:
-                continue
-            counts[ent] = counts.get(ent, 0) + 1
-    if not counts:
-        return None
-    best = max(counts, key=counts.get)
-    return best if counts[best] >= 1 else None

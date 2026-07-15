@@ -6,12 +6,14 @@ from anti_geo.investigation import (
     VerifiedReferrer,
     _is_generic_topic_marker,
     _verify_connection,
+    _worth_llm_connection_check,
     assess_semantic_alignment,
     discover_referrers,
     extract_page_metadata,
     generate_seed_queries,
     investigate_url,
     tighten_actions_with_referral,
+    verify_connection,
 )
 from anti_geo.models import FetchResult, PageContextSignals
 
@@ -64,7 +66,9 @@ def _editorial_fetch() -> FetchResult:
 def test_extract_metadata_and_editorial_seeds():
     fetch = _editorial_fetch()
     meta = extract_page_metadata(fetch)
-    assert "Best Cheap Laptops" in meta.entity or "2026" in meta.entity
+    # Without structured identity, fall back to cleaned title (not first title token as org).
+    assert meta.entity.lower() != "the"
+    assert "laptop" in meta.entity.lower() or "2026" in meta.topic.lower() or meta.org
     seeds = generate_seed_queries("editorial", meta)
     assert any("best" in s.lower() for s in seeds)
     assert not any(s.startswith("what is The Best") for s in seeds)
@@ -560,6 +564,90 @@ def test_verify_connection_brand_mention():
     assert conn.marker == "theograce"
 
 
+def test_worth_llm_connection_check_accepts_spaced_publisher():
+    target = "https://www.pcmag.com/picks/best-budget-laptops"
+    text = (
+        "PC Magazine's editors ranked the cheapest Chromebooks and Windows "
+        "ultrabooks they tested this year in a long comparison."
+    )
+    assert _worth_llm_connection_check(
+        text.lower(), target, "Budget Laptop Buying Guide 2026", org="PCMag"
+    )
+
+
+def test_verify_connection_llm_backup_accepts_paraphrase(monkeypatch):
+    target = "https://www.pcmag.com/picks/best-budget-laptops"
+    text = (
+        "PC Magazine's editors ranked the cheapest Chromebooks and Windows "
+        "ultrabooks they tested this year in a long comparison for shoppers."
+    )
+    assert _verify_connection(text, text, target, "Budget laptops 2026", org="PCMag") is None
+
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {
+            "refers": True,
+            "marker": "PC Magazine's editors ranked",
+            "reason": "publisher paraphrase",
+        },
+    )
+    conn = verify_connection(
+        text, text, target, "Budget laptops 2026", org="PCMag", use_llm=True
+    )
+    assert conn is not None
+    assert conn.kind == "llm_mention"
+    assert conn.confidence == "weak"
+    assert "PC Magazine" in conn.marker
+
+
+def test_verify_connection_llm_backup_rejects_generic_topic(monkeypatch):
+    target = "https://www.pcmag.com/picks/best-ad-blockers"
+    entity = "The Best Ad Blockers We've Tested for 2026"
+    text = (
+        "Here are the best ad blockers we recommend for Chrome and Safari "
+        "across desktop and mobile browsers in 2026 with extended notes."
+    )
+    calls = {"n": 0}
+
+    def fake_llm(*a, **k):
+        calls["n"] += 1
+        return {"refers": True, "marker": "should not run", "reason": "nope"}
+
+    monkeypatch.setattr("anti_geo.investigation.chat_completion_json", fake_llm)
+    # No pcmag / publisher signal → lexical gate skips LLM.
+    assert verify_connection(text, text, target, entity, org="", use_llm=True) is None
+    assert calls["n"] == 0
+
+
+def test_verify_connection_llm_backup_false_stays_none(monkeypatch):
+    target = "https://shop.theograce.com/products/bracelet"
+    text = (
+        "People talking about theo grace style jewelry trends this season "
+        "without naming a specific store or product page to buy from."
+    )
+    # Deterministic may already hit "theo grace"/"theograce"; force no det hit
+    # by using entity tokens that only loosely relate after gate.
+    monkeypatch.setattr(
+        "anti_geo.investigation._verify_connection",
+        lambda *a, **k: None,
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {"refers": False, "marker": "", "reason": "style only"},
+    )
+    assert (
+        verify_connection(
+            text,
+            text,
+            target,
+            "Theo Grace Engraved Bracelet",
+            org="Theo Grace",
+            use_llm=True,
+        )
+        is None
+    )
+
+
 def test_discover_referrers_ignores_generic_topic_pages(monkeypatch):
     target = "https://www.pcmag.com/picks/best-ad-blockers"
     engine = _StubEngine(
@@ -715,8 +803,26 @@ def test_tighten_editorial_mix_does_not_flag():
     assert actions == ["pass"]
 
 
-def test_tighten_ugc_soft_band_downranks():
-    """UGC share 40–60%, no editorial, N>=10 → mild downrank (not hard flag)."""
+def _refs(roles_and_urls: list[tuple[str, str]], *, high_risk: bool = False):
+    from anti_geo.investigation import VerifiedReferrer
+
+    return [
+        VerifiedReferrer(
+            url=url,
+            role=role,
+            connection="brand_mention",
+            content_high_risk=high_risk if role == "factual_blog" else False,
+        )
+        for role, url in roles_and_urls
+    ]
+
+
+def test_tighten_parasitic_soft_band_downranks():
+    """Parasitic share 40–60%, no editorial, N>=10 → mild downrank (not hard flag)."""
+    refs = _refs(
+        [("ugc_thread", f"https://reddit.com/r/x/comments/{i}/") for i in range(8)]
+        + [("commercial_product", f"https://shop.example/item/{i}") for i in range(11)]
+    )
     profile = ReferralProfile(
         status="sparse",
         discovery_status="success",
@@ -724,6 +830,7 @@ def test_tighten_ugc_soft_band_downranks():
         n_verified=19,
         mix={"ugc_thread": 8, "commercial_product": 11},  # ~42%
         geo_suspected=False,
+        referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
         "pass",
@@ -736,7 +843,11 @@ def test_tighten_ugc_soft_band_downranks():
     assert "attribute_only" not in actions
 
 
-def test_tighten_ugc_below_soft_band_no_penalty():
+def test_tighten_parasitic_below_soft_band_no_penalty():
+    refs = _refs(
+        [("ugc_thread", f"https://reddit.com/r/x/comments/{i}/") for i in range(7)]
+        + [("commercial_product", f"https://shop.example/item/{i}") for i in range(12)]
+    )
     profile = ReferralProfile(
         status="sparse",
         discovery_status="success",
@@ -744,6 +855,7 @@ def test_tighten_ugc_below_soft_band_no_penalty():
         n_verified=19,
         mix={"ugc_thread": 7, "commercial_product": 12},  # ~37%
         geo_suspected=False,
+        referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
         "pass",
@@ -755,7 +867,12 @@ def test_tighten_ugc_below_soft_band_no_penalty():
     assert actions == ["pass"]
 
 
-def test_tighten_ugc_soft_band_skipped_when_editorial_present():
+def test_tighten_parasitic_soft_band_skipped_when_editorial_present():
+    refs = _refs(
+        [("ugc_thread", f"https://reddit.com/r/x/comments/{i}/") for i in range(8)]
+        + [("editorial", "https://pcmag.com/picks/best-laptops")]
+        + [("commercial_product", f"https://shop.example/item/{i}") for i in range(10)]
+    )
     profile = ReferralProfile(
         status="sparse",
         discovery_status="success",
@@ -763,6 +880,7 @@ def test_tighten_ugc_soft_band_skipped_when_editorial_present():
         n_verified=19,
         mix={"ugc_thread": 8, "editorial": 1, "commercial_product": 10},
         geo_suspected=False,
+        referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
         "pass",
@@ -772,3 +890,27 @@ def test_tighten_ugc_soft_band_skipped_when_editorial_present():
     )
     assert primary == "pass"
     assert actions == ["pass"]
+
+
+def test_parasitic_share_counts_medium_p_and_high_risk_blog():
+    from anti_geo.investigation import parasitic_share_from_verified
+
+    refs = _refs(
+        [
+            ("expert_listicle", "https://medium.com/p/abc123parasite"),
+            ("factual_blog", "https://example.com/blog/review"),
+            ("commercial_product", "https://shop.example/dp/1"),
+        ]
+    )
+    refs[1].content_high_risk = True
+    share = parasitic_share_from_verified(refs)
+    assert share == 2 / 3
+
+
+def test_plain_blog_does_not_inflate_parasitic_share():
+    from anti_geo.investigation import parasitic_share_from_verified
+
+    refs = _refs(
+        [("factual_blog", f"https://example.com/blog/post-{i}") for i in range(10)]
+    )
+    assert parasitic_share_from_verified(refs) == 0.0

@@ -75,6 +75,27 @@ BRAND_IN_NARRATIVE_RE = re.compile(
     r")\b",
     re.I,
 )
+REVIEW_FRAMING_RE = re.compile(
+    r"\b("
+    r"review|reviewed|pros?\b|cons?\b|specs?|unboxing|verdict|"
+    r"compared\s+to|versus|\bvs\.?\b|affiliate|sponsored"
+    r")\b",
+    re.I,
+)
+ENTITY_PLACEMENT_RE = re.compile(
+    r"\b(?:from|on|with|via|using|through|bought\s+(?:at|from)|ordered\s+(?:from|on))\s+",
+    re.I,
+)
+# "I got EarFun buds" / "bought lemonn ..." without an explicit from/on.
+ENTITY_ACQUISITION_RE = re.compile(
+    r"\b(?:got|gave|bought|ordered|wear(?:ing)?|using|tried|collecting)\b",
+    re.I,
+)
+# Fintech / app planted posts often use the brand as the venue, not "from Brand".
+ENTITY_PLATFORM_CONTEXT_RE = re.compile(
+    r"\b(portfolio|app|platform|broker|trading|account|lump\s+sum)\b",
+    re.I,
+)
 TOKEN_RE = re.compile(r"[a-z0-9]+")
 QUERY_STOP = frozenset({"a", "an", "the", "is", "are", "what", "how", "for", "to", "of", "in", "on"})
 
@@ -116,10 +137,70 @@ def chunk_endorses(text: str, content: ContentSignals) -> bool:
     return "comparative_superlatives" in content.flags
 
 
+def _entity_variants(entity: str) -> set[str]:
+    ent = entity.lower().strip()
+    if not ent:
+        return set()
+    variants = {ent, ent.replace(" ", ""), ent.replace(" ", "-")}
+    return {v for v in variants if len(v) >= 3}
+
+
+def _entity_span_iter(text_lower: str, entity: str):
+    """Yield match spans for entity allowing optional spaces (theo grace / theograce)."""
+    ent = entity.lower().strip()
+    if not ent:
+        return
+    variants = _entity_variants(entity)
+    if " " in ent:
+        flexible = re.escape(ent).replace(r"\ ", r"\s*")
+        for m in re.finditer(flexible, text_lower):
+            yield m
+    compact = re.sub(r"[^a-z0-9]", "", ent)
+    # Compact brands often appear spaced in posts (“theo grace”).
+    if len(compact) >= 6:
+        flex_compact = r"\s*".join(re.escape(c) for c in compact)
+        for m in re.finditer(flex_compact, text_lower):
+            yield m
+    for variant in variants:
+        for m in re.finditer(re.escape(variant), text_lower):
+            yield m
+
+
+def _entity_soft_placed(text: str, entity: str) -> bool:
+    """True when entity is woven into the story as a product/app placement."""
+    lower = text.lower()
+    if not entity.strip():
+        return False
+    seen: set[tuple[int, int]] = set()
+    for m in _entity_span_iter(lower, entity):
+        key = (m.start(), m.end())
+        if key in seen:
+            continue
+        seen.add(key)
+        before = lower[max(0, m.start() - 40) : m.start()]
+        around = lower[max(0, m.start() - 30) : m.end() + 50]
+        if ENTITY_PLACEMENT_RE.search(before):
+            return True
+        # Acquisition verb shortly before the brand (“I got EarFun buds”).
+        if ENTITY_ACQUISITION_RE.search(before):
+            return True
+        if ENTITY_PLATFORM_CONTEXT_RE.search(around):
+            return True
+        # Typos / near-word portfolio (porfolio) and concurrent app lists.
+        if re.search(r"portfol|invest|lump\s*sum|\band\s+[a-z]{3,}\b", around):
+            return True
+        if BRAND_IN_NARRATIVE_RE.search(lower[max(0, m.start() - 80) : m.end() + 20]):
+            return True
+    return False
+
+
 def detect_planted_mention(text: str, entity: str | None = None) -> bool:
     """
     Conversational brand placement: personal narrative + product context, no superlatives.
     Typical of native Reddit GEO (GrowReddit-style) posts.
+
+    Conservative by design: review/comparison framing and entity-free loose matches
+    are treated as non-planted to limit false positives on organic UGC and blogs.
     """
     words = text.split()
     if len(words) < 25:
@@ -128,20 +209,133 @@ def detect_planted_mention(text: str, entity: str | None = None) -> bool:
         return False
     if mentions_alternatives(text):
         return False
+    # Editorial / review framing is usually organic product discussion, not planted soft-sell.
+    if REVIEW_FRAMING_RE.search(text):
+        return False
 
     has_narrative = bool(PERSONAL_NARRATIVE_RE.search(text))
     has_consumer = bool(CONSUMER_CONTEXT_RE.search(text))
     has_placement = bool(BRAND_IN_NARRATIVE_RE.search(text))
 
-    if entity:
-        ent_compact = entity.lower().replace(" ", "")
-        text_compact = re.sub(r"\s+", "", text.lower())
-        entity_present = ent_compact in text_compact or entity.lower() in text.lower()
-        if not entity_present:
-            return False
-        return has_narrative and has_consumer
+    if not (has_narrative and has_consumer):
+        return False
 
-    return has_narrative and has_consumer and has_placement
+    if entity:
+        spans = list(_entity_span_iter(text.lower(), entity))
+        if not spans:
+            ent_compact = entity.lower().replace(" ", "")
+            text_compact = re.sub(r"\s+", "", text.lower())
+            if ent_compact not in text_compact and entity.lower() not in text.lower():
+                return False
+        # Require soft brand placement, not merely entity string somewhere in the thread.
+        return _entity_soft_placed(text, entity)
+
+    # Without an entity, require explicit brand-in-narrative placement (stricter).
+    return has_placement
+
+
+def diagnose_planted_mention(text: str, entity: str | None = None) -> dict[str, object]:
+    """Explain planted / soft-placement / endorsement gates for mining & labeling.
+
+    ``bucket`` values (mutually oriented for triage, not exclusivity guarantees):
+    - planted_hit: detect_planted_mention True
+    - soft_sell_near_miss: story+consumer+entity, soft-placement failed (FN candidate)
+    - hard_endorsement: open recommend/best language (soft-sell path vetoed)
+    - review_framed: review/comparison framing
+    - other_l1: authority/front-load/etc without planted
+    - clean_or_other: no strong story/endorsement signal
+    """
+    words = text.split()
+    has_narrative = bool(PERSONAL_NARRATIVE_RE.search(text))
+    has_consumer = bool(CONSUMER_CONTEXT_RE.search(text))
+    has_placement = bool(BRAND_IN_NARRATIVE_RE.search(text))
+    review_framed = bool(REVIEW_FRAMING_RE.search(text))
+    hard_endorsement = bool(ENDORSEMENT_RE.search(text))
+    mentions_alts = mentions_alternatives(text)
+
+    entity_present = False
+    soft_placed = False
+    if entity:
+        spans = list(_entity_span_iter(text.lower(), entity))
+        if spans:
+            entity_present = True
+        else:
+            ent_compact = entity.lower().replace(" ", "")
+            text_compact = re.sub(r"\s+", "", text.lower())
+            entity_present = ent_compact in text_compact or entity.lower() in text.lower()
+        soft_placed = _entity_soft_placed(text, entity) if entity_present else False
+
+    planted = detect_planted_mention(text, entity=entity)
+    signals = extract_content_signals(text, entity=entity)
+    l1_flags = list(signals.flags)
+
+    reasons: list[str] = []
+    if len(words) < 25:
+        reasons.append("too_short")
+    if hard_endorsement:
+        reasons.append("hard_endorsement")
+    if mentions_alts:
+        reasons.append("mentions_alternatives")
+    if review_framed:
+        reasons.append("review_framed")
+    if entity and not entity_present:
+        reasons.append("entity_absent")
+    if entity_present and not soft_placed:
+        reasons.append("soft_placement_failed")
+    if not has_narrative:
+        reasons.append("no_narrative")
+    if not has_consumer:
+        reasons.append("no_consumer_context")
+    if planted:
+        reasons.append("planted_hit")
+
+    if planted:
+        bucket = "planted_hit"
+    elif hard_endorsement and entity_present:
+        bucket = "hard_endorsement"
+    elif (
+        entity_present
+        and has_narrative
+        and has_consumer
+        and not soft_placed
+        and not review_framed
+        and not hard_endorsement
+        and not mentions_alts
+        and len(words) >= 25
+    ):
+        bucket = "soft_sell_near_miss"
+    elif review_framed and entity_present:
+        bucket = "review_framed"
+    elif any(
+        f in l1_flags
+        for f in (
+            "authority_stacking",
+            "comparative_superlatives",
+            "front_loaded",
+            "quote_citation_heavy",
+            "high_stakes_medical_claim",
+        )
+    ):
+        bucket = "other_l1"
+    else:
+        bucket = "clean_or_other"
+
+    return {
+        "bucket": bucket,
+        "planted": planted,
+        "entity_present": entity_present,
+        "soft_placed": soft_placed,
+        "has_narrative": has_narrative,
+        "has_consumer": has_consumer,
+        "has_brand_in_narrative": has_placement,
+        "hard_endorsement": hard_endorsement,
+        "review_framed": review_framed,
+        "mentions_alternatives": mentions_alts,
+        "semantic_risk": round(signals.semantic_risk, 4),
+        "l1_flags": l1_flags,
+        "reasons": reasons,
+        "word_count": len(words),
+    }
 
 
 def compute_front_load_score(
@@ -179,6 +373,8 @@ def extract_content_signals(
     text: str,
     query: str | None = None,
     config: DefenseConfig = DEFAULT_CONFIG,
+    *,
+    entity: str | None = None,
 ) -> ContentSignals:
     if not text.strip():
         return ContentSignals(
@@ -220,7 +416,7 @@ def extract_content_signals(
         flags.append("quote_citation_heavy")
     if mentions_alternatives(text):
         flags.append("mentions_alternatives")
-    if detect_planted_mention(text):
+    if detect_planted_mention(text, entity=entity):
         flags.append("planted_mention")
 
     return ContentSignals(

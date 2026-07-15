@@ -65,6 +65,46 @@ def test_is_ugc_role():
     assert is_ugc_role("ugc_thread")
     assert not is_ugc_role("editorial")
     assert not is_ugc_role("commercial_product")
+    assert not is_ugc_role("expert_listicle")
+
+
+def test_mode_b_skips_linkedin_cite(monkeypatch):
+    linkedin = "https://www.linkedin.com/posts/someone_best-widget-rec"
+    engine = _QueryEngine([linkedin, COMMERCIAL])
+    discover_calls: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        if "linkedin.com" in url:
+            return _fetch_for(url, title="post", text="saw this widget recommended " * 20)
+        return _fetch_for(
+            url,
+            title="Neo Laptop | BrandShop",
+            text="Buy the Neo Laptop now. Add to cart. Free shipping.",
+            commercial=True,
+        )
+
+    def fake_discover(target_url, entity, seeds, engine, **kwargs):
+        discover_calls.append(target_url)
+        return ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="low",
+            n_verified=0,
+            mix={},
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", fake_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query("best widget", engine=engine, site_workers=1)
+    assert any(r.is_ugc and "linkedin.com" in r.url for r in result.rows)
+    assert all("linkedin.com" not in u for u in discover_calls)
+    assert result.ugc_skipped >= 1
 
 
 def test_investigate_query_skips_mode_b_for_ugc(monkeypatch):
@@ -141,7 +181,7 @@ def test_investigate_query_skips_mode_b_for_ugc(monkeypatch):
     non_ugc = [r for r in result.rows if not r.is_ugc]
     assert non_ugc
     assert all(r.n_verified is not None for r in non_ugc)
-    assert all(r.ugc_verified_share is not None for r in non_ugc)
+    assert all(r.parasitic_verified_share is not None for r in non_ugc)
     # discover_referrers must never run against the Reddit cite
     assert all("reddit.com" not in u for u in discover_calls)
     assert any("brandshop.com" in u for u in discover_calls)
@@ -168,6 +208,22 @@ def test_format_hides_verified_lines_for_ugc(monkeypatch):
             confidence="medium",
             n_verified=12,
             mix={"ugc_thread": 10, "editorial": 2},
+            referrers_verified=[
+                VerifiedReferrer(
+                    url=f"https://www.reddit.com/r/x/comments/{i}/",
+                    role="ugc_thread",
+                    connection="brand_mention",
+                )
+                for i in range(10)
+            ]
+            + [
+                VerifiedReferrer(
+                    url=f"https://www.pcmag.com/reviews/{i}",
+                    role="editorial",
+                    connection="url_link",
+                )
+                for i in range(2)
+            ],
         )
 
     monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
@@ -184,7 +240,7 @@ def test_format_hides_verified_lines_for_ugc(monkeypatch):
     assert "[non-ugc]" in text
     assert "LLM action:" in text
     assert "Verified connections:" in text
-    assert "UGC among verified:" in text
+    assert "Parasitic among verified:" in text
     assert "── Cluster risk ──" in text
     # UGC block should not claim verified connections before its LLM action in a brittle way;
     # ensure the ugc section does not include a verified line immediately under the reddit URL.
@@ -461,7 +517,7 @@ def test_mode_a_zero_verified_soft_downranks_non_editorial(monkeypatch):
     assert row.n_verified == 0
     assert row.llm_action == "downrank"
     assert "downrank" in row.llm_actions
-    assert any("structural UGC/editorial mix" in n for n in result.notes)
+    assert any("structural parasitic-surface/editorial mix" in n for n in result.notes)
 
 
 def test_mode_a_geo_suspected_tightens_pass(monkeypatch):

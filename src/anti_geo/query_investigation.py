@@ -1,6 +1,6 @@
 """Mode A — search query → engine cites → L1-L3 + L3 independence.
 
-Non-UGC cites may run Mode B structural referral mix (UGC/editorial proportions),
+Non-UGC cites may run Mode B structural referral mix (parasitic-surface proportions),
 which can tighten LLM actions. Referrers are not re-scored with L1-L2.
 """
 
@@ -11,14 +11,16 @@ from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
 from anti_geo.audit.engines import EngineAdapter, get_engine
-from anti_geo.decisions import decide_single_source, extract_shared_claim
+from anti_geo.decisions import decide_single_source
+from anti_geo.claim_entity import resolve_claim_entity
 from anti_geo.fetch import fetch_page
 from anti_geo.independence import analyze_independence
 from anti_geo.investigation import (
     ReferralProfile,
     investigate_url,
+    parasitic_count_from_verified,
+    parasitic_share_from_verified,
     tighten_actions_with_referral,
-    ugc_share_from_mix,
 )
 from anti_geo.models import (
     FetchResult,
@@ -39,9 +41,9 @@ from anti_geo.synthesis_guard import apply_synthesis_guard
 # Mode A fast defaults (forensics / --deep uses Mode B CLI caps).
 # site_workers can be high; Azure peak concurrency is capped in azure_client.
 DEFAULT_SITE_WORKERS = 8
-DEFAULT_SEED_LIMIT = 5
+DEFAULT_SEED_LIMIT = 12
 DEFAULT_MAX_VERIFIED = 15
-DEFAULT_MAX_FETCHES_PER_SEED = 12
+DEFAULT_MAX_FETCHES_PER_SEED = 30
 DEFAULT_MIN_SEEDS_BEFORE_STOP = 3
 DEFAULT_CITE_CAP: int | None = None  # None = keep every unique engine citation
 # When every answer citation is hard-rejected, refill from the grounding pool.
@@ -65,8 +67,8 @@ class CiteInvestigationRow:
     single_page: UrlAnalysisReport
     referral_profile: ReferralProfile | None = None
     n_verified: int | None = None
-    ugc_verified_share: float | None = None
-    ugc_verified_count: int | None = None
+    parasitic_verified_share: float | None = None
+    parasitic_verified_count: int | None = None
     mode_b_error: str | None = None
     from_source_pool: bool = False
 
@@ -163,12 +165,12 @@ def _row_from_report(
         else report.endorsement_risk
     )
     n_verified: int | None = None
-    ugc_share: float | None = None
-    ugc_count: int | None = None
+    parasitic_share: float | None = None
+    parasitic_count: int | None = None
     if profile is not None and profile.status != "skipped":
         n_verified = profile.n_verified
-        ugc_count = profile.mix.get("ugc_thread", 0)
-        ugc_share = ugc_share_from_mix(profile.mix, profile.n_verified)
+        parasitic_count = parasitic_count_from_verified(profile.referrers_verified)
+        parasitic_share = parasitic_share_from_verified(profile.referrers_verified)
 
     return CiteInvestigationRow(
         url=report.source.url,
@@ -181,8 +183,8 @@ def _row_from_report(
         single_page=report,
         referral_profile=profile,
         n_verified=n_verified,
-        ugc_verified_share=ugc_share,
-        ugc_verified_count=ugc_count,
+        parasitic_verified_share=parasitic_share,
+        parasitic_verified_count=parasitic_count,
         mode_b_error=mode_b_error,
         from_source_pool=from_source_pool,
     )
@@ -205,6 +207,7 @@ def _run_mode_b_for_cite(
     seed_workers: int,
     fetch_workers: int,
     adaptive_stop: bool,
+    use_llm_connection: bool | None = None,
     fetch: FetchResult | None = None,
     single_page: UrlAnalysisReport | None = None,
     content_role: str | None = None,
@@ -225,6 +228,7 @@ def _run_mode_b_for_cite(
         seed_workers=seed_workers,
         fetch_workers=fetch_workers,
         adaptive_stop=adaptive_stop,
+        use_llm_connection=use_llm_connection,
         progress=NullProgress(),
         fetch=fetch,
         single_page=single_page,
@@ -280,6 +284,7 @@ def investigate_query(
     max_verified_referrers: int = DEFAULT_MAX_VERIFIED,
     min_seeds_before_verified_stop: int = DEFAULT_MIN_SEEDS_BEFORE_STOP,
     adaptive_stop: bool = True,
+    use_llm_connection: bool | None = None,
     cite_cap: int | None = DEFAULT_CITE_CAP,
     progress: Progress | None = None,
     deep: bool = False,
@@ -518,6 +523,7 @@ def investigate_query(
                     seed_workers=seed_workers,
                     fetch_workers=fetch_workers,
                     adaptive_stop=adaptive_stop,
+                    use_llm_connection=use_llm_connection,
                     fetch=pre_fetch,
                     single_page=pre_report,
                     content_role=pre_role,
@@ -610,8 +616,12 @@ def investigate_query(
         if r.single_page.source.text_excerpt
     }
     independence = analyze_independence(url_texts) if len(url_texts) >= 2 else None
-    claim_entity = extract_shared_claim(
-        [r.single_page.source for r in guard_rows]
+    claim_entity = resolve_claim_entity(
+        [r.single_page.source for r in guard_rows],
+        query=query,
+        query_intent=query_intent,
+        content_roles=[r.content_role for r in guard_rows],
+        use_llm=None,
     )
     ranked = _build_ranked_chunks(guard_rows)
     source_permissions = {
@@ -645,7 +655,7 @@ def investigate_query(
     )
     notes.append(
         "Per-cite actions: L1-L3, optionally tightened by Mode B structural "
-        "UGC/editorial mix; L3 independence runs on the cite set."
+        "parasitic-surface/editorial mix; L3 independence runs on the cite set."
     )
     if mode_b_errors:
         notes.append(f"Mode B errors: {len(mode_b_errors)}")
@@ -700,12 +710,15 @@ def format_query_investigation_report(
         )
         if not row.is_ugc:
             if row.n_verified is not None:
-                if row.ugc_verified_share is not None and row.ugc_verified_count is not None:
-                    pct = int(round(row.ugc_verified_share * 100))
+                if (
+                    row.parasitic_verified_share is not None
+                    and row.parasitic_verified_count is not None
+                ):
+                    pct = int(round(row.parasitic_verified_share * 100))
                     lines.append(f"   Verified connections: {row.n_verified}")
                     lines.append(
-                        f"   UGC among verified: {pct}% "
-                        f"({row.ugc_verified_count}/{row.n_verified})"
+                        f"   Parasitic among verified: {pct}% "
+                        f"({row.parasitic_verified_count}/{row.n_verified})"
                     )
                 else:
                     lines.append(f"   Verified connections: {row.n_verified}")
@@ -776,8 +789,8 @@ def query_investigation_to_dict(result: QueryInvestigationResult) -> dict:
             "source_trust": row.source_trust,
             "endorsement_risk": row.endorsement_risk,
             "n_verified": row.n_verified,
-            "ugc_verified_share": row.ugc_verified_share,
-            "ugc_verified_count": row.ugc_verified_count,
+            "parasitic_verified_share": row.parasitic_verified_share,
+            "parasitic_verified_count": row.parasitic_verified_count,
             "mode_b_error": row.mode_b_error,
             "from_source_pool": row.from_source_pool,
             "subscores": asdict(row.single_page.subscores)

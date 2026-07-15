@@ -120,9 +120,28 @@ def _reddit_fetch(slug: str, text: str) -> FetchResult:
     )
 
 
+def test_organic_review_narrative_is_not_planted():
+    text = (
+        "I bought the Keychron C3 Pro after reading a few comparisons. This review covers "
+        "the specs, build quality, and typing feel. Pros: solid aluminum. Cons: stock "
+        "keycaps are average. Compared to other budget boards it holds up well for the price."
+    )
+    assert not detect_planted_mention(text, entity="Keychron")
+    assert "planted_mention" not in extract_content_signals(text, entity="Keychron").flags
+
+
+def test_casual_entity_mention_without_placement_is_not_planted():
+    text = (
+        "my dad and I finally talked for more than a minute yesterday which almost never "
+        "happens. we mostly just sat outside. someone in the comments mentioned theograce "
+        "once but that was not what we were discussing at all tonight with family."
+    )
+    assert not detect_planted_mention(text, entity="theograce")
+
+
 def test_theograce_posts_are_planted_not_commercial_endorsement():
     for slug, query, text in THEOGRACE_POSTS:
-        signals = extract_content_signals(text, query=query)
+        signals = extract_content_signals(text, query=query, entity="theograce")
         assert not chunk_endorses(text, signals), slug
         assert detect_planted_mention(text, entity="theograce"), slug
         assert "planted_mention" in signals.flags, slug
@@ -138,7 +157,7 @@ def test_lemonn_posts_planted_mention_detection():
     assert detect_planted_mention(t2, entity="lemonn")
     assert not detect_planted_mention(t3, entity="lemonn")  # multi-broker list, too short
 
-    assert "planted_mention" in extract_content_signals(t2, query=q2).flags
+    assert "planted_mention" in extract_content_signals(t2, query=q2, entity="lemonn").flags
 
 
 def test_planted_mention_raises_endorsement_risk_on_recommendation_query():
@@ -261,8 +280,8 @@ def test_referral_mismatch_flags_geo_at_medium_n():
 
     ugc = sum(1 for r in refs if r.role == "ugc_thread")
     n = len(refs)
-    ugc_share = ugc / n
-    assert ugc_share >= 0.8 and n >= 5 and alignment.label == "mismatch"
+    parasitic_share = ugc / n
+    assert parasitic_share >= 0.8 and n >= 5 and alignment.label == "mismatch"
 
 
 def test_theograce_role_is_ugc_not_commercial():

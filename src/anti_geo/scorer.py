@@ -60,6 +60,13 @@ def score_source(
         trust -= 0.08
         reasons.append(f"recent_cert_{domain.cert_age_days}d")
 
+    # Structural public-sector TLDs (not brand allowlists). WHOIS is often
+    # unavailable for these, so they otherwise miss the established_domain boost.
+    host = (domain.hostname or "").lower()
+    if fetch.ok and (host.endswith(".gov") or host.endswith(".edu")):
+        trust += 0.10
+        reasons.append("institutional_tld")
+
     if not domain.is_https:
         trust -= 0.12
         reasons.append("no_https")
@@ -101,4 +108,5 @@ def score_source(
         text_excerpt=fetch.text[:500],
         reasons=reasons,
         fetch_engine=fetch.fetch_engine,
+        identity=fetch.identity,
     )

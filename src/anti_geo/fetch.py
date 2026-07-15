@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 from anti_geo.models import FetchResult
 from anti_geo.page_context import extract_page_context
+from anti_geo.page_identity import extract_page_identity
 from anti_geo.segments import extract_page_segments
 
 # Browser-like UA: some hosts (e.g. Wikipedia) reject custom bot identities.
@@ -251,6 +252,7 @@ def _build_fetch_result(
 
     title = soup.title.get_text(strip=True) if soup.title else ""
     text = visible_text
+    identity = extract_page_identity(soup, url=raw.final_url or url, title=title)
 
     link_count = len(soup.find_all("a", href=True))
     broken_ratio = 0.0 if skip_link_check else _check_broken_links(raw.final_url, raw.html)
@@ -276,6 +278,7 @@ def _build_fetch_result(
         page_context=page_context,
         fetch_engine=fetch_engine,
         segments=segments,
+        identity=identity,
     )
 
 

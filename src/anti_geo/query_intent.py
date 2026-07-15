@@ -175,7 +175,6 @@ def classify_query_intent_llm(query: str) -> str:
     payload = chat_completion_json(
         _build_intent_prompt(query),
         config=load_azure_config(),
-        temperature=0.0,
     )
     raw = payload.get("intent") or payload.get("query_intent") or ""
     if not isinstance(raw, str):

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import random
 import re
 import threading
@@ -11,11 +12,17 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from anti_geo.audit.engines import EngineAdapter, get_engine
+from anti_geo.azure_client import chat_completion_json, is_azure_configured, load_azure_config
 from anti_geo.decisions import decide_single_source
 from anti_geo.fetch import fetch_page
 from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
+from anti_geo.page_identity import strip_listicle_boilerplate
 from anti_geo.permissions import derive_llm_actions, merge_llm_actions
-from anti_geo.platform_role import classify_content_role, registrable_domain
+from anti_geo.platform_role import (
+    classify_content_role,
+    is_parasitic_referrer,
+    registrable_domain,
+)
 from anti_geo.progress import NullProgress, Progress
 from anti_geo.referrer_content import (
     ReferrerContentSummary,
@@ -27,6 +34,8 @@ from anti_geo.referrer_content import (
 from anti_geo.scorer import score_source
 from anti_geo.seed_generation import resolve_seed_queries
 
+logger = logging.getLogger(__name__)
+
 PRODUCT_SEED_TEMPLATES = (
     "best {category} 2026",
     "best {category} under {price}",
@@ -36,6 +45,13 @@ PRODUCT_SEED_TEMPLATES = (
     "top {category} recommendations",
     "best budget {category}",
     "{category} buying guide",
+    # Discussion / parasitic-GEO discovery (UGC referrer recall)
+    "{entity} reddit",
+    "{entity} reddit review",
+    "{entity} site:reddit.com",
+    "is {entity} legit reddit",
+    "{category} reddit recommendations",
+    "{entity} forum discussion",
 )
 
 INFORMATIONAL_SEED_TEMPLATES = (
@@ -67,13 +83,14 @@ class PageMetadata:
     topic: str
     price_hint: str
     org: str
+    aliases: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
 class ReferrerConnection:
-    """Deterministic referrer tie — no LLM required for tiering."""
+    """Referrer tie to the target. Deterministic first; ``llm_mention`` is backup-only."""
 
-    kind: str  # url_link | brand_mention
+    kind: str  # url_link | brand_mention | llm_mention
     confidence: str  # high | weak
     marker: str = ""
 
@@ -82,16 +99,18 @@ class ReferrerConnection:
 class VerifiedReferrer:
     url: str
     role: str
-    connection: str  # url_link | brand_mention
+    connection: str  # url_link | brand_mention | llm_mention
     connection_confidence: str = "high"  # high | weak
     matched_marker: str = ""
     seed_query: str = ""
-    # Entity-scoped referrer L1 (top-K manipulable only); does not rewrite target trust.
+    # Entity-scoped referrer L1 (two-tier shortlist); does not rewrite target trust.
     content_scored: bool = False
     content_high_risk: bool = False
     content_semantic_risk: float = 0.0
     content_flags: list[str] = field(default_factory=list)
-    content_manipulability: float = 0.0
+    content_manipulability: float = 0.0  # triage priority = max(thread, edit)
+    content_thread_surface: float = 0.0
+    content_editability: float = 0.0
     content_segment_role: str = ""
 
 
@@ -170,18 +189,62 @@ def _price_hint_from_text(text: str, url: str) -> str:
 
 
 def extract_page_metadata(fetch: FetchResult) -> PageMetadata:
+    """Prefer structured identity (og/JSON-LD); fall back to cleaned title + domain."""
+    from anti_geo.claim_entity import is_usable_claim_label
+
+    url = fetch.final_url or fetch.url
+    domain = registrable_domain(urlparse(url).netloc)
+    publisher = domain.split(".")[0] if domain else domain
     title = _clean_title(fetch.title or "")
-    entity = title or registrable_domain(urlparse(fetch.final_url or fetch.url).netloc)
-    category = _category_from_url(fetch.final_url or fetch.url)
-    topic = title or category
-    org = title.split()[0] if title else registrable_domain(urlparse(fetch.url).netloc)
+    cleaned = strip_listicle_boilerplate(title)
+
+    identity = fetch.identity
+    brand = (identity.brand if identity else "") or ""
+    product = (identity.product if identity else "") or ""
+    organization = (identity.organization if identity else "") or ""
+    site_name = (identity.site_name if identity else "") or ""
+    aliases = [
+        a
+        for a in (list(identity.aliases) if identity and identity.aliases else [])
+        if is_usable_claim_label(a)
+    ]
+
+    org = organization or site_name or brand or publisher or domain
+    # Prefer a concrete product/SKU for seeds + verify markers; else brand; else title.
+    # Skip listicle crumbs ("15 Headphones Forums in") and weak chrome ("topics").
+    if (
+        product
+        and is_usable_claim_label(product)
+        and product.lower() not in {org.lower(), (brand or "").lower()}
+    ):
+        entity = product
+    elif brand and is_usable_claim_label(brand):
+        entity = brand
+    elif cleaned and is_usable_claim_label(cleaned):
+        entity = cleaned
+    elif org and is_usable_claim_label(org):
+        entity = org
+    else:
+        entity = publisher or domain or title
+
+    category = _category_from_url(url)
+    topic = cleaned or title or category
     price = _price_hint_from_text(fetch.text or "", fetch.url)
+
+    # Ensure org/entity land in aliases for referrer verification.
+    for cand in (entity, org, brand, product, site_name, publisher):
+        c = " ".join(str(cand).strip().split())
+        if len(c) >= 4 and c.lower() not in {a.lower() for a in aliases}:
+            if is_usable_claim_label(c):
+                aliases.append(c)
+
     return PageMetadata(
         entity=entity,
         category=category,
         topic=topic,
         price_hint=price,
         org=org,
+        aliases=aliases,
     )
 
 
@@ -198,6 +261,16 @@ def _normalize_category(category: str) -> str:
     if c.lower().startswith("best "):
         return c[5:].strip()
     return c
+
+
+DISCUSSION_SEED_TEMPLATES = (
+    "{entity} reddit",
+    "{entity} reddit review",
+    "{entity} site:reddit.com",
+    "is {entity} legit reddit",
+    "{category} reddit recommendations",
+    "{entity} forum discussion",
+)
 
 
 def generate_seed_queries(role: str, meta: PageMetadata, *, limit: int = 12) -> list[str]:
@@ -228,7 +301,27 @@ def generate_seed_queries(role: str, meta: PageMetadata, *, limit: int = 12) -> 
             queries.append(q)
         if len(queries) >= limit:
             break
-    return queries
+
+    # Ensure discussion seeds for commercial / listicle-shaped pages even when
+    # the primary template table is short or informational.
+    if role in (
+        "commercial_product",
+        "editorial",
+        "expert_listicle",
+        "review_profile",
+        "factual_blog",
+    ):
+        for tpl in DISCUSSION_SEED_TEMPLATES:
+            if len(queries) >= limit:
+                break
+            try:
+                q = tpl.format(**ctx).strip()
+            except KeyError:
+                continue
+            if q and q not in queries:
+                queries.append(q)
+
+    return queries[:limit]
 
 
 _ORG_STOPWORDS = frozenset(
@@ -244,6 +337,36 @@ _ORG_STOPWORDS = frozenset(
         "top",
         "new",
         "www",
+        "home",
+        "store",
+        "shop",
+        "product",
+        "products",
+        "review",
+        "reviews",
+        "guide",
+        "blog",
+        "cheap",
+        "budget",
+        "laptops",
+        "laptop",
+        "headphones",
+        "vpn",
+        "software",
+        "topic",
+        "topics",
+        "forum",
+        "forums",
+        "community",
+        "discussion",
+        "thread",
+        "threads",
+        "index",
+        "messages",
+        "posts",
+        "members",
+        "users",
+        "directory",
     }
 )
 
@@ -265,30 +388,53 @@ _GENERIC_TOPIC_PATTERNS = (
 
 def _is_generic_topic_marker(marker: str) -> bool:
     """True for listicle slugs and headline boilerplate — not target-specific ties."""
+    from anti_geo.claim_entity import is_weak_verify_marker
+
     text = " ".join(marker.strip().lower().split())
     if not text:
+        return True
+    if is_weak_verify_marker(text):
         return True
     return any(pattern.search(text) for pattern in _GENERIC_TOPIC_PATTERNS)
 
 
-def _distinctive_markers(target_url: str, entity: str, org: str) -> list[str]:
+def _distinctive_markers(
+    target_url: str,
+    entity: str,
+    org: str,
+    aliases: list[str] | None = None,
+) -> list[str]:
     """Publisher, org, or product tokens that identify the target — not generic topics."""
     markers: list[str] = []
     domain = registrable_domain(urlparse(target_url).netloc)
     publisher = domain.split(".")[0] if domain else ""
     if len(publisher) >= 4 and publisher not in _ORG_STOPWORDS:
         markers.append(publisher)
-    org_clean = " ".join(org.strip().lower().split())
-    if len(org_clean) >= 4 and org_clean not in _ORG_STOPWORDS:
-        markers.append(org_clean)
+
+    candidates: list[str] = []
+    if org:
+        candidates.append(org)
     if entity:
-        ent = entity.strip().lower()
-        if 4 <= len(ent) <= 80 and not _is_generic_topic_marker(ent):
-            markers.append(ent)
+        candidates.append(entity)
         for chunk in re.split(r"[\|\-–—:]", entity):
-            chunk = " ".join(chunk.strip().lower().split())
-            if 4 <= len(chunk) <= 60 and not _is_generic_topic_marker(chunk):
-                markers.append(chunk)
+            candidates.append(chunk)
+    if aliases:
+        candidates.extend(aliases)
+
+    for raw in candidates:
+        text = " ".join(raw.strip().lower().split())
+        if not text or text in _ORG_STOPWORDS:
+            continue
+        if _is_generic_topic_marker(text):
+            continue
+        # Single generic category nouns are weak ties.
+        if " " not in text and text in _ORG_STOPWORDS:
+            continue
+        if 4 <= len(text) <= 80:
+            markers.append(text)
+        compact = re.sub(r"[^a-z0-9]", "", text)
+        if 5 <= len(compact) <= 80:
+            markers.append(compact)
     return list(dict.fromkeys(markers))
 
 
@@ -372,6 +518,7 @@ def _verify_connection(
     entity: str,
     *,
     org: str = "",
+    aliases: list[str] | None = None,
 ) -> ReferrerConnection | None:
     """Return a referrer tie only for explicit links or distinctive brand/publisher mentions."""
     blob = (html + " " + text).lower()
@@ -388,10 +535,134 @@ def _verify_connection(
     if host_path in blob:
         return ReferrerConnection("url_link", "high", host_path)
 
-    for marker in _distinctive_markers(target_url, entity, org):
+    for marker in _distinctive_markers(target_url, entity, org, aliases=aliases):
         if marker in blob:
             return ReferrerConnection("brand_mention", "weak", marker)
     return None
+
+
+_LLM_CONN_MIN_CHARS = 120
+_LLM_CONN_EXCERPT = 1800
+
+
+def _llm_connection_tokens(
+    target_url: str,
+    entity: str,
+    org: str = "",
+    aliases: list[str] | None = None,
+) -> list[str]:
+    tokens: list[str] = []
+    for raw in _distinctive_markers(target_url, entity, org, aliases=aliases):
+        tokens.append(raw)
+        tokens.extend(p for p in re.split(r"[\s\-_/]+", raw) if len(p) >= 4)
+    return list(dict.fromkeys(tokens))
+
+
+def _worth_llm_connection_check(
+    blob: str,
+    target_url: str,
+    entity: str,
+    *,
+    org: str = "",
+    aliases: list[str] | None = None,
+) -> bool:
+    """Cheap lexical gate so we only spend an LLM call on near-miss pages."""
+    if len(blob) < _LLM_CONN_MIN_CHARS:
+        return False
+    tokens = _llm_connection_tokens(target_url, entity, org, aliases)
+    if not tokens:
+        return False
+    compact = re.sub(r"[^a-z0-9]", "", blob)
+    for tok in tokens:
+        if tok in blob:
+            return True
+        compact_tok = re.sub(r"[^a-z0-9]", "", tok)
+        if len(compact_tok) >= 4 and compact_tok in compact:
+            return True
+    return False
+
+
+def _llm_verify_connection(
+    html: str,
+    text: str,
+    target_url: str,
+    entity: str,
+    *,
+    org: str = "",
+    aliases: list[str] | None = None,
+) -> ReferrerConnection | None:
+    blob = f"{html}\n{text}".strip()
+    if not blob:
+        return None
+    alias_bit = ", ".join(aliases or []) or "(none)"
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You audit whether a web page refers to a specific target site or brand. "
+                "Return JSON only: "
+                '{"refers":true|false,"marker":"short evidence quote","reason":"..."}'
+            ),
+        },
+        {
+            "role": "user",
+            "content": (
+                f"target_url: {target_url}\n"
+                f"entity: {entity}\n"
+                f"organization: {org or '(none)'}\n"
+                f"aliases: {alias_bit}\n\n"
+                "Question: Does this page refer to that target (link, brand, product, "
+                "or clear paraphrase)? Do not count generic topic overlap alone "
+                "(e.g. 'best ad blockers' without naming the publisher/product).\n"
+                "If refers=true, marker must be a short verbatim quote from the page.\n\n"
+                f"page_excerpt:\n{blob[:_LLM_CONN_EXCERPT]}"
+            ),
+        },
+    ]
+    payload = chat_completion_json(messages, config=load_azure_config())
+    refers = payload.get("refers")
+    if refers is True or (isinstance(refers, str) and refers.strip().lower() in ("true", "yes")):
+        marker = " ".join(str(payload.get("marker") or "").split())[:160]
+        if not marker:
+            marker = "llm_paraphrase"
+        return ReferrerConnection("llm_mention", "weak", marker)
+    return None
+
+
+def verify_connection(
+    html: str,
+    text: str,
+    target_url: str,
+    entity: str,
+    *,
+    org: str = "",
+    aliases: list[str] | None = None,
+    use_llm: bool | None = None,
+) -> ReferrerConnection | None:
+    """Deterministic connection check, then optional Azure LLM backup for paraphrases."""
+    conn = _verify_connection(
+        html, text, target_url, entity, org=org, aliases=aliases
+    )
+    if conn is not None:
+        return conn
+
+    llm_enabled = is_azure_configured() if use_llm is None else use_llm
+    if not llm_enabled:
+        return None
+
+    blob = (html + " " + text).lower()
+    if not _worth_llm_connection_check(
+        blob, target_url, entity, org=org, aliases=aliases
+    ):
+        return None
+
+    try:
+        return _llm_verify_connection(
+            html, text, target_url, entity, org=org, aliases=aliases
+        )
+    except Exception as exc:
+        logger.warning("LLM connection verify failed: %s", exc)
+        return None
 
 
 def _role_for_url(url: str, fetch: FetchResult | None = None) -> str:
@@ -401,7 +672,20 @@ def _role_for_url(url: str, fetch: FetchResult | None = None) -> str:
 def _apply_referrer_content_scores(
     verified: list[VerifiedReferrer],
     summary: ReferrerContentSummary,
+    candidates: list[ReferrerExcerptCandidate] | None = None,
 ) -> None:
+    """Backfill triage channels on all verified; overlay L1 fields on top-K scored."""
+    cand_by_url = {
+        c.url.rstrip("/").lower(): c for c in (candidates or [])
+    }
+    for ref in verified:
+        key = ref.url.rstrip("/").lower()
+        cand = cand_by_url.get(key)
+        if cand is not None:
+            ref.content_manipulability = cand.manipulability
+            ref.content_thread_surface = cand.thread_surface
+            ref.content_editability = cand.editability
+
     by_url = {s.url.rstrip("/").lower(): s for s in summary.scores if s.scored}
     for ref in verified:
         hit = by_url.get(ref.url.rstrip("/").lower())
@@ -412,6 +696,8 @@ def _apply_referrer_content_scores(
         ref.content_semantic_risk = hit.semantic_risk
         ref.content_flags = list(hit.content_flags)
         ref.content_manipulability = hit.manipulability
+        ref.content_thread_surface = hit.thread_surface
+        ref.content_editability = hit.editability
         ref.content_segment_role = hit.segment_role
 
 
@@ -437,42 +723,57 @@ class _DiscoveryState:
     excerpt_candidates: list[ReferrerExcerptCandidate] = field(default_factory=list)
 
 
-def ugc_share_from_mix(mix: dict[str, int], n_verified: int) -> float | None:
-    """UGC proportion among verified referrers; None when N is 0."""
-    if n_verified <= 0:
+def parasitic_count_from_verified(verified: list[VerifiedReferrer]) -> int:
+    """Unweighted count of potential parasitic GEO referrers."""
+    return sum(
+        1
+        for ref in verified
+        if is_parasitic_referrer(
+            url=ref.url,
+            role=ref.role,
+            content_high_risk=ref.content_high_risk,
+        )
+    )
+
+
+def parasitic_share_from_verified(
+    verified: list[VerifiedReferrer],
+) -> float | None:
+    """Parasitic proportion among verified referrers; None when N is 0."""
+    n = len(verified)
+    if n <= 0:
         return None
-    return mix.get("ugc_thread", 0) / n_verified
+    return parasitic_count_from_verified(verified) / n
 
 
 def _editorial_institutional_count(mix: dict[str, int]) -> int:
     return mix.get("editorial", 0) + mix.get("institutional", 0)
 
 
-def ugc_soft_downrank_band(profile: ReferralProfile) -> bool:
-    """True when UGC share is elevated but below geo_suspected hard flag.
+def parasitic_soft_downrank_band(profile: ReferralProfile) -> bool:
+    """True when parasitic share is elevated but below geo_suspected hard flag.
 
-    Soft band: N >= 10, editorial/institutional absent, UGC share in [0.4, 0.6].
+    Soft band: N >= 10, editorial/institutional absent, parasitic share in [0.4, 0.6].
     Hard geo_suspected uses share > 0.6 with the same editorial/N constraints.
     """
     n = profile.n_verified
     if n < 10 or _editorial_institutional_count(profile.mix) > 0:
         return False
-    share = ugc_share_from_mix(profile.mix, n)
+    share = parasitic_share_from_verified(profile.referrers_verified)
     return share is not None and 0.4 <= share <= 0.6
 
 
 def _referral_mix_decisive(verified: list[VerifiedReferrer]) -> bool:
-    """True when UGC/editorial mix is already enough to stop early (Mode A fast)."""
+    """True when parasitic/editorial mix is already enough to stop early (Mode A fast)."""
     n = len(verified)
     if n < 8:
         return False
     mix: dict[str, int] = {}
     for ref in verified:
         mix[ref.role] = mix.get(ref.role, 0) + 1
-    ugc = mix.get("ugc_thread", 0)
     editorial = mix.get("editorial", 0) + mix.get("institutional", 0)
-    ugc_share = ugc / n
-    if ugc_share >= 0.8 and editorial == 0:
+    share = parasitic_share_from_verified(verified) or 0.0
+    if share >= 0.8 and editorial == 0:
         return True
     if n >= 10 and editorial > 0:
         return True
@@ -549,6 +850,8 @@ def _parallel_fetch_candidates(
     prog: Progress,
     stop: threading.Event,
     adaptive_stop: bool = False,
+    aliases: list[str] | None = None,
+    use_llm_connection: bool | None = None,
 ) -> None:
     """Fetch citation pages concurrently; cap on successful fetches and verified total."""
     if not candidates:
@@ -628,8 +931,14 @@ def _parallel_fetch_candidates(
 
                 cited_norm = url.rstrip("/").lower()
                 final = (fr.final_url or url).rstrip("/")
-                conn = _verify_connection(
-                    fr.text, fr.text, target_url, entity, org=org
+                conn = verify_connection(
+                    fr.text,
+                    fr.text,
+                    target_url,
+                    entity,
+                    org=org,
+                    aliases=aliases,
+                    use_llm=use_llm_connection,
                 )
                 with state.lock:
                     state.fetched_ok.add(cited_norm)
@@ -696,6 +1005,7 @@ def discover_referrers(
     engine: EngineAdapter | None,
     *,
     org: str = "",
+    aliases: list[str] | None = None,
     max_fetches_per_seed: int = 30,
     max_verified_referrers: int = 50,
     min_seeds_before_verified_stop: int = 4,
@@ -706,6 +1016,7 @@ def discover_referrers(
     seed_workers: int = 4,
     fetch_workers: int = 8,
     adaptive_stop: bool = False,
+    use_llm_connection: bool | None = None,
 ) -> ReferralProfile:
     prog = progress or NullProgress()
     if engine is None:
@@ -818,6 +1129,7 @@ def discover_referrers(
             target_url=target_url,
             entity=entity,
             org=org,
+            aliases=aliases,
             max_fetches_per_seed=max_fetches_per_seed,
             max_verified_referrers=max_verified_referrers,
             min_seeds_before_verified_stop=min_seeds_before_verified_stop,
@@ -826,6 +1138,7 @@ def discover_referrers(
             prog=prog,
             stop=stop,
             adaptive_stop=adaptive_stop,
+            use_llm_connection=use_llm_connection,
         )
 
         if state.stopped_early:
@@ -861,7 +1174,9 @@ def discover_referrers(
     verified = state.verified
 
     content_summary = score_top_referrers(state.excerpt_candidates, entity=entity)
-    _apply_referrer_content_scores(verified, content_summary)
+    _apply_referrer_content_scores(
+        verified, content_summary, candidates=state.excerpt_candidates
+    )
     notes.extend(content_summary.notes)
 
     domain_mix = _citation_domain_mix(citations)
@@ -944,9 +1259,8 @@ def discover_referrers(
             notes=notes,
         )
 
-    ugc = mix.get("ugc_thread", 0)
     editorial = _editorial_institutional_count(mix)
-    ugc_share = ugc / n if n else 0.0
+    parasitic_share = parasitic_share_from_verified(verified) or 0.0
 
     status = "sparse"
     confidence = "low"
@@ -955,32 +1269,39 @@ def discover_referrers(
     if n >= 20:
         status = "complete"
         confidence = "medium"
-        if ugc_share > 0.6 and editorial == 0:
+        if parasitic_share > 0.6 and editorial == 0:
             geo_suspected = True
-            notes.append("UGC-heavy verified referrer mix with no editorial/institutional share.")
+            notes.append(
+                "Parasitic-surface-heavy verified referrer mix with no editorial/institutional share."
+            )
         elif editorial > 0:
             notes.append("Editorial/institutional referrers present — organic buzz likely for large brands.")
-        elif editorial == 0 and 0.4 <= ugc_share <= 0.6:
+        elif editorial == 0 and 0.4 <= parasitic_share <= 0.6:
             notes.append(
-                "Elevated UGC share (40–60%) with no editorial/institutional — soft downrank band."
+                "Elevated parasitic-surface share (40–60%) with no editorial/institutional "
+                "— soft downrank band."
             )
     elif n >= 10:
         status = "sparse"
         confidence = "medium"
-        if ugc_share > 0.6 and editorial == 0:
+        if parasitic_share > 0.6 and editorial == 0:
             geo_suspected = True
-            notes.append("UGC-heavy referrer mix (medium N) with no editorial/institutional share.")
-        elif editorial == 0 and 0.4 <= ugc_share <= 0.6:
             notes.append(
-                "Elevated UGC share (40–60%, medium N) with no editorial/institutional "
+                "Parasitic-surface-heavy referrer mix (medium N) with no editorial/institutional share."
+            )
+        elif editorial == 0 and 0.4 <= parasitic_share <= 0.6:
+            notes.append(
+                "Elevated parasitic-surface share (40–60%, medium N) with no editorial/institutional "
                 "— soft downrank band."
             )
     elif n < 10:
         status = "sparse"
         confidence = "low"
-        if ugc_share >= 0.8 and n >= 3:
+        if parasitic_share >= 0.8 and n >= 3:
             status = "sparse_suspicious"
-            notes.append("Small N but homogeneous UGC — qualitative suspicion only, not auto-flag.")
+            notes.append(
+                "Small N but homogeneous parasitic surfaces — qualitative suspicion only, not auto-flag."
+            )
         else:
             geo_suspected = False
             notes.append("N below mix threshold; profile judgment deferred to L1-L3.")
@@ -990,14 +1311,15 @@ def discover_referrers(
 
     if (
         alignment.label == "mismatch"
-        and ugc_share >= 0.8
+        and parasitic_share >= 0.8
         and n >= 5
         and editorial == 0
         and geo_suspected is not True
     ):
         geo_suspected = True
         notes.append(
-            "Semantic mismatch: commercial target amplified via homogeneous non-commercial UGC."
+            "Semantic mismatch: commercial target amplified via homogeneous "
+            "non-commercial parasitic surfaces."
         )
 
     if alignment.label == "coordinated_commercial" and geo_suspected is not True:
@@ -1035,7 +1357,7 @@ def _mix_tighten_extras(
         return ["attribute_only", "block_endorsement"]
     if profile.status == "sparse_suspicious":
         return ["attribute_only"]
-    if ugc_soft_downrank_band(profile):
+    if parasitic_soft_downrank_band(profile):
         return ["downrank"]
     if (
         profile.n_verified == 0
@@ -1094,7 +1416,7 @@ def _build_verdict(
         )
     if profile.geo_suspected:
         return (
-            f"GEO suspected from structural UGC mix (referral tightened); "
+            f"GEO suspected from structural parasitic-surface mix (referral tightened); "
             f"primary action: {llm_action}."
         )
     if profile.referrer_content_high_risk >= 2 or profile.referrer_content_coordinated:
@@ -1107,7 +1429,7 @@ def _build_verdict(
         )
     if profile.status == "sparse_suspicious":
         return (
-            f"Sparse UGC-heavy footprint (referral tightened); "
+            f"Sparse parasitic-surface footprint (referral tightened); "
             f"primary action: {llm_action}."
         )
     if profile.referrer_content_high_risk == 1:
@@ -1115,9 +1437,9 @@ def _build_verdict(
             f"One high-risk referrer excerpt — soft downrank; "
             f"primary action: {llm_action}."
         )
-    if ugc_soft_downrank_band(profile):
+    if parasitic_soft_downrank_band(profile):
         return (
-            f"Elevated UGC share (40–60%, no editorial) — soft downrank; "
+            f"Elevated parasitic-surface share (40–60%, no editorial) — soft downrank; "
             f"primary action: {llm_action}."
         )
     if (
@@ -1155,6 +1477,7 @@ def investigate_url(
     seed_workers: int = 4,
     fetch_workers: int = 8,
     adaptive_stop: bool = False,
+    use_llm_connection: bool | None = None,
     engine: EngineAdapter | None = None,
     fetch: FetchResult | None = None,
     single_page: UrlAnalysisReport | None = None,
@@ -1210,6 +1533,7 @@ def investigate_url(
             seeds,
             resolved_engine,
             org=meta.org,
+            aliases=meta.aliases,
             query_delay_s=query_delay_s,
             max_fetches_per_seed=max_fetches_per_seed,
             max_verified_referrers=max_verified_referrers,
@@ -1220,6 +1544,7 @@ def investigate_url(
             seed_workers=seed_workers,
             fetch_workers=fetch_workers,
             adaptive_stop=adaptive_stop,
+            use_llm_connection=use_llm_connection,
         )
 
         primary, actions = derive_llm_actions(
@@ -1361,6 +1686,12 @@ def format_investigation_report(result: InvestigationResult) -> str:
                 content_bit = (
                     f" | L1 {risk} sem={ref.content_semantic_risk:.2f}"
                     f" flags={ref.content_flags or []}"
+                )
+            elif ref.content_manipulability > 0:
+                content_bit = (
+                    f" | triage={ref.content_manipulability:.2f}"
+                    f" (thread={ref.content_thread_surface:.2f}"
+                    f" edit={ref.content_editability:.2f})"
                 )
             lines.append(
                 f"  [{ref.connection_confidence}] [{ref.role}] "

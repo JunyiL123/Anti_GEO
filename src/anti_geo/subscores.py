@@ -100,6 +100,8 @@ def compute_factual_claim_reliability(
         reliability += 0.08
     if "established_domain" in source.reasons:
         reliability += 0.1
+    if "institutional_tld" in source.reasons:
+        reliability += 0.1
 
     if content.word_count < config.thin_content_words:
         reliability -= 0.18
