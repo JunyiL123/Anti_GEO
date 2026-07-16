@@ -1,8 +1,9 @@
-"""Entity-scoped L1 on Mode B referrers (triage → shortlist → tighten).
+"""Entity-scoped L1 on Mode B referrers (eligible → score → tighten).
 
-Triage priority = max(thread_surface, editability). Shortlist is two-tier:
-elevated-priority referrers are always scored (capped); an adaptive sample of
-the remainder fills tier-2. Only L1/L3 outcomes tighten actions.
+Score all verified referrers that are parasitic surfaces or soft editorial
+roles (blogs / listicles / editorials / review profiles). Manipulability is
+ordering/telemetry only when a safety cap truncates. Only L1/L3 outcomes
+tighten root actions.
 """
 
 from __future__ import annotations
@@ -14,14 +15,15 @@ from urllib.parse import urlparse
 from anti_geo.content_signals import detect_planted_mention, extract_content_signals
 from anti_geo.independence import analyze_independence
 from anti_geo.models import IndependenceReport, PageSegment
-from anti_geo.platform_role import THREAD_PATH_RE
+from anti_geo.platform_role import THREAD_PATH_RE, is_parasitic_referrer
 from anti_geo.segments import extract_page_segments
 
 # Soft surfaces where page body itself is plantable (blogs, listicles, posts).
-# Broader than parasitic mix membership — shortlist aggressively, convict via roles/L1.
 EDITABLE_PATH_RE = re.compile(
     r"/(posts?|pulse|feed|status|newsletter)\b|/p/[a-z0-9]"
-    r"|/(blog|blogs|article|articles|reviews?|roundup|guides?|picks|best-[\w-]+)\b",
+    r"|/(blog|blogs|article|articles|reviews?|roundup|guides?|picks|best-[\w-]+)\b"
+    # Soft complaint/directory surfaces (forum/thread paths use thread_surface instead)
+    r"|/(?:customer[-_]reviews?|complaints?|directory|directories)\b",
     re.I,
 )
 # Role baselines for open / soft editorial surfaces (no per-host labels).
@@ -35,58 +37,24 @@ EDITABILITY_ROLE_BASE: dict[str, float] = {
     "institutional": 0.0,
 }
 EDITABLE_PATH_BASE = 0.55
-# Two-tier shortlist: always score elevated; adaptively sample the rest.
-ELEVATED_PRIORITY = 0.4  # factual_blog role baseline and above
-MAX_ELEVATED = 16  # hard compute cap on tier-1
-MAX_FILLER = 8  # hard cap on adaptive tier-2
-REFERRER_CONTENT_K = MAX_FILLER  # backward-compatible alias (max filler)
+
+# Soft editorial roles always content-eligible (even if not yet parasitic).
+SOFT_EDITORIAL_ROLES = frozenset(
+    {"factual_blog", "expert_listicle", "editorial", "review_profile"}
+)
+
+# Safety cap for pathological N; normal Mode B stays well under this.
+MAX_CONTENT_SCORE = 32
+# Legacy aliases (older shortlist API / tests).
+MAX_ELEVATED = MAX_CONTENT_SCORE
+MAX_FILLER = MAX_CONTENT_SCORE
+ELEVATED_PRIORITY = 0.4
+REFERRER_CONTENT_K = MAX_CONTENT_SCORE
 HIGH_SEMANTIC_RISK = 0.45
 
 # Thread-path alias for triage / older tests (not social/Medium — those use editability).
 THREAD_SURFACE_PATH_RE = THREAD_PATH_RE
 MANIPULABLE_PATH_RE = THREAD_PATH_RE  # legacy name; thread paths only
-
-
-def adaptive_filler_k(n_rest: int, *, max_filler: int = MAX_FILLER) -> int:
-    """How many non-elevated referrers to score: ~ceil(n_rest/4), clamped.
-
-    Grows with the remainder pool so sparse soft-surface batches still get a
-    look, without scoring every commercial page.
-    """
-    if n_rest <= 0 or max_filler <= 0:
-        return 0
-    return min(max_filler, max(1, (n_rest + 3) // 4))
-
-
-def select_referrer_shortlist(
-    candidates: list[ReferrerExcerptCandidate],
-    *,
-    elevated_threshold: float = ELEVATED_PRIORITY,
-    max_elevated: int = MAX_ELEVATED,
-    max_filler: int = MAX_FILLER,
-) -> tuple[list[ReferrerExcerptCandidate], int, int]:
-    """Two-tier triage shortlist: (selected, n_elevated_taken, n_filler_taken)."""
-    if not candidates:
-        return [], 0, 0
-
-    ranked = sorted(candidates, key=lambda c: c.manipulability, reverse=True)
-    with_excerpt = [c for c in ranked if c.excerpt.strip()]
-    pool = with_excerpt or ranked
-
-    elevated = [
-        c for c in pool if c.manipulability >= elevated_threshold
-    ][: max(0, max_elevated)]
-    elevated_keys = {c.url.rstrip("/").lower() for c in elevated}
-    rest = [c for c in pool if c.url.rstrip("/").lower() not in elevated_keys]
-    filler_n = adaptive_filler_k(len(rest), max_filler=max_filler)
-    selected = elevated + rest[:filler_n]
-
-    # If nothing cleared the elevated bar and filler is disabled, still peek once.
-    if not selected and pool:
-        selected = pool[:1]
-        return selected, 0, 1 if selected[0].manipulability < elevated_threshold else 0
-
-    return selected, len(elevated), min(filler_n, len(rest))
 
 
 @dataclass
@@ -124,6 +92,82 @@ class ReferrerExcerptCandidate:
     segment_role: str = "body"
     thread_surface: float = 0.0
     editability: float = 0.0
+
+
+def content_score_eligible(
+    url: str,
+    role: str,
+    *,
+    content_high_risk: bool = False,
+) -> bool:
+    """True when this verified referrer should get entity-scoped L1.
+
+    Parasitic surfaces always; soft editorial roles always. Commercial /
+    institutional pages are skipped unless they already qualify as parasitic
+    (e.g. Medium ``/p/`` publish path).
+    """
+    if is_parasitic_referrer(
+        url=url, role=role, content_high_risk=content_high_risk
+    ):
+        return True
+    return role in SOFT_EDITORIAL_ROLES
+
+
+def _is_parasitic_candidate(cand: ReferrerExcerptCandidate) -> bool:
+    return is_parasitic_referrer(
+        url=cand.url, role=cand.role, content_high_risk=False
+    )
+
+
+def select_eligible_referrers(
+    candidates: list[ReferrerExcerptCandidate],
+    *,
+    max_score: int = MAX_CONTENT_SCORE,
+) -> tuple[list[ReferrerExcerptCandidate], int, int]:
+    """Score-all eligible referrers; parasitic first, then manipulability.
+
+    Returns ``(selected, n_parasitic, n_soft_editorial)`` among the selected
+    set (soft count excludes those already counted as parasitic).
+    """
+    if not candidates:
+        return [], 0, 0
+
+    with_excerpt = [c for c in candidates if c.excerpt.strip()]
+    pool = with_excerpt or []
+    eligible = [
+        c for c in pool if content_score_eligible(c.url, c.role)
+    ]
+    if not eligible:
+        return [], 0, 0
+
+    def _sort_key(c: ReferrerExcerptCandidate) -> tuple[int, float]:
+        # Parasitic first (0), then higher manipulability.
+        return (0 if _is_parasitic_candidate(c) else 1, -c.manipulability)
+
+    ranked = sorted(eligible, key=_sort_key)
+    selected = ranked[: max(0, max_score)]
+    n_para = sum(1 for c in selected if _is_parasitic_candidate(c))
+    n_soft = len(selected) - n_para
+    return selected, n_para, n_soft
+
+
+def adaptive_filler_k(n_rest: int, *, max_filler: int = MAX_FILLER) -> int:
+    """Deprecated shortlist helper kept for import compatibility."""
+    if n_rest <= 0 or max_filler <= 0:
+        return 0
+    return min(max_filler, max(1, (n_rest + 3) // 4))
+
+
+def select_referrer_shortlist(
+    candidates: list[ReferrerExcerptCandidate],
+    *,
+    elevated_threshold: float = ELEVATED_PRIORITY,
+    max_elevated: int = MAX_ELEVATED,
+    max_filler: int = MAX_FILLER,
+) -> tuple[list[ReferrerExcerptCandidate], int, int]:
+    """Deprecated alias → :func:`select_eligible_referrers` (ignores tier knobs)."""
+    del elevated_threshold, max_filler  # unused; score-all path
+    return select_eligible_referrers(candidates, max_score=max_elevated)
 
 
 def _host_is_institutional_tld(hostname: str) -> bool:
@@ -191,7 +235,7 @@ def manipulability_score(
     segments: list[PageSegment] | None = None,
     role: str = "",
 ) -> float:
-    """Shortlist priority: max(thread_surface, editability). Not a GEO verdict."""
+    """Ordering/telemetry: max(thread_surface, editability). Not a GEO verdict."""
     thread = thread_surface_score(url, html=html, segments=segments)
     edit = editability_score(url, role=role)
     return max(thread, edit)
@@ -348,28 +392,32 @@ def score_top_referrers(
     candidates: list[ReferrerExcerptCandidate],
     *,
     entity: str,
+    max_score: int = MAX_CONTENT_SCORE,
     k: int | None = None,
     max_filler: int | None = None,
-    max_elevated: int = MAX_ELEVATED,
+    max_elevated: int | None = None,
     elevated_threshold: float = ELEVATED_PRIORITY,
 ) -> ReferrerContentSummary:
-    """Score a two-tier shortlist with entity-scoped L1 + independence L3.
+    """Score all eligible referrers (parasitic + soft editorial) with L1 + L3.
 
-    Tier 1: all elevated-priority referrers (up to ``max_elevated``).
-    Tier 2: adaptive sample of the remainder (size ~ceil(n_rest/4), capped by
-    ``max_filler`` / legacy ``k``). Tighten only from L1/L3 outcomes.
+    ``k`` / ``max_filler`` / ``max_elevated`` / ``elevated_threshold`` are
+    accepted for call-site compatibility; only ``max_score`` (or legacy
+    ``max_elevated`` / ``k`` as cap) limits how many are scored.
     """
+    del elevated_threshold  # unused; eligibility is class-based
     if not candidates:
         return ReferrerContentSummary()
 
-    filler_cap = MAX_FILLER if max_filler is None and k is None else (
-        max_filler if max_filler is not None else int(k or 0)
-    )
-    selected, n_elev, n_fill = select_referrer_shortlist(
-        candidates,
-        elevated_threshold=elevated_threshold,
-        max_elevated=max_elevated,
-        max_filler=filler_cap,
+    cap = max_score
+    if max_elevated is not None:
+        cap = max_elevated
+    elif k is not None:
+        cap = int(k)
+    elif max_filler is not None:
+        cap = max(MAX_CONTENT_SCORE, int(max_filler))
+
+    selected, n_para, n_soft = select_eligible_referrers(
+        candidates, max_score=cap
     )
 
     scores: list[ReferrerContentScore] = []
@@ -398,7 +446,7 @@ def score_top_referrers(
     if scored_ok:
         notes.append(
             f"Scored {len(scored_ok)} referrers "
-            f"(elevated={n_elev}, adaptive_filler={n_fill}); high-risk={high_n}."
+            f"(parasitic={n_para}, soft_editorial={n_soft}); high-risk={high_n}."
         )
     if coordinated:
         notes.append("Scored referrer excerpts look textually coordinated.")

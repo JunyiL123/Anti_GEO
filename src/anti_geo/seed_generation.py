@@ -144,9 +144,14 @@ def resolve_seed_queries(
     source: SourceScore | None = None,
     limit: int = 12,
     mode: str = "auto",
+    seed_pack: str = "default",
 ) -> tuple[list[str], str, str]:
     """Return (queries, source_label, seed_confidence). source_label is llm|template."""
-    from anti_geo.investigation import generate_seed_queries, seed_confidence_for_role
+    from anti_geo.investigation import (
+        apply_forum_seed_pack,
+        generate_seed_queries,
+        seed_confidence_for_role,
+    )
 
     page_context = None
     if source and source.page_context:
@@ -156,6 +161,7 @@ def resolve_seed_queries(
 
     base_confidence = seed_confidence_for_role(role)
     use_llm = mode == "llm" or (mode == "auto" and is_azure_configured())
+    source_label = "template"
     if use_llm:
         try:
             queries = generate_seed_queries_llm(
@@ -166,11 +172,19 @@ def resolve_seed_queries(
                 page_context=page_context,
                 limit=limit,
             )
-            return queries, "llm", _bump_seed_confidence(base_confidence)
+            source_label = "llm"
+            base_confidence = _bump_seed_confidence(base_confidence)
         except Exception as exc:
             if mode == "llm":
                 raise
             logger.warning("LLM seed generation failed, using templates: %s", exc)
+            queries = generate_seed_queries(role, meta, limit=limit)
+    else:
+        queries = generate_seed_queries(role, meta, limit=limit)
 
-    queries = generate_seed_queries(role, meta, limit=limit)
-    return queries, "template", base_confidence
+    pack = (seed_pack or "default").strip().lower()
+    if pack in ("forum", "forums"):
+        queries = apply_forum_seed_pack(queries, meta, limit=limit)
+        source_label = f"{source_label}+forum"
+
+    return queries, source_label, base_confidence

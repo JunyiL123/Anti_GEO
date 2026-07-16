@@ -106,6 +106,12 @@ def main() -> None:
         default=8,
         help="Parallel citation page fetches per seed (default 8)",
     )
+    parser.add_argument(
+        "--seed-pack",
+        default="default",
+        choices=["default", "forum"],
+        help="Seed experiment pack: forum prepends directory/forum/complaint queries",
+    )
     parser.add_argument("--json", action="store_true", help="Output JSON")
     progress_group = parser.add_mutually_exclusive_group()
     progress_group.add_argument(
@@ -136,6 +142,7 @@ def main() -> None:
         engine_name=None if args.engine == "none" else args.engine,
         seed_limit=args.seed_limit,
         seed_mode=args.seed_mode,
+        seed_pack=args.seed_pack,
         fixture_path=args.fixture,
         query_delay_s=args.query_delay,
         max_fetches_per_seed=args.max_fetches_per_seed,

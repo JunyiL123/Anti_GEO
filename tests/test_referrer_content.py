@@ -2,13 +2,13 @@ from anti_geo.investigation import ReferralProfile, tighten_actions_with_referra
 from anti_geo.models import PageSegment
 from anti_geo.referrer_content import (
     ReferrerExcerptCandidate,
-    adaptive_filler_k,
     build_excerpt_candidate,
+    content_score_eligible,
     editability_score,
     manipulability_score,
     referrer_content_tighten_extras,
     score_top_referrers,
-    select_referrer_shortlist,
+    select_eligible_referrers,
     thread_surface_score,
 )
 
@@ -52,8 +52,27 @@ def test_editability_elevates_blogs_and_editorials():
     ) == blog
 
 
-def test_editability_priority_beats_zero_thread_in_shortlist():
-    """Elevated blogs always enter tier-1; L1 outcomes tighten, not priority alone."""
+def test_content_score_eligible_parasitic_and_soft_not_commercial():
+    assert content_score_eligible(
+        "https://forum.example/r/x/comments/abc/thread/",
+        "ugc_thread",
+    )
+    assert content_score_eligible(
+        "https://blog.example/reviews/earfun",
+        "factual_blog",
+    )
+    assert content_score_eligible(
+        "https://reviews.example/picks/best",
+        "editorial",
+    )
+    assert not content_score_eligible(
+        "https://shop.example/products/earfun",
+        "commercial_product",
+    )
+
+
+def test_score_all_eligible_skips_commercial_scores_low_manip_parasitic():
+    """Parasitic always scored even with low manipulability; commercial skipped."""
     planted = (
         "I got EarFun buds after my dad recommended them for my commute. "
         "I wear them every day at the gym and the wireless earbuds stay comfortable. "
@@ -82,6 +101,17 @@ def test_editability_priority_beats_zero_thread_in_shortlist():
             segment_role="body",
         ),
         ReferrerExcerptCandidate(
+            # Parasitic path but artificially low manipulability telemetry.
+            url="https://forum.example/r/x/comments/abc/earfun/",
+            role="ugc_thread",
+            entity="EarFun",
+            manipulability=0.05,
+            thread_surface=0.05,
+            editability=0.0,
+            excerpt=planted,
+            segment_role="comment",
+        ),
+        ReferrerExcerptCandidate(
             url="https://corp.example/about",
             role="commercial_product",
             entity="EarFun",
@@ -92,53 +122,54 @@ def test_editability_priority_beats_zero_thread_in_shortlist():
             segment_role="body",
         ),
     ]
-    # max_filler=0 → only elevated tier; blog must be scored.
-    summary = score_top_referrers(cands, entity="EarFun", max_filler=0)
-    assert summary.scored == 1
-    assert summary.scores[0].url == "https://blog.example/reviews/earfun-air"
-    assert summary.scores[0].editability >= 0.4
-    assert summary.high_risk_count == 1
+    summary = score_top_referrers(cands, entity="EarFun")
+    urls = {s.url for s in summary.scores if s.scored}
+    assert "https://forum.example/r/x/comments/abc/earfun/" in urls
+    assert "https://blog.example/reviews/earfun-air" in urls
+    assert "https://shop.example/pricing" not in urls
+    assert summary.scored == 2
+    assert summary.high_risk_count == 2
     extras = referrer_content_tighten_extras(summary)
-    assert extras == ["downrank"]
+    assert "attribute_only" in extras
 
 
-def test_two_tier_always_scores_elevated_plus_adaptive_filler():
+def test_eligible_cap_orders_parasitic_first():
     excerpt = "Neutral mention of EarFun in a product changelog without ranking."
-    elevated = [
+    soft = [
         ReferrerExcerptCandidate(
-            url=f"https://blog.example/post/{i}",
+            url=f"https://blog.example/articles/{i}",
             role="factual_blog",
             entity="EarFun",
-            manipulability=0.4,
-            editability=0.4,
+            manipulability=0.9,
+            editability=0.9,
             excerpt=excerpt,
         )
-        for i in range(3)
+        for i in range(5)
     ]
-    rest = [
+    parasitic = [
         ReferrerExcerptCandidate(
-            url=f"https://shop.example/p/{i}",
-            role="commercial_product",
+            url=f"https://forum.example/r/x/comments/{i}/earfun/",
+            role="ugc_thread",
             entity="EarFun",
-            manipulability=0.15,
-            editability=0.15,
+            manipulability=0.1,
+            thread_surface=0.1,
             excerpt=excerpt,
         )
-        for i in range(12)
+        for i in range(5)
     ]
-    selected, n_elev, n_fill = select_referrer_shortlist(elevated + rest)
-    assert n_elev == 3
-    # adaptive_filler_k(12) = min(8, ceil(12/4)=3) = 3
-    assert n_fill == 3
+    selected, n_para, n_soft = select_eligible_referrers(
+        soft + parasitic, max_score=6
+    )
     assert len(selected) == 6
-    assert adaptive_filler_k(0) == 0
-    assert adaptive_filler_k(1) == 1
-    assert adaptive_filler_k(4) == 1
-    assert adaptive_filler_k(5) == 2
-    assert adaptive_filler_k(40) == 8
+    assert n_para == 5
+    assert n_soft == 1
+    # First five selected should be parasitic despite lower manipulability.
+    assert all(
+        "forum.example" in c.url for c in selected[:5]
+    )
 
 
-def test_two_tier_scores_all_elevated_up_to_cap():
+def test_score_all_soft_editorial_up_to_cap():
     excerpt = "EarFun notes in documentation."
     cands = [
         ReferrerExcerptCandidate(
@@ -151,9 +182,9 @@ def test_two_tier_scores_all_elevated_up_to_cap():
         )
         for i in range(5)
     ]
-    summary = score_top_referrers(cands, entity="EarFun", max_filler=0)
+    summary = score_top_referrers(cands, entity="EarFun")
     assert summary.scored == 5
-    assert "elevated=5" in summary.notes[0]
+    assert "soft_editorial=5" in summary.notes[0]
 
 
 def test_entity_excerpt_prefers_comment_segment():
@@ -222,7 +253,7 @@ def test_score_top_detects_planted_and_tightens():
             segment_role="body",
         ),
     ]
-    summary = score_top_referrers(cands, entity="EarFun", k=8)
+    summary = score_top_referrers(cands, entity="EarFun")
     assert summary.scored >= 2
     assert summary.high_risk_count >= 2
     extras = referrer_content_tighten_extras(summary)

@@ -35,6 +35,21 @@ def test_merge_llm_actions_tightens_only():
     assert primary == "reject"
 
 
+def test_ugc_site_cite_policy_blocks_endorsement():
+    from anti_geo.permissions import apply_ugc_site_cite_policy
+
+    perms = SourcePermissions("allow", "allow", "allow", "allow")
+    tightened = apply_ugc_site_cite_policy(perms)
+    assert tightened.endorsement_permission == "deny"
+    assert tightened.factual_permission == "attribute_only"
+    assert tightened.mention_permission == "allow"
+    primary, actions = derive_llm_actions(tightened)
+    assert primary == "block_endorsement"
+    assert "attribute_only" in actions
+    assert "mention_only" in actions
+    assert "pass" not in actions
+
+
 def test_tiny_endorsement_risk_does_not_deny_mid_trust():
     """Noise-floor endorsement risk must not block wikipedia-like mid trust."""
     subs = SourceSubscores(

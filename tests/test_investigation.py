@@ -5,6 +5,8 @@ from anti_geo.investigation import (
     ReferralProfile,
     VerifiedReferrer,
     _is_generic_topic_marker,
+    _looks_related_brand,
+    _should_skip_same_brand,
     _verify_connection,
     _worth_llm_connection_check,
     assess_semantic_alignment,
@@ -648,6 +650,226 @@ def test_verify_connection_llm_backup_false_stays_none(monkeypatch):
     )
 
 
+def test_verify_connection_weak_brand_mention_llm_rejects(monkeypatch):
+    target = "https://shop.theograce.com/products/bracelet"
+    text = "I got a bracelet from theograce and love it."
+    assert _verify_connection(text, text, target, "Theo Grace", org="Theo Grace") is not None
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {"refers": False, "marker": "", "reason": "unrelated name"},
+    )
+    assert (
+        verify_connection(
+            text, text, target, "Theo Grace", org="Theo Grace", use_llm=True
+        )
+        is None
+    )
+
+
+def test_verify_connection_weak_brand_mention_llm_keeps(monkeypatch):
+    target = "https://shop.theograce.com/products/bracelet"
+    text = "I got a bracelet from theograce and love it."
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {
+            "refers": True,
+            "marker": "theograce",
+            "reason": "brand mention",
+        },
+    )
+    conn = verify_connection(
+        text, text, target, "Theo Grace", org="Theo Grace", use_llm=True
+    )
+    assert conn is not None
+    assert conn.kind == "brand_mention"
+    assert conn.confidence == "weak"
+    assert conn.marker == "theograce"
+
+
+def test_verify_connection_weak_brand_mention_llm_error_fail_open(monkeypatch):
+    target = "https://shop.theograce.com/products/bracelet"
+    text = "I got a bracelet from theograce and love it."
+
+    def boom(*a, **k):
+        raise RuntimeError("azure down")
+
+    monkeypatch.setattr("anti_geo.investigation.chat_completion_json", boom)
+    conn = verify_connection(
+        text, text, target, "Theo Grace", org="Theo Grace", use_llm=True
+    )
+    assert conn is not None
+    assert conn.kind == "brand_mention"
+    assert conn.confidence == "weak"
+
+
+def test_verify_connection_url_link_skips_llm(monkeypatch):
+    target = "https://www.pcmag.com/picks/the-best-budget-laptops"
+    text = "See pcmag.com/picks/the-best-budget-laptops for editor picks."
+    calls = {"n": 0}
+
+    def fake_llm(*a, **k):
+        calls["n"] += 1
+        return {"refers": False, "marker": "", "reason": "should not run"}
+
+    monkeypatch.setattr("anti_geo.investigation.chat_completion_json", fake_llm)
+    conn = verify_connection(
+        text, text, target, "Budget laptops", org="PCMag", use_llm=True
+    )
+    assert conn is not None
+    assert conn.kind == "url_link"
+    assert conn.confidence == "high"
+    assert calls["n"] == 0
+
+
+def test_looks_related_brand_stem_match():
+    assert _looks_related_brand(
+        "https://blog.acme.io/post",
+        "https://www.acme.com/products",
+    )
+    assert not _looks_related_brand(
+        "https://crinacle.com/graphs/",
+        "https://forum.headphones.com/top",
+    )
+    assert not _looks_related_brand(
+        "https://www.acme.com/a",
+        "https://shop.acme.com/b",
+    )
+
+
+def test_should_skip_same_brand_exact_and_llm(monkeypatch):
+    assert _should_skip_same_brand(
+        "https://blog.acme.com/x",
+        "https://www.acme.com/y",
+        use_llm=False,
+    )
+    # Related stems, LLM unavailable → do not skip
+    assert not _should_skip_same_brand(
+        "https://www.acme.io/x",
+        "https://www.acme.com/y",
+        use_llm=False,
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {"same_brand": True, "reason": "owned TLD variant"},
+    )
+    assert _should_skip_same_brand(
+        "https://www.acme.io/x",
+        "https://www.acme.com/y",
+        use_llm=True,
+    )
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {"same_brand": False, "reason": "unrelated"},
+    )
+    assert not _should_skip_same_brand(
+        "https://www.acme.io/x",
+        "https://www.acme.com/y",
+        use_llm=True,
+    )
+
+
+def test_discover_referrers_skips_llm_same_brand(monkeypatch):
+    target = "https://www.acme.com/products/widget"
+    engine = _StubEngine(
+        {
+            "acme widget review": EngineResponse(
+                text="answer",
+                cited_domains=["acme.io", "reddit.com"],
+                cited_urls=[
+                    "https://www.acme.io/blog/widget",
+                    "https://reddit.com/r/x/comments/1/widget/",
+                ],
+            )
+        }
+    )
+    fetched: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        fetched.append(url)
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="thread",
+            text="See acme.com/products/widget — great product.",
+            link_count=1,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=50,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {"same_brand": True, "reason": "same org"},
+    )
+    profile = discover_referrers(
+        target,
+        "Acme Widget",
+        ["acme widget review"],
+        engine,
+        max_fetches_per_seed=10,
+        max_verified_referrers=10,
+        use_llm_connection=True,
+    )
+    assert all("acme.io" not in u for u in fetched)
+    assert all("acme.io" not in r.url for r in profile.referrers_verified)
+
+
+def test_discover_referrers_keeps_related_when_llm_says_different(monkeypatch):
+    target = "https://www.acme.com/products/widget"
+    engine = _StubEngine(
+        {
+            "acme widget review": EngineResponse(
+                text="answer",
+                cited_domains=["acme.io"],
+                cited_urls=["https://www.acme.io/blog/widget"],
+            )
+        }
+    )
+    fetched: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        fetched.append(url)
+        return FetchResult(
+            url=url,
+            final_url=url,
+            status_code=200,
+            ok=True,
+            error=None,
+            title="review",
+            text="Linking acme.com/products/widget as a comparison.",
+            link_count=1,
+            broken_link_ratio=0.0,
+            redirect_count=0,
+            response_time_ms=50,
+            has_privacy_page=False,
+            has_contact_page=False,
+        )
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr(
+        "anti_geo.investigation.chat_completion_json",
+        lambda *a, **k: {"same_brand": False, "reason": "different company"},
+    )
+    profile = discover_referrers(
+        target,
+        "Acme Widget",
+        ["acme widget review"],
+        engine,
+        max_fetches_per_seed=10,
+        max_verified_referrers=10,
+        use_llm_connection=True,
+    )
+    assert any("acme.io" in u for u in fetched)
+    assert profile.n_verified >= 1
+    assert any("acme.io" in r.url for r in profile.referrers_verified)
+
+
 def test_discover_referrers_ignores_generic_topic_pages(monkeypatch):
     target = "https://www.pcmag.com/picks/best-ad-blockers"
     engine = _StubEngine(
@@ -818,7 +1040,7 @@ def _refs(roles_and_urls: list[tuple[str, str]], *, high_risk: bool = False):
 
 
 def test_tighten_parasitic_soft_band_downranks():
-    """Parasitic share 40–60%, no editorial, N>=10 → mild downrank (not hard flag)."""
+    """Parasitic share 35–50%, no editorial, N>=10 → mild downrank (not hard flag)."""
     refs = _refs(
         [("ugc_thread", f"https://reddit.com/r/x/comments/{i}/") for i in range(8)]
         + [("commercial_product", f"https://shop.example/item/{i}") for i in range(11)]
@@ -830,6 +1052,8 @@ def test_tighten_parasitic_soft_band_downranks():
         n_verified=19,
         mix={"ugc_thread": 8, "commercial_product": 11},  # ~42%
         geo_suspected=False,
+        geo_elevated=True,
+        geo_risk=0.4,
         referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
@@ -843,18 +1067,135 @@ def test_tighten_parasitic_soft_band_downranks():
     assert "attribute_only" not in actions
 
 
+def test_geo_risk_blend_and_editorial_dampen():
+    from anti_geo.investigation import compute_referral_geo_risk, derive_geo_elevated
+
+    # Feedspot-like: 5/10 parasitic
+    risk = compute_referral_geo_risk(
+        n_verified=10,
+        parasitic_count=5,
+        parasitic_share=0.5,
+        editorial_count=0,
+    )
+    assert risk >= 0.35
+    assert derive_geo_elevated(
+        geo_suspected=False,
+        geo_risk=risk,
+        n_verified=10,
+        parasitic_count=5,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=True,
+    )
+
+    # Meta-like: same parasitic count but editorial present → dampened
+    damp = compute_referral_geo_risk(
+        n_verified=20,
+        parasitic_count=5,
+        parasitic_share=0.25,
+        editorial_count=3,
+    )
+    undamped = compute_referral_geo_risk(
+        n_verified=20,
+        parasitic_count=5,
+        parasitic_share=0.25,
+        editorial_count=0,
+    )
+    assert damp < undamped
+    assert not derive_geo_elevated(
+        geo_suspected=False,
+        geo_risk=damp,
+        n_verified=20,
+        parasitic_count=5,
+        editorial_count=3,
+        status="sparse",
+        soft_share_band=False,
+    )
+
+
+def test_geo_risk_high_conf_parasitic_boosts_and_elevates():
+    """Planted+parasitic intensifies geo_risk; two high-conf can elevate at count=2."""
+    from anti_geo.investigation import (
+        VerifiedReferrer,
+        compute_referral_geo_risk,
+        derive_geo_elevated,
+        high_conf_parasitic_count_from_verified,
+    )
+
+    base = compute_referral_geo_risk(
+        n_verified=8,
+        parasitic_count=2,
+        parasitic_share=0.25,
+        editorial_count=0,
+        high_conf_parasitic=0,
+    )
+    boosted = compute_referral_geo_risk(
+        n_verified=8,
+        parasitic_count=2,
+        parasitic_share=0.25,
+        editorial_count=0,
+        high_conf_parasitic=2,
+    )
+    assert boosted > base
+    assert abs(boosted - base - 0.2) < 1e-6  # +0.1 each, under 0.25 cap
+
+    # Without content boost / soft band, count=2 alone does not elevate.
+    assert not derive_geo_elevated(
+        geo_suspected=False,
+        geo_risk=base,
+        n_verified=8,
+        parasitic_count=2,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        high_conf_parasitic=0,
+    )
+    assert derive_geo_elevated(
+        geo_suspected=False,
+        geo_risk=base,
+        n_verified=8,
+        parasitic_count=2,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        high_conf_parasitic=2,
+    )
+
+    refs = [
+        VerifiedReferrer(
+            url=f"https://reddit.com/r/x/comments/{i}/",
+            role="ugc_thread",
+            connection="url_link",
+            connection_confidence="weak",
+            content_high_risk=True,
+        )
+        for i in range(2)
+    ]
+    assert high_conf_parasitic_count_from_verified(refs) == 2
+    refs[0].content_high_risk = False
+    assert high_conf_parasitic_count_from_verified(refs) == 1
+
+
+def test_geo_suspected_hard_share_threshold_is_half():
+    from anti_geo.investigation import GEO_SUSPECTED_SHARE
+
+    assert GEO_SUSPECTED_SHARE == 0.5
+
+
 def test_tighten_parasitic_below_soft_band_no_penalty():
     refs = _refs(
-        [("ugc_thread", f"https://reddit.com/r/x/comments/{i}/") for i in range(7)]
-        + [("commercial_product", f"https://shop.example/item/{i}") for i in range(12)]
+        [("ugc_thread", f"https://reddit.com/r/x/comments/{i}/") for i in range(5)]
+        + [("commercial_product", f"https://shop.example/item/{i}") for i in range(14)]
     )
     profile = ReferralProfile(
         status="sparse",
         discovery_status="success",
         confidence="medium",
         n_verified=19,
-        mix={"ugc_thread": 7, "commercial_product": 12},  # ~37%
+        mix={"ugc_thread": 5, "commercial_product": 14},  # ~26%
         geo_suspected=False,
+        geo_elevated=False,
+        geo_risk=0.2,
         referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(

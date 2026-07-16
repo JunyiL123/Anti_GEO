@@ -1,0 +1,306 @@
+{
+  "urls": [
+    {
+      "kind": "url",
+      "label": "Amazon DP (commercial)",
+      "ok": true,
+      "url": "https://www.amazon.com/dp/B0CX23V2ZK",
+      "intent": "commercial",
+      "expect": "commercial_product; OK to be careful but shopping-aligned",
+      "role": "commercial_product",
+      "tier": "none",
+      "flags": [
+        "site_chrome_monetization",
+        "list_heavy",
+        "table_heavy"
+      ],
+      "trust": 0.56,
+      "intent_mismatch": 0.25,
+      "endorsement_risk": 0.0,
+      "legacy_action": "pass",
+      "primary_llm": "pass",
+      "all_actions": [
+        "pass"
+      ],
+      "perms": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow"
+      },
+      "elapsed_s": 9.6
+    },
+    {
+      "kind": "url",
+      "label": "NIH (high-stakes informational)",
+      "ok": true,
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK547662/",
+      "intent": "informational_high_stakes",
+      "expect": "institutional; should be relatively trusted / allow-ish",
+      "role": "institutional",
+      "tier": "none",
+      "flags": [
+        "list_heavy"
+      ],
+      "trust": 0.5,
+      "intent_mismatch": 0.0,
+      "endorsement_risk": 0.0008,
+      "legacy_action": "pass",
+      "primary_llm": "block_endorsement",
+      "all_actions": [
+        "require_corroboration",
+        "require_authoritative_corroboration",
+        "block_endorsement",
+        "mention_only"
+      ],
+      "perms": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "require_corroboration",
+        "endorsement": "deny"
+      },
+      "elapsed_s": 13.7
+    },
+    {
+      "label": "RTINGS review (commercial)",
+      "url": "https://www.rtings.com/headphones/reviews/best/by-usage/wireless-headphones",
+      "query": "best budget wireless earbuds",
+      "intent": "commercial",
+      "expect": "editorial/review shape; not treated like knot chrome-affiliate false positive",
+      "ok": false,
+      "error": "404",
+      "elapsed_s": 2.2
+    },
+    {
+      "kind": "url",
+      "label": "PCMag picks (commercial)",
+      "ok": true,
+      "url": "https://www.pcmag.com/picks/the-best-budget-laptops",
+      "intent": "commercial",
+      "expect": "editorial; commercial intent aligned; pass or mild gate",
+      "role": "editorial",
+      "tier": "high",
+      "flags": [
+        "link_sponsored",
+        "faq_schema",
+        "list_heavy"
+      ],
+      "trust": 0.53,
+      "intent_mismatch": 0.25,
+      "endorsement_risk": 0.0,
+      "legacy_action": "pass",
+      "primary_llm": "attribute_only",
+      "all_actions": [
+        "attribute_only",
+        "mention_only"
+      ],
+      "perms": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow"
+      },
+      "elapsed_s": 16.4
+    },
+    {
+      "kind": "url",
+      "label": "Knot propose (informational)",
+      "ok": true,
+      "url": "https://www.theknot.com/content/romantic-ways-to-propose",
+      "intent": "informational",
+      "expect": "factual-ish; soft attribute OK; not commercial_product / not downrank",
+      "role": "factual_blog",
+      "tier": "none",
+      "flags": [
+        "site_chrome_monetization"
+      ],
+      "trust": 0.53,
+      "intent_mismatch": 0.0,
+      "endorsement_risk": 0.0008,
+      "legacy_action": "pass",
+      "primary_llm": "block_endorsement",
+      "all_actions": [
+        "attribute_only",
+        "block_endorsement",
+        "mention_only"
+      ],
+      "perms": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "deny"
+      },
+      "elapsed_s": 18.3
+    },
+    {
+      "kind": "url",
+      "label": "Wikipedia (informational)",
+      "ok": true,
+      "url": "https://en.wikipedia.org/wiki/Marriage_proposal",
+      "intent": "informational",
+      "expect": "factual_blog / institutional-ish path; mild gates OK",
+      "role": "factual_blog",
+      "tier": "none",
+      "flags": [
+        "list_heavy",
+        "table_heavy"
+      ],
+      "trust": 0.61,
+      "intent_mismatch": 0.0,
+      "endorsement_risk": 0.001,
+      "legacy_action": "pass",
+      "primary_llm": "block_endorsement",
+      "all_actions": [
+        "block_endorsement",
+        "mention_only"
+      ],
+      "perms": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "deny"
+      },
+      "elapsed_s": 11.4
+    }
+  ],
+  "queries": [
+    {
+      "label": "Mode A propose",
+      "ok": true,
+      "query": "best ways to propose",
+      "expect": "intent informational; Knot-like cites factual_blog not commercial_product",
+      "intent": "informational",
+      "intent_source": "heuristic",
+      "intent_rule": "informational",
+      "n_cites": 1,
+      "cites": [
+        {
+          "url": "https://www.theknot.com/content/romantic-ways-to-propose",
+          "role": "factual_blog",
+          "ugc": false,
+          "tier": "none",
+          "flags": [
+            "site_chrome_monetization"
+          ],
+          "trust": 0.53,
+          "action": "block_endorsement",
+          "actions": [
+            "attribute_only",
+            "block_endorsement",
+            "mention_only"
+          ]
+        }
+      ],
+      "guard_actions": [
+        "attribute_only"
+      ],
+      "response_mode": null,
+      "elapsed_s": 143.9
+    },
+    {
+      "label": "Mode A earbuds",
+      "ok": true,
+      "query": "best budget wireless earbuds",
+      "expect": "intent commercial; product/editorial cites; shopping-aligned",
+      "intent": "commercial",
+      "intent_source": "heuristic",
+      "intent_rule": "commercial",
+      "n_cites": 2,
+      "cites": [
+        {
+          "url": "https://www.rtings.com/headphones/reviews/best/cheap-wireless-earbuds",
+          "role": "expert_listicle",
+          "ugc": false,
+          "tier": "high",
+          "flags": [
+            "affiliate_disclosure"
+          ],
+          "trust": 0.71,
+          "action": "downrank",
+          "actions": [
+            "pass",
+            "downrank"
+          ]
+        },
+        {
+          "url": "https://www.soundguys.com/best-wireless-earbuds-under-100-20397/",
+          "role": "expert_listicle",
+          "ugc": false,
+          "tier": "high",
+          "flags": [
+            "affiliate_disclosure"
+          ],
+          "trust": 0.53,
+          "action": "attribute_only",
+          "actions": [
+            "attribute_only",
+            "mention_only",
+            "downrank"
+          ]
+        }
+      ],
+      "guard_actions": [
+        "pass_through"
+      ],
+      "response_mode": null,
+      "elapsed_s": 80.0
+    },
+    {
+      "label": "Mode A ibuprofen",
+      "ok": true,
+      "query": "ibuprofen dosage for adults",
+      "expect": "intent high_stakes; medical sources stricter",
+      "intent": "informational_high_stakes",
+      "intent_source": "heuristic",
+      "intent_rule": "high_stakes",
+      "n_cites": 2,
+      "cites": [
+        {
+          "url": "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/ibuprofen-drug-f",
+          "role": "institutional",
+          "ugc": false,
+          "tier": "none",
+          "flags": [
+            "list_heavy"
+          ],
+          "trust": 0.36,
+          "action": "reject",
+          "actions": [
+            "reject",
+            "block_factual_use",
+            "block_endorsement"
+          ]
+        },
+        {
+          "url": "https://www.drugs.com/medical-answers/how-often-can-you-take-ibuprofen-3016181/",
+          "role": "expert_listicle",
+          "ugc": false,
+          "tier": "high",
+          "flags": [
+            "link_sponsored",
+            "faq_schema",
+            "list_heavy"
+          ],
+          "trust": 0.56,
+          "action": "block_endorsement",
+          "actions": [
+            "require_corroboration",
+            "require_authoritative_corroboration",
+            "block_endorsement",
+            "mention_only"
+          ]
+        }
+      ],
+      "guard_actions": [
+        "require_corroboration"
+      ],
+      "response_mode": null,
+      "elapsed_s": 115.1
+    }
+  ],
+  "rtings_fix": {
+    "label": "RTINGS",
+    "ok": false,
+    "error": "404"
+  }
+}

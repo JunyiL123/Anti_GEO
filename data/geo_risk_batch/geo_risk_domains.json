@@ -1,0 +1,3607 @@
+{
+  "generated_at": "2026-07-14T16:32:57.412246+00:00",
+  "policy": {
+    "tiers": [
+      "very_high",
+      "high",
+      "medium",
+      "review",
+      "clean"
+    ],
+    "very_high": "on-page hard AND parasitic hard AND strong referral evidence",
+    "high": "on-page hard OR parasitic hard AND strong referral evidence",
+    "medium": "hard signal with weak evidence, OR soft+strong",
+    "review": "soft/weak/UGC/inconclusive \u2014 not clean",
+    "clean": "pass with no soft/hard flags and usable referral",
+    "domain_gate": "very_high/high require \u22652 independent queries else demote to medium"
+  },
+  "counts_by_tier": {
+    "very_high": 0,
+    "high": 0,
+    "medium": 5,
+    "review": 80,
+    "clean": 19
+  },
+  "domains_by_tier": {
+    "very_high": [],
+    "high": [],
+    "medium": [
+      "business.com",
+      "cash.app",
+      "redditrecs.com",
+      "samhsa.gov",
+      "sony.com"
+    ],
+    "review": [
+      "1more.com",
+      "1password.com",
+      "aad.org",
+      "aasm.org",
+      "agencyanalytics.com",
+      "aicomparison.ai",
+      "americanexpress.com",
+      "apa.org",
+      "asana.com",
+      "atlassian.com",
+      "basecamp.com",
+      "bitwarden.com",
+      "brightlocal.com",
+      "brightside.com",
+      "cavd.ca",
+      "cerave.com",
+      "chase.com",
+      "clickup.com",
+      "co.uk",
+      "cybernews.com",
+      "fda.gov",
+      "flexispot.com",
+      "forbes.com",
+      "fortune.com",
+      "g2.com",
+      "garagegymreviews.com",
+      "google.com",
+      "headway.co",
+      "helloalma.com",
+      "hillspet.com",
+      "hrblock.com",
+      "insightful.io",
+      "irs.gov",
+      "jabra.com",
+      "jbl.com",
+      "keychron.com",
+      "klaviyo.com",
+      "laroche-posay.us",
+      "lessannoyingcrm.com",
+      "linear.app",
+      "microsoft.com",
+      "monday.com",
+      "nationaleczema.org",
+      "nbcnews.com",
+      "nerdwallet.com",
+      "nih.gov",
+      "notion.com",
+      "obsidian.md",
+      "omnisend.com",
+      "openai.com",
+      "optimumnutrition.com",
+      "pcmag.com",
+      "pipedrive.com",
+      "powersof10.com",
+      "proplanvetdirect.com",
+      "public.law",
+      "royalcanin.com",
+      "rtings.com",
+      "runrepeat.com",
+      "scamadviser.com",
+      "semrush.com",
+      "seranking.com",
+      "shopify.com",
+      "sitebulb.com",
+      "sleepfoundation.org",
+      "soundcore.com",
+      "tasteofhome.com",
+      "taxslayer.com",
+      "the-independent.com",
+      "theograce.com",
+      "theordinary.com",
+      "toolcenter.ai",
+      "trello.com",
+      "trustpilot.com",
+      "vari.com",
+      "wearefounders.uk",
+      "websiteplanet.com",
+      "wordpress.org",
+      "yahoo.com",
+      "zoho.com"
+    ],
+    "clean": [
+      "ahrefs.com",
+      "anthropic.com",
+      "betterhelp.com",
+      "capitalone.com",
+      "cnbc.com",
+      "dashlane.com",
+      "growtherapy.com",
+      "hubspot.com",
+      "intuit.com",
+      "keepersecurity.com",
+      "nsfsport.com",
+      "online-therapy.com",
+      "paulaschoice.com",
+      "security.org",
+      "shokz.com",
+      "talkspace.com",
+      "thriveworks.com",
+      "vanicream.com",
+      "vivo-us.com"
+    ]
+  },
+  "domains": [
+    {
+      "domain": "business.com",
+      "list_tier": "medium",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best employee monitoring software"
+      ],
+      "sample_urls": [
+        "https://www.business.com/categories/employee-monitoring-software/"
+      ],
+      "url_tiers": [
+        "medium"
+      ],
+      "evidence": [
+        {
+          "query": "best employee monitoring software",
+          "url": "https://www.business.com/categories/employee-monitoring-software/",
+          "list_tier": "medium",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 16,
+          "semantic_risk": 0.02330097087378641,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "cash.app",
+      "list_tier": "medium",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best online tax software for freelancers"
+      ],
+      "sample_urls": [
+        "https://cash.app/taxes"
+      ],
+      "url_tiers": [
+        "medium"
+      ],
+      "evidence": [
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://cash.app/taxes",
+          "list_tier": "medium",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 13,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "redditrecs.com",
+      "list_tier": "medium",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best budget mechanical keyboard reddit"
+      ],
+      "sample_urls": [
+        "https://redditrecs.com/gaming-keyboard/model/aula-f75/"
+      ],
+      "url_tiers": [
+        "medium"
+      ],
+      "evidence": [
+        {
+          "query": "best budget mechanical keyboard reddit",
+          "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+          "list_tier": "medium",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 10,
+          "semantic_risk": 0.06799999999999999,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "samhsa.gov",
+      "list_tier": "medium",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://www.samhsa.gov/mental-health/988/faqs"
+      ],
+      "url_tiers": [
+        "medium"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://www.samhsa.gov/mental-health/988/faqs",
+          "list_tier": "medium",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 7,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "sony.com",
+      "list_tier": "medium",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best noise cancelling headphones under 200"
+      ],
+      "sample_urls": [
+        "https://electronics.sony.com/audio/headphones/headband/p/whch720n-b"
+      ],
+      "url_tiers": [
+        "medium"
+      ],
+      "evidence": [
+        {
+          "query": "best noise cancelling headphones under 200",
+          "url": "https://electronics.sony.com/audio/headphones/headband/p/whch720n-b",
+          "list_tier": "medium",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 10,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "1more.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best noise cancelling headphones under 200"
+      ],
+      "sample_urls": [
+        "https://usa.1more.com/products/1more-sonoflow-pro-wireless-anc-over-ear-headphones"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best noise cancelling headphones under 200",
+          "url": "https://usa.1more.com/products/1more-sonoflow-pro-wireless-anc-over-ear-headphones",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 7,
+          "semantic_risk": 0.023939202026599115,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "1password.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best password manager for small business"
+      ],
+      "sample_urls": [
+        "https://1password.com/pricing/password-manager"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best password manager for small business",
+          "url": "https://1password.com/pricing/password-manager",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 4,
+          "semantic_risk": 0.015325670498084292,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "aad.org",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best moisturizer for dry skin drugstore"
+      ],
+      "sample_urls": [
+        "https://www.aad.org/public/everyday-care/skin-care-basics/dry/pick-moisturizer"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best moisturizer for dry skin drugstore",
+          "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/pick-moisturizer",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.014536340852130323,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "aasm.org",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best nootropic stack for focus"
+      ],
+      "sample_urls": [
+        "https://aasm.org/caffeine-in-late-afternoon-early-evening-can-disrupt-sleep/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://aasm.org/caffeine-in-late-afternoon-early-evening-can-disrupt-sleep/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.0916256157635468,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "agencyanalytics.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://agencyanalytics.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://agencyanalytics.com/pricing",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.010199203187250996,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "aicomparison.ai",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best AI writing tools 2026"
+      ],
+      "sample_urls": [
+        "https://aicomparison.ai/best-ai-writing-tools/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best AI writing tools 2026",
+          "url": "https://aicomparison.ai/best-ai-writing-tools/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.05120581433762802,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "americanexpress.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best credit card for travel rewards 2026"
+      ],
+      "sample_urls": [
+        "https://www.americanexpress.com/en-us/credit-cards/credit-intel/platinum-fee/index.shtml"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best credit card for travel rewards 2026",
+          "url": "https://www.americanexpress.com/en-us/credit-cards/credit-intel/platinum-fee/index.shtml",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "apa.org",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://www.apa.org/about/policy/telepsychology-revisions"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://www.apa.org/about/policy/telepsychology-revisions",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "asana.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://asana.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://asana.com/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0025687561077760712,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "atlassian.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://www.atlassian.com/software/jira/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://www.atlassian.com/software/jira/pricing",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "basecamp.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://basecamp.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://basecamp.com/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.005125076266015863,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "bitwarden.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best password manager for small business"
+      ],
+      "sample_urls": [
+        "https://bitwarden.com/pricing/business/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best password manager for small business",
+          "url": "https://bitwarden.com/pricing/business/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 8,
+          "semantic_risk": 0.012705061082024433,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "brightlocal.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://www.brightlocal.com/pricing/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://www.brightlocal.com/pricing/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.021406347230864965,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "brightside.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://www.brightside.com/faqs/how-much-does-it-cost/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://www.brightside.com/faqs/how-much-does-it-cost/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 4,
+          "semantic_risk": 0.0073519400953029265,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "cavd.ca",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best dog food for allergies reddit"
+      ],
+      "sample_urls": [
+        "https://www.cavd.ca/images/CAVD_Illustrated_Diet_Trial_Handout_for_Dogs.pdf"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best dog food for allergies reddit",
+          "url": "https://www.cavd.ca/images/CAVD_Illustrated_Diet_Trial_Handout_for_Dogs.pdf",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.005622803592346739,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "cerave.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best retinol serum for beginners"
+      ],
+      "sample_urls": [
+        "https://www.cerave.com/skincare/facial-serums/resurfacing-retinol-serum"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best retinol serum for beginners",
+          "url": "https://www.cerave.com/skincare/facial-serums/resurfacing-retinol-serum",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.02117148906139732,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "chase.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best credit card for travel rewards 2026"
+      ],
+      "sample_urls": [
+        "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best credit card for travel rewards 2026",
+          "url": "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": null,
+          "n_verified": 2,
+          "semantic_risk": 0.03139240506329114,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "clickup.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://clickup.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://clickup.com/pricing",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 2,
+          "semantic_risk": 0.031794871794871796,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "co.uk",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://www.screamingfrog.co.uk/seo-spider/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://www.screamingfrog.co.uk/seo-spider/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.006580329016450822,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "cybernews.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best web hosting for beginners"
+      ],
+      "sample_urls": [
+        "https://cybernews.com/best-web-hosting/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best web hosting for beginners",
+          "url": "https://cybernews.com/best-web-hosting/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.05841179605613785,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "fda.gov",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best weight loss supplements that work",
+        "best nootropic stack for focus"
+      ],
+      "sample_urls": [
+        "https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney",
+        "https://www.fda.gov/drugs/medication-health-fraud-notifications/weight-loss-product-notifications",
+        "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+        "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much",
+        "https://www.fda.gov/food/information-select-dietary-supplement-ingredients-and-other-substances/fda-warns-consumers-about-pure-and-highly-concentrated-caffeine",
+        "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements"
+      ],
+      "url_tiers": [
+        "review",
+        "review",
+        "review",
+        "review",
+        "review",
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best weight loss supplements that work",
+          "url": "https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best weight loss supplements that work",
+          "url": "https://www.fda.gov/drugs/medication-health-fraud-notifications/weight-loss-product-notifications",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best weight loss supplements that work",
+          "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.02733118971061093,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.00758743331357439,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://www.fda.gov/food/information-select-dietary-supplement-ingredients-and-other-substances/fda-warns-consumers-about-pure-and-highly-concentrated-caffeine",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "flexispot.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best standing desk under 500"
+      ],
+      "sample_urls": [
+        "https://www.flexispot.com/flexispot-pro-standing-desk-e7"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best standing desk under 500",
+          "url": "https://www.flexispot.com/flexispot-pro-standing-desk-e7",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 8,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "forbes.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best protein powder for weight loss"
+      ],
+      "sample_urls": [
+        "https://www.forbes.com/health/supplements/best-protein-powder-for-weight-loss/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best protein powder for weight loss",
+          "url": "https://www.forbes.com/health/supplements/best-protein-powder-for-weight-loss/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.06432018166335508,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "fortune.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best protein powder for weight loss"
+      ],
+      "sample_urls": [
+        "https://fortune.com/article/best-protein-powders-for-weight-loss/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best protein powder for weight loss",
+          "url": "https://fortune.com/article/best-protein-powders-for-weight-loss/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.026041519559384267,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "g2.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best AI writing tools 2026"
+      ],
+      "sample_urls": [
+        "https://www.g2.com/categories/ai-writing-assistant",
+        "https://learn.g2.com/ai-writing-assistants"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best AI writing tools 2026",
+          "url": "https://www.g2.com/categories/ai-writing-assistant",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best AI writing tools 2026",
+          "url": "https://learn.g2.com/ai-writing-assistants",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0481536189069424,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "garagegymreviews.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best protein powder for weight loss"
+      ],
+      "sample_urls": [
+        "https://www.garagegymreviews.com/best-protein-powder-for-weight-loss"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best protein powder for weight loss",
+          "url": "https://www.garagegymreviews.com/best-protein-powder-for-weight-loss",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.04397620228061477,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "google.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best free AI chatbot for work",
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/google-workspace-with-gemini",
+        "https://search.google.com/search-console/about"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best free AI chatbot for work",
+          "url": "https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/google-workspace-with-gemini",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.009262250942380182,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://search.google.com/search-console/about",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "headway.co",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://headway.co/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://headway.co/",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": null,
+          "n_verified": 3,
+          "semantic_risk": 0.01850613154960981,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "helloalma.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://helloalma.com/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://helloalma.com/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.028409090909090905,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "hillspet.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best dog food for allergies reddit"
+      ],
+      "sample_urls": [
+        "https://www.hillspet.com/dog-food/prescription-diet-zd-food-sensitivities-dry"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best dog food for allergies reddit",
+          "url": "https://www.hillspet.com/dog-food/prescription-diet-zd-food-sensitivities-dry",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "hrblock.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best online tax software for freelancers"
+      ],
+      "sample_urls": [
+        "https://www.hrblock.com/online-tax-filing/self-employed-online-tax-filing/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://www.hrblock.com/online-tax-filing/self-employed-online-tax-filing/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.00586057988895743,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "insightful.io",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best employee monitoring software"
+      ],
+      "sample_urls": [
+        "https://www.insightful.io/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best employee monitoring software",
+          "url": "https://www.insightful.io/pricing",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.009769811983834123,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "irs.gov",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online tax software for freelancers"
+      ],
+      "sample_urls": [
+        "https://www.irs.gov/newsroom/use-irs-free-file-to-conveniently-file-your-return-at-no-cost",
+        "https://www.irs.gov/faqs/small-business-self-employed-other-business/schedule-c-schedule-se/schedule-c-schedule-se-1"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://www.irs.gov/newsroom/use-irs-free-file-to-conveniently-file-your-return-at-no-cost",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.005815831987075929,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://www.irs.gov/faqs/small-business-self-employed-other-business/schedule-c-schedule-se/schedule-c-schedule-se-1",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "jabra.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best wireless earbuds for workouts"
+      ],
+      "sample_urls": [
+        "https://www.jabra.com/_/media/Jabra_VXi_Product-Documentation/Jabra-Elite-8-Active-Gen2/Technical-specifications/RevA/EN-Jabra-Elite-8-Active-G2-Tech-Specs-A4-WEB-240524.pdf"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best wireless earbuds for workouts",
+          "url": "https://www.jabra.com/_/media/Jabra_VXi_Product-Documentation/Jabra-Elite-8-Active-Gen2/Technical-specifications/RevA/EN-Jabra-Elite-8-Active-G2-Tech-Specs-A4-WEB-240524.pdf",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0018209408194233686,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "jbl.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best noise cancelling headphones under 200"
+      ],
+      "sample_urls": [
+        "https://www.jbl.com/LIVE770NC.html"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best noise cancelling headphones under 200",
+          "url": "https://www.jbl.com/LIVE770NC.html",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0078023407022106625,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "keychron.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best budget mechanical keyboard reddit"
+      ],
+      "sample_urls": [
+        "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best budget mechanical keyboard reddit",
+          "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 8,
+          "semantic_risk": 0.01649620587264929,
+          "referrer_content_high_risk": 1,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "klaviyo.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best email marketing tool for Shopify"
+      ],
+      "sample_urls": [
+        "https://www.klaviyo.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best email marketing tool for Shopify",
+          "url": "https://www.klaviyo.com/pricing",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.01253616200578592,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "laroche-posay.us",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best retinol serum for beginners"
+      ],
+      "sample_urls": [
+        "https://www.laroche-posay.us/our-products/face/face-serum/retinol-b3-pure-retinol-serum-3337875694469.html",
+        "https://www.laroche-posay.us/our-products/ingredient/retinol"
+      ],
+      "url_tiers": [
+        "review",
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best retinol serum for beginners",
+          "url": "https://www.laroche-posay.us/our-products/face/face-serum/retinol-b3-pure-retinol-serum-3337875694469.html",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 4,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best retinol serum for beginners",
+          "url": "https://www.laroche-posay.us/our-products/ingredient/retinol",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 5,
+          "semantic_risk": 0.02244318181818182,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "lessannoyingcrm.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best CRM for small business"
+      ],
+      "sample_urls": [
+        "https://www.lessannoyingcrm.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best CRM for small business",
+          "url": "https://www.lessannoyingcrm.com/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.005517241379310344,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "linear.app",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://linear.app/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://linear.app/pricing",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "microsoft.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best free AI chatbot for work"
+      ],
+      "sample_urls": [
+        "https://support.microsoft.com/en-us/Microsoft-365-Copilot/what-s-the-difference-between-microsoft-copilot-free-and-copilot-in-microsoft-365"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best free AI chatbot for work",
+          "url": "https://support.microsoft.com/en-us/Microsoft-365-Copilot/what-s-the-difference-between-microsoft-copilot-free-and-copilot-in-microsoft-365",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "monday.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://monday.com/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://monday.com/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.00442466624284806,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "nationaleczema.org",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best moisturizer for dry skin drugstore"
+      ],
+      "sample_urls": [
+        "https://nationaleczema.org/treatments/moisturizing/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best moisturizer for dry skin drugstore",
+          "url": "https://nationaleczema.org/treatments/moisturizing/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0798611111111111,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "nbcnews.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best meal kit delivery service"
+      ],
+      "sample_urls": [
+        "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best meal kit delivery service",
+          "url": "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.04361774744027304,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "nerdwallet.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best credit card for travel rewards 2026"
+      ],
+      "sample_urls": [
+        "https://www.nerdwallet.com/credit-cards/best/travel"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best credit card for travel rewards 2026",
+          "url": "https://www.nerdwallet.com/credit-cards/best/travel",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 2,
+          "semantic_risk": 0.051209726443769005,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "nih.gov",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best protein powder for weight loss",
+        "best weight loss supplements that work",
+        "best nootropic stack for focus"
+      ],
+      "sample_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/",
+        "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+        "https://www.nccih.nih.gov/health/providers/digest/dietary-supplements-marketed-for-weight-loss-bodybuilding-and-sexual-enhancement-science",
+        "https://pubmed.ncbi.nlm.nih.gov/18681988/",
+        "https://pubmed.ncbi.nlm.nih.gov/39070254/",
+        "https://pubmed.ncbi.nlm.nih.gov/25046515/"
+      ],
+      "url_tiers": [
+        "review",
+        "review",
+        "review",
+        "review",
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best protein powder for weight loss",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.029071263184975563,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best weight loss supplements that work",
+          "url": "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best weight loss supplements that work",
+          "url": "https://www.nccih.nih.gov/health/providers/digest/dietary-supplements-marketed-for-weight-loss-bodybuilding-and-sexual-enhancement-science",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.04157894736842105,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/18681988/",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.015932203389830507,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39070254/",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.027410670582476745,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best nootropic stack for focus",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25046515/",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 2,
+          "semantic_risk": 0.02294402211472011,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "notion.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best project management software for startups",
+        "Notion vs Obsidian which is better"
+      ],
+      "sample_urls": [
+        "https://www.notion.com/pricing",
+        "https://www.notion.com/help/start-here"
+      ],
+      "url_tiers": [
+        "review",
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://www.notion.com/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0031191180424845395,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "Notion vs Obsidian which is better",
+          "url": "https://www.notion.com/help/start-here",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.006818181818181818,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "Notion vs Obsidian which is better",
+          "url": "https://www.notion.com/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0031191180424845395,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "obsidian.md",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "Notion vs Obsidian which is better"
+      ],
+      "sample_urls": [
+        "https://obsidian.md/help/data-storage"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "Notion vs Obsidian which is better",
+          "url": "https://obsidian.md/help/data-storage",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "omnisend.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best email marketing tool for Shopify"
+      ],
+      "sample_urls": [
+        "https://www.omnisend.com/pricing/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best email marketing tool for Shopify",
+          "url": "https://www.omnisend.com/pricing/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.03460540941089292,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "openai.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best free AI chatbot for work"
+      ],
+      "sample_urls": [
+        "https://openai.com/products/release-notes/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best free AI chatbot for work",
+          "url": "https://openai.com/products/release-notes/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.04490145672664953,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "optimumnutrition.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best protein powder for weight loss"
+      ],
+      "sample_urls": [
+        "https://www.optimumnutrition.com/en-us/pages/our-quality"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best protein powder for weight loss",
+          "url": "https://www.optimumnutrition.com/en-us/pages/our-quality",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "pcmag.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best VPN 2026",
+        "best web hosting for beginners"
+      ],
+      "sample_urls": [
+        "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+        "https://au.pcmag.com/web-hosting/9189/the-best-web-hosting-services"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best VPN 2026",
+          "url": "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.05389146509587669,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best web hosting for beginners",
+          "url": "https://au.pcmag.com/web-hosting/9189/the-best-web-hosting-services",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.05834261173850802,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "pipedrive.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best CRM for small business"
+      ],
+      "sample_urls": [
+        "https://www.pipedrive.com/en/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best CRM for small business",
+          "url": "https://www.pipedrive.com/en/pricing",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.011710037174721188,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "powersof10.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best noise cancelling headphones under 200"
+      ],
+      "sample_urls": [
+        "https://powersof10.com/best-noise-cancelling-headphones-under-200/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best noise cancelling headphones under 200",
+          "url": "https://powersof10.com/best-noise-cancelling-headphones-under-200/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.02000926354793886,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "proplanvetdirect.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best dog food for allergies reddit"
+      ],
+      "sample_urls": [
+        "https://www.proplanvetdirect.com/ha-hydrolyzed-vegetarian"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best dog food for allergies reddit",
+          "url": "https://www.proplanvetdirect.com/ha-hydrolyzed-vegetarian",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "public.law",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best employee monitoring software"
+      ],
+      "sample_urls": [
+        "https://newyork.public.law/laws/n.y._civil_rights_law_section_52-c%2A2"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best employee monitoring software",
+          "url": "https://newyork.public.law/laws/n.y._civil_rights_law_section_52-c%2A2",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "royalcanin.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "best dog food for allergies reddit"
+      ],
+      "sample_urls": [
+        "https://www.royalcanin.com/us/dogs/products/vet-products/ultamino-4014"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best dog food for allergies reddit",
+          "url": "https://www.royalcanin.com/us/dogs/products/vet-products/ultamino-4014",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "rtings.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best mattress for back pain 2026",
+        "best noise cancelling headphones under 200",
+        "best wireless earbuds for workouts",
+        "best budget mechanical keyboard reddit"
+      ],
+      "sample_urls": [
+        "https://www.rtings.com/mattress/reviews/best/back-pain",
+        "https://www.rtings.com/headphones/reviews/best/noise-cancelling-headphones-under-200",
+        "https://www.rtings.com/headphones/reviews/best/by-usage/running",
+        "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+        "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018"
+      ],
+      "url_tiers": [
+        "review",
+        "review",
+        "review",
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best mattress for back pain 2026",
+          "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0688622754491018,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best noise cancelling headphones under 200",
+          "url": "https://www.rtings.com/headphones/reviews/best/noise-cancelling-headphones-under-200",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.05555555555555555,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best wireless earbuds for workouts",
+          "url": "https://www.rtings.com/headphones/reviews/best/by-usage/running",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.05555555555555555,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best budget mechanical keyboard reddit",
+          "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.057142857142857134,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best budget mechanical keyboard reddit",
+          "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.0028571428571428584,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "runrepeat.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best running shoes for flat feet reddit"
+      ],
+      "sample_urls": [
+        "https://runrepeat.com/guides/best-overpronation-running-shoes",
+        "https://runrepeat.com/guides/best-flat-feet-running-shoes"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best running shoes for flat feet reddit",
+          "url": "https://runrepeat.com/guides/best-overpronation-running-shoes",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.029498997995991982,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best running shoes for flat feet reddit",
+          "url": "https://runrepeat.com/guides/best-flat-feet-running-shoes",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.029261363636363634,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "scamadviser.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "theograce reddit"
+      ],
+      "sample_urls": [
+        "https://www.scamadviser.com/check-website/theograce.com"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "theograce reddit",
+          "url": "https://www.scamadviser.com/check-website/theograce.com",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 2,
+          "semantic_risk": 0.01936936936936937,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "semrush.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://www.semrush.com/pricing/seo-ai-search/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://www.semrush.com/pricing/seo-ai-search/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 3,
+          "semantic_risk": 0.004270462633451957,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "seranking.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://seranking.com/subscription.html"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://seranking.com/subscription.html",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.008884501480750246,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "shopify.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best email marketing tool for Shopify"
+      ],
+      "sample_urls": [
+        "https://apps.shopify.com/klaviyo-email-marketing",
+        "https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-messaging/email/pricing"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best email marketing tool for Shopify",
+          "url": "https://apps.shopify.com/klaviyo-email-marketing",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 7,
+          "semantic_risk": 0.0026651860077734598,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best email marketing tool for Shopify",
+          "url": "https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-messaging/email/pricing",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "sitebulb.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://sitebulb.com/subscriptions/pricing/index/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://sitebulb.com/subscriptions/pricing/index/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.005652535328345802,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "sleepfoundation.org",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best mattress for back pain 2026"
+      ],
+      "sample_urls": [
+        "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best mattress for back pain 2026",
+          "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.04165566886622675,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "soundcore.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best wireless earbuds for workouts"
+      ],
+      "sample_urls": [
+        "https://www.soundcore.com/products/a3968-sport-x20-earbuds"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best wireless earbuds for workouts",
+          "url": "https://www.soundcore.com/products/a3968-sport-x20-earbuds",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 5,
+          "semantic_risk": 0.0020950635066125448,
+          "referrer_content_high_risk": 1,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "tasteofhome.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best meal kit delivery service"
+      ],
+      "sample_urls": [
+        "https://www.tasteofhome.com/collection/best-meal-delivery-service/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best meal kit delivery service",
+          "url": "https://www.tasteofhome.com/collection/best-meal-delivery-service/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 0,
+          "semantic_risk": 0.03004484304932735,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "taxslayer.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best online tax software for freelancers"
+      ],
+      "sample_urls": [
+        "https://www.taxslayer.com/products/product-pricing/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://www.taxslayer.com/products/product-pricing/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "the-independent.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best moisturizer for dry skin drugstore",
+        "best meal kit delivery service"
+      ],
+      "sample_urls": [
+        "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+        "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html"
+      ],
+      "url_tiers": [
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best moisturizer for dry skin drugstore",
+          "url": "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.037678275290215585,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best meal kit delivery service",
+          "url": "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.03730366492146596,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "theograce.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "is theograce a good brand?",
+        "theograce reddit"
+      ],
+      "sample_urls": [
+        "https://www.theograce.com/",
+        "https://www.theograce.com/articles/why-theo-grace",
+        "https://www.theograce.com/articles/return-policy",
+        "https://www.theograce.com/articles/warranty-conditions"
+      ],
+      "url_tiers": [
+        "review",
+        "review",
+        "review",
+        "review",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "is theograce a good brand?",
+          "url": "https://www.theograce.com/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.04600638977635782,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "is theograce a good brand?",
+          "url": "https://www.theograce.com/articles/why-theo-grace",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.02097378277153558,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "is theograce a good brand?",
+          "url": "https://www.theograce.com/articles/return-policy",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 2,
+          "semantic_risk": 0.012672176308539946,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "is theograce a good brand?",
+          "url": "https://www.theograce.com/articles/warranty-conditions",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.008729139922978177,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "theograce reddit",
+          "url": "https://www.theograce.com/",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 2,
+          "semantic_risk": 0.04600638977635782,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "theordinary.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best retinol serum for beginners"
+      ],
+      "sample_urls": [
+        "https://theordinary.com/en-ca/retinol-02-in-squalane-serum-100439.html"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best retinol serum for beginners",
+          "url": "https://theordinary.com/en-ca/retinol-02-in-squalane-serum-100439.html",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.003410852713178295,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "toolcenter.ai",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best AI writing tools 2026"
+      ],
+      "sample_urls": [
+        "https://www.toolcenter.ai/en/articles/best-ai-writing-tools-2026"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best AI writing tools 2026",
+          "url": "https://www.toolcenter.ai/en/articles/best-ai-writing-tools-2026",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.03025616239729338,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "trello.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best project management software for startups"
+      ],
+      "sample_urls": [
+        "https://trello.com/en/pricing"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best project management software for startups",
+          "url": "https://trello.com/en/pricing",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.007689289917614752,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "trustpilot.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page"
+      ],
+      "queries_seen": [
+        "is theograce a good brand?"
+      ],
+      "sample_urls": [
+        "https://www.trustpilot.com/review/theograce.com"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "is theograce a good brand?",
+          "url": "https://www.trustpilot.com/review/theograce.com",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 8,
+          "semantic_risk": 0.010947368421052634,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "vari.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best standing desk under 500"
+      ],
+      "sample_urls": [
+        "https://www.vari.com/essential-electric-standing-desk-split-top-48x24/FD-ESTSTESD4824.html"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best standing desk under 500",
+          "url": "https://www.vari.com/essential-electric-standing-desk-split-top-48x24/FD-ESTSTESD4824.html",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": null,
+          "n_verified": 3,
+          "semantic_risk": 0.019844082211197732,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "wearefounders.uk",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best AI writing tools 2026"
+      ],
+      "sample_urls": [
+        "https://www.wearefounders.uk/7-best-ai-writing-tools-in-2026-free-paid/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best AI writing tools 2026",
+          "url": "https://www.wearefounders.uk/7-best-ai-writing-tools-in-2026-free-paid/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.042969041402461765,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "websiteplanet.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best web hosting for beginners"
+      ],
+      "sample_urls": [
+        "https://www.websiteplanet.com/blog/best-web-hosting-for-beginners/"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best web hosting for beginners",
+          "url": "https://www.websiteplanet.com/blog/best-web-hosting-for-beginners/",
+          "list_tier": "review",
+          "llm_action": "defer_fetch",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.008875739644970414,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "wordpress.org",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best web hosting for beginners"
+      ],
+      "sample_urls": [
+        "https://wordpress.org/hosting/",
+        "https://wordpress.org/about/requirements/"
+      ],
+      "url_tiers": [
+        "clean",
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best web hosting for beginners",
+          "url": "https://wordpress.org/hosting/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 8,
+          "semantic_risk": 0.026666666666666665,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best web hosting for beginners",
+          "url": "https://wordpress.org/about/requirements/",
+          "list_tier": "review",
+          "llm_action": "downrank",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "yahoo.com",
+      "list_tier": "review",
+      "mechanisms": [
+        "on_page",
+        "referrer"
+      ],
+      "queries_seen": [
+        "best meal kit delivery service"
+      ],
+      "sample_urls": [
+        "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best meal kit delivery service",
+          "url": "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html",
+          "list_tier": "review",
+          "llm_action": "attribute_only",
+          "geo_suspected": false,
+          "n_verified": 0,
+          "semantic_risk": 0.025500910746812384,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "zoho.com",
+      "list_tier": "review",
+      "mechanisms": [],
+      "queries_seen": [
+        "best CRM for small business"
+      ],
+      "sample_urls": [
+        "https://www.zoho.com/crm/zohocrm-pricing.html"
+      ],
+      "url_tiers": [
+        "review"
+      ],
+      "evidence": [
+        {
+          "query": "best CRM for small business",
+          "url": "https://www.zoho.com/crm/zohocrm-pricing.html",
+          "list_tier": "review",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 1,
+          "semantic_risk": 0.00540888602704443,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "ahrefs.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best SEO tools for agencies"
+      ],
+      "sample_urls": [
+        "https://ahrefs.com/pricing"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best SEO tools for agencies",
+          "url": "https://ahrefs.com/pricing",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 9,
+          "semantic_risk": 0.004715127701375245,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "anthropic.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best free AI chatbot for work"
+      ],
+      "sample_urls": [
+        "https://www.anthropic.com/news/claude-4"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best free AI chatbot for work",
+          "url": "https://www.anthropic.com/news/claude-4",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 13,
+          "semantic_risk": 0.019430485762144054,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "betterhelp.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 5,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "capitalone.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best credit card for travel rewards 2026"
+      ],
+      "sample_urls": [
+        "https://www.capitalone.com/credit-cards/venture-x/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best credit card for travel rewards 2026",
+          "url": "https://www.capitalone.com/credit-cards/venture-x/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.01399317406143345,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "cnbc.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online tax software for freelancers"
+      ],
+      "sample_urls": [
+        "https://www.cnbc.com/select/freetaxusa-review/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://www.cnbc.com/select/freetaxusa-review/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.11589310829817158,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "dashlane.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best password manager for small business"
+      ],
+      "sample_urls": [
+        "https://www.dashlane.com/pricing"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best password manager for small business",
+          "url": "https://www.dashlane.com/pricing",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.02009132420091324,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "growtherapy.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://growtherapy.com/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://growtherapy.com/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 15,
+          "semantic_risk": 0.01542857142857143,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "hubspot.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best CRM for small business"
+      ],
+      "sample_urls": [
+        "https://www.hubspot.com/pricing/suite"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best CRM for small business",
+          "url": "https://www.hubspot.com/pricing/suite",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 9,
+          "semantic_risk": 0.018124606670862176,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "intuit.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online tax software for freelancers"
+      ],
+      "sample_urls": [
+        "https://turbotax.intuit.com/personal-taxes/online/premium/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online tax software for freelancers",
+          "url": "https://turbotax.intuit.com/personal-taxes/online/premium/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 8,
+          "semantic_risk": 0.0240545567265964,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "keepersecurity.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best password manager for small business"
+      ],
+      "sample_urls": [
+        "https://www.keepersecurity.com/pricing/business-and-enterprise.html"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best password manager for small business",
+          "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.00780114722753346,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "nsfsport.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best protein powder for weight loss"
+      ],
+      "sample_urls": [
+        "https://www.nsfsport.com/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best protein powder for weight loss",
+          "url": "https://www.nsfsport.com/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 15,
+          "semantic_risk": 0.03375,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "online-therapy.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.008502772643253234,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "paulaschoice.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best retinol serum for beginners"
+      ],
+      "sample_urls": [
+        "https://www.paulaschoice.com/clinical-0.3pct-retinol-and-2pct-bakuchiol-treatment/81B.html"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best retinol serum for beginners",
+          "url": "https://www.paulaschoice.com/clinical-0.3pct-retinol-and-2pct-bakuchiol-treatment/81B.html",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.0673076923076923,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "security.org",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best VPN 2026"
+      ],
+      "sample_urls": [
+        "https://www.security.org/vpn/best/",
+        "https://www.security.org/vpn/best/no-log/"
+      ],
+      "url_tiers": [
+        "clean",
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best VPN 2026",
+          "url": "https://www.security.org/vpn/best/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 15,
+          "semantic_risk": 0.04694904849600982,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        },
+        {
+          "query": "best VPN 2026",
+          "url": "https://www.security.org/vpn/best/no-log/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 16,
+          "semantic_risk": 0.04390862944162437,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "shokz.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best wireless earbuds for workouts"
+      ],
+      "sample_urls": [
+        "https://shokz.com/products/openrunpro2"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best wireless earbuds for workouts",
+          "url": "https://shokz.com/products/openrunpro2",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 8,
+          "semantic_risk": 0.0067466950311502825,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "talkspace.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://www.talkspace.com/pricing"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://www.talkspace.com/pricing",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 6,
+          "semantic_risk": 0.00116327378479435,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "thriveworks.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best online therapy platforms"
+      ],
+      "sample_urls": [
+        "https://thriveworks.com/"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best online therapy platforms",
+          "url": "https://thriveworks.com/",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 9,
+          "semantic_risk": 0.02007242628039317,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "vanicream.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best moisturizer for dry skin drugstore"
+      ],
+      "sample_urls": [
+        "https://www.vanicream.com/product/vanicream-moisturizing-cream"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best moisturizer for dry skin drugstore",
+          "url": "https://www.vanicream.com/product/vanicream-moisturizing-cream",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 5,
+          "semantic_risk": 0.0,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    },
+    {
+      "domain": "vivo-us.com",
+      "list_tier": "clean",
+      "mechanisms": [],
+      "queries_seen": [
+        "best standing desk under 500"
+      ],
+      "sample_urls": [
+        "https://vivo-us.com/products/desk-kit-2e1b"
+      ],
+      "url_tiers": [
+        "clean"
+      ],
+      "evidence": [
+        {
+          "query": "best standing desk under 500",
+          "url": "https://vivo-us.com/products/desk-kit-2e1b",
+          "list_tier": "clean",
+          "llm_action": "pass",
+          "geo_suspected": false,
+          "n_verified": 5,
+          "semantic_risk": 0.01029263370332997,
+          "referrer_content_high_risk": 0,
+          "is_ugc": false
+        }
+      ]
+    }
+  ],
+  "query_errors": [
+    {
+      "query": "best online therapy platforms",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_b.json"
+    },
+    {
+      "query": "best meal kit delivery service",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_b.json"
+    },
+    {
+      "query": "best dog food for allergies reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best home security camera system reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best cordless vacuum under 300 reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best language learning app 2026 reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best budgeting app for couples reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best electric toothbrush reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best portable monitor for travel reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best sleep tracking wearable reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_c_reddit.json"
+    },
+    {
+      "query": "best home security camera system reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    },
+    {
+      "query": "best cordless vacuum under 300 reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    },
+    {
+      "query": "best language learning app 2026 reddit",
+      "error": "APIConnectionError: Connection error.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    },
+    {
+      "query": "best budgeting app for couples reddit",
+      "error": "APIConnectionError: Connection error.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    },
+    {
+      "query": "best electric toothbrush reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    },
+    {
+      "query": "best portable monitor for travel reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    },
+    {
+      "query": "best sleep tracking wearable reddit",
+      "error": "APITimeoutError: Request timed out.",
+      "shard": "data/geo_risk_batch/shard_timeout_retry.json"
+    }
+  ],
+  "shards": [
+    "data/geo_risk_batch/shard_a.json",
+    "data/geo_risk_batch/shard_b.json",
+    "data/geo_risk_batch/shard_c_reddit.json",
+    "data/geo_risk_batch/shard_timeout_retry.json",
+    "data/geo_risk_batch/theograce_query.json",
+    "data/geo_risk_batch/theograce_reddit_query.json"
+  ]
+}

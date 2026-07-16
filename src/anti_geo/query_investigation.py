@@ -29,7 +29,7 @@ from anti_geo.models import (
     SourceScore,
     UrlAnalysisReport,
 )
-from anti_geo.permissions import derive_llm_actions
+from anti_geo.permissions import apply_ugc_site_cite_policy, derive_llm_actions
 from anti_geo.pipeline import _format_subscores_permissions
 from anti_geo.platform_role import classify_content_role, is_ugc_role
 from anti_geo.progress import NullProgress, Progress
@@ -149,7 +149,16 @@ def _row_from_report(
     mode_b_error: str | None = None,
     from_source_pool: bool = False,
 ) -> CiteInvestigationRow:
-    primary, actions = _llm_actions_for_report(report)
+    working = report
+    if is_ugc and report.permissions is not None:
+        tightened = apply_ugc_site_cite_policy(report.permissions)
+        primary_pre, _ = derive_llm_actions(tightened, report.subscores)
+        working = replace(
+            report,
+            permissions=tightened,
+            recommended_action=primary_pre,
+        )
+    primary, actions = _llm_actions_for_report(working)
     # Structural referral mix may tighten; never from referrer L1-L2 scores.
     primary, actions = tighten_actions_with_referral(
         primary,
@@ -158,11 +167,11 @@ def _row_from_report(
         content_role=role,
         engine_cited=True,
     )
-    trust = report.source.trust_score
+    trust = working.source.trust_score
     endorsement = (
-        report.subscores.endorsement_risk
-        if report.subscores
-        else report.endorsement_risk
+        working.subscores.endorsement_risk
+        if working.subscores
+        else working.endorsement_risk
     )
     n_verified: int | None = None
     parasitic_share: float | None = None
@@ -173,14 +182,14 @@ def _row_from_report(
         parasitic_share = parasitic_share_from_verified(profile.referrers_verified)
 
     return CiteInvestigationRow(
-        url=report.source.url,
+        url=working.source.url,
         is_ugc=is_ugc,
         content_role=role,
         llm_action=primary,
         llm_actions=actions,
         source_trust=trust,
         endorsement_risk=endorsement,
-        single_page=report,
+        single_page=working,
         referral_profile=profile,
         n_verified=n_verified,
         parasitic_verified_share=parasitic_share,

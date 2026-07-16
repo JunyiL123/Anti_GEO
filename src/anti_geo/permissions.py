@@ -191,6 +191,24 @@ def derive_llm_actions(
     return primary, deduped
 
 
+def apply_ugc_site_cite_policy(permissions: SourcePermissions) -> SourcePermissions:
+    """When a UGC forum/thread is itself a cite: allow mention, don't treat as authority.
+
+    Mode A still runs L1–L3 on UGC, but skips Mode B. Without this, clean forum
+    indexes can get ``pass`` + endorsement allow — too strong for open-posting
+    surfaces. Tighten to attribute-only facts + no endorsement.
+    """
+    factual = permissions.factual_permission
+    if factual == "allow":
+        factual = "attribute_only"
+    return SourcePermissions(
+        retrieve_permission=permissions.retrieve_permission,
+        mention_permission=permissions.mention_permission,
+        factual_permission=factual,
+        endorsement_permission="deny",
+    )
+
+
 def merge_llm_actions(
     primary: str,
     actions: list[str],

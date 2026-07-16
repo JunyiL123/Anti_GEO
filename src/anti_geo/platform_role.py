@@ -5,11 +5,62 @@ from urllib.parse import urlparse
 
 from anti_geo.models import FetchResult, PageContextSignals, SourceScore
 
-# Reddit-like comment threads — also drives comment segmentation.
+# Open-posting / forum thread surfaces. Path keywords + classic forum software
+# routes (phpBB, vBulletin, XenForo, MyBB, SMF, Discourse, Flarum, IPS, …).
+# Also drives comment segmentation (segments.py) and referrer triage.
 THREAD_PATH_RE = re.compile(
-    r"/(comments?|forum|thread|questions|discussion)\b",
+    # Segment keywords (…/board/…, …/threads/…, …/topic/…)
+    r"/(?:comments?|forums?|threads?|questions?|discussions?|"
+    r"boards?|topics?|chit[_-]?chat|message[-_]?boards?|"
+    r"showthreads?|forumdisplays?)"
+    r"(?:/|$|\?)"
+    # Legacy PHP endpoints
+    r"|/(?:viewtopic|viewforum|showthread|forumdisplay|showpost|"
+    r"printthread|newreply|newthread)\.php"
+    # Discourse / Flarum slug+id
+    r"|/t/[a-z0-9-]+/\d+"
+    r"|/d/[a-z0-9-]+/\d+"
+    # Quora / Q&A threads
+    r"|/question(?:s)?/"
+    # MyBB / SMF pretty URLs: thread-123.html, topic-123-title.html
+    r"|/(?:thread|topic|forum|board)-\d+(?:-[a-z0-9_-]+)*(?:\.html?)?(?:/|$|\?)"
+    # Vanilla / NodeBB / bbPress numeric discussion routes
+    r"|/(?:discussion|topic|forum|thread)/\d+(?:-[a-z0-9_-]+)?(?:/|$|\?)"
+    # Invision Community (IPS) pretty index.php?/topic/…
+    r"|/index\.php\?/(?:topic|forum|forums|threads?)/"
+    # XenForo-style threads/slug.123/ (numeric id after final dot)
+    r"|/threads/[a-z0-9_-]+\.\d+(?:/|$|\?)"
+    # Imageboard / Futaba-wakaba: /board/res/123.html or /res/123.html
+    r"|/(?:[a-z0-9]{1,20}/)?res/\d+(?:\.html?)?(?:/|$|\?)"
+    # Imageboard catalog post links: /board/thread/123 (already covered by threads?)
+    # Explicit short-board + thread numeric (4chan-style /g/thread/123)
+    r"|/[a-z0-9]{1,8}/thread/\d+(?:/|$|\?)",
     re.I,
 )
+
+# SMF / vB-style query params on generic scripts (avoid bare ?t= / ?f=).
+FORUM_QUERY_RE = re.compile(
+    r"(?:[?&](?:topic|board|thread|tid|fid|threadid|forumid)=\d)"
+    r"|(?:[?&](?:action)=(?:showthread|forumdisplay|viewtopic|viewforum)\b)",
+    re.I,
+)
+
+# Forum-hosting SaaS / freeboard platforms — host is the signal, not a brand list.
+FORUM_SAAS_HOST_RE = re.compile(
+    r"(?:^|\.)(?:"
+    r"proboards\.com|boardhost\.com|invisionfree\.com|"
+    r"websitetoolbox\.com|freeforums\.net|forumotion\.com|"
+    r"createaforum\.com|niceboard\.com|boards\.net|"
+    r"vbulletin\.net|discourse\.group|vanillaforums\.com|"
+    r"discourse\.com|flarum\.cloud|"
+    # Imageboards (4chan-like) — arbitrary board codes, host is the signal
+    r"4chan\.org|4channel\.org|4cdn\.org|"
+    r"8kun\.top|8ch\.net|lainchan\.org|endchan\.(?:net|org)|"
+    r"smuglo\.li|wikichan\.org"
+    r")$",
+    re.I,
+)
+
 # LinkedIn / X-style open posting (UGC label + Mode B skip).
 # Require end-of-segment so /blog/post-slug does not match.
 SOCIAL_POST_PATH_RE = re.compile(r"/(posts?|pulse|feed|status)(?:/|$)", re.I)
@@ -23,24 +74,115 @@ POST_SHAPED_PATH_RE = re.compile(
     re.I,
 )
 
+# Product review hubs + complaint / customer-review profiles (BBB-style).
 REVIEW_PROFILE_RE = re.compile(
-    r"/(product-reviews/|products/[^/]+/reviews(?:/|$)|/reviews(?:/|$))",
+    r"/(?:product-reviews/|products/[^/]+/reviews(?:/|$)|"
+    r"customer[-_]reviews?(?:/|$)|"
+    r"complaints?(?:/|$)|"
+    r"reviews?(?:/|$)|"
+    r"profile/[^?\s]+/(?:customer[-_])?reviews?(?:/|$)|"
+    r"review/[a-z0-9_-]+)",
     re.I,
 )
 EDITORIAL_PICKS_RE = re.compile(r"/(picks|best-|roundup|guide)/", re.I)
 PRODUCT_PATH_RE = re.compile(r"/(dp/|product/|products/|shop/|buy/|item/)\b", re.I)
 
+# SEO forum/community directories (Feedspot / GrowReddit-style aggregators).
+# Path-shaped only — no per-host brand lists.
+FORUM_DIRECTORY_PATH_RE = re.compile(
+    r"/(?:directory|directories)(?:/|$)"
+    r"|/[a-z0-9_-]+[_-]forums?(?:/|$)"  # gaming_forums/, pc-gaming-forums/
+    r"|/best[-_][a-z0-9_-]*forums?(?:/|$)",
+    re.I,
+)
+
+
+# Common multi-part public suffixes (no PSL dependency). Hosts ending in these
+# use last-three labels so example.co.uk is not mangled to co.uk.
+_MULTI_PART_PUBLIC_SUFFIXES = frozenset(
+    {
+        "co.uk",
+        "org.uk",
+        "ac.uk",
+        "gov.uk",
+        "com.au",
+        "net.au",
+        "org.au",
+        "co.jp",
+        "or.jp",
+        "ne.jp",
+        "com.br",
+        "co.in",
+        "com.mx",
+        "co.nz",
+        "co.za",
+        "com.sg",
+        "com.hk",
+        "co.kr",
+        "com.tw",
+        "com.cn",
+        "com.ar",
+        "co.il",
+    }
+)
+
 
 def registrable_domain(hostname: str) -> str:
     host = hostname.lower().removeprefix("www.")
     parts = host.split(".")
+    if len(parts) >= 3:
+        suffix2 = ".".join(parts[-2:])
+        if suffix2 in _MULTI_PART_PUBLIC_SUFFIXES:
+            return ".".join(parts[-3:])
     if len(parts) >= 2:
         return ".".join(parts[-2:])
     return host
 
 
+def is_forum_saas_host(hostname: str) -> bool:
+    """True for freemium / hosted forum platforms (path may be arbitrary)."""
+    host = hostname.lower().removeprefix("www.")
+    return bool(FORUM_SAAS_HOST_RE.search(host))
+
+
+def is_forum_subdomain_host(hostname: str) -> bool:
+    """forum.* / forums.* hosts — usually real Discourse/phpBB communities."""
+    host = hostname.lower().removeprefix("www.")
+    return host.startswith("forums.") or host.startswith("forum.")
+
+
+# Back-compat alias (older name implied "directory"; host alone is not).
+is_forum_directory_host = is_forum_subdomain_host
+
+
+def is_forum_directory_path(url: str) -> bool:
+    """True for directory/aggregator URL shapes (Feedspot-like).
+
+    Path patterns only — do not treat bare ``forum.brand.com/top`` as a
+    directory; those are live UGC surfaces (see ``is_open_posting_path``).
+    """
+    parsed = urlparse(url)
+    path = parsed.path or ""
+    if FORUM_DIRECTORY_PATH_RE.search(path):
+        return True
+    # Shallow single-segment index ending in forum(s), any host
+    # (e.g. /gaming_forums, /pc_gaming_forums).
+    stripped = path.strip("/")
+    if stripped and "/" not in stripped and re.search(r"forums?$", stripped, re.I):
+        return True
+    return False
+
+
 def is_thread_path(url: str) -> bool:
-    return bool(THREAD_PATH_RE.search(urlparse(url).path or ""))
+    parsed = urlparse(url)
+    path = parsed.path or ""
+    query = parsed.query or ""
+    blob = f"{path}?{query}" if query else path
+    if THREAD_PATH_RE.search(path) or THREAD_PATH_RE.search(blob):
+        return True
+    if FORUM_QUERY_RE.search(blob):
+        return True
+    return False
 
 
 def is_social_post_path(url: str) -> bool:
@@ -49,8 +191,14 @@ def is_social_post_path(url: str) -> bool:
 
 def is_open_posting_path(url: str) -> bool:
     """Thread or social open-posting URL — UGC surfaces."""
-    path = urlparse(url).path or ""
-    return bool(THREAD_PATH_RE.search(path) or SOCIAL_POST_PATH_RE.search(path))
+    host = urlparse(url).netloc or ""
+    if is_forum_saas_host(host):
+        return True
+    # forum.brand.com / forums.brand.com — including Discourse indexes (/top,
+    # /latest, bare /). Aggregator paths (*_forums, /directory) stay non-UGC.
+    if is_forum_subdomain_host(host) and not is_forum_directory_path(url):
+        return True
+    return is_thread_path(url) or is_social_post_path(url)
 
 
 def is_parasitic_publish_path(url: str) -> bool:
@@ -71,10 +219,13 @@ def is_parasitic_referrer(
 ) -> bool:
     """Potential parasitic GEO surface for mix share (unweighted boolean).
 
-    Always: open-posting UGC paths, Medium-like /p/, review_profile.
+    Always: open-posting UGC paths, Medium-like /p/, review_profile,
+    forum/community directory aggregators.
     Conditional: factual_blog only when L1 already marked high-risk.
     """
     if is_open_posting_path(url) or is_parasitic_publish_path(url):
+        return True
+    if is_forum_directory_path(url):
         return True
     if role == "review_profile" or role == "ugc_thread":
         return True
@@ -97,8 +248,8 @@ def classify_content_role(
     if host.endswith(".gov") or host.endswith(".edu"):
         return "institutional"
 
-    # Open posting (Reddit / LinkedIn / X) → UGC.
-    if THREAD_PATH_RE.search(path) or SOCIAL_POST_PATH_RE.search(path):
+    # Open posting (Reddit / LinkedIn / X / classic forums / forum SaaS) → UGC.
+    if is_open_posting_path(url):
         return "ugc_thread"
 
     if EDITORIAL_PICKS_RE.search(path):
@@ -106,6 +257,11 @@ def classify_content_role(
 
     if REVIEW_PROFILE_RE.search(path):
         return "review_profile"
+
+    # Forum/community SEO directories (Feedspot / GrowReddit-style) — listicle, not UGC.
+    # Checked before commercial so CTA-heavy directories stay Mode-B-eligible.
+    if is_forum_directory_path(url):
+        return "expert_listicle"
 
     # Medium-like /p/ and leftover newsletter shapes — soft publish, not UGC.
     if PARASITIC_PUBLISH_PATH_RE.search(path) or re.search(
