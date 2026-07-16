@@ -46,6 +46,41 @@ def test_classify_review_profile():
     assert classify_content_role("https://www.g2.com/products/securevault/reviews") == "review_profile"
 
 
+def test_classify_app_store_ratings_as_review_profile():
+    indus = "https://www.indusappstore.com/ratings-and-reviews/com.lemonn.app/"
+    assert classify_content_role(indus) == "review_profile"
+    assert is_parasitic_referrer(url=indus, role="review_profile")
+    assert (
+        classify_content_role(
+            "https://apps.example.com/app/foo/user-reviews/"
+        )
+        == "review_profile"
+    )
+
+
+def test_classify_youtube_watch_as_ugc_parasitic():
+    watch = "https://www.youtube.com/watch?v=wX7gdIeon7A"
+    assert classify_content_role(watch) == "ugc_thread"
+    assert is_ugc_role(classify_content_role(watch))
+    assert is_parasitic_referrer(url=watch, role="ugc_thread")
+    shorts = "https://www.youtube.com/shorts/abc123xyz"
+    assert classify_content_role(shorts) == "ugc_thread"
+    assert is_parasitic_referrer(url=shorts, role="ugc_thread")
+    short_link = "https://youtu.be/wX7gdIeon7A"
+    assert classify_content_role(short_link) == "ugc_thread"
+    # Channel / home are not open-posting video surfaces.
+    assert classify_content_role("https://www.youtube.com/") == "factual_blog"
+    assert (
+        classify_content_role("https://www.youtube.com/channel/UCabcdef")
+        == "factual_blog"
+    )
+    # Generic /watch on other hosts must not become UGC.
+    assert (
+        classify_content_role("https://www.example.com/watch?v=abc")
+        == "factual_blog"
+    )
+
+
 def test_classify_editorial_picks():
     assert (
         classify_content_role("https://www.pcmag.com/picks/the-best-budget-laptops")

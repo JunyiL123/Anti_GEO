@@ -92,6 +92,7 @@ class ReferrerExcerptCandidate:
     segment_role: str = "body"
     thread_surface: float = 0.0
     editability: float = 0.0
+    llm_parasitic: bool = False
 
 
 def content_score_eligible(
@@ -99,6 +100,7 @@ def content_score_eligible(
     role: str,
     *,
     content_high_risk: bool = False,
+    llm_parasitic: bool = False,
 ) -> bool:
     """True when this verified referrer should get entity-scoped L1.
 
@@ -107,7 +109,10 @@ def content_score_eligible(
     (e.g. Medium ``/p/`` publish path).
     """
     if is_parasitic_referrer(
-        url=url, role=role, content_high_risk=content_high_risk
+        url=url,
+        role=role,
+        content_high_risk=content_high_risk,
+        llm_parasitic=llm_parasitic,
     ):
         return True
     return role in SOFT_EDITORIAL_ROLES
@@ -115,7 +120,10 @@ def content_score_eligible(
 
 def _is_parasitic_candidate(cand: ReferrerExcerptCandidate) -> bool:
     return is_parasitic_referrer(
-        url=cand.url, role=cand.role, content_high_risk=False
+        url=cand.url,
+        role=cand.role,
+        content_high_risk=False,
+        llm_parasitic=cand.llm_parasitic,
     )
 
 
@@ -135,7 +143,9 @@ def select_eligible_referrers(
     with_excerpt = [c for c in candidates if c.excerpt.strip()]
     pool = with_excerpt or []
     eligible = [
-        c for c in pool if content_score_eligible(c.url, c.role)
+        c
+        for c in pool
+        if content_score_eligible(c.url, c.role, llm_parasitic=c.llm_parasitic)
     ]
     if not eligible:
         return [], 0, 0
@@ -362,6 +372,7 @@ def build_excerpt_candidate(
     segments: list[PageSegment] | None = None,
     entity: str,
     marker: str = "",
+    llm_parasitic: bool = False,
 ) -> ReferrerExcerptCandidate:
     segs = segments
     thread, edit, priority = triage_channels(
@@ -385,6 +396,7 @@ def build_excerpt_candidate(
         segment_role=seg_role,
         thread_surface=thread,
         editability=edit,
+        llm_parasitic=llm_parasitic,
     )
 
 

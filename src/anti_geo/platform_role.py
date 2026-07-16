@@ -67,6 +67,15 @@ SOCIAL_POST_PATH_RE = re.compile(r"/(posts?|pulse|feed|status)(?:/|$)", re.I)
 # Medium-like publish-on-host paths — parasitic mix, not UGC.
 PARASITIC_PUBLISH_PATH_RE = re.compile(r"/p/[a-z0-9]", re.I)
 
+# User-upload video platforms — watch/shorts (and youtu.be/<id>) are open-posting
+# UGC, same mix role as LinkedIn/X posts. Host-scoped so generic /watch sites
+# are not swept in.
+VIDEO_UGC_HOST_RE = re.compile(
+    r"(?:^|\.)(?:youtube\.com|m\.youtube\.com|youtube-nocookie\.com|youtu\.be)$",
+    re.I,
+)
+VIDEO_UGC_PATH_RE = re.compile(r"/(?:watch|shorts)(?:/|$)", re.I)
+
 # Back-compat aliases.
 UGC_PATH_RE = THREAD_PATH_RE
 POST_SHAPED_PATH_RE = re.compile(
@@ -75,9 +84,14 @@ POST_SHAPED_PATH_RE = re.compile(
 )
 
 # Product review hubs + complaint / customer-review profiles (BBB-style).
+# Includes app-store ratings hubs (…/ratings-and-reviews/…).
 REVIEW_PROFILE_RE = re.compile(
     r"/(?:product-reviews/|products/[^/]+/reviews(?:/|$)|"
     r"customer[-_]reviews?(?:/|$)|"
+    r"user[-_]reviews?(?:/|$)|"
+    r"app[-_]reviews?(?:/|$)|"
+    r"ratings[-_]and[-_]reviews?(?:/|$)|"
+    r"ratings(?:/|$)|"
     r"complaints?(?:/|$)|"
     r"reviews?(?:/|$)|"
     r"profile/[^?\s]+/(?:customer[-_])?reviews?(?:/|$)|"
@@ -189,6 +203,20 @@ def is_social_post_path(url: str) -> bool:
     return bool(SOCIAL_POST_PATH_RE.search(urlparse(url).path or ""))
 
 
+def is_video_ugc_path(url: str) -> bool:
+    """YouTube watch/shorts (and youtu.be/<id>) — open-posting UGC surfaces."""
+    parsed = urlparse(url)
+    host = (parsed.netloc or "").lower()
+    if not VIDEO_UGC_HOST_RE.search(host):
+        return False
+    path = parsed.path or ""
+    # youtu.be/<id> short links
+    if host == "youtu.be" or host.endswith(".youtu.be"):
+        slug = path.strip("/")
+        return bool(slug) and "/" not in slug
+    return bool(VIDEO_UGC_PATH_RE.search(path))
+
+
 def is_open_posting_path(url: str) -> bool:
     """Thread or social open-posting URL — UGC surfaces."""
     host = urlparse(url).netloc or ""
@@ -198,7 +226,11 @@ def is_open_posting_path(url: str) -> bool:
     # /latest, bare /). Aggregator paths (*_forums, /directory) stay non-UGC.
     if is_forum_subdomain_host(host) and not is_forum_directory_path(url):
         return True
-    return is_thread_path(url) or is_social_post_path(url)
+    return (
+        is_thread_path(url)
+        or is_social_post_path(url)
+        or is_video_ugc_path(url)
+    )
 
 
 def is_parasitic_publish_path(url: str) -> bool:
@@ -216,13 +248,16 @@ def is_parasitic_referrer(
     url: str,
     role: str,
     content_high_risk: bool = False,
+    llm_parasitic: bool = False,
 ) -> bool:
     """Potential parasitic GEO surface for mix share (unweighted boolean).
 
     Always: open-posting UGC paths, Medium-like /p/, review_profile,
-    forum/community directory aggregators.
+    forum/community directory aggregators, or Mode B LLM parasitic flag.
     Conditional: factual_blog only when L1 already marked high-risk.
     """
+    if llm_parasitic:
+        return True
     if is_open_posting_path(url) or is_parasitic_publish_path(url):
         return True
     if is_forum_directory_path(url):

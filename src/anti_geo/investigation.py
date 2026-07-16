@@ -31,6 +31,7 @@ from anti_geo.referrer_content import (
     referrer_content_tighten_extras,
     score_top_referrers,
 )
+from anti_geo.role_llm import resolve_referrer_role
 from anti_geo.scorer import score_source
 from anti_geo.seed_generation import resolve_seed_queries
 
@@ -103,6 +104,10 @@ class VerifiedReferrer:
     connection_confidence: str = "high"  # high | weak
     matched_marker: str = ""
     seed_query: str = ""
+    # Heuristic vs Azure role fallback (Mode B referrer triage only).
+    role_source: str = "heuristic"  # heuristic | llm
+    role_reason: str = ""
+    llm_parasitic: bool = False
     # Entity-scoped referrer L1 (eligible parasitic + soft editorial); does not rewrite target trust.
     content_scored: bool = False
     content_high_risk: bool = False
@@ -819,10 +824,6 @@ def verify_connection(
         return None
 
 
-def _role_for_url(url: str, fetch: FetchResult | None = None) -> str:
-    return classify_content_role(url, fetch=fetch)
-
-
 def _apply_referrer_content_scores(
     verified: list[VerifiedReferrer],
     summary: ReferrerContentSummary,
@@ -991,6 +992,7 @@ def parasitic_count_from_verified(verified: list[VerifiedReferrer]) -> int:
             url=ref.url,
             role=ref.role,
             content_high_risk=ref.content_high_risk,
+            llm_parasitic=ref.llm_parasitic,
         )
     )
 
@@ -1007,6 +1009,7 @@ def high_conf_parasitic_count_from_verified(
             url=ref.url,
             role=ref.role,
             content_high_risk=True,
+            llm_parasitic=ref.llm_parasitic,
         )
     )
 
@@ -1210,6 +1213,7 @@ def _parallel_fetch_candidates(
     adaptive_stop: bool = False,
     aliases: list[str] | None = None,
     use_llm_connection: bool | None = None,
+    use_llm_role: bool | None = None,
 ) -> None:
     """Fetch citation pages concurrently; cap on successful fetches and verified total."""
     if not candidates:
@@ -1298,15 +1302,25 @@ def _parallel_fetch_candidates(
                     aliases=aliases,
                     use_llm=use_llm_connection,
                 )
+                claim_verified = False
+                ref_url = fr.final_url or url
                 with state.lock:
                     state.fetched_ok.add(cited_norm)
                     ok_fetches += 1
                     if ok_fetches >= max_fetches_per_seed:
                         hit_fetch_cap = True
                     if final.lower() not in state.seen_verified and conn:
+                        # Claim slot before LLM so parallel workers skip duplicates.
                         state.seen_verified.add(final.lower())
-                        ref_url = fr.final_url or url
-                        role = _role_for_url(ref_url, fr)
+                        claim_verified = True
+
+                # Role LLM outside the discovery lock (same as connection verify).
+                if claim_verified and conn is not None:
+                    resolved = resolve_referrer_role(
+                        ref_url, fr, use_llm=use_llm_role
+                    )
+                    role = resolved.role
+                    with state.lock:
                         state.verified.append(
                             VerifiedReferrer(
                                 url=ref_url,
@@ -1315,6 +1329,9 @@ def _parallel_fetch_candidates(
                                 connection_confidence=conn.confidence,
                                 matched_marker=conn.marker,
                                 seed_query=seed_query,
+                                role_source=resolved.role_source,
+                                role_reason=resolved.role_reason,
+                                llm_parasitic=resolved.llm_parasitic,
                             )
                         )
                         state.excerpt_candidates.append(
@@ -1325,8 +1342,11 @@ def _parallel_fetch_candidates(
                                 segments=list(fr.segments or []),
                                 entity=entity,
                                 marker=conn.marker,
+                                llm_parasitic=resolved.llm_parasitic,
                             )
                         )
+
+                with state.lock:
                     if _verified_cap_reached(
                         state,
                         min_seeds=min_seeds_before_verified_stop,
@@ -1375,6 +1395,7 @@ def discover_referrers(
     fetch_workers: int = 8,
     adaptive_stop: bool = False,
     use_llm_connection: bool | None = None,
+    use_llm_role: bool | None = None,
 ) -> ReferralProfile:
     prog = progress or NullProgress()
     if engine is None:
@@ -1515,6 +1536,7 @@ def discover_referrers(
             stop=stop,
             adaptive_stop=adaptive_stop,
             use_llm_connection=use_llm_connection,
+            use_llm_role=use_llm_role,
         )
 
         if state.stopped_early:
@@ -1904,6 +1926,7 @@ def investigate_url(
     fetch_workers: int = 8,
     adaptive_stop: bool = False,
     use_llm_connection: bool | None = None,
+    use_llm_role: bool | None = None,
     engine: EngineAdapter | None = None,
     fetch: FetchResult | None = None,
     single_page: UrlAnalysisReport | None = None,
@@ -1973,6 +1996,7 @@ def investigate_url(
             fetch_workers=fetch_workers,
             adaptive_stop=adaptive_stop,
             use_llm_connection=use_llm_connection,
+            use_llm_role=use_llm_role,
         )
 
         primary, actions = derive_llm_actions(
@@ -2146,10 +2170,12 @@ def format_investigation_report(result: InvestigationResult) -> str:
                 url=ref.url,
                 role=ref.role,
                 content_high_risk=ref.content_high_risk,
+                llm_parasitic=ref.llm_parasitic,
             )
             para_tag = " parasitic" if parasitic else ""
+            src_tag = f" role={ref.role_source}" if ref.role_source == "llm" else ""
             lines.append(
-                f"  [{ref.connection_confidence}] [{ref.role}]{para_tag} "
+                f"  [{ref.connection_confidence}] [{ref.role}]{para_tag}{src_tag} "
                 f"{ref.connection}{marker}: {ref.url}{content_bit}"
             )
     shadow = shadow_soft_path_metrics(rp)
