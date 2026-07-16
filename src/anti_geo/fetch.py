@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import re
 import threading
 import time
 from dataclasses import dataclass
@@ -10,6 +9,7 @@ from urllib.parse import urljoin, urlparse
 import httpx
 from bs4 import BeautifulSoup
 
+from anti_geo.concealment import extract_concealment
 from anti_geo.models import FetchResult
 from anti_geo.page_context import extract_page_context
 from anti_geo.page_identity import extract_page_identity
@@ -74,10 +74,9 @@ def _same_host(base: str, link: str) -> bool:
 
 
 def _extract_visible_text(html: str) -> str:
-    soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script", "style", "noscript"]):
-        tag.decompose()
-    return re.sub(r"\s+", " ", soup.get_text(separator=" ", strip=True))[:MAX_TEXT_CHARS]
+    """Visible body text excluding CSS/DOM-concealed subtrees."""
+    _, visible = extract_concealment(html, max_chars=MAX_TEXT_CHARS)
+    return visible
 
 
 def _fetch_html_httpx(url: str, timeout: float) -> _HtmlFetch:
@@ -246,7 +245,9 @@ def _build_fetch_result(
         )
 
     soup = BeautifulSoup(raw.html, "html.parser")
-    visible_text = _extract_visible_text(raw.html)
+    concealment, visible_text = extract_concealment(
+        raw.html, url=raw.final_url or url, max_chars=MAX_TEXT_CHARS
+    )
     page_context = extract_page_context(soup, visible_text, url=raw.final_url or url)
     segments = extract_page_segments(raw.html, raw.final_url or url)
 
@@ -279,6 +280,7 @@ def _build_fetch_result(
         fetch_engine=fetch_engine,
         segments=segments,
         identity=identity,
+        concealment=concealment,
     )
 
 

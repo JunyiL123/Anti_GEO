@@ -11,6 +11,45 @@ def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
     return max(low, min(high, value))
 
 
+def _apply_concealment_trust_penalties(
+    trust: float,
+    reasons: list[str],
+    fetch: FetchResult,
+    config: DefenseConfig,
+) -> float:
+    concealment = fetch.concealment
+    if concealment is None or not concealment.flags:
+        return trust
+
+    flags = set(concealment.flags)
+    if "hidden_instruction_pattern" in flags:
+        penalty = min(0.25, config.concealment_trust_penalty_max)
+        trust -= penalty
+        reasons.append("concealed_instruction_injection")
+
+    if (
+        concealment.hidden_word_count >= config.concealment_hidden_words_min
+        and concealment.hidden_ratio > config.concealment_hidden_ratio_alert
+    ):
+        # Scale 0.12–0.18 by how far ratio exceeds the alert threshold.
+        excess = min(
+            1.0,
+            (concealment.hidden_ratio - config.concealment_hidden_ratio_alert)
+            / max(1.0 - config.concealment_hidden_ratio_alert, 0.01),
+        )
+        ratio_penalty = 0.12 + 0.06 * excess
+        trust -= ratio_penalty
+        reasons.append(f"concealed_hidden_ratio_{concealment.hidden_ratio:.0%}")
+
+    if "structured_concealed" in flags and (
+        "hidden_instruction_pattern" in flags or "hidden_geo_rhetoric" in flags
+    ):
+        trust -= 0.08
+        reasons.append("structured_concealment_payload")
+
+    return trust
+
+
 def score_source(
     url: str,
     fetch: FetchResult | None = None,
@@ -88,6 +127,7 @@ def score_source(
         trust -= 0.04
         reasons.append("commercial_page_context")
 
+    trust = _apply_concealment_trust_penalties(trust, reasons, fetch, config)
     trust = _clamp(trust)
     endorsement_allowed = (
         trust >= config.trust_endorsement_min
@@ -109,4 +149,5 @@ def score_source(
         reasons=reasons,
         fetch_engine=fetch.fetch_engine,
         identity=fetch.identity,
+        concealment=fetch.concealment,
     )

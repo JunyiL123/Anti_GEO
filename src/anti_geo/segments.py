@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from urllib.parse import urlparse
 
+from anti_geo.concealment import CONCEALED_ATTR, mark_concealed_on_soup
 from anti_geo.models import PageSegment
 from anti_geo.platform_role import THREAD_PATH_RE
 
@@ -36,7 +37,10 @@ def extract_page_segments(html: str, url: str) -> list[PageSegment]:
     from bs4 import BeautifulSoup
 
     soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script", "style", "noscript"]):
+    mark_concealed_on_soup(soup)
+    for tag in list(soup.find_all(attrs={CONCEALED_ATTR: True})):
+        tag.decompose()
+    for tag in soup(["script", "style", "noscript", "template"]):
         tag.decompose()
 
     segments: list[PageSegment] = []

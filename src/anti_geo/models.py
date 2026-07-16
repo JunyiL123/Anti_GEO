@@ -37,6 +37,20 @@ class PageSegment:
 
 
 @dataclass
+class ConcealmentSignals:
+    """CSS/DOM + structured-channel concealment (see concealment.py)."""
+
+    visible_word_count: int = 0
+    hidden_word_count: int = 0
+    hidden_ratio: float = 0.0
+    hidden_block_count: int = 0
+    structured_word_count: int = 0
+    flags: list[str] = field(default_factory=list)
+    excerpt: str = ""
+    concealed_text: str = ""
+
+
+@dataclass
 class FetchResult:
     url: str
     final_url: str
@@ -55,6 +69,7 @@ class FetchResult:
     fetch_engine: str = "httpx"
     segments: list[PageSegment] = field(default_factory=list)
     identity: PageIdentity | None = None
+    concealment: ConcealmentSignals | None = None
 
 
 @dataclass
@@ -91,6 +106,7 @@ class SourceSubscores:
     factual_claim_reliability: float
     intent_mismatch: float
     harm_severity: float
+    concealment_risk: float = 0.0
 
 
 @dataclass
@@ -122,6 +138,7 @@ class SourceScore:
     reasons: list[str] = field(default_factory=list)
     fetch_engine: str = "httpx"
     identity: PageIdentity | None = None
+    concealment: ConcealmentSignals | None = None
 
 
 @dataclass

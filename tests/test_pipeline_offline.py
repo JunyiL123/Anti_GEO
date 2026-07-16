@@ -364,7 +364,8 @@ def test_single_url_report_is_score_graph_first():
     rendered = format_report(report)
     assert "Recommended LLM action:" in rendered
     assert "LLM action set:" in rendered
-    assert "── Source Subscores (8) ──" in rendered
+    assert "── Source Subscores ──" in rendered
+    assert "Concealment risk:" in rendered
     assert "── Permissions ──" in rendered
     assert "── Legacy Compatibility ──" in rendered
     assert "Trust score:" not in rendered

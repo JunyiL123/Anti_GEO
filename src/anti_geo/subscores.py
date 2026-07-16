@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from urllib.parse import urlparse
 
+from anti_geo.concealment import compute_concealment_risk
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
 from anti_geo.content_signals import (
     compute_endorsement_risk,
@@ -56,7 +57,11 @@ def compute_fetch_confidence(source: SourceScore) -> float:
 
 
 def compute_rhetorical_manipulation(source: SourceScore) -> float:
-    return rhetorical_manipulation_score(source.content_signals)
+    risk = rhetorical_manipulation_score(source.content_signals)
+    concealment = source.concealment
+    if concealment and "hidden_geo_rhetoric" in concealment.flags:
+        risk = min(1.0, risk + 0.2)
+    return risk
 
 
 def compute_retrieval_manipulation_risk(
@@ -79,6 +84,15 @@ def compute_retrieval_manipulation_risk(
 
     if query and query_wants_recommendation(query) and rhet > 0.3:
         risk = min(1.0, risk + 0.1)
+
+    # Intent-agnostic: concealed channels are retrieval/IPI poisoning.
+    concealment_risk = compute_concealment_risk(
+        source.concealment,
+        ratio_alert=DEFAULT_CONFIG.concealment_hidden_ratio_alert,
+        words_min=DEFAULT_CONFIG.concealment_hidden_words_min,
+    )
+    if concealment_risk > 0:
+        risk = min(1.0, risk + 0.55 * concealment_risk)
 
     return _clamp(risk)
 
@@ -187,6 +201,11 @@ def compute_subscores(
     factual = compute_factual_claim_reliability(
         source, query, query_intent, rhetorical, config
     )
+    concealment_risk = compute_concealment_risk(
+        source.concealment,
+        ratio_alert=config.concealment_hidden_ratio_alert,
+        words_min=config.concealment_hidden_words_min,
+    )
 
     return SourceSubscores(
         fetch_confidence=compute_fetch_confidence(source),
@@ -197,6 +216,7 @@ def compute_subscores(
         factual_claim_reliability=factual,
         intent_mismatch=compute_intent_mismatch(source, query, query_intent),
         harm_severity=compute_harm_severity(query_intent),
+        concealment_risk=concealment_risk,
     )
 
 

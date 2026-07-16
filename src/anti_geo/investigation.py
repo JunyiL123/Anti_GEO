@@ -2044,6 +2044,14 @@ def investigation_to_dict(result: InvestigationResult) -> dict:
             "retrieval_manipulation_risk": (
                 sp.subscores.retrieval_manipulation_risk if sp.subscores else None
             ),
+            "concealment_risk": (
+                sp.subscores.concealment_risk if sp.subscores else None
+            ),
+            "concealment_flags": (
+                list(sp.source.concealment.flags)
+                if sp.source.concealment
+                else []
+            ),
         },
         "shadow_soft_path": shadow_soft_path_metrics(result.referral_profile),
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -2059,6 +2067,16 @@ def format_investigation_report(result: InvestigationResult) -> str:
         if sp.subscores
         else "  Retrieval manipulation: n/a"
     )
+    concealment = sp.source.concealment
+    concealment_line = "  Concealment: none"
+    if concealment and concealment.flags:
+        concealment_line = (
+            f"  Concealment: ratio={concealment.hidden_ratio:.3f} "
+            f"flags={concealment.flags} "
+            f"excerpt={concealment.excerpt[:120]!r}"
+        )
+    elif sp.subscores and sp.subscores.concealment_risk > 0:
+        concealment_line = f"  Concealment risk: {sp.subscores.concealment_risk:.3f}"
     lines = [
         "=" * 60,
         "ANTI-GEO INVESTIGATION (Mode B)",
@@ -2078,6 +2096,7 @@ def format_investigation_report(result: InvestigationResult) -> str:
         f"  Semantic risk: {sp.source.semantic_risk:.3f}",
         retrieval_line,
         f"  Endorsement risk: {sp.endorsement_risk:.3f}",
+        concealment_line,
         f"  Legacy action: {sp.recommended_action}",
         "",
         "── Referral profile (structural mix; may tighten LLM actions) ──",

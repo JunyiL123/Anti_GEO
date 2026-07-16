@@ -46,5 +46,9 @@ class DefenseConfig:
     claim_chunk_overlap_min: float = 0.15
     audit_persistence_window_days: int = 7
 
+    concealment_hidden_ratio_alert: float = 0.15
+    concealment_hidden_words_min: int = 20
+    concealment_trust_penalty_max: float = 0.25
+
 
 DEFAULT_CONFIG = DefenseConfig()

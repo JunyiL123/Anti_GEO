@@ -45,8 +45,12 @@ def _derive_retrieve_permission(
         return "reject"
     if fetch_failure_kind == "defer" or subscores.fetch_confidence < 0.25:
         return "defer"
+    # Concealed IPI / heavy hidden ratio: downrank (defer only when extreme).
+    if subscores.concealment_risk >= 0.9:
+        return "defer"
     if (
-        subscores.retrieval_manipulation_risk >= 0.55
+        subscores.concealment_risk >= 0.5
+        or subscores.retrieval_manipulation_risk >= 0.55
         or subscores.intent_mismatch >= 0.5
         or ctx.visibility_dominance >= 0.6
         or ctx.consensus_integrity == "coordinated"
@@ -85,6 +89,11 @@ def _derive_factual_permission(
         if subscores.factual_claim_reliability < 0.6 or subscores.source_trust < 0.6:
             return "require_corroboration"
 
+    # CSS-hidden bulk content: do not treat as unattributed fact.
+    if subscores.concealment_risk >= 0.45:
+        if subscores.factual_claim_reliability < 0.55 or subscores.concealment_risk >= 0.7:
+            return "attribute_only"
+
     if subscores.source_trust < 0.45 or subscores.factual_claim_reliability < 0.45:
         return "attribute_only"
 
@@ -92,6 +101,7 @@ def _derive_factual_permission(
         subscores.source_trust >= 0.55
         and subscores.factual_claim_reliability >= 0.55
         and subscores.intent_mismatch < 0.35
+        and subscores.concealment_risk < 0.45
     ):
         return "allow"
 
@@ -246,6 +256,7 @@ def summarize_recommended_action(
     if (
         permissions.retrieve_permission == "downrank"
         or subscores.endorsement_risk >= config.endorsement_risk_downrank
+        or subscores.concealment_risk >= 0.5
         or (
             subscores.rhetorical_manipulation >= config.downrank_risk_threshold
             and subscores.source_trust < config.downrank_trust_threshold

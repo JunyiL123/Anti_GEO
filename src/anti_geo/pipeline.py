@@ -342,7 +342,7 @@ def _format_subscores_permissions(
         s = result.subscores
         lines.extend([
             "",
-            "── Source Subscores (8) ──",
+            "── Source Subscores ──",
             f"  Fetch confidence: {s.fetch_confidence:.3f}",
             f"  Source trust: {s.source_trust:.3f}",
             f"  Rhetorical manipulation: {s.rhetorical_manipulation:.3f}",
@@ -351,6 +351,7 @@ def _format_subscores_permissions(
             f"  Factual claim reliability: {s.factual_claim_reliability:.3f}",
             f"  Intent mismatch: {s.intent_mismatch:.3f}",
             f"  Harm severity: {s.harm_severity:.3f}",
+            f"  Concealment risk: {s.concealment_risk:.3f}",
         ])
     lines.extend(_format_query_context_scores(query_context))
     if result.permissions:
@@ -400,6 +401,20 @@ def format_report(result: UrlAnalysisReport) -> str:
             f"  Commercial context: {pc.commercial_context_score:.3f}",
             f"  Structure density: {pc.structure_density:.3f}",
             f"  Flags: {', '.join(pc.flags) or 'none'}",
+        ])
+    concealment = s.concealment
+    if concealment and concealment.flags:
+        lines.extend([
+            "",
+            "── Concealment ──",
+            f"  Hidden ratio: {concealment.hidden_ratio:.3f} "
+            f"(hidden_words={concealment.hidden_word_count}, "
+            f"visible_words={concealment.visible_word_count})",
+            f"  Structured words: {concealment.structured_word_count}",
+            f"  Blocks: {concealment.hidden_block_count}",
+            f"  Flags: {', '.join(concealment.flags)}",
+            f"  Excerpt: {concealment.excerpt[:200]}"
+            f"{'...' if len(concealment.excerpt) > 200 else ''}",
         ])
     lines.extend(_format_subscores_permissions(result))
     lines.extend([
@@ -466,6 +481,20 @@ def _format_report_with_context(
             f"  Commercial context: {pc.commercial_context_score:.3f}",
             f"  Structure density: {pc.structure_density:.3f}",
             f"  Flags: {', '.join(pc.flags) or 'none'}",
+        ])
+    concealment = s.concealment
+    if concealment and concealment.flags:
+        lines.extend([
+            "",
+            "── Concealment ──",
+            f"  Hidden ratio: {concealment.hidden_ratio:.3f} "
+            f"(hidden_words={concealment.hidden_word_count}, "
+            f"visible_words={concealment.visible_word_count})",
+            f"  Structured words: {concealment.structured_word_count}",
+            f"  Blocks: {concealment.hidden_block_count}",
+            f"  Flags: {', '.join(concealment.flags)}",
+            f"  Excerpt: {concealment.excerpt[:200]}"
+            f"{'...' if len(concealment.excerpt) > 200 else ''}",
         ])
     lines.extend(_format_subscores_permissions(result, query_context))
     lines.extend([
