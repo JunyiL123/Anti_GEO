@@ -9,6 +9,7 @@ from anti_geo.azure_client import (
     load_azure_config,
     query_with_web_search,
     reset_azure_api_semaphore_for_tests,
+    responses_json_with_optional_web_search,
 )
 from anti_geo.seed_generation import resolve_seed_queries
 
@@ -113,6 +114,51 @@ def test_query_with_web_search_forces_tool_choice(monkeypatch):
     reset_azure_api_semaphore_for_tests()
 
 
+def test_responses_json_optional_web_search_uses_auto_and_cap(monkeypatch):
+    """Judge path: tool_choice=auto + soft max_tool_calls (not forced search)."""
+    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.openai.azure.com/")
+    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "secret")
+    monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.5")
+    monkeypatch.setenv("AZURE_JUDGE_MAX_TOOL_CALLS", "3")
+    reset_azure_api_semaphore_for_tests()
+
+    captured: dict = {}
+
+    class _FakeResponses:
+        def create(self, **kwargs):
+            captured.update(kwargs)
+            return SimpleNamespace(
+                output_text='{"same_brand":false,"reason":"unrelated"}',
+                output=[
+                    SimpleNamespace(
+                        type="web_search_call",
+                        action=SimpleNamespace(sources=[]),
+                    ),
+                    SimpleNamespace(type="message", content=[]),
+                ],
+            )
+
+    class _FakeClient:
+        responses = _FakeResponses()
+
+    monkeypatch.setattr(
+        "anti_geo.azure_client.get_azure_responses_client",
+        lambda config=None: _FakeClient(),
+    )
+    payload = responses_json_with_optional_web_search(
+        [
+            {"role": "system", "content": "Return JSON"},
+            {"role": "user", "content": "same brand?"},
+        ]
+    )
+    assert captured["tool_choice"] == "auto"
+    assert captured["tools"] == [{"type": "web_search"}]
+    assert captured["max_tool_calls"] == 3
+    assert payload["same_brand"] is False
+    assert payload["_web_search_calls"] == 1
+    reset_azure_api_semaphore_for_tests()
+
+
 def test_extract_urls_prefers_answer_citations_over_search_sources():
     response = SimpleNamespace(
         output=[
@@ -146,7 +192,7 @@ def test_extract_urls_prefers_answer_citations_over_search_sources():
     assert urls == ["https://www.example.com/cited"]
 
 
-def test_extract_urls_falls_back_to_search_sources_without_annotations():
+def test_extract_urls_does_not_fall_back_to_search_sources():
     response = SimpleNamespace(
         output=[
             SimpleNamespace(
@@ -158,7 +204,7 @@ def test_extract_urls_falls_back_to_search_sources_without_annotations():
         ],
         output_text="",
     )
-    assert extract_urls_from_response(response) == ["https://fallback.example/x"]
+    assert extract_urls_from_response(response) == []
 
 
 def test_resolve_seed_queries_template_fallback(monkeypatch):

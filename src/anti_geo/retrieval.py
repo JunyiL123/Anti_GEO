@@ -88,17 +88,29 @@ def _chunk_l1_penalty(
     intent_mismatch: float,
     config: DefenseConfig,
 ) -> float:
-    intent_scale = 1.0 if query_intent.startswith("informational") else 0.8
-    l1_penalty = rhetorical * config.l1_penalty_weight * intent_scale
-    l1_penalty = min(
-        0.85,
-        l1_penalty + retrieval_risk * config.retrieval_manipulation_penalty_weight,
+    # Shopping/nav: style GEO penalties off for main content; keep them on
+    # manipulable surfaces (comments/sidebar) so buried promos stay demoted.
+    shopping = query_intent in ("commercial", "navigational")
+    manipulable_surface = segment_role in (
+        "comment",
+        "nested_comment",
+        "sidebar",
+        "footer",
     )
-    if query_intent.startswith("informational"):
+    if shopping and not manipulable_surface:
+        l1_penalty = 0.0
+    else:
+        intent_scale = 1.0 if query_intent.startswith("informational") else 0.8
+        l1_penalty = rhetorical * config.l1_penalty_weight * intent_scale
         l1_penalty = min(
             0.85,
-            l1_penalty + intent_mismatch * config.intent_mismatch_penalty_weight,
+            l1_penalty + retrieval_risk * config.retrieval_manipulation_penalty_weight,
         )
+        if query_intent.startswith("informational"):
+            l1_penalty = min(
+                0.85,
+                l1_penalty + intent_mismatch * config.intent_mismatch_penalty_weight,
+            )
     if segment_role in ("comment", "nested_comment"):
         l1_penalty = min(0.85, l1_penalty + (0.3 if query_intent == "commercial" else 0.15))
     if page_role == "ugc_thread" and segment_role in ("comment", "nested_comment", "sidebar"):

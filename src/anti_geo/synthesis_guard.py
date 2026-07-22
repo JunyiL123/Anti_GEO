@@ -159,6 +159,19 @@ def _response_mode_for_factual(factual_permission: str | None) -> str:
     return "direct_answer"
 
 
+def _mention_allowed(
+    url: str,
+    source_permissions: dict[str, SourcePermissions] | None,
+) -> bool:
+    """Missing permissions default to allow (backward compatible)."""
+    if not source_permissions:
+        return True
+    perms = source_permissions.get(url)
+    if perms is None:
+        return True
+    return perms.mention_permission != "deny"
+
+
 def apply_synthesis_guard(
     query: str,
     ranked: list[ScoredChunk],
@@ -180,11 +193,26 @@ def apply_synthesis_guard(
             response_mode="defer_fetch",
         )
 
+    # mention=deny → must not name the source in the answer (L3 cite filter).
+    mentionable = [row for row in ranked if _mention_allowed(row.url, source_permissions)]
+    skipped_unmentionable = len(ranked) - len(mentionable)
+    if not mentionable:
+        return GuardResult(
+            "mention",
+            False,
+            f"Q: {query}\n\nA: Available sources are not suitable to cite by name in this context.",
+            ["omit_unmentionable_sources"],
+            response_mode="omit_sources",
+        )
+    ranked = mentionable
+
     lead = ranked[0]
     lead_src = sources.get(lead.url)
     lead_perms = (source_permissions or {}).get(lead.url)
     entity = _primary_entity(lead.text, attack_entity)
     actions: list[str] = []
+    if skipped_unmentionable:
+        actions.append("skip_unmentionable_sources")
 
     if query_context and query_context.consensus_integrity == "coordinated":
         actions.append("reject_consensus")
@@ -266,11 +294,12 @@ def apply_synthesis_guard(
         mode = _response_mode_for_factual(
             lead_perms.factual_permission if lead_perms else "allow"
         )
+        actions.append("pass_balanced_editorial")
         return GuardResult(
             "mention",
             True,
             f"Q: {query}\n\nA: [{lead.url}] {lead.text[:400]}",
-            ["pass_balanced_editorial"],
+            actions,
             response_mode=mode if mode != "direct_answer" else "hedged_answer",
         )
 
@@ -362,8 +391,9 @@ def apply_synthesis_guard(
     mode = _response_mode_for_factual(lead_perms.factual_permission if lead_perms else "allow")
     if lead_commercial and lead_commercial.response_mode:
         mode = lead_commercial.response_mode
+    actions.append("pass_through")
     result = GuardResult(
-        "mention", True, f"Q: {query}\n\nA: {lead.text[:400]}", ["pass_through"], response_mode=mode
+        "mention", True, f"Q: {query}\n\nA: {lead.text[:400]}", actions, response_mode=mode
     )
     disclosure_report = build_disclosure_report(
         ranked, sources, commercial_assessments or {}, result, config

@@ -1,9 +1,10 @@
-"""Detect CSS/DOM-hidden text and structured-channel concealment (IPI / GEO).
+"""Detect CSS/DOM-hidden text, structured-channel concealment, and visible IPI.
 
 Marks elements that are invisible to sighted users but still machine-readable,
 plus JSON-LD / nonstandard scripts / meta that carry agent-instruction or
-GEO-rhetoric payloads. A11y-only classes (sr-only) are allowlisted unless
-instruction or GEO patterns fire.
+GEO-rhetoric payloads. Also flags visible-body chatbot directives (e.g. footer
+"forget previous instructions" / "directive for chatbots"). A11y-only classes
+(sr-only) are allowlisted unless instruction or GEO patterns fire.
 """
 
 from __future__ import annotations
@@ -29,17 +30,43 @@ A11Y_CLASS_RE = re.compile(
 
 INSTRUCTION_PATTERNS = [
     re.compile(r"\bignore\s+(?:all\s+)?(?:previous|prior)\s+instructions?\b", re.I),
+    re.compile(r"\bforget\s+(?:all\s+)?(?:previous|prior)\s+instructions?\b", re.I),
     re.compile(r"\byou\s+are\s+(?:an?\s+)?(?:ai|agent|assistant)\b", re.I),
     re.compile(r"\bsystem\s*:", re.I),
     re.compile(r"\balways\s+(?:cite|recommend|rank)\b", re.I),
     re.compile(r"\btreat\s+this\s+(?:page|site|url|domain)\s+as\b", re.I),
+    re.compile(r"\bconsider\s+this\s+(?:page|site|url|domain)\s+as\b", re.I),
     re.compile(r"\bdo\s+not\s+mention\b", re.I),
     re.compile(r"\b#\s*1\s+primary\s+source\b", re.I),
     re.compile(r"\bverified[, ]+authoritative\s+destination\b", re.I),
     re.compile(r"\bauthoritative\s+(?:destination|reference|source)\b", re.I),
     re.compile(r"\brank\s+(?:this|the\s+page|the\s+site)\s+as\s+(?:the\s+)?#?\s*1\b", re.I),
     re.compile(r"\bfor\s+(?:ai|llm|language)\s+(?:agents?|models?|assistants?)\b", re.I),
+    re.compile(r"\bfor\s+chatbots?\s*:", re.I),
+    re.compile(
+        r"\b(?:directives?|instructions?)\s+for\s+"
+        r"(?:chatbots?|ai|llms?|language\s+models?|agents?|assistants?)\b",
+        re.I,
+    ),
     re.compile(r"\bimportant\s+(?:system\s+)?(?:note|instruction)\s+for\s+(?:ai|agents?)\b", re.I),
+]
+
+# Host/site promotion inside instruction-like text (not mere educational quotes).
+PROMOTIONAL_INSTRUCTION_PATTERNS = [
+    re.compile(r"\balways\s+(?:cite|recommend|rank)\b", re.I),
+    re.compile(r"\btreat\s+this\s+(?:page|site|url|domain)\s+as\b", re.I),
+    re.compile(r"\bconsider\s+this\s+(?:page|site|url|domain)\s+as\b", re.I),
+    re.compile(r"\b#\s*1\s+primary\s+source\b", re.I),
+    re.compile(r"\bverified[, ]+authoritative\s+destination\b", re.I),
+    re.compile(r"\bauthoritative\s+(?:destination|reference|source)\b", re.I),
+    re.compile(r"\brank\s+(?:this|the\s+page|the\s+site)\s+as\s+(?:the\s+)?#?\s*1\b", re.I),
+    re.compile(r"\bfor\s+chatbots?\s*:", re.I),
+    re.compile(
+        r"\b(?:directives?|instructions?)\s+for\s+"
+        r"(?:chatbots?|ai|llms?|language\s+models?|agents?|assistants?)\b",
+        re.I,
+    ),
+    re.compile(r"\bonly\s+(?:official|trusted|authoritative)\s+(?:site|page|source)\b", re.I),
 ]
 
 _HIDDEN_STYLE_RES = [
@@ -102,6 +129,27 @@ def _has_instruction_pattern(text: str) -> bool:
     if not text or not text.strip():
         return False
     return any(p.search(text) for p in INSTRUCTION_PATTERNS)
+
+
+def _has_promotional_instruction(text: str) -> bool:
+    """True when instruction-like text also promotes this page/site/host."""
+    if not text or not text.strip():
+        return False
+    return any(p.search(text) for p in PROMOTIONAL_INSTRUCTION_PATTERNS)
+
+
+def _instruction_excerpt(text: str, max_chars: int = 300) -> str:
+    """Return a short window around the first instruction-pattern match."""
+    if not text or not text.strip():
+        return ""
+    for pattern in INSTRUCTION_PATTERNS:
+        match = pattern.search(text)
+        if not match:
+            continue
+        start = max(0, match.start() - 40)
+        end = min(len(text), match.end() + max_chars)
+        return _normalize_ws(text[start:end])[:max_chars]
+    return ""
 
 
 def _style_hides(style: str) -> tuple[bool, bool]:
@@ -309,7 +357,10 @@ def extract_concealment(
         return empty, ""
 
     soup = BeautifulSoup(html, "html.parser")
-    return _extract_from_soup(soup, max_chars=max_chars)
+    signals, visible = _extract_from_soup(soup, max_chars=max_chars)
+    if looks_like_paywall(html, visible) and "paywall_suspected" not in signals.flags:
+        signals.flags = list(signals.flags) + ["paywall_suspected"]
+    return signals, visible
 
 
 def mark_concealed_on_soup(soup: BeautifulSoup) -> ConcealmentSignals:
@@ -413,6 +464,11 @@ def _extract_from_soup(
                 if not visible_geo or hidden_geo - visible_geo:
                     flags.append("hidden_geo_rhetoric")
 
+    # Visible-body IPI (footer directives, etc.) — same patterns, not CSS-hidden.
+    visible_instruction = bool(visible_text and _has_instruction_pattern(visible_text))
+    if visible_instruction:
+        flags.append("visible_instruction_pattern")
+
     # Highest-risk excerpt for reports.
     excerpt_src = ""
     if "hidden_instruction_pattern" in flags:
@@ -420,6 +476,8 @@ def _extract_from_soup(
             if _has_instruction_pattern(t):
                 excerpt_src = t
                 break
+    if not excerpt_src and visible_instruction:
+        excerpt_src = _instruction_excerpt(visible_text)
     if not excerpt_src and suspicious_texts:
         excerpt_src = max(suspicious_texts, key=_word_count)
     elif not excerpt_src and structured_flagged_parts:
@@ -428,7 +486,8 @@ def _extract_from_soup(
 
     # Drop empty flag noise when nothing suspicious.
     if not suspicious_texts and "structured_concealed" not in flags:
-        flags = [f for f in flags if f == "hidden_instruction_pattern"]
+        keep = {"hidden_instruction_pattern", "visible_instruction_pattern"}
+        flags = [f for f in flags if f in keep]
         # a11y-only instruction still counts
         if a11y_instruction_texts and "hidden_instruction_pattern" not in flags:
             flags.append("hidden_instruction_pattern")
@@ -438,6 +497,21 @@ def _extract_from_soup(
             hid_words = max(hid_words, _word_count(" ".join(a11y_instruction_texts)))
             denom = max(vis_words + hid_words, 1)
             hidden_ratio = hid_words / denom
+        if visible_instruction and "visible_instruction_pattern" not in flags:
+            flags.append("visible_instruction_pattern")
+
+    # Promotional IPI: directives that push ranking/recommendation of this site.
+    # Educational quotes of "ignore previous instructions" alone do not qualify.
+    # Applied after chrome cleanup so the flag is not stripped.
+    promo_corpus_parts: list[str] = []
+    if "hidden_instruction_pattern" in flags:
+        promo_corpus_parts.extend(suspicious_texts)
+        promo_corpus_parts.extend(structured_parts)
+        promo_corpus_parts.extend(a11y_instruction_texts)
+    if "visible_instruction_pattern" in flags and visible_text:
+        promo_corpus_parts.append(visible_text)
+    if promo_corpus_parts and _has_promotional_instruction(" ".join(promo_corpus_parts)):
+        flags.append("promotional_instruction_pattern")
 
     signals = ConcealmentSignals(
         visible_word_count=vis_words,
@@ -502,33 +576,82 @@ def _visible_text_skipping_marked(soup: BeautifulSoup) -> str:
     return _normalize_ws(" ".join(parts))
 
 
+def looks_like_paywall(html: str, visible_text: str = "") -> bool:
+    """Heuristic soft/hard paywall detector (nav chrome alone is not enough)."""
+    blob = f"{html or ''}\n{visible_text or ''}".lower()
+    if not blob.strip():
+        return False
+    text_hits = (
+        "subscribe to continue",
+        "subscribe to read",
+        "subscribe to unlock",
+        "become a subscriber",
+        "this article is for subscribers",
+        "subscribers only",
+        "already a subscriber",
+        "create a free account to continue",
+        "sign in to continue reading",
+        "to continue reading",
+        "metered paywall",
+    )
+    if any(hit in blob for hit in text_hits):
+        return True
+    if "isaccessibleforfree" in blob.replace(" ", "") and (
+        '"isaccessibleforfree":false' in blob.replace(" ", "")
+        or '"isaccessibleforfree": false' in blob
+    ):
+        return True
+    # Common paywall widget / gate class/id tokens.
+    gate_tokens = (
+        "paywall",
+        "subscribe-gate",
+        "subscription-gate",
+        "piano-offer",
+        "tp-modal",
+        "reg-wall",
+        "regwall",
+        "subscriber-only",
+    )
+    return any(token in blob for token in gate_tokens)
+
+
 def compute_concealment_risk(
     concealment: ConcealmentSignals | None,
     *,
     ratio_alert: float = 0.15,
     words_min: int = 20,
 ) -> float:
-    """Intent-agnostic risk in [0, 1] from concealment signals."""
+    """Risk from instruction / GEO IPI only.
+
+    Practical split (feeds retrieve permissions):
+    - Hidden / structured / promotional-visible IPI → ``>= 0.9`` (reject band)
+    - Visible instructional quotes without site promotion → ``0.55`` (downrank)
+    - Hidden GEO rhetoric alone → ``0.55`` (downrank)
+
+    CSS hidden-ratio, offscreen chrome, and structured markup alone are ignored:
+    paywall gates and news-site nav routinely inflate those without being GEO.
+    ``ratio_alert`` / ``words_min`` kept for call-site compatibility.
+    """
+    _ = (ratio_alert, words_min)
     if concealment is None:
         return 0.0
     flags = set(concealment.flags)
     risk = 0.0
+    # Attack-class IPI: concealed channel or visible directives that promote the host.
     if "hidden_instruction_pattern" in flags:
-        risk = max(risk, 0.85)
-    if "structured_concealed" in flags and "hidden_instruction_pattern" in flags:
-        risk = max(risk, 0.9)
+        risk = max(risk, 0.95)
+    if "structured_concealed" in flags and (
+        "hidden_instruction_pattern" in flags or "promotional_instruction_pattern" in flags
+    ):
+        risk = max(risk, 0.95)
+    if (
+        "visible_instruction_pattern" in flags
+        and "promotional_instruction_pattern" in flags
+    ):
+        risk = max(risk, 0.95)
+    elif "visible_instruction_pattern" in flags:
+        # Educational / explanatory quotes of PI wording — demote, do not auto-reject.
+        risk = max(risk, 0.55)
     if "hidden_geo_rhetoric" in flags:
         risk = max(risk, 0.55)
-    if "css_concealed_content" in flags:
-        risk = max(risk, 0.35)
-    if "offscreen_positioned" in flags:
-        risk = max(risk, 0.45)
-    if (
-        concealment.hidden_word_count >= words_min
-        and concealment.hidden_ratio >= ratio_alert
-    ):
-        scaled = 0.4 + 0.4 * min(1.0, concealment.hidden_ratio / max(ratio_alert, 0.01))
-        risk = max(risk, scaled)
-    if "structured_concealed" in flags:
-        risk = max(risk, 0.4)
     return min(1.0, risk)

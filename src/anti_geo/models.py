@@ -38,7 +38,7 @@ class PageSegment:
 
 @dataclass
 class ConcealmentSignals:
-    """CSS/DOM + structured-channel concealment (see concealment.py)."""
+    """CSS/DOM + structured + visible instruction signals (see concealment.py)."""
 
     visible_word_count: int = 0
     hidden_word_count: int = 0
@@ -166,6 +166,9 @@ class UrlAnalysisReport:
     query: str | None = None
     subscores: SourceSubscores | None = None
     permissions: SourcePermissions | None = None
+    # heuristic | llm_hybrid — whether permissions LLM nuance was applied.
+    permissions_source: str = "heuristic"
+    permissions_llm_reason: str = ""
 
 
 @dataclass

@@ -269,7 +269,7 @@ def test_tighten_content_high_risk_without_mix_flag():
         confidence="medium",
         n_verified=19,
         mix={"ugc_thread": 7, "commercial_product": 12},
-        geo_suspected=False,
+        parasitic_geo_suspected=False,
         referrer_content_scored=3,
         referrer_content_high_risk=2,
         referrer_content_coordinated=False,
@@ -291,7 +291,7 @@ def test_tighten_one_high_risk_soft_downrank():
         confidence="medium",
         n_verified=12,
         mix={"ugc_thread": 3, "factual_blog": 9},
-        geo_suspected=False,
+        parasitic_geo_suspected=False,
         referrer_content_scored=2,
         referrer_content_high_risk=1,
     )

@@ -11,5 +11,5 @@ playwright>=1.40
 # openai>=1.40
 # AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 # AZURE_OPENAI_API_KEY=...
-# AZURE_OPENAI_DEPLOYMENT=gpt-5.5
+# AZURE_OPENAI_DEPLOYMENT=gpt-5.6-sol
 # AZURE_OPENAI_API_VERSION=2024-12-01-preview

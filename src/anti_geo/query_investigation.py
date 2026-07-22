@@ -46,9 +46,6 @@ DEFAULT_MAX_VERIFIED = 15
 DEFAULT_MAX_FETCHES_PER_SEED = 30
 DEFAULT_MIN_SEEDS_BEFORE_STOP = 3
 DEFAULT_CITE_CAP: int | None = None  # None = keep every unique engine citation
-# When every answer citation is hard-rejected, refill from the grounding pool.
-POOL_FALLBACK_MIN_USABLE = 3  # typical AI answers cite ~3–8; aim for a small usable floor
-POOL_FALLBACK_TRY = 8  # max pool URLs to attempt before giving up
 DEEP_SEED_LIMIT = 12
 DEEP_MAX_VERIFIED = 50
 DEEP_MAX_FETCHES_PER_SEED = 30
@@ -70,7 +67,6 @@ class CiteInvestigationRow:
     parasitic_verified_share: float | None = None
     parasitic_verified_count: int | None = None
     mode_b_error: str | None = None
-    from_source_pool: bool = False
 
 
 @dataclass
@@ -135,7 +131,7 @@ def _score_cite(
 ) -> tuple[UrlAnalysisReport, str, bool, FetchResult]:
     fetch = fetch_page(url)
     source = score_source(url, fetch, query=query)
-    report = decide_single_source(source, query_intent, query=query)
+    report = decide_single_source(source, query_intent, query=query, use_llm=None)
     role = classify_content_role(url, fetch=fetch, source=source)
     return report, role, is_ugc_role(role), fetch
 
@@ -147,7 +143,6 @@ def _row_from_report(
     is_ugc: bool,
     profile: ReferralProfile | None = None,
     mode_b_error: str | None = None,
-    from_source_pool: bool = False,
 ) -> CiteInvestigationRow:
     working = report
     if is_ugc and report.permissions is not None:
@@ -195,7 +190,6 @@ def _row_from_report(
         parasitic_verified_share=parasitic_share,
         parasitic_verified_count=parasitic_count,
         mode_b_error=mode_b_error,
-        from_source_pool=from_source_pool,
     )
 
 
@@ -316,17 +310,10 @@ def investigate_query(
     prog.set_status("engine query for citations")
     resp = resolved.query(query)
     cited_urls = _dedupe_urls(resp.cited_urls, cap=cite_cap)
-    source_pool = _dedupe_urls(getattr(resp, "source_pool_urls", None) or [], cap=None)
     notes: list[str] = []
     if intent_hit.source != "manual":
         rule = f", rule={intent_hit.matched_rule}" if intent_hit.matched_rule else ""
         notes.append(f"Intent resolved via {intent_hit.source}{rule}.")
-    if not cited_urls and source_pool:
-        cited_urls = source_pool[:POOL_FALLBACK_TRY]
-        notes.append(
-            f"No answer citations; starting from grounding pool "
-            f"({len(cited_urls)} of {len(source_pool)})."
-        )
     if not cited_urls:
         notes.append("Engine returned no cited URLs.")
         return QueryInvestigationResult(
@@ -352,7 +339,6 @@ def investigate_query(
     sources_by_url: dict[str, SourceScore] = {}
     # Mode A fetch/role cache → Mode B reuses (no second target fetch/score).
     scored_cache: dict[str, tuple[FetchResult, UrlAnalysisReport, str]] = {}
-    tried_norms: set[str] = {_norm_url(u) for u in cited_urls}
 
     def _cache_scored(
         url: str,
@@ -377,7 +363,6 @@ def investigate_query(
         urls: list[str],
         *,
         label: str,
-        from_pool: bool = False,
     ) -> list[tuple[UrlAnalysisReport, str, bool]]:
         if not urls:
             return []
@@ -421,7 +406,6 @@ def investigate_query(
                         confidence="low",
                         notes=["Mode B skipped for UGC cite."],
                     ),
-                    from_source_pool=from_pool,
                 )
             else:
                 non_ugc_urls.append(report.source.url)
@@ -431,7 +415,6 @@ def investigate_query(
                         report,
                         role=role,
                         is_ugc=False,
-                        from_source_pool=from_pool,
                     )
             out.append((report, role, is_ugc))
         return out
@@ -440,49 +423,9 @@ def investigate_query(
     usable_n = sum(1 for report, _, _ in answer_scored if _cite_is_usable(report))
     prog.set_counts(len(cited_urls), len(cited_urls), status="citations scored")
 
-    if usable_n == 0 and source_pool:
-        pool_candidates = [
-            u for u in source_pool if _norm_url(u) not in tried_norms
-        ][:POOL_FALLBACK_TRY]
-        if pool_candidates:
-            notes.append(
-                f"All {len(cited_urls)} answer citations completely rejected "
-                f"(mention denied); trying grounding pool "
-                f"(aim ≥{POOL_FALLBACK_MIN_USABLE} usable, try ≤{len(pool_candidates)})."
-            )
-            # Score pool in small waves so we can stop once we hit the usable floor.
-            pool_usable = 0
-            offset = 0
-            wave = max(1, site_workers)
-            while (
-                offset < len(pool_candidates)
-                and pool_usable < POOL_FALLBACK_MIN_USABLE
-            ):
-                batch = pool_candidates[offset : offset + wave]
-                offset += len(batch)
-                for u in batch:
-                    tried_norms.add(_norm_url(u))
-                    if u not in cited_urls:
-                        cited_urls.append(u)
-                batch_scored = _score_batch(
-                    batch, label="pool fallback", from_pool=True
-                )
-                pool_usable += sum(
-                    1 for report, _, _ in batch_scored if _cite_is_usable(report)
-                )
-            notes.append(
-                f"Pool fallback yielded {pool_usable} usable "
-                f"after trying {min(offset, len(pool_candidates))} URLs."
-            )
-        else:
-            notes.append(
-                "All answer citations completely rejected (mention denied); "
-                "grounding pool empty or exhausted."
-            )
-    elif usable_n == 0:
+    if usable_n == 0:
         notes.append(
-            "All answer citations completely rejected (mention denied); "
-            "no grounding pool available."
+            "All answer citations completely rejected (mention denied)."
         )
     # Mode B only for usable non-UGC (rejected answer cites stay L1-L3 only).
     mode_b_targets = [
@@ -541,17 +484,6 @@ def investigate_query(
                     single_page=pre_report,
                     content_role=pre_role,
                 )
-                # Preserve from_source_pool flag from pre-score row if present.
-                prior = row_by_url.get(url) or next(
-                    (
-                        row_by_url[k]
-                        for k in row_by_url
-                        if _norm_url(k) == _norm_url(url)
-                    ),
-                    None,
-                )
-                if prior and prior.from_source_pool:
-                    row = replace(row, from_source_pool=True)
                 return url, row, None
             except Exception as exc:
                 return url, None, str(exc)
@@ -585,13 +517,11 @@ def investigate_query(
                     )
                     if pre:
                         role = classify_content_role(url, source=pre.source)
-                        prior = row_by_url.get(pre.source.url)
                         row_by_url[pre.source.url] = _row_from_report(
                             pre,
                             role=role,
                             is_ugc=False,
                             mode_b_error=err,
-                            from_source_pool=bool(prior and prior.from_source_pool),
                         )
 
     elif non_ugc_urls:
@@ -713,8 +643,6 @@ def format_query_investigation_report(
 
     for i, row in enumerate(result.rows, start=1):
         tag = "ugc" if row.is_ugc else "non-ugc"
-        if row.from_source_pool:
-            tag = f"{tag}+pool"
         lines.append(f"{i}. [{tag}] {row.url}")
         lines.append(
             f"   role={row.content_role}  "
@@ -735,7 +663,7 @@ def format_query_investigation_report(
                     )
                 else:
                     lines.append(f"   Verified connections: {row.n_verified}")
-                if row.referral_profile and row.referral_profile.geo_suspected:
+                if row.referral_profile and row.referral_profile.parasitic_geo_suspected:
                     lines.append(
                         "   Referral mix: GEO suspected (tightens actions)"
                     )
@@ -805,13 +733,14 @@ def query_investigation_to_dict(result: QueryInvestigationResult) -> dict:
             "parasitic_verified_share": row.parasitic_verified_share,
             "parasitic_verified_count": row.parasitic_verified_count,
             "mode_b_error": row.mode_b_error,
-            "from_source_pool": row.from_source_pool,
             "subscores": asdict(row.single_page.subscores)
             if row.single_page.subscores
             else None,
             "permissions": asdict(row.single_page.permissions)
             if row.single_page.permissions
             else None,
+            "permissions_source": row.single_page.permissions_source,
+            "permissions_llm_reason": row.single_page.permissions_llm_reason,
             "referral_profile": None,
         }
         if row.referral_profile is not None:

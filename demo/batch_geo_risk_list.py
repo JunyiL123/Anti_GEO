@@ -59,8 +59,6 @@ ON_PAGE_SOFT_ACTIONS = frozenset(
         "defer_fetch",
     }
 )
-SEMANTIC_HARD = 0.55
-
 
 def _load_dotenv(path: Path) -> None:
     if not path.is_file():
@@ -106,22 +104,12 @@ def _row_signals(row: dict[str, Any]) -> dict[str, Any]:
         else subs.get("rhetorical_manipulation")
         or 0.0
     )
-    # Prefer explicit field if batch enriched the dict; else trust proxy.
-    if "semantic_risk" not in row and row.get("from_source_pool"):
-        semantic = float(subs.get("retrieval_manipulation_risk") or semantic)
-
     retrieval_manip = float(subs.get("retrieval_manipulation_risk") or 0.0)
-    on_page_hard = (
-        semantic >= SEMANTIC_HARD
-        or retrieval_manip >= SEMANTIC_HARD
-        or (
-            row.get("llm_action") in ON_PAGE_HARD_ACTIONS
-            and not (
-                rp.get("geo_suspected") is True
-                or (rp.get("referrer_content_high_risk") or 0) >= 2
-                or rp.get("referrer_content_coordinated")
-            )
-        )
+    # Hard on-page: LLM hard actions only — style scores are soft telemetry.
+    on_page_hard = row.get("llm_action") in ON_PAGE_HARD_ACTIONS and not (
+        rp.get("parasitic_geo_suspected") is True
+        or (rp.get("referrer_content_high_risk") or 0) >= 2
+        or rp.get("referrer_content_coordinated")
     )
     # Soft on-page: elevated rhetoric/retrieval without hard action from page alone
     on_page_soft = (not on_page_hard) and (
@@ -132,7 +120,7 @@ def _row_signals(row: dict[str, Any]) -> dict[str, Any]:
     )
 
     parasitic_hard = (
-        rp.get("geo_suspected") is True
+        rp.get("parasitic_geo_suspected") is True
         or (rp.get("referrer_content_high_risk") or 0) >= 2
         or bool(rp.get("referrer_content_coordinated"))
     )
@@ -173,10 +161,10 @@ def _row_signals(row: dict[str, Any]) -> dict[str, Any]:
         rp.get("status") == "sparse_suspicious"
         or (rp.get("referrer_content_high_risk") or 0) == 1
         or soft_parasitic_band
-        or bool(rp.get("geo_elevated"))
+        or bool(rp.get("parasitic_geo_elevated"))
         or (
-            float(rp.get("geo_risk") or 0.0) >= 0.35
-            and rp.get("geo_suspected") is not True
+            float(rp.get("parasitic_geo_risk") or 0.0) >= 0.35
+            and rp.get("parasitic_geo_suspected") is not True
         )
         or zero_verified_ai_cite
     )
@@ -189,8 +177,8 @@ def _row_signals(row: dict[str, Any]) -> dict[str, Any]:
         and status in ("complete", "sparse")
         and confidence != "low"
     )
-    # Manual-review path: geo_suspected is None (coordinated_commercial)
-    needs_manual = rp.get("geo_suspected") is None and status in ("complete", "sparse")
+    # Manual-review path: parasitic_geo_suspected is None (coordinated_commercial)
+    needs_manual = rp.get("parasitic_geo_suspected") is None and status in ("complete", "sparse")
     evidence_weak = bool(
         row.get("is_ugc")
         or status in ("inconclusive", "skipped", "sparse_suspicious", "unknown")
@@ -215,7 +203,7 @@ def _row_signals(row: dict[str, Any]) -> dict[str, Any]:
         "semantic_risk": semantic,
         "retrieval_manipulation_risk": retrieval_manip,
         "n_verified": n_verified,
-        "geo_suspected": rp.get("geo_suspected"),
+        "parasitic_geo_suspected": rp.get("parasitic_geo_suspected"),
         "referral_status": status,
         "referral_confidence": confidence,
         "referrer_content_high_risk": rp.get("referrer_content_high_risk") or 0,
@@ -253,9 +241,6 @@ def enrich_query_dict(payload: dict[str, Any]) -> dict[str, Any]:
     """Attach per-row tier signals; keep original investigation payload."""
     enriched_rows = []
     for row in payload.get("rows") or []:
-        # Pull semantic_risk from nested source if present in export
-        if "semantic_risk" not in row and row.get("from_source_pool"):
-            pass
         sig = _row_signals(row)
         tier = tier_from_signals(sig)
         enriched_rows.append({**row, "list_tier": tier, "tier_signals": sig})
@@ -407,7 +392,7 @@ def merge_shards(args: argparse.Namespace) -> None:
                         "url": url,
                         "list_tier": tier,
                         "llm_action": row.get("llm_action"),
-                        "geo_suspected": sig.get("geo_suspected"),
+                        "parasitic_geo_suspected": sig.get("parasitic_geo_suspected"),
                         "n_verified": sig.get("n_verified"),
                         "semantic_risk": sig.get("semantic_risk"),
                         "referrer_content_high_risk": sig.get(
@@ -443,13 +428,15 @@ def merge_shards(args: argparse.Namespace) -> None:
             "tiers": list(TIER_ORDER),
             "very_high": "on-page hard AND parasitic hard AND strong referral evidence",
             "high": "on-page hard OR parasitic hard AND strong referral evidence",
-            "medium": "hard signal with weak evidence, OR soft+strong (geo_elevated / soft band)",
+            "medium": "hard signal with weak evidence, OR soft+strong (parasitic_geo_elevated / soft band)",
             "review": "soft/weak/UGC/inconclusive — not clean",
             "clean": "pass with no soft/hard flags and usable referral",
             "domain_gate": "very_high/high require ≥2 independent queries else demote to medium",
-            "geo_suspected_share": "parasitic share > 0.5 at N≥10 with no editorial",
-            "geo_risk": "0.5-ish blend of parasitic share + count/5; editorial dampens",
-            "geo_elevated": "geo_risk≥0.35 or soft share band or count≥3@N≥5 → downrank",
+            "on_page_hard": "hard LLM actions (reject/block_*) not attributed to parasitic; style alone is soft",
+            "on_page_soft": "soft LLM actions and/or elevated rhetoric/retrieval/endorsement_risk telemetry",
+            "parasitic_geo_suspected_share": "parasitic share > 0.5 at N≥10 with no editorial",
+            "parasitic_geo_risk": "0.5-ish blend of parasitic share + count/5; editorial dampens",
+            "parasitic_geo_elevated": "parasitic_geo_risk≥0.35 or soft share band or count≥3@N≥5 → downrank",
         },
         "counts_by_tier": {t: len(by_tier[t]) for t in TIER_ORDER},
         "domains_by_tier": by_tier,
@@ -490,7 +477,6 @@ def _mode_b_to_enriched_row(result: Any) -> dict[str, Any]:
         "parasitic_verified_share": parasitic_share_from_verified(refs),
         "parasitic_verified_count": parasitic_count_from_verified(refs),
         "mode_b_error": None,
-        "from_source_pool": False,
         "subscores": sp.get("subscores"),
         "permissions": sp.get("permissions"),
         "referral_profile": rp,
@@ -572,7 +558,7 @@ def run_deep_urls(args: argparse.Namespace) -> None:
                     "notes": [
                         f"Deep Mode B; seeds={result.seed_source}; "
                         f"n_verified={result.referral_profile.n_verified}; "
-                        f"geo_suspected={result.referral_profile.geo_suspected}"
+                        f"parasitic_geo_suspected={result.referral_profile.parasitic_geo_suspected}"
                     ],
                 },
             }

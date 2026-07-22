@@ -129,11 +129,38 @@ def get_azure_responses_client(config: AzureOpenAIConfig | None = None):
     return OpenAI(api_key=cfg.api_key, base_url=cfg.responses_base_url)
 
 
+def _max_completion_tokens() -> int | None:
+    """Optional cap for chat completions (gpt-5.x uses max_completion_tokens)."""
+    raw = os.environ.get("AZURE_OPENAI_MAX_COMPLETION_TOKENS", "16384").strip()
+    if not raw or raw.lower() in {"none", "0"}:
+        return None
+    try:
+        return max(1, int(raw))
+    except ValueError:
+        return 16384
+
+
+# Soft circuit-breaker for judge calls that may optionally Bing-search.
+# Model still chooses 0 searches via tool_choice=auto; this only caps runaway loops.
+_DEFAULT_JUDGE_MAX_TOOL_CALLS = 3
+
+
+def judge_max_tool_calls() -> int:
+    raw = os.environ.get("AZURE_JUDGE_MAX_TOOL_CALLS", "").strip()
+    if not raw:
+        return _DEFAULT_JUDGE_MAX_TOOL_CALLS
+    try:
+        return max(0, int(raw))
+    except ValueError:
+        return _DEFAULT_JUDGE_MAX_TOOL_CALLS
+
+
 def chat_completion_json(
     messages: list[dict[str, str]],
     *,
     config: AzureOpenAIConfig | None = None,
     temperature: float | None = None,
+    max_completion_tokens: int | None = None,
 ) -> dict[str, Any]:
     cfg = config or load_azure_config()
     if cfg is None:
@@ -142,6 +169,13 @@ def chat_completion_json(
     base_kwargs: dict[str, Any] = {"model": cfg.deployment, "messages": messages}
     if temperature is not None:
         base_kwargs["temperature"] = temperature
+    token_cap = (
+        max_completion_tokens
+        if max_completion_tokens is not None
+        else _max_completion_tokens()
+    )
+    if token_cap is not None:
+        base_kwargs["max_completion_tokens"] = token_cap
 
     last_exc: Exception | None = None
     with azure_api_slot():
@@ -173,6 +207,57 @@ def _parse_json_object(raw: str) -> dict[str, Any]:
         if isinstance(parsed, dict):
             return parsed
     raise ValueError("Model did not return a JSON object.")
+
+
+def _count_web_search_calls(response: Any) -> int:
+    n = 0
+    for item in getattr(response, "output", None) or []:
+        item_type = getattr(item, "type", None) or (
+            item.get("type") if isinstance(item, dict) else None
+        )
+        if item_type == "web_search_call":
+            n += 1
+    return n
+
+
+def responses_json_with_optional_web_search(
+    messages: list[dict[str, str]],
+    *,
+    config: AzureOpenAIConfig | None = None,
+    max_tool_calls: int | None = None,
+) -> dict[str, Any]:
+    """JSON judge via Responses API with optional Bing ``web_search``.
+
+    ``tool_choice=auto`` lets the model search 0..N times. ``max_tool_calls``
+    (default 3, env ``AZURE_JUDGE_MAX_TOOL_CALLS``) is only a circuit breaker.
+    Used by same-brand ownership and permissions hybrid — not Mode A discovery.
+    """
+    cfg = config or load_azure_config()
+    if cfg is None:
+        raise ValueError("Azure OpenAI is not configured.")
+    client = get_azure_responses_client(cfg)
+    cap = judge_max_tool_calls() if max_tool_calls is None else max(0, int(max_tool_calls))
+    kwargs: dict[str, Any] = {
+        "model": cfg.deployment,
+        "input": messages,
+        "tools": [{"type": "web_search"}],
+        "tool_choice": "auto",
+        "max_tool_calls": cap,
+        "text": {"format": {"type": "json_object"}},
+        "include": ["web_search_call.action.sources"],
+    }
+    with azure_api_slot():
+        try:
+            response = client.responses.create(**kwargs)
+        except Exception:
+            # Some deployments reject json_object + web_search together; retry text.
+            kwargs.pop("text", None)
+            response = client.responses.create(**kwargs)
+    text = getattr(response, "output_text", "") or ""
+    payload = _parse_json_object(text)
+    # Optional debug breadcrumb for callers/tests (ignored by parsers).
+    payload.setdefault("_web_search_calls", _count_web_search_calls(response))
+    return payload
 
 
 def _domains_from_urls(urls: list[str]) -> list[str]:
@@ -238,11 +323,13 @@ def extract_citation_sets(
 
 
 def extract_urls_from_response(response: Any, *, fallback_text: str = "") -> list[str]:
-    """Collect citation URLs, preferring in-answer annotations over the source pool."""
-    answer, pool = extract_citation_sets(response, fallback_text=fallback_text)
-    if answer:
-        return answer
-    return pool
+    """Collect answer citation URLs only (``url_citation`` annotations).
+
+    Does not fall back to the web_search grounding pool — consulted-but-uncited
+    sources stay in ``extract_citation_sets``'s pool return value.
+    """
+    answer, _pool = extract_citation_sets(response, fallback_text=fallback_text)
+    return answer
 
 
 def query_with_web_search(
@@ -253,8 +340,8 @@ def query_with_web_search(
     """Run grounded web search (always calls Bing ``web_search``).
 
     Returns ``(text, cited_urls, cited_domains, source_pool_urls)``.
-    ``cited_urls`` prefers answer annotations; ``source_pool_urls`` is the full
-    grounding set for extreme fallback when all answer cites are rejected.
+    ``cited_urls`` is answer ``url_citation`` annotations only; the grounding
+    pool is returned separately and is not promoted into cites.
     """
     cfg = config or load_azure_config()
     if cfg is None:
@@ -263,7 +350,7 @@ def query_with_web_search(
     with azure_api_slot():
         # Force Bing web_search specifically. With tool_choice="auto" the model
         # often answers from memory (zero cites). With tool_choice="required"
-        # gpt-5.5 sometimes satisfies the requirement via a calculator/api
+        # gpt-5.x sometimes satisfies the requirement via a calculator/api
         # search that has no URLs — still zero cites for Mode A.
         response = client.responses.create(
             model=cfg.deployment,
@@ -274,5 +361,4 @@ def query_with_web_search(
         )
     text = getattr(response, "output_text", "") or ""
     answer, pool = extract_citation_sets(response, fallback_text=text)
-    cited = answer if answer else pool
-    return text, cited, _domains_from_urls(cited), pool
+    return text, answer, _domains_from_urls(answer), pool

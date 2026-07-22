@@ -333,7 +333,7 @@ def test_parallel_site_workers_completes(monkeypatch):
     assert result.mode_b_ran == 3
 
 
-def test_pool_fallback_when_all_answer_cites_rejected(monkeypatch):
+def test_rejected_answer_cites_do_not_use_grounding_pool(monkeypatch):
     from dataclasses import replace
 
     from anti_geo.decisions import decide_single_source as real_decide
@@ -342,7 +342,6 @@ def test_pool_fallback_when_all_answer_cites_rejected(monkeypatch):
     pool_good = [
         "https://www.pcmag.com/picks/the-best-personalized-jewelry",
         "https://www.wirecutter.com/reviews/best-jewelry/",
-        "https://www.nytimes.com/wirecutter/reviews/jewelry/",
     ]
 
     class _EngineWithPool(_QueryEngine):
@@ -398,16 +397,9 @@ def test_pool_fallback_when_all_answer_cites_rejected(monkeypatch):
     )
 
     result = investigate_query("best jewelry", engine=eng, site_workers=2)
-    assert any("completely rejected" in n or "grounding pool" in n for n in result.notes)
-    pool_rows = [r for r in result.rows if r.from_source_pool]
-    assert len(pool_rows) >= 1
-    usable = [
-        r
-        for r in result.rows
-        if r.single_page.permissions is None
-        or r.single_page.permissions.mention_permission != "deny"
-    ]
-    assert len(usable) >= 1
+    assert any("completely rejected" in n for n in result.notes)
+    assert result.cited_urls == [answer]
+    assert all("pcmag.com" not in r.url and "wirecutter.com" not in r.url for r in result.rows)
 
 
 def test_adaptive_stop_helper():
@@ -499,7 +491,7 @@ def test_mode_a_zero_verified_soft_downranks_non_editorial(monkeypatch):
             confidence="medium",
             n_verified=0,
             mix={},
-            geo_suspected=False,
+            parasitic_geo_suspected=False,
         ),
     )
     monkeypatch.setattr(
@@ -520,7 +512,7 @@ def test_mode_a_zero_verified_soft_downranks_non_editorial(monkeypatch):
     assert any("structural parasitic-surface/editorial mix" in n for n in result.notes)
 
 
-def test_mode_a_geo_suspected_tightens_pass(monkeypatch):
+def test_mode_a_parasitic_geo_suspected_tightens_pass(monkeypatch):
     shop = "https://newbrand.example/products/widget"
     engine = _QueryEngine([shop])
 
@@ -542,7 +534,7 @@ def test_mode_a_geo_suspected_tightens_pass(monkeypatch):
             confidence="medium",
             n_verified=22,
             mix={"ugc_thread": 20},
-            geo_suspected=True,
+            parasitic_geo_suspected=True,
             notes=["UGC-heavy verified referrer mix with no editorial/institutional share."],
         ),
     )

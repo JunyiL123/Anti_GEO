@@ -88,3 +88,86 @@ def test_meaningful_endorsement_risk_still_denies_low_trust():
         )
         == "deny"
     )
+
+
+def test_high_rhetoric_alone_does_not_deny_endorsement():
+    """Weak premise: salesy packaging without high stakes must not block endorse."""
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.70,
+        rhetorical_manipulation=0.8,
+        retrieval_manipulation_risk=0.7,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.65,
+        intent_mismatch=0.0,
+        harm_severity=0.35,
+    )
+    perms = derive_permissions(subs, has_persuasive_content=True)
+    assert perms.endorsement_permission == "allow"
+    assert perms.retrieve_permission == "allow"
+
+
+def test_high_stakes_persuasive_low_trust_denies_endorsement():
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.50,
+        rhetorical_manipulation=0.8,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.65,
+        intent_mismatch=0.0,
+        harm_severity=0.85,
+    )
+    perms = derive_permissions(subs, has_persuasive_content=True)
+    assert perms.endorsement_permission == "deny"
+
+
+def test_retrieval_manipulation_alone_does_not_downrank_retrieve():
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.70,
+        rhetorical_manipulation=0.6,
+        retrieval_manipulation_risk=0.9,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.65,
+        intent_mismatch=0.0,
+        harm_severity=0.35,
+        concealment_risk=0.0,
+    )
+    perms = derive_permissions(subs)
+    assert perms.retrieve_permission == "allow"
+
+
+def test_concealment_risk_still_downranks_retrieve():
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.70,
+        rhetorical_manipulation=0.1,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.65,
+        intent_mismatch=0.0,
+        harm_severity=0.35,
+        concealment_risk=0.6,
+    )
+    perms = derive_permissions(subs)
+    assert perms.retrieve_permission == "downrank"
+
+
+def test_extreme_concealment_rejects_retrieve():
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.70,
+        rhetorical_manipulation=0.1,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.65,
+        intent_mismatch=0.0,
+        harm_severity=0.35,
+        concealment_risk=0.95,
+    )
+    perms = derive_permissions(subs)
+    assert perms.retrieve_permission == "reject"
+    assert perms.factual_permission == "deny"
+    assert perms.endorsement_permission == "deny"
+    assert perms.mention_permission == "allow"

@@ -28,6 +28,12 @@ def derive_permissions(
         subscores, factual, ctx, has_persuasive_content, config
     )
 
+    # Attack-class IPI reject: do not use as unattributed fact or endorsement.
+    # Mention stays allow unless fetch itself was rejected.
+    if retrieve == "reject" and fetch_failure_kind != "reject":
+        factual = "deny"
+        endorsement = "deny"
+
     return SourcePermissions(
         retrieve_permission=retrieve,
         mention_permission=mention,
@@ -45,12 +51,12 @@ def _derive_retrieve_permission(
         return "reject"
     if fetch_failure_kind == "defer" or subscores.fetch_confidence < 0.25:
         return "defer"
-    # Concealed IPI / heavy hidden ratio: downrank (defer only when extreme).
+    # Attack-class IPI (hidden / structured / promotional-visible): auto-reject.
     if subscores.concealment_risk >= 0.9:
-        return "defer"
+        return "reject"
+    # Style/retrieval-manipulation alone is not a convictor (strong premise).
     if (
         subscores.concealment_risk >= 0.5
-        or subscores.retrieval_manipulation_risk >= 0.55
         or subscores.intent_mismatch >= 0.5
         or ctx.visibility_dominance >= 0.6
         or ctx.consensus_integrity == "coordinated"
@@ -128,7 +134,12 @@ def _derive_endorsement_permission(
         and subscores.source_trust < config.trust_endorsement_min
     ):
         return "deny"
-    if has_persuasive_content and subscores.rhetorical_manipulation >= 0.35:
+    # High-stakes + persuasive packaging + low trust: deny endorse, not rhetoric alone.
+    if (
+        subscores.harm_severity >= 0.7
+        and has_persuasive_content
+        and subscores.source_trust < config.trust_endorsement_min
+    ):
         return "deny"
     if (
         subscores.endorsement_risk >= config.endorsement_risk_downrank

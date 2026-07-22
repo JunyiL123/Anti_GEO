@@ -12,7 +12,12 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from anti_geo.audit.engines import EngineAdapter, get_engine
-from anti_geo.azure_client import chat_completion_json, is_azure_configured, load_azure_config
+from anti_geo.azure_client import (
+    chat_completion_json,
+    is_azure_configured,
+    load_azure_config,
+    responses_json_with_optional_web_search,
+)
 from anti_geo.decisions import decide_single_source
 from anti_geo.fetch import fetch_page
 from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
@@ -135,11 +140,11 @@ class ReferralProfile:
     n_verified: int = 0
     mix: dict[str, int] = field(default_factory=dict)
     citations_domain_mix: dict[str, int] = field(default_factory=dict)
-    geo_suspected: bool | None = None
+    parasitic_geo_suspected: bool | None = None
     # Continuous referral GEO risk in [0, 1] from parasitic share + count (editorial dampened).
-    geo_risk: float = 0.0
-    # Soft elevate: downrank / hedge without hard convict (geo_suspected).
-    geo_elevated: bool = False
+    parasitic_geo_risk: float = 0.0
+    # Soft elevate: downrank / hedge without hard convict (parasitic_geo_suspected).
+    parasitic_geo_elevated: bool = False
     citations_sampled: int = 0
     seed_queries_run: int = 0
     target_cited_in_answers: int = 0
@@ -153,15 +158,15 @@ class ReferralProfile:
 
 
 # Hard convict: parasitic share above this at N>=10 with no editorial.
-GEO_SUSPECTED_SHARE = 0.5
+PARASITIC_GEO_SUSPECTED_SHARE = 0.5
 # Soft share band sits just under the hard bar (N>=10, no editorial).
 GEO_SOFT_SHARE_LO = 0.35
 GEO_SOFT_SHARE_HI = 0.5
-# Continuous geo_risk → elevate (downrank) when below hard convict.
-GEO_RISK_ELEVATED = 0.35
+# Continuous parasitic_geo_risk → elevate (downrank) when below hard convict.
+PARASITIC_GEO_RISK_ELEVATED = 0.35
 # Raw parasitic count elevate: N>=5, count>=3, no editorial (Meta brake).
-GEO_ELEVATED_MIN_N = 5
-GEO_ELEVATED_MIN_PARASITIC = 3
+PARASITIC_GEO_ELEVATED_MIN_N = 5
+PARASITIC_GEO_ELEVATED_MIN_PARASITIC = 3
 
 
 @dataclass
@@ -390,9 +395,9 @@ def shadow_soft_path_metrics(profile: ReferralProfile) -> dict:
         "parasitic_share": share,
         "high_conf_parasitic_count": high_conf_parasitic,
         "editorial_institutional_count": _editorial_institutional_count(profile.mix),
-        "geo_suspected_live": profile.geo_suspected,
-        "geo_elevated_live": profile.geo_elevated,
-        "geo_risk": profile.geo_risk,
+        "parasitic_geo_suspected_live": profile.parasitic_geo_suspected,
+        "parasitic_geo_elevated_live": profile.parasitic_geo_elevated,
+        "parasitic_geo_risk": profile.parasitic_geo_risk,
         "sparse_suspicious_live": profile.status == "sparse_suspicious",
         "soft_band_live": parasitic_soft_downrank_band(profile),
         "candidate_gates": {
@@ -401,10 +406,10 @@ def shadow_soft_path_metrics(profile: ReferralProfile) -> dict:
             "share_ge_0.35_n_ge_5": n >= 5 and share_f >= 0.35,
             "share_ge_0.40_n_ge_5": n >= 5 and share_f >= 0.40,
             "share_ge_0.50_n_ge_5": n >= 5 and share_f >= 0.50,
-            "share_gt_0.50_hard": n >= 10 and share_f > GEO_SUSPECTED_SHARE,
+            "share_gt_0.50_hard": n >= 10 and share_f > PARASITIC_GEO_SUSPECTED_SHARE,
             "high_conf_parasitic_ge_2": high_conf_parasitic >= 2,
             "sparse_80_current": n < 10 and n >= 3 and share_f >= 0.80,
-            "geo_risk_elevated": profile.geo_risk >= GEO_RISK_ELEVATED,
+            "parasitic_geo_risk_elevated": profile.parasitic_geo_risk >= PARASITIC_GEO_RISK_ELEVATED,
         },
     }
 
@@ -884,10 +889,24 @@ def _looks_related_brand(url_a: str, url_b: str) -> bool:
     return stem_a == stem_b
 
 
-def _llm_same_brand(referrer_url: str, target_url: str) -> bool | None:
-    """Ask Azure whether two URLs are the same brand/org. None on failure."""
+def _llm_same_brand(
+    referrer_url: str,
+    target_url: str,
+    *,
+    target_entity: str = "",
+    target_org: str = "",
+    target_aliases: list[str] | None = None,
+) -> bool | None:
+    """Ask Azure whether two URLs are the same brand/org. None on failure.
+
+    Uses already-fetched target identity first; optional Bing web_search
+    (tool_choice=auto, soft max tool calls) only when ownership is unclear.
+    Referrer is usually not fetched yet (pre-fetch skip).
+    """
     ref_reg = registrable_domain(urlparse(referrer_url).netloc)
     tgt_reg = registrable_domain(urlparse(target_url).netloc)
+    aliases = [a for a in (target_aliases or []) if a][:12]
+    alias_line = ", ".join(aliases) if aliases else "(none)"
     messages = [
         {
             "role": "system",
@@ -895,7 +914,12 @@ def _llm_same_brand(referrer_url: str, target_url: str) -> bool | None:
                 "You decide whether two web URLs belong to the same brand, "
                 "organization, or owned property (including regional TLDs and "
                 "brand microsites). Return JSON only: "
-                '{"same_brand":true|false,"reason":"..."}'
+                '{"same_brand":true|false,"reason":"..."}\n'
+                "Prefer the provided target identity fields over parametric memory. "
+                "You may use web_search when ownership/parent-company is still unclear "
+                "(e.g. who owns the referrer domain). Do not search when identity fields "
+                "already settle the question. same_brand=true only for owned properties "
+                "of one org; false for unrelated sites that merely share a name stem."
             ),
         },
         {
@@ -904,14 +928,17 @@ def _llm_same_brand(referrer_url: str, target_url: str) -> bool | None:
                 f"referrer_url: {referrer_url}\n"
                 f"referrer_domain: {ref_reg}\n"
                 f"target_url: {target_url}\n"
-                f"target_domain: {tgt_reg}\n\n"
-                "Are these the same brand/organization? "
-                "same_brand=true only for owned properties of one org; "
-                "false for unrelated sites that merely share a name stem."
+                f"target_domain: {tgt_reg}\n"
+                f"target_entity: {target_entity or '(none)'}\n"
+                f"target_organization: {target_org or '(none)'}\n"
+                f"target_aliases: {alias_line}\n\n"
+                "Are these the same brand/organization?"
             ),
         },
     ]
-    payload = chat_completion_json(messages, config=load_azure_config())
+    payload = responses_json_with_optional_web_search(
+        messages, config=load_azure_config()
+    )
     raw = payload.get("same_brand")
     if raw is True or (isinstance(raw, str) and raw.strip().lower() in ("true", "yes")):
         return True
@@ -926,6 +953,9 @@ def _should_skip_same_brand(
     *,
     use_llm: bool | None = None,
     cache: dict[tuple[str, str], bool] | None = None,
+    target_entity: str = "",
+    target_org: str = "",
+    target_aliases: list[str] | None = None,
 ) -> bool:
     """Skip same-brand cites: exact eTLD+1 match, or LLM on related-looking stems.
 
@@ -955,7 +985,13 @@ def _should_skip_same_brand(
         return False
 
     try:
-        verdict = _llm_same_brand(referrer_url, target_url)
+        verdict = _llm_same_brand(
+            referrer_url,
+            target_url,
+            target_entity=target_entity,
+            target_org=target_org,
+            target_aliases=target_aliases,
+        )
     except Exception as exc:
         logger.warning("LLM same_brand check failed (treating as external): %s", exc)
         verdict = None
@@ -1029,11 +1065,11 @@ def _editorial_institutional_count(mix: dict[str, int]) -> int:
 
 
 def parasitic_soft_downrank_band(profile: ReferralProfile) -> bool:
-    """True when parasitic share is elevated but below geo_suspected hard flag.
+    """True when parasitic share is elevated but below parasitic_geo_suspected hard flag.
 
     Soft band: N >= 10, editorial/institutional absent, share in
-    [GEO_SOFT_SHARE_LO, GEO_SOFT_SHARE_HI]. Hard geo_suspected uses share >
-    GEO_SUSPECTED_SHARE with the same editorial/N constraints.
+    [GEO_SOFT_SHARE_LO, GEO_SOFT_SHARE_HI]. Hard parasitic_geo_suspected uses share >
+    PARASITIC_GEO_SUSPECTED_SHARE with the same editorial/N constraints.
     """
     n = profile.n_verified
     if n < 10 or _editorial_institutional_count(profile.mix) > 0:
@@ -1045,15 +1081,15 @@ def parasitic_soft_downrank_band(profile: ReferralProfile) -> bool:
     )
 
 
-# Content intensifier: +0.1 geo_risk per high-conf parasitic, capped.
-GEO_RISK_HIGH_CONF_BOOST = 0.1
-GEO_RISK_HIGH_CONF_BOOST_CAP = 0.25
+# Content intensifier: +0.1 parasitic_geo_risk per high-conf parasitic, capped.
+PARASITIC_GEO_RISK_HIGH_CONF_BOOST = 0.1
+PARASITIC_GEO_RISK_HIGH_CONF_BOOST_CAP = 0.25
 # Elevate with slightly lower raw parasitic count when content confirms plants.
-GEO_ELEVATED_HIGH_CONF_MIN = 2
-GEO_ELEVATED_HIGH_CONF_PARASITIC_MIN = 2
+PARASITIC_GEO_ELEVATED_HIGH_CONF_MIN = 2
+PARASITIC_GEO_ELEVATED_HIGH_CONF_PARASITIC_MIN = 2
 
 
-def compute_referral_geo_risk(
+def compute_parasitic_geo_risk(
     *,
     n_verified: int,
     parasitic_count: int,
@@ -1083,16 +1119,16 @@ def compute_referral_geo_risk(
         )
     if high_conf_parasitic > 0:
         raw += min(
-            GEO_RISK_HIGH_CONF_BOOST_CAP,
-            GEO_RISK_HIGH_CONF_BOOST * float(high_conf_parasitic),
+            PARASITIC_GEO_RISK_HIGH_CONF_BOOST_CAP,
+            PARASITIC_GEO_RISK_HIGH_CONF_BOOST * float(high_conf_parasitic),
         )
     return round(min(1.0, max(0.0, raw)), 4)
 
 
-def derive_geo_elevated(
+def derive_parasitic_geo_elevated(
     *,
-    geo_suspected: bool | None,
-    geo_risk: float,
+    parasitic_geo_suspected: bool | None,
+    parasitic_geo_risk: float,
     n_verified: int,
     parasitic_count: int,
     editorial_count: int,
@@ -1100,24 +1136,24 @@ def derive_geo_elevated(
     soft_share_band: bool,
     high_conf_parasitic: int = 0,
 ) -> bool:
-    """Soft elevate: never silent pass; does not imply hard geo_suspected."""
-    if geo_suspected is True:
+    """Soft elevate: never silent pass; does not imply hard parasitic_geo_suspected."""
+    if parasitic_geo_suspected is True:
         return False
     if soft_share_band or status == "sparse_suspicious":
         return True
-    if geo_risk >= GEO_RISK_ELEVATED:
+    if parasitic_geo_risk >= PARASITIC_GEO_RISK_ELEVATED:
         return True
     if (
-        parasitic_count >= GEO_ELEVATED_MIN_PARASITIC
-        and n_verified >= GEO_ELEVATED_MIN_N
+        parasitic_count >= PARASITIC_GEO_ELEVATED_MIN_PARASITIC
+        and n_verified >= PARASITIC_GEO_ELEVATED_MIN_N
         and editorial_count == 0
     ):
         return True
     # Content-confirmed plants: elevate with a slightly lower parasitic count.
     if (
-        high_conf_parasitic >= GEO_ELEVATED_HIGH_CONF_MIN
-        and parasitic_count >= GEO_ELEVATED_HIGH_CONF_PARASITIC_MIN
-        and n_verified >= GEO_ELEVATED_MIN_N
+        high_conf_parasitic >= PARASITIC_GEO_ELEVATED_HIGH_CONF_MIN
+        and parasitic_count >= PARASITIC_GEO_ELEVATED_HIGH_CONF_PARASITIC_MIN
+        and n_verified >= PARASITIC_GEO_ELEVATED_MIN_N
         and editorial_count == 0
     ):
         return True
@@ -1503,6 +1539,9 @@ def discover_referrers(
                     target_url,
                     use_llm=use_llm_connection,
                     cache=None,
+                    target_entity=entity,
+                    target_org=org,
+                    target_aliases=aliases,
                 )
                 with state.lock:
                     state.same_brand_cache.setdefault(cache_key, skip_brand)
@@ -1653,7 +1692,7 @@ def discover_referrers(
             semantic_alignment=alignment,
             n_verified=0,
             mix={},
-            geo_suspected=False,
+            parasitic_geo_suspected=False,
             notes=notes,
         )
 
@@ -1661,7 +1700,7 @@ def discover_referrers(
     parasitic_share = parasitic_share_from_verified(verified) or 0.0
     parasitic_count = parasitic_count_from_verified(verified)
     high_conf_parasitic = high_conf_parasitic_count_from_verified(verified)
-    geo_risk = compute_referral_geo_risk(
+    parasitic_geo_risk = compute_parasitic_geo_risk(
         n_verified=n,
         parasitic_count=parasitic_count,
         parasitic_share=parasitic_share,
@@ -1671,14 +1710,14 @@ def discover_referrers(
 
     status = "sparse"
     confidence = "low"
-    geo_suspected: bool | None = False
+    parasitic_geo_suspected: bool | None = False
     soft_share_note = False
 
     if n >= 20:
         status = "complete"
         confidence = "medium"
-        if parasitic_share > GEO_SUSPECTED_SHARE and editorial == 0:
-            geo_suspected = True
+        if parasitic_share > PARASITIC_GEO_SUSPECTED_SHARE and editorial == 0:
+            parasitic_geo_suspected = True
             notes.append(
                 "Parasitic-surface-heavy verified referrer mix with no editorial/institutional share."
             )
@@ -1694,8 +1733,8 @@ def discover_referrers(
     elif n >= 10:
         status = "sparse"
         confidence = "medium"
-        if parasitic_share > GEO_SUSPECTED_SHARE and editorial == 0:
-            geo_suspected = True
+        if parasitic_share > PARASITIC_GEO_SUSPECTED_SHARE and editorial == 0:
+            parasitic_geo_suspected = True
             notes.append(
                 "Parasitic-surface-heavy referrer mix (medium N) with no editorial/institutional share."
             )
@@ -1715,8 +1754,8 @@ def discover_referrers(
                 "Small N but homogeneous parasitic surfaces — qualitative suspicion only, not auto-flag."
             )
         else:
-            geo_suspected = False
-            notes.append("N below mix threshold; profile judgment deferred to L1-L3 / geo_risk.")
+            parasitic_geo_suspected = False
+            notes.append("N below mix threshold; profile judgment deferred to L1-L3 / parasitic_geo_risk.")
     else:
         status = "sparse"
         confidence = "medium"
@@ -1726,16 +1765,16 @@ def discover_referrers(
         and parasitic_share >= 0.8
         and n >= 5
         and editorial == 0
-        and geo_suspected is not True
+        and parasitic_geo_suspected is not True
     ):
-        geo_suspected = True
+        parasitic_geo_suspected = True
         notes.append(
             "Semantic mismatch: commercial target amplified via homogeneous "
             "non-commercial parasitic surfaces."
         )
 
-    if alignment.label == "coordinated_commercial" and geo_suspected is not True:
-        geo_suspected = None
+    if alignment.label == "coordinated_commercial" and parasitic_geo_suspected is not True:
+        parasitic_geo_suspected = None
         notes.append("Semantic alignment flag — review manually; not auto-convict.")
 
     soft_band = (
@@ -1746,9 +1785,9 @@ def discover_referrers(
             and GEO_SOFT_SHARE_LO <= parasitic_share <= GEO_SOFT_SHARE_HI
         )
     )
-    geo_elevated = derive_geo_elevated(
-        geo_suspected=geo_suspected,
-        geo_risk=geo_risk,
+    parasitic_geo_elevated = derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=parasitic_geo_suspected,
+        parasitic_geo_risk=parasitic_geo_risk,
         n_verified=n,
         parasitic_count=parasitic_count,
         editorial_count=editorial,
@@ -1756,15 +1795,15 @@ def discover_referrers(
         soft_share_band=soft_band,
         high_conf_parasitic=high_conf_parasitic,
     )
-    if geo_elevated and geo_suspected is not True:
+    if parasitic_geo_elevated and parasitic_geo_suspected is not True:
         notes.append(
-            f"GEO elevated (geo_risk={geo_risk:.2f}, parasitic={parasitic_count}/{n}"
+            f"GEO elevated (parasitic_geo_risk={parasitic_geo_risk:.2f}, parasitic={parasitic_count}/{n}"
             + (
                 f", high_conf={high_conf_parasitic}"
                 if high_conf_parasitic
                 else ""
             )
-            + ") — soft downrank; not a hard geo_suspected convict."
+            + ") — soft downrank; not a hard parasitic_geo_suspected convict."
         )
 
     return ReferralProfile(
@@ -1774,9 +1813,9 @@ def discover_referrers(
         n_verified=n,
         mix=mix,
         citations_domain_mix=domain_mix,
-        geo_suspected=geo_suspected,
-        geo_risk=geo_risk,
-        geo_elevated=geo_elevated,
+        parasitic_geo_suspected=parasitic_geo_suspected,
+        parasitic_geo_risk=parasitic_geo_risk,
+        parasitic_geo_elevated=parasitic_geo_elevated,
         citations_sampled=len(citations),
         seed_queries_run=queries_run,
         target_cited_in_answers=target_cited,
@@ -1796,11 +1835,11 @@ def _mix_tighten_extras(
     content_role: str,
     engine_cited: bool,
 ) -> list[str]:
-    if profile.geo_suspected is True:
+    if profile.parasitic_geo_suspected is True:
         return ["attribute_only", "block_endorsement"]
     if profile.status == "sparse_suspicious":
         return ["attribute_only"]
-    if profile.geo_elevated or parasitic_soft_downrank_band(profile):
+    if profile.parasitic_geo_elevated or parasitic_soft_downrank_band(profile):
         return ["downrank"]
     if (
         profile.n_verified == 0
@@ -1857,14 +1896,14 @@ def _build_verdict(
             f"L1-L3 primary ({llm_action}); "
             "referral profile inconclusive — do not infer clean."
         )
-    if profile.geo_suspected:
+    if profile.parasitic_geo_suspected:
         return (
             f"GEO suspected from structural parasitic-surface mix (referral tightened); "
             f"primary action: {llm_action}."
         )
-    if profile.geo_elevated:
+    if profile.parasitic_geo_elevated:
         return (
-            f"GEO elevated (geo_risk={profile.geo_risk:.2f}; soft downrank, not hard convict); "
+            f"GEO elevated (parasitic_geo_risk={profile.parasitic_geo_risk:.2f}; soft downrank, not hard convict); "
             f"primary action: {llm_action}."
         )
     if profile.referrer_content_high_risk >= 2 or profile.referrer_content_coordinated:
@@ -1951,7 +1990,7 @@ def investigate_url(
         fetch = fetch_page(url)
         prog.set_status("score L1-L3")
         source = score_source(url, fetch, query=query)
-        report = decide_single_source(source, query_intent, query=query)
+        report = decide_single_source(source, query_intent, query=query, use_llm=None)
         role = content_role or classify_content_role(
             url, fetch=fetch, source=source
         )
@@ -2065,6 +2104,9 @@ def investigation_to_dict(result: InvestigationResult) -> dict:
             "endorsement_risk": sp.endorsement_risk,
             "trust_score": sp.source.trust_score,
             "semantic_risk": sp.source.semantic_risk,
+            "permissions": asdict(sp.permissions) if sp.permissions else None,
+            "permissions_source": sp.permissions_source,
+            "permissions_llm_reason": sp.permissions_llm_reason,
             "retrieval_manipulation_risk": (
                 sp.subscores.retrieval_manipulation_risk if sp.subscores else None
             ),
@@ -2133,8 +2175,8 @@ def format_investigation_report(result: InvestigationResult) -> str:
         f"  N verified referrers: {rp.n_verified}",
         f"  Citation mix (all): {rp.citations_domain_mix or '{}'}",
         f"  Verified mix: {rp.mix or '{}'}",
-        f"  GEO suspected: {rp.geo_suspected}",
-        f"  GEO risk: {rp.geo_risk:.3f}  elevated={rp.geo_elevated}",
+        f"  Parasitic GEO suspected: {rp.parasitic_geo_suspected}",
+        f"  GEO risk: {rp.parasitic_geo_risk:.3f}  elevated={rp.parasitic_geo_elevated}",
         f"  Referrer content scored: {rp.referrer_content_scored} "
         f"(high_risk={rp.referrer_content_high_risk}, "
         f"coordinated={rp.referrer_content_coordinated})",
@@ -2188,9 +2230,9 @@ def format_investigation_report(result: InvestigationResult) -> str:
             f"  Parasitic: {shadow['parasitic_count']}/{shadow['n_verified']} "
             f"(share={shadow['parasitic_share']})",
             f"  High-conf parasitic: {shadow['high_conf_parasitic_count']}",
-            f"  Live: geo_suspected={shadow['geo_suspected_live']} "
-            f"elevated={shadow.get('geo_elevated_live')} "
-            f"geo_risk={shadow.get('geo_risk')} "
+            f"  Live: parasitic_geo_suspected={shadow['parasitic_geo_suspected_live']} "
+            f"elevated={shadow.get('parasitic_geo_elevated_live')} "
+            f"parasitic_geo_risk={shadow.get('parasitic_geo_risk')} "
             f"sparse_suspicious={shadow['sparse_suspicious_live']} "
             f"soft_band={shadow['soft_band_live']}",
             f"  Candidate gates fired: {', '.join(fired) if fired else '(none)'}",

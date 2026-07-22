@@ -12,6 +12,7 @@ from anti_geo.claim_entity import (
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
 from anti_geo.models import CorroborationReport, SourcePermissions, SourceScore, UrlAnalysisReport
 from anti_geo.permissions import derive_permissions, summarize_recommended_action
+from anti_geo.permissions_llm import maybe_apply_permissions_llm
 from anti_geo.subscores import _fetch_failure_kind, compute_subscores
 
 # Back-compat aliases used by older tests/importers.
@@ -58,8 +59,14 @@ def decide_single_source(
     query_intent: str = "informational",
     query: str | None = None,
     config: DefenseConfig = DEFAULT_CONFIG,
+    *,
+    use_llm: bool | None = False,
 ) -> UrlAnalysisReport:
-    """Map inferred subscores → permissions → retrieval/synthesis action."""
+    """Map inferred subscores → permissions → retrieval/synthesis action.
+
+    ``use_llm``: False = offline/heuristic only (default); None = Azure when
+    configured (investigate path); True = force attempt when gated.
+    """
     subscores = compute_subscores(source, query, query_intent, config)
     fetch_failure = _fetch_failure_kind(source) if not source.fetch_ok else None
     permissions = derive_permissions(
@@ -68,7 +75,8 @@ def decide_single_source(
         has_persuasive_content=_has_persuasive_content(source),
         config=config,
     )
-    action = summarize_recommended_action(permissions, subscores, config)
+    permissions_source = "heuristic"
+    permissions_llm_reason = ""
 
     if (
         query
@@ -78,13 +86,28 @@ def decide_single_source(
         and source.trust_score < 0.55
         and chunk_endorses_high_stakes(source)
     ):
-        action = "block_endorsement"
         permissions = SourcePermissions(
             retrieve_permission=permissions.retrieve_permission,
             mention_permission=permissions.mention_permission,
             factual_permission=permissions.factual_permission,
             endorsement_permission="deny",
         )
+
+    llm_hit = maybe_apply_permissions_llm(
+        source,
+        permissions,
+        subscores,
+        query=query,
+        query_intent=query_intent,
+        fetch_failure_kind=fetch_failure,
+        use_llm=use_llm,
+        config=config,
+    )
+    permissions = llm_hit.permissions
+    permissions_source = llm_hit.source
+    permissions_llm_reason = llm_hit.reason
+
+    action = summarize_recommended_action(permissions, subscores, config)
 
     return UrlAnalysisReport(
         query_intent=query_intent,
@@ -94,6 +117,8 @@ def decide_single_source(
         query=query,
         subscores=subscores,
         permissions=permissions,
+        permissions_source=permissions_source,
+        permissions_llm_reason=permissions_llm_reason,
     )
 
 
