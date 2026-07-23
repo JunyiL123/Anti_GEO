@@ -1,0 +1,237 @@
+{
+  "n": 8,
+  "pages": [
+    {
+      "id": "p05",
+      "domain": "ods.od.nih.gov",
+      "url": "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "concealment_risk": 0.55,
+        "concealment_flags": [
+          "css_concealed_content",
+          "hidden_geo_rhetoric"
+        ],
+        "fetch_engine": "archive",
+        "fetch_ok": true,
+        "words": 3717
+      }
+    },
+    {
+      "id": "p18",
+      "domain": "cybernews.com",
+      "url": "https://cybernews.com/vpn/protonvpn-review/pricing/",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "concealment_risk": 0.55,
+        "concealment_flags": [
+          "css_concealed_content",
+          "hidden_geo_rhetoric"
+        ],
+        "fetch_engine": "httpx",
+        "fetch_ok": true,
+        "words": 2080
+      }
+    },
+    {
+      "id": "p19",
+      "domain": "1password.com",
+      "url": "https://1password.com/pricing/password-manager",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "concealment_risk": 0.55,
+        "concealment_flags": [
+          "css_concealed_content",
+          "hidden_geo_rhetoric"
+        ],
+        "fetch_engine": "httpx",
+        "fetch_ok": true,
+        "words": 1432
+      }
+    },
+    {
+      "id": "p22",
+      "domain": "dashlane.com",
+      "url": "https://www.dashlane.com/pricing",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "concealment_risk": 0.55,
+        "concealment_flags": [
+          "css_concealed_content",
+          "hidden_geo_rhetoric"
+        ],
+        "fetch_engine": "httpx",
+        "fetch_ok": true,
+        "words": 601
+      }
+    },
+    {
+      "id": "p25",
+      "domain": "comparedge.com",
+      "url": "https://comparedge.com/tools/bitwarden/pricing",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "deny",
+        "permissions_source": "llm_hybrid",
+        "permissions_llm_reason": "Affiliate/commercial product-review page on a shopping query; apply the page-type blind-spot adjustment to deny endorsement while keeping retrieval, mention, and factual permissions unchanged.",
+        "concealment_risk": 0.0,
+        "concealment_flags": [
+          "css_concealed_content",
+          "structured_concealed",
+          "paywall_suspected"
+        ],
+        "fetch_engine": "httpx",
+        "fetch_ok": true,
+        "words": 1414
+      }
+    },
+    {
+      "id": "p26",
+      "domain": "redditrecs.com",
+      "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "concealment_risk": 0.55,
+        "concealment_flags": [
+          "css_concealed_content",
+          "hidden_geo_rhetoric"
+        ],
+        "fetch_engine": "httpx",
+        "fetch_ok": true,
+        "words": 1269
+      }
+    },
+    {
+      "id": "p33",
+      "domain": "headphonesty.com",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "deny",
+        "permissions_source": "llm_hybrid",
+        "permissions_llm_reason": "Commercial shopping query with persuasive recommendation-oriented editorial content; endorsement_risk\u22480 missed buyer-guide/page-type nuance, so deny endorsement while retaining heuristic retrieval, mention, and factual permissions.",
+        "concealment_risk": 0.0,
+        "concealment_flags": [
+          "structured_concealed"
+        ],
+        "fetch_engine": "httpx",
+        "fetch_ok": true,
+        "words": 1555
+      }
+    },
+    {
+      "id": "p35",
+      "domain": "forums.whathifi.com",
+      "url": "https://forums.whathifi.com/forums/headphones-etc/",
+      "before": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions."
+      },
+      "after": {
+        "retrieve": "downrank",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "allow",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "concealment_risk": 0.55,
+        "concealment_flags": [
+          "css_concealed_content",
+          "hidden_geo_rhetoric"
+        ],
+        "fetch_engine": "archive",
+        "fetch_ok": true,
+        "words": 1191
+      }
+    }
+  ]
+}

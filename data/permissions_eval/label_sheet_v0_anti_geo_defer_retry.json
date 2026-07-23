@@ -1,0 +1,68 @@
+{
+  "description": "Anti-GEO predictions on label_sheet query/URL rows (heuristics + LLM hybrid). Labels from human/LLM sheets were not used.",
+  "created_at": "2026-07-23T03:49:02.343006+00:00",
+  "sheet": "data/permissions_eval/label_sheet_v0.json",
+  "engine": "azure",
+  "seed_limit": 10,
+  "max_verified": 15,
+  "n_pages": 2,
+  "pages": [
+    {
+      "id": "p31",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/",
+      "domain": "head-fi.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "parasitic_geo_suspected": null,
+        "parasitic_geo_elevated": false,
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier unchanged \u2014 n_verified=0 with no verified parasitic referrers or campaign-like evidence; small-N rules prohibit hard conviction, and UGC surface alone is insufficient.",
+        "permissions_source": "llm_hybrid",
+        "permissions_llm_reason": "Commercial shopping query; forum page prominently includes sponsor product listings. Applied commercial/page-type blind-spot rule to deny endorsement while keeping retrieval, mention, and attribute-only factual use unchanged.",
+        "content_role": "ugc_thread",
+        "llm_action": "block_endorsement",
+        "referral_status": "inconclusive",
+        "n_verified": 0,
+        "target_url_final": "https://www.head-fi.org/forums/"
+      }
+    },
+    {
+      "id": "p36",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/high-end-audio-forum.113/",
+      "domain": "head-fi.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "",
+        "content_role": "ugc_thread",
+        "llm_action": "downrank",
+        "referral_status": "sparse",
+        "n_verified": 0,
+        "target_url_final": "https://www.head-fi.org/forums/high-end-audio-forum.113/"
+      }
+    }
+  ],
+  "updated_at": "2026-07-23T03:54:36.874861+00:00",
+  "n_ok": 2,
+  "n_error": 0
+}

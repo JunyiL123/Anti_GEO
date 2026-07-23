@@ -107,12 +107,13 @@ _STRUCTURED_SCRIPT_TYPES = frozenset(
         "application/llm",
     }
 )
+# Quote-density is excluded: raw JSON-LD is almost always quote_citation_heavy
+# because schema values are long "..." strings, which is not GEO rhetoric.
 _GEO_L1_FLAGS = frozenset(
     {
         "authority_stacking",
         "comparative_superlatives",
         "front_loaded",
-        "quote_citation_heavy",
     }
 )
 
@@ -451,18 +452,18 @@ def _extract_from_soup(
     if _has_instruction_pattern(combined_hidden) or a11y_instruction_texts:
         flags.append("hidden_instruction_pattern")
 
-    # Hidden GEO rhetoric: L1 flags in concealed text absent from visible.
-    if hid_words + struct_words >= 8:
-        concealed_for_l1 = " ".join(suspicious_texts + structured_flagged_parts) or combined_hidden
-        if _word_count(concealed_for_l1) >= 8:
-            hidden_sigs = extract_content_signals(concealed_for_l1)
-            visible_sigs = extract_content_signals(visible_text) if visible_text else None
-            hidden_geo = set(hidden_sigs.flags) & _GEO_L1_FLAGS
-            visible_geo = set(visible_sigs.flags) & _GEO_L1_FLAGS if visible_sigs else set()
-            if hidden_geo and not (hidden_geo & visible_geo):
-                # Divergence: concealed has GEO rhetoric visible lacks (or different).
-                if not visible_geo or hidden_geo - visible_geo:
-                    flags.append("hidden_geo_rhetoric")
+    # Hidden GEO rhetoric: L1 flags in already-suspicious concealed text only.
+    # Do not fall back to all structured_parts — benign JSON-LD would L1-score.
+    concealed_for_l1 = " ".join(suspicious_texts + structured_flagged_parts)
+    if _word_count(concealed_for_l1) >= 8:
+        hidden_sigs = extract_content_signals(concealed_for_l1)
+        visible_sigs = extract_content_signals(visible_text) if visible_text else None
+        hidden_geo = set(hidden_sigs.flags) & _GEO_L1_FLAGS
+        visible_geo = set(visible_sigs.flags) & _GEO_L1_FLAGS if visible_sigs else set()
+        if hidden_geo and not (hidden_geo & visible_geo):
+            # Divergence: concealed has GEO rhetoric visible lacks (or different).
+            if not visible_geo or hidden_geo - visible_geo:
+                flags.append("hidden_geo_rhetoric")
 
     # Visible-body IPI (footer directives, etc.) — same patterns, not CSS-hidden.
     visible_instruction = bool(visible_text and _has_instruction_pattern(visible_text))

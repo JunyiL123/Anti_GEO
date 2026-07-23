@@ -22,12 +22,14 @@ from anti_geo.decisions import decide_single_source
 from anti_geo.fetch import fetch_page
 from anti_geo.models import FetchResult, SourceScore, UrlAnalysisReport
 from anti_geo.page_identity import strip_listicle_boilerplate
+from anti_geo.parasitic_llm import maybe_apply_parasitic_llm
 from anti_geo.permissions import derive_llm_actions, merge_llm_actions
 from anti_geo.platform_role import (
     classify_content_role,
     is_parasitic_referrer,
     registrable_domain,
 )
+from anti_geo.subscores import _fetch_failure_kind
 from anti_geo.progress import NullProgress, Progress
 from anti_geo.referrer_content import (
     ReferrerContentSummary,
@@ -155,6 +157,9 @@ class ReferralProfile:
     referrer_content_scored: int = 0
     referrer_content_high_risk: int = 0
     referrer_content_coordinated: bool = False
+    # heuristic | llm_hybrid — whether parasitic tier LLM nuance was applied.
+    parasitic_source: str = "heuristic"
+    parasitic_llm_reason: str = ""
 
 
 # Hard convict: parasitic share above this at N>=10 with no editorial.
@@ -1966,6 +1971,7 @@ def investigate_url(
     adaptive_stop: bool = False,
     use_llm_connection: bool | None = None,
     use_llm_role: bool | None = None,
+    use_llm_parasitic: bool | None = None,
     engine: EngineAdapter | None = None,
     fetch: FetchResult | None = None,
     single_page: UrlAnalysisReport | None = None,
@@ -2017,26 +2023,52 @@ def investigate_url(
         commercial_tier = source.page_context.commercial_tier
 
     try:
-        profile = discover_referrers(
-            url,
-            meta.entity,
-            seeds,
-            resolved_engine,
-            org=meta.org,
-            aliases=meta.aliases,
-            query_delay_s=query_delay_s,
-            max_fetches_per_seed=max_fetches_per_seed,
-            max_verified_referrers=max_verified_referrers,
-            min_seeds_before_verified_stop=min_seeds_before_verified_stop,
-            target_role=role,
-            target_commercial_tier=commercial_tier,
-            progress=prog,
-            seed_workers=seed_workers,
-            fetch_workers=fetch_workers,
-            adaptive_stop=adaptive_stop,
-            use_llm_connection=use_llm_connection,
-            use_llm_role=use_llm_role,
-        )
+        if not source.fetch_ok:
+            fetch_failure = _fetch_failure_kind(source)
+            profile = ReferralProfile(
+                status="skipped",
+                discovery_status="skipped",
+                confidence="low",
+                notes=[
+                    f"Referral discovery skipped (target fetch "
+                    f"{fetch_failure or 'failed'}). Parasitic GEO not scored."
+                ],
+                parasitic_geo_suspected=False,
+                parasitic_geo_elevated=False,
+                parasitic_geo_risk=0.0,
+            )
+        else:
+            profile = discover_referrers(
+                url,
+                meta.entity,
+                seeds,
+                resolved_engine,
+                org=meta.org,
+                aliases=meta.aliases,
+                query_delay_s=query_delay_s,
+                max_fetches_per_seed=max_fetches_per_seed,
+                max_verified_referrers=max_verified_referrers,
+                min_seeds_before_verified_stop=min_seeds_before_verified_stop,
+                target_role=role,
+                target_commercial_tier=commercial_tier,
+                progress=prog,
+                seed_workers=seed_workers,
+                fetch_workers=fetch_workers,
+                adaptive_stop=adaptive_stop,
+                use_llm_connection=use_llm_connection,
+                use_llm_role=use_llm_role,
+            )
+
+            prog.set_status("parasitic LLM hybrid")
+            maybe_apply_parasitic_llm(
+                profile,
+                target_url=fetch.final_url or url,
+                content_role=role,
+                metadata=meta,
+                use_llm=use_llm_parasitic,
+                fetch_ok=True,
+                fetch_failure_kind=None,
+            )
 
         primary, actions = derive_llm_actions(
             report.permissions,
@@ -2177,6 +2209,7 @@ def format_investigation_report(result: InvestigationResult) -> str:
         f"  Verified mix: {rp.mix or '{}'}",
         f"  Parasitic GEO suspected: {rp.parasitic_geo_suspected}",
         f"  GEO risk: {rp.parasitic_geo_risk:.3f}  elevated={rp.parasitic_geo_elevated}",
+        f"  Parasitic source: {rp.parasitic_source}",
         f"  Referrer content scored: {rp.referrer_content_scored} "
         f"(high_risk={rp.referrer_content_high_risk}, "
         f"coordinated={rp.referrer_content_coordinated})",

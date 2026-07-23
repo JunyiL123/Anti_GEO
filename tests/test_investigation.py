@@ -104,6 +104,55 @@ def test_discover_referrers_inconclusive_on_engine_failure():
     assert profile.discovery_status == "failed"
 
 
+def test_investigate_url_skips_mode_b_on_deferred_fetch(monkeypatch):
+    """Target fetch fail → no referral discovery / no parasitic GEO scoring."""
+    bad = FetchResult(
+        url="https://blocked.example/product",
+        final_url="https://blocked.example/product",
+        status_code=403,
+        ok=False,
+        error="403 cloudflare",
+        title="",
+        text="",
+        link_count=0,
+        broken_link_ratio=1.0,
+        redirect_count=0,
+        response_time_ms=0,
+        has_privacy_page=False,
+        has_contact_page=False,
+    )
+
+    def fake_fetch(url: str, **kwargs):
+        return bad
+
+    def boom_discover(*_a, **_k):
+        raise AssertionError("Mode B must not run when target fetch failed")
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", boom_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.maybe_apply_parasitic_llm",
+        lambda *_a, **_k: (_ for _ in ()).throw(
+            AssertionError("parasitic LLM must not run")
+        ),
+    )
+    result = investigate_url(
+        bad.url,
+        query_intent="commercial",
+        query="best widgets",
+        engine_name="azure",
+    )
+    assert result.referral_profile.status == "skipped"
+    assert result.referral_profile.discovery_status == "skipped"
+    assert result.referral_profile.parasitic_geo_elevated is False
+    assert result.referral_profile.parasitic_geo_suspected is False
+    assert result.referral_profile.n_verified == 0
+    assert any("fetch" in n.lower() for n in result.referral_profile.notes)
+    assert result.llm_action == "defer_fetch"
+    assert result.single_page.permissions.retrieve_permission == "defer"
+    assert result.single_page.permissions.mention_permission == "deny"
+
+
 def test_investigate_url_offline_editorial(monkeypatch):
     fetch = _editorial_fetch()
 

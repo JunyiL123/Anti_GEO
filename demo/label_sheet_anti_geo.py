@@ -68,6 +68,8 @@ def _prediction_from_result(result) -> dict:
         "parasitic_geo_risk": rp.get("parasitic_geo_risk"),
         "parasitic_geo_suspected": rp.get("parasitic_geo_suspected"),
         "parasitic_geo_elevated": rp.get("parasitic_geo_elevated"),
+        "parasitic_source": rp.get("parasitic_source"),
+        "parasitic_llm_reason": rp.get("parasitic_llm_reason"),
         "permissions_source": sp.get("permissions_source"),
         "permissions_llm_reason": sp.get("permissions_llm_reason"),
         "content_role": d.get("content_role"),
@@ -177,6 +179,7 @@ def main() -> None:
                 f"endorse={entry['predictions']['endorsement_permission']} "
                 f"parasitic={entry['predictions']['parasitic']} "
                 f"risk={entry['predictions']['parasitic_geo_risk']} "
+                f"para_src={entry['predictions'].get('parasitic_source')} "
                 f"perm_src={entry['predictions']['permissions_source']}",
                 flush=True,
             )

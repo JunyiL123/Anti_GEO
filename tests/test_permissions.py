@@ -8,6 +8,29 @@ from anti_geo.permissions import (
 )
 
 
+def test_derive_permissions_defer_denies_all_content_use():
+    """Failed fetch → defer retrieve; no mention/facts/endorse until re-fetched."""
+    subs = SourceSubscores(
+        fetch_confidence=0.2,
+        source_trust=0.5,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.5,
+        intent_mismatch=0.0,
+        harm_severity=0.35,
+    )
+    perms = derive_permissions(subs, fetch_failure_kind="defer")
+    assert perms.retrieve_permission == "defer"
+    assert perms.mention_permission == "deny"
+    assert perms.factual_permission == "deny"
+    assert perms.endorsement_permission == "deny"
+    primary, actions = derive_llm_actions(perms, subs)
+    assert primary == "defer_fetch"
+    assert "defer_fetch" in actions
+    assert "reject" not in actions
+
+
 def test_derive_llm_actions_pass_for_clean_source():
     perms = SourcePermissions("allow", "allow", "allow", "allow")
     subscores = SourceSubscores(0.9, 0.7, 0.0, 0.0, 0.0, 0.7, 0.0, 0.35)

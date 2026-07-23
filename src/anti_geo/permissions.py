@@ -71,7 +71,7 @@ def _derive_mention_permission(
     subscores: SourceSubscores,
     fetch_failure_kind: str | None,
 ) -> str:
-    if fetch_failure_kind == "reject":
+    if fetch_failure_kind in ("reject", "defer"):
         return "deny"
     if subscores.fetch_confidence < 0.1:
         return "deny"
@@ -185,7 +185,9 @@ def derive_llm_actions(
         actions.append("reject_consensus")
 
     if permissions.mention_permission == "deny":
-        actions.append("reject")
+        # Fetch defer already means "don't use until re-fetched"; don't escalate to hard reject.
+        if retrieve != "defer":
+            actions.append("reject")
 
     factual = permissions.factual_permission
     if factual == "deny":

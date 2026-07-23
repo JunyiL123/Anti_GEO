@@ -1,0 +1,1185 @@
+{
+  "description": "Anti-GEO predictions on label_sheet query/URL rows (heuristics + LLM hybrid). Labels from human/LLM sheets were not used. RECONSTRUCTED from overnight log + defer_retry overlays after accidental wipe; permissions_llm_reason may be incomplete except where known.",
+  "created_at": "2026-07-23T04:19:47.663816+00:00",
+  "sheet": "data/permissions_eval/label_sheet_v0.json",
+  "engine": "azure",
+  "seed_limit": 10,
+  "max_verified": 15,
+  "n_pages": 42,
+  "pages": [
+    {
+      "id": "p01",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+      "domain": "sleepfoundation.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.4,
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "permissions_source": "llm_hybrid",
+        "permissions_llm_reason": "Affiliate-supported commercial \u201cbest mattress\u201d listicle on a shopping query; apply the commercial page-type blind-spot adjustment and deny endorsement despite the near-zero numeric endorsement risk. Keep retrieval, mention, and factual heur",
+        "parasitic_source": "llm_hybrid",
+        "parasitic_llm_reason": "Small-N/legitimate-UGC exception \u2014 n=5, and both parasitic counts are duplicate URL variants of one Reddit complaint thread; high-confidence count is 0 and there is no campaign-like evidence, so the 0.40 risk should not trigger soft downranking.",
+        "llm_action": "block_endorsement",
+        "referral_status": "sparse",
+        "n_verified": 1,
+        "target_url_final": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:36:49.125249+00:00"
+    },
+    {
+      "id": "p02",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2803%2914792-7/fulltext",
+      "domain": "thelancet.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier \u2014 n_verified=0 cannot support suspected, and the target is a 2003 Lancet randomized controlled multicentre trial, with no campaign or parasitic-referrer evidence. ([thelancet.com](https://www.thelancet.com/pdfs/journals/lancet/PIIS0140673603147927.pdf?code=lancet-site))",
+        "permissions_llm_reason": "Heuristic permissions confident; outside LLM ambiguity gate.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement",
+        "referral_status": "skipped",
+        "n_verified": 0,
+        "target_url_final": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2803%2914792-7/fulltext"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:42:14.453948+00:00"
+    },
+    {
+      "id": "p03",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+      "domain": "rtings.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier unchanged \u2014 n_verified=0 bars suspected, and with no verified parasitic referrers or external campaign evidence, the n=0 commercial/listicle blind-spot rule does not justify elevation.",
+        "permissions_llm_reason": "Permissions LLM returned empty; keep heuristic.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "pass",
+        "referral_status": "sparse",
+        "n_verified": 0,
+        "target_url_final": "https://www.rtings.com/mattress/reviews/best/back-pain"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:45:59.376792+00:00"
+    },
+    {
+      "id": "p04",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney",
+      "domain": "fda.gov",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Hard fetch/IPI floor \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement",
+        "referral_status": "skipped",
+        "n_verified": 0,
+        "target_url_final": "https://www.fda.gov/apology_objects/abuse-detection-apology.html"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:47:10.792186+00:00"
+    },
+    {
+      "id": "p05",
+      "query": "best weight loss supplements that work",
+      "url": "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+      "domain": "ods.od.nih.gov",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:51:17.052665+00:00"
+    },
+    {
+      "id": "p06",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.nccih.nih.gov/health/providers/digest/dietary-supplements-marketed-for-weight-loss-bodybuilding-and-sexual-enhancement-science",
+      "domain": "nccih.nih.gov",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Institutional .gov science-information page on a commercial shopping query; apply the page-type blind spot and deny endorsement while retaining heuristic permissions for retrieval, mention, and factual use.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:53:22.809121+00:00"
+    },
+    {
+      "id": "p07",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/drugs/medication-health-fraud-notifications/weight-loss-product-notifications",
+      "domain": "fda.gov",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Commercial shopping query, but page is an FDA institutional safety-notification resource, not a product recommendation; apply the institutional-facts-on-shopping-query blind spot and deny endorsement while retaining heuristic permissions fo",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:55:12.404113+00:00"
+    },
+    {
+      "id": "p08",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+      "domain": "fda.gov",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Institutional FDA approval/press page on a commercial shopping query; apply the page-type blind-spot rule to deny endorsement while retaining heuristic retrieval, mention, and factual permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T04:57:34.030179+00:00"
+    },
+    {
+      "id": "p09",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+      "domain": "the-independent.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.2068,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier \u2014 N=11 and share=0.364 fall in the soft band, but editorial/institutional=1 blocks that rule; risk=0.2068 is below 0.35, alignment is intact, and no high-confidence parasitic referrers indicate campaign-like activity.",
+        "permissions_llm_reason": "Affiliate-funded commercial \u201cbest of\u201d product roundup on a shopping query; apply the page-type blind spot adjustment to deny endorsement while retaining heuristic retrieval, mention, and factual permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:00:25.821627+00:00"
+    },
+    {
+      "id": "p10",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.vanicream.com/product/vanicream-moisturizing-cream",
+      "domain": "vanicream.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.1813,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Vendor product-detail/brand page on a commercial shopping query; adjust factual permission for vendor self-claims and deny endorsement despite near-zero numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:05:21.185914+00:00"
+    },
+    {
+      "id": "p11",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://nationaleczema.org/treatments/moisturizing/",
+      "domain": "nationaleczema.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Commercial shopping query, but excerpt is institutional educational guidance rather than an independent product comparison; apply the page-type blind spot to deny endorsement while keeping mention and factual permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:06:57.489050+00:00"
+    },
+    {
+      "id": "p12",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/pick-moisturizer",
+      "domain": "aad.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Commercial shopping query; institutional skin-care guidance may support factual claims, but institutional approval on a shopping query should not be treated as a product endorsement.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:07:57.429730+00:00"
+    },
+    {
+      "id": "p13",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/",
+      "domain": "security.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "n=0 commercial/listicle rule: elevated requires external campaign/reputation evidence; no verified parasitic referrers or target-specific corroboration of seeding, fake reviews, or GEO manipulation found, so keep heuristic none.",
+        "permissions_llm_reason": "Commercial \u201cbest VPN\u201d listicle discloses provider compensation; apply affiliate/commerce best-of blind-spot adjustment and deny endorsement while retaining heuristic retrieval, mention, and factual permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:12:31.161588+00:00"
+    },
+    {
+      "id": "p14",
+      "query": "best VPN 2026",
+      "url": "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+      "domain": "uk.pcmag.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier \u2014 n_verified=0 with no verified parasitic referrers; small-N rule forbids suspected, and there is no external campaign evidence to justify elevated.",
+        "permissions_llm_reason": "Affiliate-funded commercial \u201cbest VPN\u201d listicle with persuasive rankings; apply the commerce/affiliate blind-spot adjustment to deny endorsement while retaining heuristic retrieval, mention, and factual permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:14:44.160828+00:00"
+    },
+    {
+      "id": "p15",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/no-log/",
+      "domain": "security.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "reject",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier unchanged \u2014 n_verified=0, no verified parasitic referrers, and small-N rules prohibit suspected; no external campaign evidence provided to justify elevated.",
+        "permissions_llm_reason": "Hard fetch/IPI floor \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "reject"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:17:44.246313+00:00"
+    },
+    {
+      "id": "p16",
+      "query": "best VPN 2026",
+      "url": "https://protonvpn.com/blog/no-logs-audit",
+      "domain": "protonvpn.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Vendor brand-site self-claim on a commercial 'best VPN' query; attribute audit claims to Proton and deny endorsement despite low numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:20:19.888486+00:00"
+    },
+    {
+      "id": "p17",
+      "query": "best VPN 2026",
+      "url": "https://www.pcworld.com/article/616724/fastest-vpn.html",
+      "domain": "pcworld.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier unchanged \u2014 n_verified=0, no verified parasitic referrers, and no campaign evidence; small-N rule forbids suspected and does not justify elevated.",
+        "permissions_llm_reason": "Affiliate-supported expert listicle targeting a commercial \u201cbest VPN\u201d query; apply the commerce/best-of blind-spot adjustment and deny endorsement despite near-zero numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:23:52.101581+00:00"
+    },
+    {
+      "id": "p18",
+      "query": "best VPN 2026",
+      "url": "https://cybernews.com/vpn/protonvpn-review/pricing/",
+      "domain": "cybernews.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "n_verified=0 rule: never suspected, and elevated requires target-specific evidence of manipulative seeding; affiliate disclosure alone does not establish a parasitic campaign. ([cybernews.com](https://cybernews.com/best-vpn/))",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:25:50.619946+00:00"
+    },
+    {
+      "id": "p19",
+      "query": "best password manager for small business",
+      "url": "https://1password.com/pricing/password-manager",
+      "domain": "1password.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:26:43.681150+00:00"
+    },
+    {
+      "id": "p20",
+      "query": "best password manager for small business",
+      "url": "https://bitwarden.com/pricing/business/",
+      "domain": "bitwarden.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated",
+        "parasitic_geo_risk": 0.9213,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Vendor pricing/product page on a commercial 'best' query; apply vendor self-claims rule and deny endorsement despite low numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": true,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:28:45.052900+00:00"
+    },
+    {
+      "id": "p21",
+      "query": "best password manager for small business",
+      "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+      "domain": "keepersecurity.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.1787,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Vendor pricing/product page on a commercial 'best' query; apply vendor self-claim attribution and deny endorsement despite near-zero numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:42:07.749540+00:00"
+    },
+    {
+      "id": "p22",
+      "query": "best password manager for small business",
+      "url": "https://www.dashlane.com/pricing",
+      "domain": "dashlane.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "elevated",
+        "parasitic_geo_risk": 1.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": true,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:45:08.055244+00:00"
+    },
+    {
+      "id": "p23",
+      "query": "best password manager for small business",
+      "url": "https://blog.lastpass.com/posts/notice-of-recent-security-incident",
+      "domain": "blog.lastpass.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.2981,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic unchanged \u2014 hard suspected requires editorial/institutional=0, but count=1; risk 0.2981 is below 0.35, and non-commercial breach discussions show no campaign-like evidence.",
+        "permissions_llm_reason": "Official LastPass vendor blog and self-authored security-incident notice; apply vendor self-claims rule to require attribution and commercial-shopping page-type nuance to deny endorsement.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:47:31.611437+00:00"
+    },
+    {
+      "id": "p24",
+      "query": "best password manager for small business",
+      "url": "https://www.security.org/password-manager/dashlane/",
+      "domain": "security.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Affiliate/commerce page: excerpt discloses provider compensation, so apply commercial-intent blind-spot adjustment and deny endorsement while keeping mention/factual heuristic values.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:50:48.440817+00:00"
+    },
+    {
+      "id": "p25",
+      "query": "best password manager for small business",
+      "url": "https://comparedge.com/tools/bitwarden/pricing",
+      "domain": "comparedge.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0825,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:53:27.574888+00:00"
+    },
+    {
+      "id": "p26",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+      "domain": "redditrecs.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.3103,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Small-N deferral: n=8, share=0.625 is below the sparse-suspicious 0.8 threshold, risk=0.3103 is below 0.35, and one institutional referrer plus ordinary review/UGC links provide no campaign-like evidence.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T05:56:25.288504+00:00"
+    },
+    {
+      "id": "p27",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+      "domain": "rtings.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep heuristic tier unchanged \u2014 n_verified=0, parasitic_count=0, and no verified referrer mix or campaign evidence; rules prohibit suspected and provide no basis to elevate.",
+        "permissions_llm_reason": "Permissions LLM returned empty; keep heuristic.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "pass"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:01:45.248222+00:00"
+    },
+    {
+      "id": "p28",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+      "domain": "keychron.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "",
+        "permissions_llm_reason": "Vendor product page on a commercial shopping query; apply vendor-PDP blind spot: deny endorsement while retaining attribute-only factual use.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:09:44.806071+00:00"
+    },
+    {
+      "id": "p29",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+      "domain": "rtings.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.508,
+        "permissions_source": "heuristic",
+        "parasitic_source": "llm_hybrid",
+        "parasitic_llm_reason": "Small-N deferral: n=1 does not meet sparse_suspicious (n>=3) or hard-convict thresholds; the sole low-confidence review-profile referrer shows no campaign pattern, while RTINGS documents standardized first-party keyboard testing and editorial independence. ([rtings.com](https://www.rtings.com/company/how-we-make-money))",
+        "permissions_llm_reason": "Permissions LLM returned empty; keep heuristic.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:16:51.130267+00:00"
+    },
+    {
+      "id": "p30",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.reddit.com/r/antivirus/comments/1dfp6vk/multiple_malware_detections_for_keyboard_software/?rdt=65264",
+      "domain": "reddit.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated",
+        "parasitic_geo_risk": 0.652,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Keep elevated \u2014 continuous risk rule (0.652 \u2265 0.35), but thin N=2 and legitimate aligned UGC complaints with zero high-confidence/campaign evidence do not justify suspected or an override.",
+        "permissions_llm_reason": "Page is an antivirus troubleshooting thread about alleged malware detections, not a budget-keyboard recommendation; adjust intent_mismatch to downrank. Treat the Reddit user's security claim as attributed UGC, and deny endorsement because t",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": true,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:20:06.870443+00:00"
+    },
+    {
+      "id": "p31",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/",
+      "domain": "head-fi.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_source": "llm_hybrid",
+        "permissions_llm_reason": "Commercial shopping query; forum page prominently includes sponsor product listings. Applied commercial/page-type blind-spot rule to deny endorsement while keeping retrieval, mention, and attribute-only factual use unchanged.",
+        "content_role": "ugc_thread",
+        "llm_action": "block_endorsement",
+        "referral_status": "inconclusive",
+        "n_verified": 0,
+        "target_url_final": "https://www.head-fi.org/forums/"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:23:53.595826+00:00"
+    },
+    {
+      "id": "p32",
+      "query": "best headphones forums",
+      "url": "https://www.audiosciencereview.com/forum/index.php",
+      "domain": "audiosciencereview.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.508,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "llm_hybrid",
+        "parasitic_llm_reason": "Small-N deferral: n_verified=1 is insufficient despite 100% share; the sole aligned, noncommercial UGC brand mention is not high-confidence or campaign-like evidence.",
+        "permissions_llm_reason": "Brand/forum homepage self-describes its reviews and expertise on a commercial 'best' query; treat self-claims as attribute-only and deny endorsement, while retaining heuristic retrieval and mention.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "pass"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:29:39.607908+00:00"
+    },
+    {
+      "id": "p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "domain": "headphonesty.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T06:32:41.078932+00:00"
+    },
+    {
+      "id": "p34",
+      "query": "best headphones forums",
+      "url": "https://forum.headphones.com/top",
+      "domain": "forum.headphones.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated",
+        "parasitic_geo_risk": 0.9067,
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": true,
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_source": "llm_hybrid",
+        "permissions_llm_reason": "Brand-operated community/forum index on a commercial 'best' query; page-type nuance indicates self-promotional vendor/brand context, so deny endorsement while retaining heuristic retrieval, mention, and attribute-only facts.",
+        "content_role": "ugc_thread",
+        "llm_action": "block_endorsement",
+        "referral_status": "sparse_suspicious",
+        "n_verified": 6,
+        "target_url_final": "https://forum.headphones.com/top"
+      },
+      "_parasitic_rerun_at": "2026-07-23T08:49:42.006372+00:00",
+      "_full_rerun_at": "2026-07-23T08:49:42.006372+00:00"
+    },
+    {
+      "id": "p35",
+      "query": "best headphones forums",
+      "url": "https://forums.whathifi.com/forums/headphones-etc/",
+      "domain": "forums.whathifi.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Concealment hot \u2014 keep heuristic permissions.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "downrank"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:06:34.444379+00:00"
+    },
+    {
+      "id": "p36",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/high-end-audio-forum.113/",
+      "domain": "head-fi.org",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.508,
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "parasitic_source": "llm_hybrid",
+        "parasitic_llm_reason": "Small-N/legitimate-UGC exception \u2014 n=1 is normally deferred; the sole aligned UGC brand mention is llm_parasitic=false with no high-risk, commercial, or campaign-like evidence.",
+        "permissions_source": "heuristic",
+        "permissions_llm_reason": "Permissions LLM returned empty; keep heuristic.",
+        "content_role": "ugc_thread",
+        "llm_action": "downrank",
+        "referral_status": "sparse",
+        "n_verified": 0,
+        "target_url_final": "https://www.head-fi.org/forums/high-end-audio-forum.113/"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:12:13.972814+00:00"
+    },
+    {
+      "id": "p37",
+      "query": "is theograce a good brand?",
+      "url": "https://www.trustpilot.com/review/theograce.com",
+      "domain": "trustpilot.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "defer",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0399,
+        "permissions_source": "heuristic",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "",
+        "permissions_llm_reason": "",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "defer_fetch"
+      }
+    },
+    {
+      "id": "p38",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/",
+      "domain": "theograce.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.326,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Small-N defer: n=2 and risk 0.326<0.35; no high-confidence parasitic referrers or external campaign-like seeding evidence found, while Amazon indicates an ordinary retail footprint. ([amazon.com](https://www.amazon.com/stores/TheoGrace/page/F5386999-BCD2-42C8-9DF8-D908484DDF6D))",
+        "permissions_llm_reason": "Vendor-owned brand storefront on a commercial shopping query; apply vendor self-claim attribution and deny endorsement despite near-zero numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:20:08.222530+00:00"
+    },
+    {
+      "id": "p39",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/why-theo-grace",
+      "domain": "theograce.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0869,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Vendor-owned brand/e-commerce page on a commercial shopping query; adjust vendor self-claims from factual allow to attribute_only and deny endorsement despite near-zero numeric endorsement risk.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:27:07.241275+00:00"
+    },
+    {
+      "id": "p40",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/return-policy",
+      "domain": "theograce.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "n=0 rule: no verified parasitic referrers, so never suspected; 9/10 seed visibility is only soft caution, and external search found no campaign-like GEO/SEO manipulation evidence. ([scamadviser.com](https://www.scamadviser.com/check-website/theograce.com))",
+        "permissions_llm_reason": "Vendor-owned brand/commerce page on a shopping query; apply vendor self-claims blind spot: factual claims require attribution, and brand-site promotional content cannot support endorsement.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement",
+        "content_role": "commercial_product"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:31:23.896206+00:00"
+    },
+    {
+      "id": "p41",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/warranty-conditions",
+      "domain": "theograce.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.0,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "n=0 blind-spot rule: never suspected, and elevated requires external campaign evidence; a standard affiliate program exists, but no corroborated parasitic seeding or fake-review campaign was found. ([theograce.com](https://www.theograce.com/articles/affiliate-program))",
+        "permissions_llm_reason": "Vendor-owned brand/warranty page on a commercial brand-quality query; apply vendor self-claim blind spot: attribute factual claims and deny endorsement.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:36:01.110617+00:00"
+    },
+    {
+      "id": "p42",
+      "query": "is theograce a good brand?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com",
+      "domain": "scamadviser.com",
+      "ok": true,
+      "error": null,
+      "predictions": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none",
+        "parasitic_geo_risk": 0.05,
+        "permissions_source": "llm_hybrid",
+        "parasitic_source": "heuristic",
+        "parasitic_llm_reason": "Heuristic tier confident; outside parasitic LLM ambiguity gate.",
+        "permissions_llm_reason": "Page is an automated website-safety assessment, not evidence of brand/product quality; adjust for commercial-intent mismatch and deny endorsement while retaining attribute-only facts.",
+        "parasitic_geo_suspected": false,
+        "parasitic_geo_elevated": false,
+        "llm_action": "block_endorsement"
+      },
+      "_parasitic_rerun_at": "2026-07-23T07:52:05.753525+00:00"
+    }
+  ],
+  "updated_at": "2026-07-23T08:49:42.006380+00:00",
+  "n_ok": 42,
+  "n_error": 0,
+  "notes": [
+    {
+      "at": "2026-07-23T04:19:47.663916+00:00",
+      "msg": "Recovered from label_sheet_v0_anti_geo.log + defer_retry after wipe to p37-only"
+    },
+    {
+      "at": "2026-07-23T04:20:29.414761+00:00",
+      "msg": "Added missing p01 from early smoke log; preparing parasitic-only merge for 41 pages (skip p37)"
+    },
+    {
+      "at": "2026-07-23T04:37:21.380022+00:00",
+      "msg": "Parasitic-only merge (resume-capable) for up to 41 pages; skip ['p37']; permissions fields preserved"
+    },
+    {
+      "at": "2026-07-23T05:01:51.087875+00:00",
+      "msg": "Parasitic-only merge (resume-capable) for up to 41 pages; skip ['p37']; permissions fields preserved"
+    },
+    {
+      "at": "2026-07-23T05:02:34.538798+00:00",
+      "msg": "Parasitic-only merge (resume-capable) for up to 41 pages; skip ['p37']; permissions fields preserved"
+    },
+    {
+      "at": "2026-07-23T05:05:29.177845+00:00",
+      "msg": "Parasitic-only merge (resume-capable) for up to 41 pages; skip ['p37']; permissions fields preserved"
+    },
+    {
+      "at": "2026-07-23T05:38:10.140965+00:00",
+      "msg": "Parasitic-only merge (resume-capable) for up to 41 pages; skip ['p37']; permissions fields preserved"
+    },
+    {
+      "at": "2026-07-23T05:38:54.627780+00:00",
+      "msg": "Parasitic-only merge (resume-capable) for up to 41 pages; skip ['p37']; permissions fields preserved"
+    },
+    {
+      "at": "2026-07-23T06:58:30.353342+00:00",
+      "msg": "Skipped p34 (Playwright hang); continuing parasitic merge for ['p35', 'p36', 'p38', 'p39', 'p40', 'p41', 'p42']"
+    },
+    {
+      "at": "2026-07-23T07:47:55.044673+00:00",
+      "msg": "Parasitic-only merge batch finished (skipped p34 Playwright hang, p37 Trustpilot defer, p42 Playwright hang). Permissions fields preserved."
+    },
+    {
+      "at": "2026-07-23T07:52:21.673426+00:00",
+      "msg": "Parasitic-only merge complete for 41 pages (skip p37). source_counts={'llm_hybrid': 4, 'heuristic': 37}"
+    },
+    {
+      "at": "2026-07-23T08:05:18.574771+00:00",
+      "msg": "permissions-reason backfill wrote p18"
+    },
+    {
+      "at": "2026-07-23T08:05:28.330480+00:00",
+      "msg": "permissions-reason backfill wrote p19"
+    },
+    {
+      "at": "2026-07-23T08:05:40.915807+00:00",
+      "msg": "permissions-reason backfill wrote p20"
+    },
+    {
+      "at": "2026-07-23T08:05:55.593766+00:00",
+      "msg": "permissions-reason backfill wrote p21"
+    },
+    {
+      "at": "2026-07-23T08:06:06.535521+00:00",
+      "msg": "permissions-reason backfill wrote p22"
+    },
+    {
+      "at": "2026-07-23T08:06:19.680505+00:00",
+      "msg": "permissions-reason backfill wrote p23"
+    },
+    {
+      "at": "2026-07-23T08:06:37.782794+00:00",
+      "msg": "permissions-reason backfill wrote p24"
+    },
+    {
+      "at": "2026-07-23T08:06:58.741891+00:00",
+      "msg": "permissions-reason backfill wrote p25"
+    },
+    {
+      "at": "2026-07-23T08:07:22.517932+00:00",
+      "msg": "permissions-reason backfill wrote p26"
+    },
+    {
+      "at": "2026-07-23T08:07:36.124607+00:00",
+      "msg": "permissions-reason backfill wrote p27"
+    },
+    {
+      "at": "2026-07-23T08:07:58.067033+00:00",
+      "msg": "permissions-reason backfill wrote p28"
+    },
+    {
+      "at": "2026-07-23T08:08:11.560572+00:00",
+      "msg": "permissions-reason backfill wrote p29"
+    },
+    {
+      "at": "2026-07-23T08:08:30.426856+00:00",
+      "msg": "permissions-reason backfill wrote p30"
+    },
+    {
+      "at": "2026-07-23T08:08:49.956182+00:00",
+      "msg": "permissions-reason backfill wrote p32"
+    },
+    {
+      "at": "2026-07-23T08:08:58.138160+00:00",
+      "msg": "permissions-reason backfill wrote p33"
+    },
+    {
+      "at": "2026-07-23T08:10:04.341199+00:00",
+      "msg": "permissions-reason backfill wrote p34"
+    },
+    {
+      "at": "2026-07-23T08:10:12.668537+00:00",
+      "msg": "permissions-reason backfill wrote p35"
+    },
+    {
+      "at": "2026-07-23T08:11:18.201496+00:00",
+      "msg": "permissions-reason backfill wrote p36"
+    },
+    {
+      "at": "2026-07-23T08:11:36.629428+00:00",
+      "msg": "permissions-reason backfill wrote p38"
+    },
+    {
+      "at": "2026-07-23T08:11:55.113924+00:00",
+      "msg": "permissions-reason backfill wrote p39"
+    },
+    {
+      "at": "2026-07-23T08:12:24.646803+00:00",
+      "msg": "permissions-reason backfill wrote p41"
+    },
+    {
+      "at": "2026-07-23T08:12:50.442811+00:00",
+      "msg": "permissions-reason backfill wrote p42"
+    },
+    {
+      "at": "2026-07-23T08:49:42.006380+00:00",
+      "msg": "Full permissions+parasitic re-run for p34 after fetch hang fix; perm_src=llm_hybrid para_src=heuristic parasitic=elevated"
+    }
+  ]
+}

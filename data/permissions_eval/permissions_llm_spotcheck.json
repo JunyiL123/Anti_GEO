@@ -1,0 +1,194 @@
+{
+  "description": "Permissions spotcheck on ambiguous commercial pages. heuristic = derive_permissions only. llm_independent = prior 3rd-party LABEL_GUIDE labels (no Anti-GEO rule-base). llm_rulebase = Azure hybrid after permissions_llm._heuristic_rules_rubric. llm_suggestion_raw = raw LLM fields before merge (null = keep heuristic).",
+  "pages": [
+    {
+      "domain": "sleepfoundation.org",
+      "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+      "query": "best mattress for back pain 2026",
+      "query_intent": "commercial",
+      "fetch_ok": true,
+      "fetch_engine": "httpx",
+      "heuristic": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow"
+      },
+      "subscores": {
+        "fetch_confidence": 0.9,
+        "source_trust": 0.71,
+        "endorsement_risk": 0.0,
+        "factual_claim_reliability": 0.83,
+        "intent_mismatch": 0.25,
+        "concealment_risk": 0.0,
+        "harm_severity": 0.15,
+        "rhetorical_manipulation": 0.041
+      },
+      "llm_gate": true,
+      "llm_independent": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "require_corroboration",
+        "endorsement": "deny"
+      },
+      "llm_independent_reason": "Affiliate commerce best-of listicle; usable for discovery and attributed details, but product claims need corroboration and it should not warrant recommendations.",
+      "permissions_source": "llm_hybrid",
+      "reason": "Affiliate-backed commercial best-mattress listicle on a shopping query; apply the commercial page-type blind-spot rule to deny endorsement while retaining heuristic retrieval, mention, and factual permissions.",
+      "llm_rulebase": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "deny"
+      },
+      "llm_suggestion_raw": {
+        "retrieve": null,
+        "mention": null,
+        "factual": null,
+        "endorsement": "deny",
+        "reason": "Affiliate commercial best-of listicle on a shopping query; apply the commercial-intent blind-spot adjustment to deny endorsement while retaining heuristic retrieval, mention, and factual permissions."
+      }
+    },
+    {
+      "domain": "fda.gov",
+      "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+      "query": "best weight loss supplements that work",
+      "query_intent": "commercial",
+      "fetch_ok": true,
+      "fetch_engine": "playwright",
+      "heuristic": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow"
+      },
+      "subscores": {
+        "fetch_confidence": 0.95,
+        "source_trust": 0.81,
+        "endorsement_risk": 0.0,
+        "factual_claim_reliability": 0.93,
+        "intent_mismatch": 0.25,
+        "concealment_risk": 0.0,
+        "harm_severity": 0.15,
+        "rhetorical_manipulation": 0.029
+      },
+      "llm_gate": true,
+      "llm_independent": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "deny"
+      },
+      "llm_independent_reason": "Authoritative FDA source for approval facts, but institutional drug approval is not a shopping endorsement and does not establish a weight-loss supplement recommendation.",
+      "permissions_source": "llm_hybrid",
+      "reason": "Institutional FDA approval/press page on a commercial shopping query; apply the commercial-intent blind spot: retain retrieval, mention, and factual permissions, but deny endorsement.",
+      "llm_rulebase": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "deny"
+      },
+      "llm_suggestion_raw": {
+        "retrieve": null,
+        "mention": null,
+        "factual": null,
+        "endorsement": "deny",
+        "reason": "Institutional FDA approval/press page on a commercial shopping query; apply the page-type blind-spot rule: keep retrieval, mention, and reliable facts, but deny endorsement."
+      }
+    },
+    {
+      "domain": "vanicream.com",
+      "url": "https://www.vanicream.com/product/vanicream-moisturizing-cream",
+      "query": "best moisturizer for dry skin drugstore",
+      "query_intent": "commercial",
+      "fetch_ok": true,
+      "fetch_engine": "httpx",
+      "heuristic": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow"
+      },
+      "subscores": {
+        "fetch_confidence": 0.9,
+        "source_trust": 0.71,
+        "endorsement_risk": 0.0,
+        "factual_claim_reliability": 0.65,
+        "intent_mismatch": 0.25,
+        "concealment_risk": 0.0,
+        "harm_severity": 0.15,
+        "rhetorical_manipulation": 0.0
+      },
+      "llm_gate": true,
+      "llm_independent": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "deny"
+      },
+      "llm_independent_reason": "Official brand product page; usable for attributed product details and self-claims, but not independent warrant for a recommendation.",
+      "permissions_source": "llm_hybrid",
+      "reason": "Vendor product page on a commercial shopping query: keep retrieval/mention, but treat product-benefit self-claims as attribute-only and deny endorsement under the vendor PDP blind-spot rule.",
+      "llm_rulebase": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "attribute_only",
+        "endorsement": "deny"
+      },
+      "llm_suggestion_raw": {
+        "retrieve": null,
+        "mention": null,
+        "factual": "attribute_only",
+        "endorsement": "deny",
+        "reason": "Vendor product page on a commercial shopping query; apply the blind-spot rules to attribute brand self-claims and deny endorsement while retaining heuristic retrieval and mention permissions."
+      }
+    },
+    {
+      "domain": "rtings.com",
+      "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+      "query": "best mattress for back pain 2026",
+      "query_intent": "commercial",
+      "fetch_ok": true,
+      "fetch_engine": "playwright",
+      "heuristic": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow"
+      },
+      "subscores": {
+        "fetch_confidence": 0.95,
+        "source_trust": 0.71,
+        "endorsement_risk": 0.0,
+        "factual_claim_reliability": 0.65,
+        "intent_mismatch": 0.25,
+        "concealment_risk": 0.0,
+        "harm_severity": 0.15,
+        "rhetorical_manipulation": 0.039
+      },
+      "llm_gate": true,
+      "llm_independent": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "require_corroboration",
+        "endorsement": "allow"
+      },
+      "llm_independent_reason": "Independent testing source without affiliate links, but claims about relieving back pain should be corroborated with medical or clinical evidence.",
+      "permissions_source": "heuristic",
+      "reason": "Independent lab-style tester with no affiliate or persuasive packaging; trust/reliability support factual and endorsement allow, so no page-type adjustment.",
+      "llm_rulebase": {
+        "retrieve": "allow",
+        "mention": "allow",
+        "factual": "allow",
+        "endorsement": "allow"
+      },
+      "llm_suggestion_raw": {
+        "retrieve": null,
+        "mention": null,
+        "factual": null,
+        "endorsement": null,
+        "reason": "Independent lab-style tester with no affiliate or persuasive packaging; trust/reliability support factual and endorsement allow, so no page-type adjustment."
+      },
+      "note": "LLM returned all-null (keep heuristic). parse_permissions_llm_payload treats that as empty_suggestion, so permissions_source stays heuristic even though the model was called."
+    }
+  ]
+}

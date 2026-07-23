@@ -68,7 +68,7 @@ RETRIEVE (from subscores + fetch):
 - If retrieve=reject from IPI (not fetch reject): also deny factual + endorsement
 
 MENTION:
-- fetch reject OR fetch_confidence < 0.1 → deny; else allow
+- fetch reject/defer OR fetch_confidence < 0.1 → deny; else allow
 
 FACTUAL:
 - fetch reject/defer or fetch_confidence < 0.25 → deny
@@ -455,12 +455,14 @@ def maybe_apply_permissions_llm(
             permissions=heuristic,
             source="heuristic",
             skipped="hard_floor",
+            reason="Hard fetch/IPI floor — keep heuristic permissions.",
         )
     if concealment_is_hot(subscores):
         return PermissionsLlmResult(
             permissions=heuristic,
             source="heuristic",
             skipped="concealment_hot",
+            reason="Concealment hot — keep heuristic permissions.",
         )
 
     llm_enabled = is_azure_configured() if use_llm is None else bool(use_llm)
@@ -469,6 +471,7 @@ def maybe_apply_permissions_llm(
             permissions=heuristic,
             source="heuristic",
             skipped="llm_disabled",
+            reason="Permissions LLM disabled or Azure not configured.",
         )
 
     if not permissions_llm_gate(
@@ -484,6 +487,7 @@ def maybe_apply_permissions_llm(
             permissions=heuristic,
             source="heuristic",
             skipped="not_ambiguous",
+            reason="Heuristic permissions confident; outside LLM ambiguity gate.",
         )
 
     try:
@@ -501,7 +505,7 @@ def maybe_apply_permissions_llm(
             permissions=heuristic,
             source="heuristic",
             skipped="llm_error",
-            reason=str(exc)[:200],
+            reason=f"Permissions LLM error; keep heuristic ({str(exc)[:120]}).",
         )
 
     if suggestion is None:
@@ -509,6 +513,7 @@ def maybe_apply_permissions_llm(
             permissions=heuristic,
             source="heuristic",
             skipped="empty_suggestion",
+            reason="Permissions LLM returned empty; keep heuristic.",
         )
 
     merged = merge_permissions_hybrid(heuristic, suggestion, hard_floor=False)
