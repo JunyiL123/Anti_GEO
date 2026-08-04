@@ -1,0 +1,3761 @@
+{
+  "dataset": "GEO-optim/geo-bench",
+  "mode": "offline_single_page",
+  "notes": [
+    "Scored from GEO-bench cleaned_text (no live fetch).",
+    "Domain signals offline (no DNS/WHOIS/cert).",
+    "Query intent via heuristics only (allow_llm=False).",
+    "No Mode B / parasitic referral."
+  ],
+  "queries": [
+    {
+      "query_id": "q01",
+      "query": "Why are great artists more famous for their paintings than for their drawings?",
+      "tags": [
+        "intermediate",
+        "informational",
+        "arts and entertainment",
+        "non-technical",
+        "question",
+        "fact",
+        "non-sensitive",
+        "research"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q01_s1",
+          "source_rank": 1,
+          "url": "https://www.bbc.com/culture/article/20141112-great-artists-steal",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0017964071856287425,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 7.578592814371257e-05,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0017964071856287425,
+          "endorsement_risk": 7.578592814371257e-05,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s2",
+          "source_rank": 2,
+          "url": "https://www.weloveart.com/the-10-most-famous-artists-of-all-time/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s3",
+          "source_rank": 3,
+          "url": "https://vanschneider.com/blog/art-is-now-designed/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s4",
+          "source_rank": 4,
+          "url": "https://christopherpjones.medium.com/what-artists-talk-about-when-they-talk-about-their-art-14373a87b452",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s5",
+          "source_rank": 5,
+          "url": "https://www.theguardian.com/artanddesign/jonathanjonesblog/2011/aug/19/art-popular-monet-van-gogh",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.05714285714285714,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q02",
+      "query": "What wouldn't you photograph?",
+      "tags": [
+        "simple",
+        "informational",
+        "arts and entertainment",
+        "non-technical",
+        "question",
+        "opinion",
+        "non-sensitive",
+        "research"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q02_s1",
+          "source_rank": 1,
+          "url": "https://www.reddit.com/r/photography/comments/rz80wb/how_do_you_ask_to_take_pictures_of_others_cars/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q02_s2",
+          "source_rank": 2,
+          "url": "https://www.reddit.com/r/photography/comments/vwox6s/if_youd_live_in_a_city_which_didnt_inspire_you/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q02_s3",
+          "source_rank": 3,
+          "url": "https://wizwow.medium.com/grab-a-camera-you-wouldnt-normally-use-and-make-some-images-of-stuff-you-normally-wouldn-t-shoot-301fe63eab67",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.8,
+            "source_trust": 0.45000000000000007,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.45,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.45000000000000007,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded",
+            "quote_citation_heavy"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "thin_content"
+          ]
+        },
+        {
+          "page_id": "q02_s4",
+          "source_rank": 4,
+          "url": "https://www.reddit.com/r/photography/comments/xufnvu/why_do_you_take_photographs_what_do_you_actually/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.13333333333333333,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.63,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded",
+            "quote_citation_heavy"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q02_s5",
+          "source_rank": 5,
+          "url": "https://erickimphotography.com/blog/2018/06/15/would-you-still-take-photos-if-nobody-else-would-ever-see-your-photos/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.12,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q03",
+      "query": "Should the government impose a limit on executive pay?",
+      "tags": [
+        "intermediate",
+        "debate",
+        "non-technical",
+        "question",
+        "opinion",
+        "research",
+        "sensitive",
+        "informational",
+        "business"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q03_s1",
+          "source_rank": 1,
+          "url": "https://news.law.fordham.edu/jcfl/2021/04/21/the-new-attempt-to-curb-executive-pay/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.01518987341772152,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0006645569620253165,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.01518987341772152,
+          "endorsement_risk": 0.0006645569620253165,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q03_s2",
+          "source_rank": 2,
+          "url": "https://www.epi.org/publication/reining-in-ceo-compensation-and-curbing-the-rise-of-inequality/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.010381679389312977,
+            "retrieval_manipulation_risk": 0.05,
+            "endorsement_risk": 0.0004087786259541984,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.010381679389312977,
+          "endorsement_risk": 0.0004087786259541984,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q03_s3",
+          "source_rank": 3,
+          "url": "https://www.sanders.senate.gov/press-releases/news-sanders-and-colleagues-introduce-legislation-to-combat-corporate-greed-and-end-outrageous-ceo-pay/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.005413533834586466,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.00023684210526315786,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.005413533834586466,
+          "endorsement_risk": 0.00023684210526315786,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q03_s4",
+          "source_rank": 4,
+          "url": "https://www.everycrsreport.com/reports/RL33935.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.010355987055016181,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 0.00046601941747572817,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.010355987055016181,
+          "endorsement_risk": 0.00046601941747572817,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q03_s5",
+          "source_rank": 5,
+          "url": "https://hbr.org/1990/05/ceo-incentives-its-not-how-much-you-pay-but-how",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.01263823064770932,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0007109004739336493,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.01263823064770932,
+          "endorsement_risk": 0.0007109004739336493,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q04",
+      "query": "cost of law school at uc irvine",
+      "tags": [
+        "informational",
+        "simple",
+        "education",
+        "non-technical",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q04_s1",
+          "source_rank": 1,
+          "url": "https://www.law.uci.edu/admission/tuition-aid/process.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.0019736842105263154,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 8.63486842105263e-05,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.0019736842105263154,
+          "endorsement_risk": 8.63486842105263e-05,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q04_s2",
+          "source_rank": 2,
+          "url": "https://en.wikipedia.org/wiki/University_of_California,_Irvine_School_of_Law",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.06964285714285715,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.003917410714285714,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.06964285714285715,
+          "endorsement_risk": 0.003917410714285714,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q04_s3",
+          "source_rank": 3,
+          "url": "https://www.law.uci.edu/admission/tuition-aid/types-of-aid.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.037888198757763975,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 0.0013260869565217392,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.037888198757763975,
+          "endorsement_risk": 0.0013260869565217392,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q04_s4",
+          "source_rank": 4,
+          "url": "https://www.law.uci.edu/admission/tuition-aid/outside-scholarships.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.017849898580121704,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0007809330628803245,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.017849898580121704,
+          "endorsement_risk": 0.0007809330628803245,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q04_s5",
+          "source_rank": 5,
+          "url": "https://www.law.uci.edu/admission/tuition-aid/lrap.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.0038095238095238095,
+            "retrieval_manipulation_risk": 0.12,
+            "endorsement_risk": 0.00019999999999999996,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.0038095238095238095,
+          "endorsement_risk": 0.00019999999999999996,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "q05",
+      "query": "countries with free college education",
+      "tags": [
+        "informational",
+        "simple",
+        "education",
+        "evergreen",
+        "research",
+        "non-sensitive",
+        "non-technical",
+        "question",
+        "fact"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q05_s1",
+          "source_rank": 1,
+          "url": "https://www.topuniversities.com/student-info/studying-abroad/where-can-you-study-abroad-free",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.08271604938271605,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.003988095238095238,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.08271604938271605,
+          "endorsement_risk": 0.003988095238095238,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q05_s2",
+          "source_rank": 2,
+          "url": "https://worldpopulationreview.com/country-rankings/countries-with-free-college",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.012048192771084341,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0006777108433734942,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.012048192771084341,
+          "endorsement_risk": 0.0006777108433734942,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q05_s3",
+          "source_rank": 3,
+          "url": "https://en.wikipedia.org/wiki/Free_education",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.023529411764705882,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 0.0009926470588235293,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.023529411764705882,
+          "endorsement_risk": 0.0009926470588235293,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q05_s4",
+          "source_rank": 4,
+          "url": "https://www.baltimoresun.com/travel/sns-5-countries-that-offer-free-college-and-how-they-accomplished-it-20230217-b76pagnjvvgohafk2any6r7f6i-photogallery.html",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.8,
+            "source_trust": 0.45000000000000007,
+            "rhetorical_manipulation": 0.07058823529411765,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.012132352941176467,
+            "factual_claim_reliability": 0.37000000000000005,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.45000000000000007,
+          "semantic_risk": 0.08823529411764705,
+          "endorsement_risk": 0.012132352941176467,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "thin_content"
+          ]
+        },
+        {
+          "page_id": "q05_s5",
+          "source_rank": 5,
+          "url": "https://www.investopedia.com/articles/personal-finance/080616/6-countries-virtually-free-college-tuition.asp",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.02326332794830372,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.001308562197092084,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.02326332794830372,
+          "endorsement_risk": 0.001308562197092084,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q06",
+      "query": "Does the non-participation of the United States make the Kyoto accord worthless?",
+      "tags": [
+        "intermediate",
+        "debate",
+        "environment",
+        "non-technical",
+        "question",
+        "opinion",
+        "research",
+        "sensitive",
+        "informational"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q06_s1",
+          "source_rank": 1,
+          "url": "https://www.cfr.org/backgrounder/paris-global-climate-change-agreements",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.01616161616161616,
+            "retrieval_manipulation_risk": 0.06666666666666667,
+            "endorsement_risk": 0.0006363636363636363,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.01616161616161616,
+          "endorsement_risk": 0.0006363636363636363,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q06_s2",
+          "source_rank": 2,
+          "url": "https://www.reuters.com/article/us-russia-kyoto/russia-will-not-cut-emissions-under-extended-kyoto-climate-pact-idUSBRE88C0QZ20120913",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.035214446952595936,
+            "retrieval_manipulation_risk": 0.14285714285714288,
+            "endorsement_risk": 0.003335041691620214,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.04150274105127378,
+          "endorsement_risk": 0.003335041691620214,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q06_s3",
+          "source_rank": 3,
+          "url": "https://www.gao.gov/products/gao-04-144r",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.04274809160305343,
+            "retrieval_manipulation_risk": 0.12,
+            "endorsement_risk": 0.002244274809160305,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.04274809160305343,
+          "endorsement_risk": 0.002244274809160305,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q06_s4",
+          "source_rank": 4,
+          "url": "https://www.epw.senate.gov/public/index.cfm/2016/4/failures-of-kyoto-will-repeat-with-the-paris-climate-agreement",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.009287925696594427,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 0.00032507739938080496,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.009287925696594427,
+          "endorsement_risk": 0.00032507739938080496,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q06_s5",
+          "source_rank": 5,
+          "url": "https://1997-2001.state.gov/global/global_issues/climate/fs-us_sign_kyoto_981112.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.013333333333333334,
+            "retrieval_manipulation_risk": 0.13333333333333333,
+            "endorsement_risk": 0.0009074074074074073,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.015555555555555557,
+          "endorsement_risk": 0.0009074074074074073,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "q07",
+      "query": "Should corporations be required to report their carbon emissions?",
+      "tags": [
+        "intermediate",
+        "debate",
+        "environment",
+        "non-technical",
+        "question",
+        "opinion",
+        "research",
+        "sensitive",
+        "informational"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q07_s1",
+          "source_rank": 1,
+          "url": "https://cepr.org/voxeu/columns/mandatory-corporate-carbon-disclosures-and-path-net-zero",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.11111111111111112,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q07_s2",
+          "source_rank": 2,
+          "url": "https://nbs.net/the-shift-to-mandatory-carbon-reporting-6-ways-companies-can-prepare/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.010256410256410255,
+            "retrieval_manipulation_risk": 0.09090909090909091,
+            "endorsement_risk": 0.0005244755244755244,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.010256410256410255,
+          "endorsement_risk": 0.0005244755244755244,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q07_s3",
+          "source_rank": 3,
+          "url": "https://www.pbs.org/newshour/nation/analysis-the-potential-global-impact-of-californias-new-corporate-climate-disclosure-laws",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.02842639593908629,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0015989847715736037,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.02842639593908629,
+          "endorsement_risk": 0.0015989847715736037,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q07_s4",
+          "source_rank": 4,
+          "url": "https://www.chicagobooth.edu/review/how-best-report-carbon-emissions",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.018697829716193656,
+            "retrieval_manipulation_risk": 0.05714285714285714,
+            "endorsement_risk": 0.0005726210350584306,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.018697829716193656,
+          "endorsement_risk": 0.0005726210350584306,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q07_s5",
+          "source_rank": 5,
+          "url": "https://www.americanprogress.org/article/why-companies-should-be-required-to-disclose-their-scope-3-emissions/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q08",
+      "query": "how to improve your credit score fast",
+      "tags": [
+        "informational",
+        "simple",
+        "finance",
+        "non-technical",
+        "command",
+        "guide",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q08_s1",
+          "source_rank": 1,
+          "url": "https://www.creditkarma.com/advice/i/quick-tips-build-credit",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.11111111111111112,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q08_s2",
+          "source_rank": 2,
+          "url": "https://www.investopedia.com/how-to-improve-your-credit-score-4590097",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0063400576368876065,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0003566282420749278,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0063400576368876065,
+          "endorsement_risk": 0.0003566282420749278,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q08_s3",
+          "source_rank": 3,
+          "url": "https://www.nerdwallet.com/article/finance/raise-credit-score-fast",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q08_s4",
+          "source_rank": 4,
+          "url": "https://www.lendingtree.com/credit-repair/how-to-improve-your-credit-score/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.009999999999999998,
+            "retrieval_manipulation_risk": 0.08888888888888889,
+            "endorsement_risk": 0.0004999999999999999,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.009999999999999998,
+          "endorsement_risk": 0.0004999999999999999,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q08_s5",
+          "source_rank": 5,
+          "url": "https://www.cnbc.com/select/how-to-boost-your-credit-score-fast/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.011477761836441894,
+            "retrieval_manipulation_risk": 0.11111111111111112,
+            "endorsement_risk": 0.0007173601147776184,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.011477761836441894,
+          "endorsement_risk": 0.0007173601147776184,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q09",
+      "query": "how does fsa grace period work?",
+      "tags": [
+        "informational",
+        "intermediate",
+        "finance",
+        "non-technical",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q09_s1",
+          "source_rank": 1,
+          "url": "https://www.opm.gov/frequently-asked-questions/insure-faq/flexible-spending-account/is-there-a-grace-period-for-fsafeds-what-does-that-mean/",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.8,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.032,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0045,
+            "factual_claim_reliability": 0.47000000000000003,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.04,
+          "endorsement_risk": 0.0045,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld",
+            "thin_content"
+          ]
+        },
+        {
+          "page_id": "q09_s2",
+          "source_rank": 2,
+          "url": "https://fsastore.com/learn-fsa-grace-period-rollover.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.018030050083472453,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.0008693059861674217,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.018030050083472453,
+          "endorsement_risk": 0.0008693059861674217,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q09_s3",
+          "source_rank": 3,
+          "url": "https://www.ebcflex.com/fsadifferences/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.012209302325581395,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.0005886627906976743,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.012209302325581395,
+          "endorsement_risk": 0.0005886627906976743,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q09_s4",
+          "source_rank": 4,
+          "url": "https://healthaccounts.bankofamerica.com/grace-period.shtml",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0033240997229916896,
+            "retrieval_manipulation_risk": 0.11428571428571428,
+            "endorsement_risk": 0.00021369212504946574,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0033240997229916896,
+          "endorsement_risk": 0.00021369212504946574,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q09_s5",
+          "source_rank": 5,
+          "url": "https://fsastore.com/learn-fsa-run-period.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.017204301075268817,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.0008294930875576036,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.017204301075268817,
+          "endorsement_risk": 0.0008294930875576036,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q10",
+      "query": "how to wean off lexapro safely",
+      "tags": [
+        "informational",
+        "intermediate",
+        "health",
+        "non-technical",
+        "instructional",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q10_s1",
+          "source_rank": 1,
+          "url": "https://www.talkspace.com/blog/lexapro-withdrawal/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q10_s2",
+          "source_rank": 2,
+          "url": "https://www.healthline.com/health/depression/weaning-off-lexapro",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q10_s3",
+          "source_rank": 3,
+          "url": "https://store.samhsa.gov/product/What-Is-Substance-Abuse-Treatment-A-Booklet-for-Families/SMA14-4126",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.005780346820809247,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.00017702312138728318,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.005780346820809247,
+          "endorsement_risk": 0.00017702312138728318,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q10_s4",
+          "source_rank": 4,
+          "url": "https://www.samhsa.gov/find-help/atod",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q10_s5",
+          "source_rank": 5,
+          "url": "https://www.health.harvard.edu/diseases-and-conditions/how-to-taper-off-your-antidepressant",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.06666666666666667,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        }
+      ]
+    },
+    {
+      "query_id": "q11",
+      "query": "what is flutic",
+      "tags": [
+        "informational",
+        "simple",
+        "health",
+        "non-technical",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q11_s1",
+          "source_rank": 1,
+          "url": "https://medlineplus.gov/druginfo/meds/a601056.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "high_stakes_medical_claim"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q11_s2",
+          "source_rank": 2,
+          "url": "https://medlineplus.gov/druginfo/meds/a695002.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.002923976608187136,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0001279239766081872,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.002923976608187136,
+          "endorsement_risk": 0.0001279239766081872,
+          "content_flags": [
+            "high_stakes_medical_claim"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q11_s3",
+          "source_rank": 3,
+          "url": "https://www.webmd.com/drugs/2/drug-77986-245/fluticasone-propionate-nasal/fluticasone-spray-nasal/details",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q11_s4",
+          "source_rank": 4,
+          "url": "https://www.flonase.com/allergies/what-is-fluticasone-propionate/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q11_s5",
+          "source_rank": 5,
+          "url": "https://www.webmd.com/drugs/2/drug-164284/fluticasone-furoate-vilanterol-for-inhalation/details",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q12",
+      "query": "how did the panic of 1819 create conflict between members of the democratic-republican party",
+      "tags": [
+        "informational",
+        "history",
+        "non-technical",
+        "question",
+        "fact",
+        "historical",
+        "intermediate"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q12_s1",
+          "source_rank": 1,
+          "url": "https://millercenter.org/president/monroe/domestic-affairs",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.00366412213740458,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.0001442748091603053,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.00366412213740458,
+          "endorsement_risk": 0.0001442748091603053,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q12_s2",
+          "source_rank": 2,
+          "url": "https://study.com/learn/lesson/panic-of-1819-causes-and-significance.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.009316770186335404,
+            "retrieval_manipulation_risk": 0.08888888888888889,
+            "endorsement_risk": 0.0004658385093167702,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.009316770186335404,
+          "endorsement_risk": 0.0004658385093167702,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q12_s3",
+          "source_rank": 3,
+          "url": "https://history.answers.com/us-history/How_did_the_panic_of_1819_create_conflict_between_the_members_of_the_democratic-republican_party",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.008727272727272728,
+            "retrieval_manipulation_risk": 0.11111111111111112,
+            "endorsement_risk": 0.0005454545454545454,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.008727272727272728,
+          "endorsement_risk": 0.0005454545454545454,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q12_s4",
+          "source_rank": 4,
+          "url": "https://en.wikipedia.org/wiki/Era_of_Good_Feelings",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.009135399673735726,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0005138662316476345,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.009135399673735726,
+          "endorsement_risk": 0.0005138662316476345,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q12_s5",
+          "source_rank": 5,
+          "url": "https://en.wikipedia.org/wiki/Democratic-Republican_Party",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.004137931034482759,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.00019950738916256155,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.004137931034482759,
+          "endorsement_risk": 0.00019950738916256155,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q13",
+      "query": "who was the aztec ruler when the spanish arrived",
+      "tags": [
+        "informational",
+        "simple",
+        "history",
+        "non-technical",
+        "question",
+        "fact",
+        "historical",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q13_s1",
+          "source_rank": 1,
+          "url": "https://en.wikipedia.org/wiki/Spanish_conquest_of_the_Aztec_Empire",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0037795275590551177,
+            "retrieval_manipulation_risk": 0.07272727272727274,
+            "endorsement_risk": 0.00015461703650680026,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0037795275590551177,
+          "endorsement_risk": 0.00015461703650680026,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q13_s2",
+          "source_rank": 2,
+          "url": "https://www.history.com/news/hernan-cortes-conquered-aztec-empire",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0019077901430842607,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.00010731319554848965,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0019077901430842607,
+          "endorsement_risk": 0.00010731319554848965,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q13_s3",
+          "source_rank": 3,
+          "url": "https://www.historians.org/teaching-and-learning/teaching-resources-for-historians/teaching-and-learning-in-the-digital-age/the-history-of-the-americas/the-conquest-of-mexico/for-students/what-the-textbooks-have-to-say-about-the-conquest-of-mexico",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.015772870662460567,
+            "retrieval_manipulation_risk": 0.05714285714285714,
+            "endorsement_risk": 0.0006210567823343847,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.015772870662460567,
+          "endorsement_risk": 0.0006210567823343847,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q13_s4",
+          "source_rank": 4,
+          "url": "https://www.historyextra.com/period/tudor/spanish-conquistador-aztecs-moctezuma-hernan-cortes/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0018575851393188856,
+            "retrieval_manipulation_risk": 0.10909090909090909,
+            "endorsement_risk": 0.00011398817900365888,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0018575851393188856,
+          "endorsement_risk": 0.00011398817900365888,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q13_s5",
+          "source_rank": 5,
+          "url": "https://study.com/learn/lesson/montezuma-biography-facts.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.11111111111111112,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q14",
+      "query": "Should private prisons be abolished?",
+      "tags": [
+        "intermediate",
+        "debate",
+        "law",
+        "non-technical",
+        "question",
+        "opinion",
+        "research",
+        "sensitive",
+        "informational"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q14_s1",
+          "source_rank": 1,
+          "url": "https://time.com/4461791/private-prisons-department-of-justice/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.019682539682539683,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.00022142857142857142,
+            "factual_claim_reliability": 0.73,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.019682539682539683,
+          "endorsement_risk": 0.00022142857142857142,
+          "content_flags": [
+            "mentions_alternatives"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q14_s2",
+          "source_rank": 2,
+          "url": "https://abolishprivateprisons.networkforgood.com/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.01629881154499151,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 0.0007334465195246179,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.01629881154499151,
+          "endorsement_risk": 0.0007334465195246179,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q14_s3",
+          "source_rank": 3,
+          "url": "https://www.justiceeducationproject.org/post/opinion-why-private-prisons-should-be-abolished",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.015335463258785941,
+            "retrieval_manipulation_risk": 0.11428571428571428,
+            "endorsement_risk": 0.0009858512094933819,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.015335463258785941,
+          "endorsement_risk": 0.0009858512094933819,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q14_s4",
+          "source_rank": 4,
+          "url": "https://jacobin.com/2020/06/private-prison-profit-labor-incarceration",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.011202635914332786,
+            "retrieval_manipulation_risk": 0.11428571428571428,
+            "endorsement_risk": 0.0007201694516356789,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.011202635914332786,
+          "endorsement_risk": 0.0007201694516356789,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q14_s5",
+          "source_rank": 5,
+          "url": "https://www.themarshallproject.org/2019/09/12/here-s-why-abolishing-private-prisons-isn-t-a-silver-bullet",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.01986754966887417,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.001117549668874172,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.01986754966887417,
+          "endorsement_risk": 0.001117549668874172,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q15",
+      "query": "Should prisoners be allowed to watch television?",
+      "tags": [
+        "intermediate",
+        "debate",
+        "law",
+        "non-technical",
+        "question",
+        "opinion",
+        "research",
+        "sensitive",
+        "informational"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q15_s1",
+          "source_rank": 1,
+          "url": "https://hcsdmass.org/watch-tv-prison/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q15_s2",
+          "source_rank": 2,
+          "url": "https://www.tv-in-jail.com/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q15_s3",
+          "source_rank": 3,
+          "url": "https://prisonroster.com/blog/can-watch-tv-prison/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q15_s4",
+          "source_rank": 4,
+          "url": "https://www.theguardian.com/books/1999/jun/05/books.guardianreview1",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.06666666666666667,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q15_s5",
+          "source_rank": 5,
+          "url": "https://federalcriminaldefenseattorney.com/entertainment-in-the-federal-bureau-of-prisons-html/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0018838304552590266,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 8.47723704866562e-05,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0018838304552590266,
+          "endorsement_risk": 8.47723704866562e-05,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q16",
+      "query": "dunkin donut prices",
+      "tags": [
+        "informational",
+        "simple",
+        "food and drink",
+        "non-technical",
+        "question",
+        "fact",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q16_s1",
+          "source_rank": 1,
+          "url": "https://www.ubereats.com/brand-city/point-pleasant-nj/dunkin-donuts",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q16_s2",
+          "source_rank": 2,
+          "url": "http://dunkindonutscatering.com/menu",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.43000000000000005,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.13333333333333333,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.43000000000000005,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [
+            "no_https"
+          ],
+          "reasons": [
+            "no_https"
+          ]
+        },
+        {
+          "page_id": "q16_s3",
+          "source_rank": 3,
+          "url": "https://thefoodxp.com/dunkin-donuts-menu-prices/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.009696969696969697,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.00010909090909090908,
+            "factual_claim_reliability": 0.73,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.009696969696969697,
+          "endorsement_risk": 0.00010909090909090908,
+          "content_flags": [
+            "mentions_alternatives"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q16_s4",
+          "source_rank": 4,
+          "url": "https://www.ubereats.com/brand-city/jersey-city-nj/dunkin-donuts",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q16_s5",
+          "source_rank": 5,
+          "url": "https://www.fastfoodmenuprices.com/dunkin-donuts-prices/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.016,
+            "retrieval_manipulation_risk": 0.12,
+            "endorsement_risk": 0.0010799999999999998,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.016,
+          "endorsement_risk": 0.0010799999999999998,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q17",
+      "query": "How is Xi Jinping becoming the leader of China's armed forces so different from the US President being the Commander in Chief of the American Armed Forces?",
+      "tags": [
+        "informational",
+        "complex",
+        "non-technical",
+        "law and government",
+        "question",
+        "comparison",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q17_s1",
+          "source_rank": 1,
+          "url": "https://en.wikipedia.org/wiki/Xi_Jinping",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.028571428571428567,
+            "retrieval_manipulation_risk": 0.10909090909090909,
+            "endorsement_risk": 0.0017532467532467527,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.028571428571428567,
+          "endorsement_risk": 0.0017532467532467527,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q17_s2",
+          "source_rank": 2,
+          "url": "https://www.ncuscr.org/podcast/how-powerful-is-xi-jinping/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.12307692307692308,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.73,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "mentions_alternatives"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q17_s3",
+          "source_rank": 3,
+          "url": "https://www.journalofdemocracy.org/articles/china-in-xis-new-era-the-return-to-personalistic-rule/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.01764705882352941,
+            "retrieval_manipulation_risk": 0.07272727272727274,
+            "endorsement_risk": 0.0007219251336898395,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.01764705882352941,
+          "endorsement_risk": 0.0007219251336898395,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q17_s4",
+          "source_rank": 4,
+          "url": "https://www.bbc.com/news/world-asia-china-36101140",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.028813559322033895,
+            "retrieval_manipulation_risk": 0.17500000000000002,
+            "endorsement_risk": 0.0034567829713983045,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.03511652542372881,
+          "endorsement_risk": 0.0034567829713983045,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q17_s5",
+          "source_rank": 5,
+          "url": "https://www.pbs.org/newshour/show/how-president-xi-jinping-is-transforming-china-at-home-and-abroad",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.007350689127105666,
+            "retrieval_manipulation_risk": 0.06666666666666667,
+            "endorsement_risk": 0.00028943338437978556,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.007350689127105666,
+          "endorsement_risk": 0.00028943338437978556,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q18",
+      "query": "where can i buy a japanese dwarf flying squirrel",
+      "tags": [
+        "transactional",
+        "pets and animals",
+        "non-technical",
+        "question",
+        "purchase",
+        "simple"
+      ],
+      "query_intent": "commercial",
+      "pages": [
+        {
+          "page_id": "q18_s1",
+          "source_rank": 1,
+          "url": "https://smallpetsx.com/flying-squirrel-for-sale/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q18_s2",
+          "source_rank": 2,
+          "url": "https://en.wikipedia.org/wiki/Japanese_dwarf_flying_squirrel%23Taxonomy",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q18_s3",
+          "source_rank": 3,
+          "url": "https://en.wikipedia.org/wiki/Japanese_dwarf_flying_squirrel",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q18_s4",
+          "source_rank": 4,
+          "url": "https://www.exoticanimalsforsale.net/flying-squirrel.asp",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.01957585644371941,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.01957585644371941,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q18_s5",
+          "source_rank": 5,
+          "url": "https://www.etsy.com/market/flying_dwarf_squirrel",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.017081850533807827,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.021352313167259784,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q19",
+      "query": "How old was the oldest dog Bobi?",
+      "tags": [
+        "informational",
+        "simple",
+        "pets and animals",
+        "non-technical",
+        "question",
+        "fact",
+        "research",
+        "non-sensitive"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q19_s1",
+          "source_rank": 1,
+          "url": "https://www.dailypaws.com/pet-news-entertainment/feel-good-stories/bobi-worlds-oldest-dog",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.017472698907956316,
+            "retrieval_manipulation_risk": 0.08888888888888889,
+            "endorsement_risk": 0.0008736349453978157,
+            "factual_claim_reliability": 0.63,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.017472698907956316,
+          "endorsement_risk": 0.0008736349453978157,
+          "content_flags": [
+            "quote_citation_heavy"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q19_s2",
+          "source_rank": 2,
+          "url": "https://www.cnn.com/2023/05/13/world/bobi-oldest-dog-31-birthday-trnd/index.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.04444444444444444,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0024999999999999996,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.04444444444444444,
+          "endorsement_risk": 0.0024999999999999996,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q19_s3",
+          "source_rank": 3,
+          "url": "https://www.usatoday.com/story/news/nation/2023/10/23/bobi-worlds-oldest-dog-dies/71287876007/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.010738255033557046,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0006040268456375838,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.010738255033557046,
+          "endorsement_risk": 0.0006040268456375838,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q19_s4",
+          "source_rank": 4,
+          "url": "https://www.nbcnews.com/news/animal-news/bobi-worlds-oldest-dog-ever-dies-31-rcna121780",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.125,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q19_s5",
+          "source_rank": 5,
+          "url": "https://www.guinnessworldrecords.com/news/2023/10/worlds-oldest-dog-ever-bobi-dies-aged-31-760019",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.014736842105263158,
+            "retrieval_manipulation_risk": 0.11111111111111112,
+            "endorsement_risk": 0.0009210526315789473,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.014736842105263158,
+          "endorsement_risk": 0.0009210526315789473,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q20",
+      "query": "Should the voting age be lowered in all countries?",
+      "tags": [
+        "intermediate",
+        "debate",
+        "politics",
+        "non-technical",
+        "question",
+        "opinion",
+        "research",
+        "sensitive",
+        "informational"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q20_s1",
+          "source_rank": 1,
+          "url": "https://politicsir.cass.anu.edu.au/events/mechanical-effects-lowering-voting-age-16-empirical-evidence-around-world",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.5,
+            "rhetorical_manipulation": 0.041666666666666664,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.006510416666666666,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.5,
+          "semantic_risk": 0.05208333333333333,
+          "endorsement_risk": 0.006510416666666666,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [
+            "deep_subdomain"
+          ],
+          "reasons": [
+            "deep_subdomain"
+          ]
+        },
+        {
+          "page_id": "q20_s2",
+          "source_rank": 2,
+          "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4020373/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.65,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.65,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": [
+            "institutional_tld"
+          ]
+        },
+        {
+          "page_id": "q20_s3",
+          "source_rank": 3,
+          "url": "https://classroommagazines.scholastic.com/election/civics-in-action/voting--should-the-voting-age-be-lowered.html",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.004347826086956522,
+            "retrieval_manipulation_risk": 0.11428571428571428,
+            "endorsement_risk": 0.0002795031055900621,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.004347826086956522,
+          "endorsement_risk": 0.0002795031055900621,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q20_s4",
+          "source_rank": 4,
+          "url": "https://en.wikipedia.org/wiki/Voting_age",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.022674418604651164,
+            "retrieval_manipulation_risk": 0.09090909090909091,
+            "endorsement_risk": 0.0011594873150105709,
+            "factual_claim_reliability": 0.67,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.022674418604651164,
+          "endorsement_risk": 0.0011594873150105709,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q20_s5",
+          "source_rank": 5,
+          "url": "https://www.procon.org/headlines/lowering-the-voting-age-top-3-pros-and-cons/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.023853211009174313,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 0.001073394495412844,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.023853211009174313,
+          "endorsement_risk": 0.001073394495412844,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "n_pages": 100,
+    "llm_action": {
+      "pass": 95,
+      "attribute_only": 5
+    },
+    "retrieve_permission": {
+      "allow": 100
+    },
+    "mention_permission": {
+      "allow": 100
+    },
+    "factual_permission": {
+      "allow": 95,
+      "attribute_only": 5
+    },
+    "endorsement_permission": {
+      "allow": 100
+    }
+  }
+}

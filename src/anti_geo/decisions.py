@@ -10,8 +10,13 @@ from anti_geo.claim_entity import (
     shared_title_case_claim,
 )
 from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
-from anti_geo.models import CorroborationReport, SourcePermissions, SourceScore, UrlAnalysisReport
-from anti_geo.permissions import derive_permissions, summarize_recommended_action
+from anti_geo.models import CorroborationReport, SourceScore, UrlAnalysisReport
+from anti_geo.permissions import (
+    apply_high_stakes_endorsement_deny,
+    chunk_endorses_high_stakes,
+    derive_permissions,
+    summarize_recommended_action,
+)
 from anti_geo.permissions_llm import maybe_apply_permissions_llm
 from anti_geo.subscores import _fetch_failure_kind, compute_subscores
 
@@ -61,37 +66,42 @@ def decide_single_source(
     config: DefenseConfig = DEFAULT_CONFIG,
     *,
     use_llm: bool | None = False,
+    content_role: str | None = None,
 ) -> UrlAnalysisReport:
     """Map inferred subscores → permissions → retrieval/synthesis action.
 
     ``use_llm``: False = offline/heuristic only (default); None = Azure when
     configured (investigate path); True = force attempt when gated.
     """
+    from anti_geo.platform_role import classify_content_role
+
+    role = content_role or classify_content_role(source.url, source=source)
     subscores = compute_subscores(source, query, query_intent, config)
     fetch_failure = _fetch_failure_kind(source) if not source.fetch_ok else None
+    concealment_flags = (
+        list(source.concealment.flags)
+        if source.concealment is not None
+        else None
+    )
     permissions = derive_permissions(
         subscores,
         fetch_failure_kind=fetch_failure,
         has_persuasive_content=_has_persuasive_content(source),
         config=config,
+        content_role=role,
+        query_intent=query_intent,
+        query=query,
+        concealment_flags=concealment_flags,
     )
     permissions_source = "heuristic"
     permissions_llm_reason = ""
 
-    if (
-        query
-        and query_intent.startswith("informational")
-        and query_intent.endswith("high_stakes")
-        and "high_stakes_medical_claim" in source.content_signals.flags
-        and source.trust_score < 0.55
-        and chunk_endorses_high_stakes(source)
-    ):
-        permissions = SourcePermissions(
-            retrieve_permission=permissions.retrieve_permission,
-            mention_permission=permissions.mention_permission,
-            factual_permission=permissions.factual_permission,
-            endorsement_permission="deny",
-        )
+    permissions = apply_high_stakes_endorsement_deny(
+        permissions,
+        source,
+        query=query,
+        query_intent=query_intent,
+    )
 
     llm_hit = maybe_apply_permissions_llm(
         source,
@@ -102,6 +112,7 @@ def decide_single_source(
         fetch_failure_kind=fetch_failure,
         use_llm=use_llm,
         config=config,
+        content_role=role,
     )
     permissions = llm_hit.permissions
     permissions_source = llm_hit.source
@@ -120,11 +131,6 @@ def decide_single_source(
         permissions_source=permissions_source,
         permissions_llm_reason=permissions_llm_reason,
     )
-
-
-def chunk_endorses_high_stakes(source: SourceScore) -> bool:
-    text = source.text_excerpt.lower()
-    return bool(re.search(r"\b(cure[ds]?|remission)\b", text)) and "balanced_hedging" not in source.content_signals.flags
 
 
 def decide_corroboration_for_claim(

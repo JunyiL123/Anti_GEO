@@ -109,7 +109,25 @@ def _extract_visible_text(html: str) -> str:
     return visible
 
 
-def _fetch_html_httpx(url: str, timeout: float) -> _HtmlFetch:
+def _is_transient_http_error(error: str | None) -> bool:
+    """True for timeouts / connect blips worth one httpx retry before browser."""
+    blob = (error or "").lower()
+    markers = (
+        "timed out",
+        "timeout",
+        "connecterror",
+        "connect error",
+        "connection reset",
+        "connection aborted",
+        "temporarily unavailable",
+        "remote protocol error",
+        "server disconnected",
+        "network is unreachable",
+    )
+    return any(m in blob for m in markers)
+
+
+def _fetch_html_httpx_once(url: str, timeout: float) -> _HtmlFetch:
     try:
         with httpx.Client(
             follow_redirects=True,
@@ -132,6 +150,16 @@ def _fetch_html_httpx(url: str, timeout: float) -> _HtmlFetch:
             redirect_count=0,
             error=str(exc),
         )
+
+
+def _fetch_html_httpx(url: str, timeout: float) -> _HtmlFetch:
+    """GET with one retry on transient timeouts (slow hosts e.g. Scamadviser)."""
+    first = _fetch_html_httpx_once(url, timeout)
+    if first.error is None or not _is_transient_http_error(first.error):
+        return first
+    time.sleep(0.75)
+    # Slightly longer read budget on retry; connect-heavy flaps often clear.
+    return _fetch_html_httpx_once(url, max(timeout, timeout * 1.5))
 
 
 _PLAYWRIGHT_LOCK = threading.Lock()
@@ -785,16 +813,20 @@ def _try_browser_fetch(url: str, timeout: float, start: float) -> FetchResult | 
     )
 
 
-def fetch_page(url: str, timeout: float = 12.0, *, force_browser: bool = False) -> FetchResult:
+def fetch_page(url: str, timeout: float = 20.0, *, force_browser: bool = False) -> FetchResult:
     """Fetch URL and extract visible text + light structural signals.
 
-    Uses httpx by default. On bot walls (403, Cloudflare, Akamai) prefers a
-    Wayback/fixture fallback when available, then retries with Chromium
-    (Playwright) when installed (``ANTI_GEO_FETCH=auto``, default). Browser path
-    waits for Cloudflare interstitials and may retry headed Chrome
-    (``ANTI_GEO_FETCH_HEADED=auto``), under a hard wall-clock cap
+    Uses httpx by default (one transient-timeout retry). On bot walls (403,
+    Cloudflare, Akamai) prefers a Wayback/fixture fallback when available, then
+    retries with Chromium (Playwright) when installed (``ANTI_GEO_FETCH=auto``,
+    default). Browser path waits for Cloudflare interstitials and may retry
+    headed Chrome (``ANTI_GEO_FETCH_HEADED=auto``), under a hard wall-clock cap
     (``ANTI_GEO_BROWSER_HARD_TIMEOUT``). If still blocked, ``_finalize`` retries
     archive/fixture.
+
+    Default ``timeout`` is 20s: some review/check sites (e.g. Scamadviser)
+    regularly exceed a 12s read budget and otherwise fall into brittle
+    archive/Playwright paths.
     """
     start = time.perf_counter()
     mode = _fetch_mode()

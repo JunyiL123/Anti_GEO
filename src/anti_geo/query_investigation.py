@@ -9,6 +9,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
+from urllib.parse import unquote
 
 from anti_geo.audit.engines import EngineAdapter, get_engine
 from anti_geo.decisions import decide_single_source
@@ -90,7 +91,7 @@ def _dedupe_urls(urls: list[str], *, cap: int | None = DEFAULT_CITE_CAP) -> list
     seen: set[str] = set()
     out: list[str] = []
     for url in urls:
-        norm = url.rstrip("/").lower()
+        norm = _norm_url(url)
         if not url or norm in seen:
             continue
         seen.add(norm)
@@ -120,7 +121,8 @@ def _cite_is_usable(report: UrlAnalysisReport) -> bool:
 
 
 def _norm_url(url: str) -> str:
-    return url.rstrip("/").lower()
+    """Casefold + strip slash + decode %XX so %28 and ( match."""
+    return unquote((url or "").rstrip("/")).casefold()
 
 
 def _score_cite(
@@ -131,8 +133,10 @@ def _score_cite(
 ) -> tuple[UrlAnalysisReport, str, bool, FetchResult]:
     fetch = fetch_page(url)
     source = score_source(url, fetch, query=query)
-    report = decide_single_source(source, query_intent, query=query, use_llm=None)
     role = classify_content_role(url, fetch=fetch, source=source)
+    report = decide_single_source(
+        source, query_intent, query=query, use_llm=None, content_role=role
+    )
     return report, role, is_ugc_role(role), fetch
 
 
@@ -239,10 +243,11 @@ def _run_mode_b_for_cite(
         single_page=single_page,
         content_role=content_role,
     )
+    role = result.content_role or content_role or ""
     return _row_from_report(
         result.single_page,
-        role=result.content_role,
-        is_ugc=False,
+        role=role,
+        is_ugc=is_ugc_role(role),
         profile=result.referral_profile,
     )
 
@@ -294,8 +299,14 @@ def investigate_query(
     cite_cap: int | None = DEFAULT_CITE_CAP,
     progress: Progress | None = None,
     deep: bool = False,
+    forced_urls: list[str] | None = None,
+    mode_b_ugc: bool = False,
 ) -> QueryInvestigationResult:
-    """Mode A: query → cites → L1-L3 all; Mode B only for non-UGC (parallel)."""
+    """Mode A: query → cites → L1-L3 all; Mode B for non-UGC (or UGC if mode_b_ugc).
+
+    ``forced_urls`` (opt-in): replace engine cite list with this set (no SERP merge).
+    ``mode_b_ugc`` (opt-in): run Mode B on UGC cites too (default skips them).
+    """
     prog = progress or NullProgress()
     intent_hit = resolve_query_intent(query, query_intent)
     query_intent = intent_hit.intent
@@ -307,15 +318,28 @@ def investigate_query(
         adaptive_stop = False
 
     resolved = engine or get_engine(engine_name, fixture_path=fixture_path)
-    prog.set_status("engine query for citations")
-    resp = resolved.query(query)
-    cited_urls = _dedupe_urls(resp.cited_urls, cap=cite_cap)
     notes: list[str] = []
     if intent_hit.source != "manual":
         rule = f", rule={intent_hit.matched_rule}" if intent_hit.matched_rule else ""
         notes.append(f"Intent resolved via {intent_hit.source}{rule}.")
+
+    if forced_urls is not None:
+        cited_urls = _dedupe_urls(list(forced_urls), cap=cite_cap)
+        notes.append(
+            f"Cite list forced/replaced engine SERP ({len(cited_urls)} URLs)."
+        )
+        prog.set_status("forced citation list")
+    else:
+        prog.set_status("engine query for citations")
+        resp = resolved.query(query)
+        cited_urls = _dedupe_urls(resp.cited_urls, cap=cite_cap)
+
     if not cited_urls:
-        notes.append("Engine returned no cited URLs.")
+        notes.append(
+            "No cited URLs (forced list empty)."
+            if forced_urls is not None
+            else "Engine returned no cited URLs."
+        )
         return QueryInvestigationResult(
             query=query,
             query_intent=query_intent,
@@ -333,7 +357,7 @@ def investigate_query(
         )
 
     prog.set_counts(0, len(cited_urls), status="score citations")
-    non_ugc_urls: list[str] = []
+    mode_b_candidate_urls: list[str] = []
     row_by_url: dict[str, CiteInvestigationRow] = {}
     reports: list[UrlAnalysisReport] = []
     sources_by_url: dict[str, SourceScore] = {}
@@ -395,7 +419,7 @@ def investigate_query(
             reports.append(report)
             sources_by_url[report.source.url] = report.source
             _cache_scored(urls[idx], fetch, report, role)
-            if is_ugc:
+            if is_ugc and not mode_b_ugc:
                 row_by_url[report.source.url] = _row_from_report(
                     report,
                     role=role,
@@ -408,13 +432,13 @@ def investigate_query(
                     ),
                 )
             else:
-                non_ugc_urls.append(report.source.url)
+                mode_b_candidate_urls.append(report.source.url)
                 # Placeholder until Mode B (or keep L1-L3 row if Mode B skipped)
                 if report.source.url not in row_by_url:
                     row_by_url[report.source.url] = _row_from_report(
                         report,
                         role=role,
-                        is_ugc=False,
+                        is_ugc=is_ugc,
                     )
             out.append((report, role, is_ugc))
         return out
@@ -427,10 +451,10 @@ def investigate_query(
         notes.append(
             "All answer citations completely rejected (mention denied)."
         )
-    # Mode B only for usable non-UGC (rejected answer cites stay L1-L3 only).
+    # Mode B for usable candidates (non-UGC always; UGC when mode_b_ugc).
     mode_b_targets = [
         u
-        for u in non_ugc_urls
+        for u in mode_b_candidate_urls
         if any(
             _norm_url(r.source.url) == _norm_url(u) and _cite_is_usable(r)
             for r in reports
@@ -444,16 +468,17 @@ def investigate_query(
         if n not in seen_mb:
             seen_mb.add(n)
             mode_b_targets_ordered.append(u)
-    non_ugc_urls = mode_b_targets_ordered
+    mode_b_candidate_urls = mode_b_targets_ordered
 
-    site_workers = max(1, min(site_workers, len(non_ugc_urls) or 1))
+    site_workers = max(1, min(site_workers, len(mode_b_candidate_urls) or 1))
     mode_b_errors: dict[str, str] = {}
+    mb_label = "cites" if mode_b_ugc else "non-UGC"
 
-    if non_ugc_urls and resolved is not None:
+    if mode_b_candidate_urls and resolved is not None:
         prog.set_counts(
             0,
-            len(non_ugc_urls),
-            status=f"Mode B 0/{len(non_ugc_urls)} non-UGC · workers={site_workers}",
+            len(mode_b_candidate_urls),
+            status=f"Mode B 0/{len(mode_b_candidate_urls)} {mb_label} · workers={site_workers}",
         )
 
         def _job(url: str) -> tuple[str, CiteInvestigationRow | None, str | None]:
@@ -490,15 +515,15 @@ def investigate_query(
 
         mode_b_done = 0
         with ThreadPoolExecutor(max_workers=site_workers) as pool:
-            futures = [pool.submit(_job, u) for u in non_ugc_urls]
+            futures = [pool.submit(_job, u) for u in mode_b_candidate_urls]
             for fut in as_completed(futures):
                 url, row, err = fut.result()
                 mode_b_done += 1
                 prog.set_counts(
                     mode_b_done,
-                    len(non_ugc_urls),
+                    len(mode_b_candidate_urls),
                     status=(
-                        f"Mode B {mode_b_done}/{len(non_ugc_urls)} non-UGC "
+                        f"Mode B {mode_b_done}/{len(mode_b_candidate_urls)} {mb_label} "
                         f"· workers={site_workers}"
                     ),
                 )
@@ -520,13 +545,13 @@ def investigate_query(
                         row_by_url[pre.source.url] = _row_from_report(
                             pre,
                             role=role,
-                            is_ugc=False,
+                            is_ugc=is_ugc_role(role),
                             mode_b_error=err,
                         )
 
-    elif non_ugc_urls:
-        notes.append("No engine — Mode B skipped for non-UGC cites.")
-        for url in non_ugc_urls:
+    elif mode_b_candidate_urls:
+        notes.append("No engine — Mode B skipped for candidate cites.")
+        for url in mode_b_candidate_urls:
             pre = next(
                 (r for r in reports if _norm_url(r.source.url) == _norm_url(url)),
                 None,
@@ -534,20 +559,25 @@ def investigate_query(
             if pre and pre.source.url not in row_by_url:
                 role = classify_content_role(url, source=pre.source)
                 row_by_url[pre.source.url] = _row_from_report(
-                    pre, role=role, is_ugc=False
+                    pre, role=role, is_ugc=is_ugc_role(role)
                 )
 
-    # Preserve citation order.
+    # Preserve citation order (normalize encodings so %28 vs ( still match).
+    # Index fallback: reports[i] was scored for cited_urls[i] — never drop a
+    # scored cite solely because final_url encoding differs from the sheet URL.
     ordered_rows: list[CiteInvestigationRow] = []
-    for url in cited_urls:
+    for i, url in enumerate(cited_urls):
+        want = _norm_url(url)
         match = next(
-            (
-                row_by_url[k]
-                for k in row_by_url
-                if k.rstrip("/").lower() == url.rstrip("/").lower()
-            ),
+            (row_by_url[k] for k in row_by_url if _norm_url(k) == want),
             None,
         )
+        if match is None and i < len(reports):
+            src = reports[i].source.url
+            match = row_by_url.get(src) or next(
+                (row_by_url[k] for k in row_by_url if _norm_url(k) == _norm_url(src)),
+                None,
+            )
         if match:
             ordered_rows.append(match)
 
@@ -584,18 +614,31 @@ def investigate_query(
             source_permissions=source_permissions,
         )
 
-    ugc_skipped = sum(1 for r in ordered_rows if r.is_ugc)
+    ugc_skipped = sum(
+        1
+        for r in ordered_rows
+        if r.is_ugc
+        and (
+            r.referral_profile is None
+            or r.referral_profile.status == "skipped"
+        )
+    )
     mode_b_ran = sum(
         1
         for r in ordered_rows
-        if not r.is_ugc
-        and r.referral_profile is not None
+        if r.referral_profile is not None
         and r.referral_profile.status != "skipped"
     )
-    notes.append(
-        f"Mode B skipped for {ugc_skipped} UGC cites; "
-        f"ran on {mode_b_ran} non-UGC (site_workers={site_workers})."
-    )
+    if mode_b_ugc:
+        notes.append(
+            f"Mode B ran on UGC cites too; skipped={ugc_skipped}, "
+            f"mode_b_ran={mode_b_ran} (site_workers={site_workers})."
+        )
+    else:
+        notes.append(
+            f"Mode B skipped for {ugc_skipped} UGC cites; "
+            f"ran on {mode_b_ran} non-UGC (site_workers={site_workers})."
+        )
     notes.append(
         "Per-cite actions: L1-L3, optionally tightened by Mode B structural "
         "parasitic-surface/editorial mix; L3 independence runs on the cite set."

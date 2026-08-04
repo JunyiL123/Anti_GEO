@@ -152,6 +152,28 @@ def test_classify_commercial_product_amazon():
     assert classify_content_role(fetch.url, fetch=fetch) == "commercial_product"
 
 
+def test_classify_oem_spec_pdf_as_commercial_product():
+    assert (
+        classify_content_role(
+            "https://odm.ergotron.com/Portals/0/literature/productSheets/english/05-WF-TL_TAA.pdf"
+        )
+        == "commercial_product"
+    )
+    assert (
+        classify_content_role(
+            "https://psref.lenovo.com/syspool/Sys/PDF/ThinkVision/"
+            "ThinkVision_M14d_Monitor/ThinkVision_M14d_Monitor_Spec.pdf"
+        )
+        == "commercial_product"
+    )
+    assert (
+        classify_content_role(
+            "https://media3.bosch-home.com/Documents/spec_sheet_dishwasher.pdf"
+        )
+        == "commercial_product"
+    )
+
+
 def test_forum_subdomain_indexes_are_ugc_not_blog():
     """Discourse-style forum.brand.com/top must not fall through to factual_blog."""
     cases = [

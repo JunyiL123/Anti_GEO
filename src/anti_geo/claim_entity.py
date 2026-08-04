@@ -274,6 +274,47 @@ def _role_sets(content_roles: list[str] | None) -> tuple[bool, bool, bool]:
     return commercialish, factualish, only_ugc
 
 
+def claim_entity_heuristic_rules_rubric() -> str:
+    """Encode ``_heuristic_pick`` + junk filters for the LLM backup.
+
+    Built from the same role sets / pick rules / usable-label criteria used by
+    the heuristic path so prompt text stays in sync when they change.
+    """
+    commercial = ", ".join(sorted(_COMMERCIAL_ROLES))
+    factual = ", ".join(sorted(_FACTUAL_ROLES | {"ugc_thread"}))
+    weak_examples = ", ".join(sorted(_WEAK_VERIFY_MARKERS)[:12])
+    return f"""\
+You are the Anti-GEO claim/topic entity nuance layer — NOT an independent inventer.
+Your job: apply the SAME intent × source-role pick rules as anti_geo.claim_entity._heuristic_pick,
+plus the same junk / weak-marker filters (is_usable_claim_label), using page evidence when
+the heuristic pick is ambiguous or looks like title junk.
+
+Return JSON only:
+{{"entity":"...","kind":"brand"|"topic"|"none"}}
+Use kind=none and empty entity when nothing usable; caller falls back to heuristic/topic.
+
+=== Anti-GEO claim-entity heuristic rules (must follow) ===
+
+PICK (intent × cite roles) — same as _heuristic_pick:
+- Commercial intent: prefer brand/product when cites look commercial
+  (roles in {{{commercial}}}) or roles unknown; if cites are only ugc_thread,
+  prefer query topic (keep words like "best"); else topic → brand → shared.
+- Informational / informational_high_stakes: if commercial/review cites and a
+  real brand/product exist → prefer brand; if factual/institutional/editorial/ugc
+  (roles in {{{factual}}}) or roles unknown → prefer query topic (keep "best");
+  only choose brand/product when the page is clearly about that one product.
+- Navigational intent: prefer brand → topic → shared.
+- Else: topic → brand → shared.
+
+JUNK / USABLE LABEL (same as is_junk_entity + is_weak_verify_marker):
+- Never invent entities. Reject listicle residue ("Top 15 … Forums in 2026"),
+  truncated crumbs ending in stop words, interrogative-led titles, year-only
+  tokens, and generic chrome words (examples: {weak_examples}, …).
+- Keep recommendy query words like "best" when they are part of the topic.
+- If nothing usable → kind=none, entity empty.
+"""
+
+
 def _heuristic_pick(
     *,
     query_intent: str,
@@ -352,6 +393,33 @@ def _source_snapshots(
     return out
 
 
+def build_claim_entity_llm_messages(
+    *,
+    query: str | None,
+    query_intent: str,
+    topic: str | None,
+    brand: str | None,
+    heuristic: str | None,
+    sources: list[SourceScore],
+    content_roles: list[str] | None,
+) -> list[dict[str, str]]:
+    """Spotlight-free messages: heuristic rubric + live candidates."""
+    snaps = _source_snapshots(sources, content_roles)
+    user = (
+        f"query_intent: {query_intent}\n"
+        f"query: {query or ''}\n"
+        f"query_topic_candidate: {topic or ''}\n"
+        f"brand_product_candidate: {brand or ''}\n"
+        f"heuristic_pick: {heuristic or ''}\n"
+        f"source_roles: {content_roles or []}\n"
+        f"sources: {snaps}"
+    )
+    return [
+        {"role": "system", "content": claim_entity_heuristic_rules_rubric()},
+        {"role": "user", "content": user},
+    ]
+
+
 def _llm_resolve_claim_entity(
     *,
     query: str | None,
@@ -362,40 +430,15 @@ def _llm_resolve_claim_entity(
     sources: list[SourceScore],
     content_roles: list[str] | None,
 ) -> str | None:
-    snaps = _source_snapshots(sources, content_roles)
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You pick the claim/topic entity for an AI-search defense audit. "
-                "Return JSON only: "
-                '{"entity":"...", "kind":"brand"|"topic"|"none"}'
-            ),
-        },
-        {
-            "role": "user",
-            "content": (
-                f"query_intent: {query_intent}\n"
-                f"query: {query or ''}\n"
-                f"query_topic_candidate: {topic or ''}\n"
-                f"brand_product_candidate: {brand or ''}\n"
-                f"heuristic_pick: {heuristic or ''}\n"
-                f"source_roles: {content_roles or []}\n"
-                f"sources: {snaps}\n\n"
-                "Rules:\n"
-                "- Informational + factual/institutional/editorial/ugc: prefer the "
-                "query topic (keep words like 'best'); only choose a brand/product "
-                "if the page is clearly about that one product.\n"
-                "- Informational + commercial/review sources: prefer brand/product "
-                "when real; else query topic.\n"
-                "- Commercial intent: prefer brand/product when real; else query topic.\n"
-                "- Never invent entities. Reject listicle titles "
-                "('Top 15 … Forums in 2026'), truncated crumbs, and generic words "
-                "(topics, forum, community).\n"
-                "- If nothing usable, kind=none and entity empty."
-            ),
-        },
-    ]
+    messages = build_claim_entity_llm_messages(
+        query=query,
+        query_intent=query_intent,
+        topic=topic,
+        brand=brand,
+        heuristic=heuristic,
+        sources=sources,
+        content_roles=content_roles,
+    )
     payload = chat_completion_json(messages, config=load_azure_config())
     kind = str(payload.get("kind") or "").strip().lower()
     entity = " ".join(str(payload.get("entity") or "").split())

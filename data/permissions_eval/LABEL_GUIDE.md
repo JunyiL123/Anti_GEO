@@ -52,11 +52,11 @@ Almost always **`allow`** unless you’d rather the engine pretend the page does
 | `require_corroboration` | Only if another solid source agrees |
 | `deny` | Don’t use its claims as facts |
 
-Heuristics (commercial “best X”):
+Heuristics (commercial “best X”): commercial reviews/vendors default **`attribute_only`**; unattributed `allow` = primary institutional / medical-regulatory fact sheets only.
 - FDA / NIH / solid medical org → often `allow` or `attribute_only`
-- Decent independent review (RTINGS, strong editorial) → `allow` or `attribute_only`
-- Vendor pricing / product page → `attribute_only` (or `allow` for prices/specs only in spirit — still usually `attribute_only`)
-- GEO-y listicle / affiliate “best of 2026” → `attribute_only` or `require_corroboration`
+- Decent independent review (RTINGS, strong editorial) → **`attribute_only`** on shopping (quote with attribution; not engine fact)
+- Vendor pricing / product page → `attribute_only` (brand-legit vendor self-claims → `deny`)
+- GEO-y listicle / affiliate “best of 2026” → `attribute_only`
 - Random forum comment / thin SEO page → `deny` or `attribute_only`
 
 ### `endorsement_permission`
@@ -87,6 +87,7 @@ This is the main dial for the paper.
 - Normal brand site with no plant story → `none`  
 - Clean Head-Fi / ASR forum **index** → usually `none` (open UGC ≠ parasitic)  
 - SEO mirror sites, fake “Reddit recommends X”, coordinated review farms → `elevated` / `suspected`  
+- Mode B `elevated` = referral-**campaign** vibe (plant density / soft-share band), not “product appears on review aggregators”  
 - If unsure between elevated and suspected → prefer **`elevated`**
 
 ---

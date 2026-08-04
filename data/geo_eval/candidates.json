@@ -1,0 +1,793 @@
+{
+  "description": "GEO eval candidates: query + engine-cited URLs for hand labeling. Labels are null until annotated.",
+  "label_schema": [
+    "geo_style",
+    "not_geo",
+    "unsure"
+  ],
+  "n_queries": 33,
+  "n_cites": 154,
+  "records": [
+    {
+      "query": "best AI writing tools 2026",
+      "cites": [
+        {
+          "url": "https://www.toolcenter.ai/en/articles/best-ai-writing-tools-2026",
+          "label": null
+        },
+        {
+          "url": "https://www.g2.com/categories/ai-writing-assistant",
+          "label": null
+        },
+        {
+          "url": "https://aicomparison.ai/best-ai-writing-tools/",
+          "label": null
+        },
+        {
+          "url": "https://learn.g2.com/ai-writing-assistants",
+          "label": null
+        },
+        {
+          "url": "https://www.wearefounders.uk/7-best-ai-writing-tools-in-2026-free-paid/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best budget mechanical keyboard reddit",
+      "cites": [
+        {
+          "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+          "label": null
+        },
+        {
+          "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+          "label": null
+        },
+        {
+          "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+          "label": null
+        },
+        {
+          "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best credit card for travel rewards 2026",
+      "cites": [
+        {
+          "url": "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred",
+          "label": null
+        },
+        {
+          "url": "https://www.nerdwallet.com/credit-cards/best/travel",
+          "label": null
+        },
+        {
+          "url": "https://www.capitalone.com/credit-cards/venture-x/",
+          "label": null
+        },
+        {
+          "url": "https://creditcards.wellsfargo.com/autograph-visa-credit-card/",
+          "label": null
+        },
+        {
+          "url": "https://www.americanexpress.com/en-us/credit-cards/credit-intel/platinum-fee/index.shtml",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best CRM for small business",
+      "cites": [
+        {
+          "url": "https://www.hubspot.com/pricing/suite",
+          "label": null
+        },
+        {
+          "url": "https://www.pipedrive.com/en/pricing",
+          "label": null
+        },
+        {
+          "url": "https://www.zoho.com/crm/zohocrm-pricing.html",
+          "label": null
+        },
+        {
+          "url": "https://www.lessannoyingcrm.com/pricing",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best dog food for allergies reddit",
+      "cites": [
+        {
+          "url": "https://www.royalcanin.com/us/dogs/products/vet-products/ultamino-4014",
+          "label": null
+        },
+        {
+          "url": "https://www.hillspet.com/dog-food/prescription-diet-zd-food-sensitivities-dry",
+          "label": null
+        },
+        {
+          "url": "https://www.proplanvetdirect.com/ha-hydrolyzed-vegetarian",
+          "label": null
+        },
+        {
+          "url": "https://www.cavd.ca/images/CAVD_Illustrated_Diet_Trial_Handout_for_Dogs.pdf",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best email marketing tool for Shopify",
+      "cites": [
+        {
+          "url": "https://apps.shopify.com/klaviyo-email-marketing",
+          "label": null
+        },
+        {
+          "url": "https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-messaging/email/pricing",
+          "label": null
+        },
+        {
+          "url": "https://www.omnisend.com/pricing/",
+          "label": null
+        },
+        {
+          "url": "https://www.klaviyo.com/pricing",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best employee monitoring software",
+      "cites": [
+        {
+          "url": "https://www.business.com/categories/employee-monitoring-software/",
+          "label": null
+        },
+        {
+          "url": "https://www.insightful.io/pricing",
+          "label": null
+        },
+        {
+          "url": "https://newyork.public.law/laws/n.y._civil_rights_law_section_52-c%2A2",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best free AI chatbot for work",
+      "cites": [
+        {
+          "url": "https://openai.com/products/release-notes/",
+          "label": null
+        },
+        {
+          "url": "https://support.microsoft.com/en-us/Microsoft-365-Copilot/what-s-the-difference-between-microsoft-copilot-free-and-copilot-in-microsoft-365",
+          "label": null
+        },
+        {
+          "url": "https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/google-workspace-with-gemini",
+          "label": null
+        },
+        {
+          "url": "https://www.anthropic.com/news/claude-4",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best free SEO tool that ranks like Ahrefs reddit",
+      "cites": [
+        {
+          "url": "https://ahrefs.com/webmaster-tools",
+          "label": null
+        },
+        {
+          "url": "https://search.google.com/search-console/about",
+          "label": null
+        },
+        {
+          "url": "https://www.screamingfrog.co.uk/seo-spider/",
+          "label": null
+        },
+        {
+          "url": "https://www.sps-software.net/offers/index-1.html",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best mattress for back pain 2026",
+      "cites": [
+        {
+          "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+          "label": null
+        },
+        {
+          "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2803%2914792-7/fulltext",
+          "label": null
+        },
+        {
+          "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best meal kit delivery service",
+      "cites": [
+        {
+          "url": "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305",
+          "label": null
+        },
+        {
+          "url": "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html",
+          "label": null
+        },
+        {
+          "url": "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html",
+          "label": null
+        },
+        {
+          "url": "https://www.tasteofhome.com/collection/best-meal-delivery-service/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best moisturizer for dry skin drugstore",
+      "cites": [
+        {
+          "url": "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+          "label": null
+        },
+        {
+          "url": "https://www.vanicream.com/product/vanicream-moisturizing-cream",
+          "label": null
+        },
+        {
+          "url": "https://nationaleczema.org/treatments/moisturizing/",
+          "label": null
+        },
+        {
+          "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/pick-moisturizer",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best noise cancelling headphones under 200",
+      "cites": [
+        {
+          "url": "https://www.rtings.com/headphones/reviews/best/noise-cancelling-headphones-under-200",
+          "label": null
+        },
+        {
+          "url": "https://electronics.sony.com/audio/headphones/headband/p/whch720n-b",
+          "label": null
+        },
+        {
+          "url": "https://www.jbl.com/LIVE770NC.html",
+          "label": null
+        },
+        {
+          "url": "https://usa.1more.com/products/1more-sonoflow-pro-wireless-anc-over-ear-headphones",
+          "label": null
+        },
+        {
+          "url": "https://powersof10.com/best-noise-cancelling-headphones-under-200/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best nootropic stack for focus",
+      "cites": [
+        {
+          "url": "https://pubmed.ncbi.nlm.nih.gov/18681988/",
+          "label": null
+        },
+        {
+          "url": "https://aasm.org/caffeine-in-late-afternoon-early-evening-can-disrupt-sleep/",
+          "label": null
+        },
+        {
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39070254/",
+          "label": null
+        },
+        {
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25046515/",
+          "label": null
+        },
+        {
+          "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much",
+          "label": null
+        },
+        {
+          "url": "https://www.fda.gov/food/information-select-dietary-supplement-ingredients-and-other-substances/fda-warns-consumers-about-pure-and-highly-concentrated-caffeine",
+          "label": null
+        },
+        {
+          "url": "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best online tax software for freelancers",
+      "cites": [
+        {
+          "url": "https://www.cnbc.com/select/freetaxusa-review/",
+          "label": null
+        },
+        {
+          "url": "https://turbotax.intuit.com/personal-taxes/online/premium/",
+          "label": null
+        },
+        {
+          "url": "https://www.hrblock.com/online-tax-filing/self-employed-online-tax-filing/",
+          "label": null
+        },
+        {
+          "url": "https://www.taxslayer.com/products/product-pricing/",
+          "label": null
+        },
+        {
+          "url": "https://cash.app/taxes",
+          "label": null
+        },
+        {
+          "url": "https://www.irs.gov/newsroom/use-irs-free-file-to-conveniently-file-your-return-at-no-cost",
+          "label": null
+        },
+        {
+          "url": "https://www.irs.gov/faqs/small-business-self-employed-other-business/schedule-c-schedule-se/schedule-c-schedule-se-1",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best online therapy platforms",
+      "cites": [
+        {
+          "url": "https://growtherapy.com/",
+          "label": null
+        },
+        {
+          "url": "https://headway.co/",
+          "label": null
+        },
+        {
+          "url": "https://helloalma.com/",
+          "label": null
+        },
+        {
+          "url": "https://www.talkspace.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/",
+          "label": null
+        },
+        {
+          "url": "https://www.brightside.com/faqs/how-much-does-it-cost/",
+          "label": null
+        },
+        {
+          "url": "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8",
+          "label": null
+        },
+        {
+          "url": "https://thriveworks.com/",
+          "label": null
+        },
+        {
+          "url": "https://www.apa.org/about/policy/telepsychology-revisions",
+          "label": null
+        },
+        {
+          "url": "https://www.samhsa.gov/mental-health/988/faqs",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best password manager for small business",
+      "cites": [
+        {
+          "url": "https://1password.com/pricing/password-manager",
+          "label": null
+        },
+        {
+          "url": "https://bitwarden.com/pricing/business/",
+          "label": null
+        },
+        {
+          "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+          "label": null
+        },
+        {
+          "url": "https://www.dashlane.com/pricing",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best project management software for startups",
+      "cites": [
+        {
+          "url": "https://linear.app/pricing",
+          "label": null
+        },
+        {
+          "url": "https://clickup.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://asana.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://www.notion.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://trello.com/en/pricing",
+          "label": null
+        },
+        {
+          "url": "https://monday.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://www.atlassian.com/software/jira/pricing",
+          "label": null
+        },
+        {
+          "url": "https://basecamp.com/pricing",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best project management tool startups actually use reddit",
+      "cites": [
+        {
+          "url": "https://linear.app/customers",
+          "label": null
+        },
+        {
+          "url": "https://www.notion.com/product/projects",
+          "label": null
+        },
+        {
+          "url": "https://gummysearch.com/tools/best-products/project-management-software/",
+          "label": null
+        },
+        {
+          "url": "https://www.atlassian.com/software/startups",
+          "label": null
+        },
+        {
+          "url": "https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best protein powder for weight loss",
+      "cites": [
+        {
+          "url": "https://fortune.com/article/best-protein-powders-for-weight-loss/",
+          "label": null
+        },
+        {
+          "url": "https://www.optimumnutrition.com/en-us/pages/our-quality",
+          "label": null
+        },
+        {
+          "url": "https://www.garagegymreviews.com/best-protein-powder-for-weight-loss",
+          "label": null
+        },
+        {
+          "url": "https://www.forbes.com/health/supplements/best-protein-powder-for-weight-loss/",
+          "label": null
+        },
+        {
+          "url": "https://www.nsfsport.com/",
+          "label": null
+        },
+        {
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5477153/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best retinol serum for beginners",
+      "cites": [
+        {
+          "url": "https://www.cerave.com/skincare/facial-serums/resurfacing-retinol-serum",
+          "label": null
+        },
+        {
+          "url": "https://theordinary.com/en-ca/retinol-02-in-squalane-serum-100439.html",
+          "label": null
+        },
+        {
+          "url": "https://www.laroche-posay.us/our-products/face/face-serum/retinol-b3-pure-retinol-serum-3337875694469.html",
+          "label": null
+        },
+        {
+          "url": "https://www.paulaschoice.com/clinical-0.3pct-retinol-and-2pct-bakuchiol-treatment/81B.html",
+          "label": null
+        },
+        {
+          "url": "https://www.laroche-posay.us/our-products/ingredient/retinol",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best running shoes for flat feet reddit",
+      "cites": [
+        {
+          "url": "https://www.redditmedia.com/r/RunningShoeGeeks/comments/1fp5nbz/running_as_a_flat_foot_runner_for_4_months/",
+          "label": null
+        },
+        {
+          "url": "https://runrepeat.com/guides/best-overpronation-running-shoes",
+          "label": null
+        },
+        {
+          "url": "https://runrepeat.com/guides/best-flat-feet-running-shoes",
+          "label": null
+        },
+        {
+          "url": "https://www.redditmedia.com/r/RunningShoeGeeks/comments/19cxfdx/have_i_gaslighted_myself_into_thinking_i/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best SEO tools for agencies",
+      "cites": [
+        {
+          "url": "https://www.semrush.com/pricing/seo-ai-search/",
+          "label": null
+        },
+        {
+          "url": "https://ahrefs.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://seranking.com/subscription.html",
+          "label": null
+        },
+        {
+          "url": "https://www.screamingfrog.co.uk/seo-spider/",
+          "label": null
+        },
+        {
+          "url": "https://agencyanalytics.com/pricing",
+          "label": null
+        },
+        {
+          "url": "https://www.brightlocal.com/pricing/",
+          "label": null
+        },
+        {
+          "url": "https://search.google.com/search-console/about",
+          "label": null
+        },
+        {
+          "url": "https://sitebulb.com/subscriptions/pricing/index/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best standing desk under 500",
+      "cites": [
+        {
+          "url": "https://www.flexispot.com/flexispot-pro-standing-desk-e7",
+          "label": null
+        },
+        {
+          "url": "https://www.vari.com/essential-electric-standing-desk-split-top-48x24/FD-ESTSTESD4824.html",
+          "label": null
+        },
+        {
+          "url": "https://vivo-us.com/products/desk-kit-2e1b",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best VPN 2026",
+      "cites": [
+        {
+          "url": "https://www.security.org/vpn/best/",
+          "label": null
+        },
+        {
+          "url": "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+          "label": null
+        },
+        {
+          "url": "https://www.security.org/vpn/best/no-log/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best web hosting for beginners",
+      "cites": [
+        {
+          "url": "https://wordpress.org/hosting/",
+          "label": null
+        },
+        {
+          "url": "https://www.websiteplanet.com/blog/best-web-hosting-for-beginners/",
+          "label": null
+        },
+        {
+          "url": "https://au.pcmag.com/web-hosting/9189/the-best-web-hosting-services",
+          "label": null
+        },
+        {
+          "url": "https://wordpress.org/about/requirements/",
+          "label": null
+        },
+        {
+          "url": "https://cybernews.com/best-web-hosting/",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best weight loss supplements that work",
+      "cites": [
+        {
+          "url": "https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney",
+          "label": null
+        },
+        {
+          "url": "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+          "label": null
+        },
+        {
+          "url": "https://www.nccih.nih.gov/health/providers/digest/dietary-supplements-marketed-for-weight-loss-bodybuilding-and-sexual-enhancement-science",
+          "label": null
+        },
+        {
+          "url": "https://www.fda.gov/drugs/medication-health-fraud-notifications/weight-loss-product-notifications",
+          "label": null
+        },
+        {
+          "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "best wireless earbuds for workouts",
+      "cites": [
+        {
+          "url": "https://www.rtings.com/headphones/reviews/best/by-usage/running",
+          "label": null
+        },
+        {
+          "url": "https://www.jabra.com/_/media/Jabra_VXi_Product-Documentation/Jabra-Elite-8-Active-Gen2/Technical-specifications/RevA/EN-Jabra-Elite-8-Active-G2-Tech-Specs-A4-WEB-240524.pdf",
+          "label": null
+        },
+        {
+          "url": "https://www.soundcore.com/products/a3968-sport-x20-earbuds",
+          "label": null
+        },
+        {
+          "url": "https://shokz.com/products/openrunpro2",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "is theograce a good brand?",
+      "cites": [
+        {
+          "url": "https://www.trustpilot.com/review/theograce.com",
+          "label": null
+        },
+        {
+          "url": "https://www.theograce.com/",
+          "label": null
+        },
+        {
+          "url": "https://www.theograce.com/articles/why-theo-grace",
+          "label": null
+        },
+        {
+          "url": "https://www.theograce.com/articles/return-policy",
+          "label": null
+        },
+        {
+          "url": "https://www.theograce.com/articles/warranty-conditions",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "Notion vs Obsidian which is better",
+      "cites": [
+        {
+          "url": "https://www.notion.com/help/start-here",
+          "label": null
+        },
+        {
+          "url": "https://obsidian.md/help/data-storage",
+          "label": null
+        },
+        {
+          "url": "https://www.notion.com/pricing",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "reddit recommended password manager for small business",
+      "cites": [
+        {
+          "url": "https://1password.com/product/teams-small-business-password-manager",
+          "label": null
+        },
+        {
+          "url": "https://www.redditmedia.com/r/sysadmin/comments/17d7eiy/password_manager_for_a_small_team/",
+          "label": null
+        },
+        {
+          "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "theograce reddit",
+      "cites": [
+        {
+          "url": "https://www.theograce.com/",
+          "label": null
+        },
+        {
+          "url": "https://www.scamadviser.com/check-website/theograce.com",
+          "label": null
+        }
+      ]
+    },
+    {
+      "query": "what does reddit recommend for VPN 2026",
+      "cites": [
+        {
+          "url": "https://www.redrecs.com/best-vpn",
+          "label": null
+        },
+        {
+          "url": "https://mullvad.net/en/pricing",
+          "label": null
+        },
+        {
+          "url": "https://protonvpn.com/free-vpn",
+          "label": null
+        },
+        {
+          "url": "https://vpnoverview.com/best-vpn/best-reddit-vpn-recommendations/",
+          "label": null
+        }
+      ]
+    }
+  ]
+}

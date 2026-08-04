@@ -107,7 +107,7 @@ class PerplexityEngine:
 
 
 class AzureEngine:
-    """Azure OpenAI Responses API with built-in web_search (Bing grounding)."""
+    """OpenAI / Azure Responses API with built-in web_search grounding."""
 
     name = "azure"
 
@@ -116,8 +116,8 @@ class AzureEngine:
 
         if load_azure_config() is None:
             raise ValueError(
-                "Azure OpenAI is not configured. Set AZURE_OPENAI_ENDPOINT, "
-                "AZURE_OPENAI_API_KEY, and AZURE_OPENAI_DEPLOYMENT."
+                "OpenAI is not configured. Set OPENAI_API_KEY (optionally OPENAI_MODEL), "
+                "or Azure: AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT."
             )
         text, cited_urls, cited_domains, source_pool = query_with_web_search(q)
         if not cited_urls:
@@ -136,7 +136,7 @@ def get_engine(name: str, *, fixture_path: Path | None = None) -> EngineAdapter:
         return MockEngine(fixture_path=fixture_path)
     if name == "perplexity":
         return PerplexityEngine()
-    if name == "azure":
+    if name == "azure" or name == "openai":
         return AzureEngine()
     raise ValueError(f"Unknown engine: {name}")
 

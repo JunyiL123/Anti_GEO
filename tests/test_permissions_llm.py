@@ -75,16 +75,22 @@ def _source(
     )
 
 
-def _subs(*, concealment: float = 0.0, trust: float = 0.65) -> SourceSubscores:
+def _subs(
+    *,
+    concealment: float = 0.0,
+    trust: float = 0.65,
+    fetch: float = 0.9,
+    harm: float = 0.15,
+) -> SourceSubscores:
     return SourceSubscores(
-        fetch_confidence=0.9,
+        fetch_confidence=fetch,
         source_trust=trust,
         rhetorical_manipulation=0.2,
         retrieval_manipulation_risk=0.1,
         endorsement_risk=0.0,
         factual_claim_reliability=0.6,
         intent_mismatch=0.15,
-        harm_severity=0.15,
+        harm_severity=harm,
         concealment_risk=concealment,
     )
 
@@ -147,13 +153,13 @@ def test_gate_false_for_clear_non_shopping_clean_page():
     )
 
 
-def test_concealment_hot_skips_llm(monkeypatch):
+def test_concealment_hard_hot_skips_llm(monkeypatch):
     source = _source()
     heur = SourcePermissions("allow", "allow", "allow", "allow")
-    subs = _subs(concealment=CONCEALMENT_SKIP_LLM)
+    subs = _subs(concealment=CONCEALMENT_HARD_REJECT)
 
     def boom(*_a, **_k):
-        raise AssertionError("LLM must not be called when concealment hot")
+        raise AssertionError("LLM must not be called when concealment hard-hot")
 
     monkeypatch.setattr(
         "anti_geo.permissions_llm.suggest_permissions_llm", boom
@@ -172,7 +178,44 @@ def test_concealment_hot_skips_llm(monkeypatch):
     assert result.source == "heuristic"
     assert result.skipped == "concealment_hot"
     assert result.permissions == heur
-    assert concealment_is_hot(subs)
+    assert concealment_is_hot(subs, threshold=CONCEALMENT_HARD_REJECT)
+
+
+def test_soft_concealment_endorse_tighten_only(monkeypatch):
+    """Soft concealment [0.5, 0.9) still calls LLM; only endorse may tighten."""
+    from anti_geo.permissions_llm import concealment_is_soft
+
+    source = _source()
+    heur = SourcePermissions("downrank", "allow", "attribute_only", "allow")
+    subs = _subs(concealment=0.6)
+    assert concealment_is_soft(subs)
+
+    monkeypatch.setattr(
+        "anti_geo.permissions_llm.is_azure_configured", lambda: True
+    )
+    monkeypatch.setattr(
+        "anti_geo.permissions_llm.suggest_permissions_llm",
+        lambda **_k: PermissionsLlmSuggestion(
+            retrieve_permission="allow",
+            mention_permission="deny",
+            factual_permission="allow",
+            endorsement_permission="deny",
+            reason="vendorish soft conceal",
+        ),
+    )
+    result = maybe_apply_permissions_llm(
+        source,
+        heur,
+        subs,
+        query="best widgets",
+        query_intent="commercial",
+        use_llm=True,
+    )
+    assert result.source == "llm_hybrid"
+    assert result.permissions.retrieve_permission == "downrank"
+    assert result.permissions.mention_permission == "allow"
+    assert result.permissions.factual_permission == "attribute_only"
+    assert result.permissions.endorsement_permission == "deny"
 
 
 def test_hard_floor_blocks_loosen():
@@ -201,6 +244,197 @@ def test_bidirectional_merge_can_loosen_and_tighten():
     assert merged.factual_permission == "attribute_only"
     assert merged.endorsement_permission == "allow"
     assert merged.mention_permission == "allow"
+
+
+def test_protect_listicle_retrieve_allow_blocks_downrank():
+    heur = SourcePermissions("allow", "allow", "attribute_only", "allow")
+    suggestion = PermissionsLlmSuggestion(
+        retrieve_permission="downrank",
+        factual_permission="attribute_only",
+        endorsement_permission="deny",
+        reason="commercial packaging",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_listicle_retrieve_allow=True,
+    )
+    assert merged.retrieve_permission == "allow"
+    assert merged.endorsement_permission == "deny"
+
+
+def test_protect_heuristic_retrieve_downrank_blocks_allow():
+    heur = SourcePermissions("downrank", "allow", "require_corroboration", "deny")
+    suggestion = PermissionsLlmSuggestion(
+        retrieve_permission="allow",
+        factual_permission="require_corroboration",
+        endorsement_permission="deny",
+        reason="high trust vendor",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_heuristic_retrieve_downrank=True,
+    )
+    assert merged.retrieve_permission == "downrank"
+
+
+def test_protect_listicle_factual_attribute_only_blocks_escalate():
+    heur = SourcePermissions("allow", "allow", "attribute_only", "deny")
+    suggestion = PermissionsLlmSuggestion(
+        retrieve_permission="allow",
+        factual_permission="require_corroboration",
+        endorsement_permission="deny",
+        reason="affiliate caution",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_listicle_factual_attribute_only=True,
+    )
+    assert merged.factual_permission == "attribute_only"
+
+
+def test_protect_listicle_factual_blocks_allow_to_require():
+    heur = SourcePermissions("allow", "allow", "allow", "deny")
+    suggestion = PermissionsLlmSuggestion(
+        factual_permission="require_corroboration",
+        reason="caution",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_listicle_factual_attribute_only=True,
+    )
+    assert merged.factual_permission == "allow"
+
+
+def test_protect_listicle_allows_allow_to_attribute_only_tighten():
+    heur = SourcePermissions("allow", "allow", "allow", "deny")
+    suggestion = PermissionsLlmSuggestion(
+        factual_permission="attribute_only",
+        reason="shopping review quote-cap",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_listicle_factual_attribute_only=True,
+    )
+    assert merged.factual_permission == "attribute_only"
+
+
+def test_protect_review_factual_no_allow():
+    heur = SourcePermissions("allow", "allow", "attribute_only", "deny")
+    suggestion = PermissionsLlmSuggestion(
+        retrieve_permission="allow",
+        factual_permission="allow",
+        endorsement_permission="deny",
+        reason="lab tested",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_review_factual_no_allow=True,
+    )
+    assert merged.factual_permission == "attribute_only"
+
+
+def test_protect_factual_blog_ao_blocks_allow_on_shopping(monkeypatch):
+    source = _source()
+    heur = SourcePermissions("allow", "allow", "attribute_only", "deny")
+    monkeypatch.setattr(
+        "anti_geo.permissions_llm.suggest_permissions_llm",
+        lambda **_k: PermissionsLlmSuggestion(
+            factual_permission="allow",
+            endorsement_permission="deny",
+            reason="lab blog",
+        ),
+    )
+    result = maybe_apply_permissions_llm(
+        source,
+        heur,
+        _subs(trust=0.7),
+        query="best widgets 2026",
+        query_intent="commercial",
+        use_llm=True,
+        content_role="factual_blog",
+    )
+    assert result.source == "llm_hybrid"
+    assert result.permissions.factual_permission == "attribute_only"
+    assert result.permissions.endorsement_permission == "deny"
+
+
+def test_soft_fetch_floor_skips_llm(monkeypatch):
+    source = _source(trust=0.8)
+    source.fetch_ok = True
+    heur = SourcePermissions("allow", "allow", "attribute_only", "allow")
+    monkeypatch.setattr(
+        "anti_geo.permissions_llm.suggest_permissions_llm",
+        lambda **_k: (_ for _ in ()).throw(AssertionError("should skip")),
+    )
+    result = maybe_apply_permissions_llm(
+        source,
+        heur,
+        _subs(fetch=0.1, trust=0.8),
+        query="fda guidance on widgets",
+        query_intent="informational",
+        fetch_failure_kind=None,
+        use_llm=True,
+        content_role="institutional",
+    )
+    assert result.source == "heuristic"
+    assert result.skipped == "soft_fetch_floor"
+    assert result.permissions == heur
+
+
+def test_listicle_factual_clamps_applied_even_when_soft_conceal(monkeypatch):
+    """Hard listicle factual clamps fire regardless of soft concealment/harm."""
+    source = _source()
+    heur = SourcePermissions("allow", "allow", "attribute_only", "deny")
+    monkeypatch.setattr(
+        "anti_geo.permissions_llm.suggest_permissions_llm",
+        lambda **_k: PermissionsLlmSuggestion(
+            factual_permission="allow",
+            endorsement_permission="deny",
+            reason="trusted labs",
+        ),
+    )
+    # Soft concealment → endorse_tighten_only freezes factual; use no concealment
+    # but high harm would previously disable protect_listicle — verify clamp holds.
+    result = maybe_apply_permissions_llm(
+        source,
+        heur,
+        _subs(harm=0.8, concealment=0.0),
+        query="best widgets 2026",
+        query_intent="commercial",
+        use_llm=True,
+        content_role="expert_listicle",
+    )
+    assert result.source == "llm_hybrid"
+    assert result.permissions.factual_permission == "attribute_only"
+
+
+def test_protect_heuristic_endorsement_deny_blocks_allow():
+    heur = SourcePermissions("allow", "allow", "attribute_only", "deny")
+    suggestion = PermissionsLlmSuggestion(
+        retrieve_permission="allow",
+        factual_permission="attribute_only",
+        endorsement_permission="allow",
+        reason="trusted review",
+    )
+    merged = merge_permissions_hybrid(
+        heur,
+        suggestion,
+        hard_floor=False,
+        protect_heuristic_endorsement_deny=True,
+    )
+    assert merged.endorsement_permission == "deny"
 
 
 def test_gate_true_for_commercial_when_endorse_allowed():
@@ -246,7 +480,20 @@ def test_gate_true_for_commercial_affiliate():
     )
 
 
-def test_gate_false_when_concealment_hot():
+def test_gate_true_when_soft_concealment_shopping():
+    """Soft concealment on shopping opens gate for endorse-tighten."""
+    source = _source()
+    heur = SourcePermissions("downrank", "allow", "allow", "allow")
+    assert permissions_llm_gate(
+        source,
+        "best widgets",
+        "commercial",
+        heur,
+        _subs(concealment=0.6),
+    )
+
+
+def test_gate_false_when_concealment_hard():
     source = _source()
     heur = SourcePermissions("allow", "allow", "allow", "allow")
     assert not permissions_llm_gate(
@@ -254,7 +501,7 @@ def test_gate_false_when_concealment_hot():
         "best widgets",
         "commercial",
         heur,
-        _subs(concealment=0.6),
+        _subs(concealment=0.95),
     )
 
 
@@ -378,3 +625,59 @@ def test_hard_floor_helper():
         _subs(),
         "reject",
     )
+
+
+def test_rubric_tracks_permissions_constants(monkeypatch):
+    """Changing permissions.py thresholds must change the hybrid system prompt."""
+    import anti_geo.permissions as permissions
+
+    monkeypatch.setattr(permissions, "CONCEALMENT_REJECT", 0.91)
+    monkeypatch.setattr(permissions, "SOURCE_TRUST_DOWNRANK", 0.33)
+    text = permissions.permissions_heuristic_rules_rubric()
+    assert "concealment_risk >= 0.91" in text
+    assert "source_trust < 0.33" in text
+    assert "derive_permissions" in text
+    assert "KNOWN HEURISTIC BLIND SPOTS" in text
+    assert "RESEARCH" in text
+
+
+def test_rubric_includes_high_stakes_and_commercial(monkeypatch):
+    import anti_geo.permissions as permissions
+    from anti_geo.config import DefenseConfig
+
+    monkeypatch.setattr(permissions, "HIGH_STAKES_ENDORSE_TRUST_MAX", 0.51)
+    text = permissions.permissions_heuristic_rules_rubric(
+        DefenseConfig(trust_endorsement_min=0.71, commercial_hedge_min_tier="high")
+    )
+    assert "high_stakes_medical_claim" in text
+    assert "trust < 0.51" in text
+    assert "Commercial packaging tighten" in text
+    assert "commercial tier >= high" in text
+    assert "trust < 0.71" in text
+
+
+def test_apply_high_stakes_endorsement_deny_same_predicates():
+    from anti_geo.permissions import apply_high_stakes_endorsement_deny
+
+    source = _source(
+        trust=0.4,
+        text="This supplement cured my condition and brought remission.",
+        flags=["high_stakes_medical_claim", "comparative_superlatives"],
+    )
+    heur = SourcePermissions("allow", "allow", "attribute_only", "allow")
+    out = apply_high_stakes_endorsement_deny(
+        heur,
+        source,
+        query="is this supplement safe",
+        query_intent="informational_high_stakes",
+    )
+    assert out.endorsement_permission == "deny"
+    assert out.retrieve_permission == "allow"
+
+    kept = apply_high_stakes_endorsement_deny(
+        heur,
+        source,
+        query="is this supplement safe",
+        query_intent="informational",
+    )
+    assert kept.endorsement_permission == "allow"

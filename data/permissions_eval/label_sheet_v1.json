@@ -1,0 +1,2840 @@
+{
+  "description": "Permissions paper expansion label sheet (v1): commercial-intent queries only. Engine cites only \u2014 labels empty for human labeling. Anti-GEO system outputs are NOT in this file. See LABEL_GUIDE.md.",
+  "claim_focus": "per-source use rights under commercial recommend queries; Mode B parasitic evaluated separately and may only tighten actions",
+  "created_at": "2026-08-04T03:53:40.483830+00:00",
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "label_instructions": {
+    "retrieve_permission": "Should the engine retrieve/use this page at all for this query? allow | downrank | defer | reject",
+    "mention_permission": "May the answer name/attribute this source? allow | deny",
+    "factual_permission": "May the answer use claims from this page as facts? allow | attribute_only | require_corroboration | deny",
+    "endorsement_permission": "May the answer recommend / crown a pick from this page? allow | deny. Legal GEO-y marketing alone is not automatic deny \u2014 deny when you would not trust it as advice.",
+    "parasitic": "Separate Mode B judgment (not single-page): none | elevated | suspected. Do not change the four permissions to 'encode' this \u2014 keep them independent."
+  },
+  "n_queries": 20,
+  "n_pages": 112,
+  "queries": [
+    {
+      "query": "best running shoes for flat feet 2026",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "best robot vacuum for pet hair under $400",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "best air purifier for allergies",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best standing desk converter",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best portable monitor for travel",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "n_pages": 5,
+      "intent": "commercial"
+    },
+    {
+      "query": "best electric toothbrush for sensitive gums",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best cast iron skillet for beginners",
+      "n_pages": 5,
+      "intent": "commercial"
+    },
+    {
+      "query": "best sunscreen for oily skin drugstore",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best cheap protein powder for beginners",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best project management tool for freelancers",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best email marketing platform for small shop",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best travel credit card for beginners 2026",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best dishwasher for hard water",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best budget trail running shoes reddit",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best home gym equipment forums",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "best espresso machine under 500 reddit",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "is Manscaped a legit brand?",
+      "n_pages": 5,
+      "intent": "commercial"
+    },
+    {
+      "query": "is Ridge Wallet worth it or a scam?",
+      "n_pages": 6,
+      "intent": "commercial"
+    },
+    {
+      "query": "is Blueland a trustworthy brand?",
+      "n_pages": 5,
+      "intent": "commercial"
+    }
+  ],
+  "pages": [
+    {
+      "id": "v1p01",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.outsideonline.com/outdoor-gear/run/best-stability-shoes/",
+      "domain": "outsideonline.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Outside Online gear 'best stability shoes' is editorial/affiliate commerce ranking. Fine to cite with attribution; would not crown a flat-feet pick from this page alone."
+    },
+    {
+      "id": "v1p02",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.rtings.com/running-shoes/reviews/best/stability",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS stability running-shoes ranking with lab methodology. Strong enough independent testing that endorsement from this page is reasonable for a commercial shoe query."
+    },
+    {
+      "id": "v1p03",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.runnersworld.com/gear/a20865766/best-stability-running-shoes/",
+      "domain": "runnersworld.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Runner's World affiliate 'best stability' listicle. Useful attributed roundup; not sole warrant to recommend a specific shoe for flat feet."
+    },
+    {
+      "id": "v1p04",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.solereview.com/best-running-shoes-for-overpronators/",
+      "domain": "solereview.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Sole Review is long-running independent shoe review (buys shoes, publishes receipts) with affiliate links. Trustworthy enough to allow endorsement for overpronation/stability picks."
+    },
+    {
+      "id": "v1p05",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.rtings.com/robot-vacuum/reviews/roborock/q5-max-plus?utm_source=openai",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS individual Roborock Q5 Max+ review with measured scores. OK to recommend this model from this page for pet-hair under-$400 if it fits the band."
+    },
+    {
+      "id": "v1p06",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.consumerreports.org/appliances/vacuum-cleaners/irobot-roomba-i4-evo/m407684/?utm_source=openai",
+      "domain": "consumerreports.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Consumer Reports Roomba i4 Evo product page. Strong institutional tester, but CR membership/paywall and single-model focus \u2014 attribute scores; don't treat as open endorsement without full CR context."
+    },
+    {
+      "id": "v1p07",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.rtings.com/robot-vacuum/reviews/best/pet-hair",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS best-for-pet-hair robot vacuum ranking. Lab-based category pick page \u2014 endorsement allow."
+    },
+    {
+      "id": "v1p08",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.rtings.com/robot-vacuum/reviews/shark/matrix-robot-rv2300s-rv2310ae",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS Shark Matrix robot review. Same lab standard as other RTINGS product reviews \u2014 endorsement allow."
+    },
+    {
+      "id": "v1p09",
+      "query": "best air purifier for allergies",
+      "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home?utm_source=openai",
+      "domain": "epa.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "EPA indoor air cleaners guidance. Authoritative factual source; regulatory/educational pages should not crown a commercial 'best purifier'."
+    },
+    {
+      "id": "v1p10",
+      "query": "best air purifier for allergies",
+      "url": "https://downloads.energystar.gov/bi/qplist/Room_Air_Cleaners_Qualified_Product_List.pdf?bae4-e90d=&utm_source=openai",
+      "domain": "downloads.energystar.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ENERGY STAR qualified room air cleaners PDF list. Use for certification/efficiency facts; does not pick a single best allergy purifier."
+    },
+    {
+      "id": "v1p11",
+      "query": "best air purifier for allergies",
+      "url": "https://www.popularmechanics.com/technology/gear/a71054072/coway-airmega-mighty2-air-purifier-review/?utm_source=openai",
+      "domain": "popularmechanics.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Popular Mechanics single-product Coway review \u2014 lifestyle/affiliate-leaning gear media. Attribute; require more before crowning for allergies."
+    },
+    {
+      "id": "v1p12",
+      "query": "best air purifier for allergies",
+      "url": "https://www.rtings.com/air-purifier/reviews/levoit/core-300s?utm_source=openai",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS Levoit Core 300S review with measured CADR/noise. Strong lab review \u2014 endorsement allow for that model."
+    },
+    {
+      "id": "v1p13",
+      "query": "best air purifier for allergies",
+      "url": "https://www.techgearlab.com/reviews/health-fitness/air-purifier/blueair-blue-pure-311i-max?utm_source=openai",
+      "domain": "techgearlab.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "TechGearLab Blueair review. Decent outdoor/gear tester with affiliate commerce; attribute measurements, deny sole endorsement for medical-adjacent allergy use."
+    },
+    {
+      "id": "v1p14",
+      "query": "best air purifier for allergies",
+      "url": "https://asthmaandallergyfriendly.com/USA/certified_products/products_categories/air-cleaners/portable-air-cleaners/",
+      "domain": "asthmaandallergyfriendly.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Asthma & Allergy Friendly certified portable air cleaners list (AAFA + Allergy Standards). Legitimate certification catalog \u2014 facts about certification OK; do not treat mark as crowning a best product."
+    },
+    {
+      "id": "v1p15",
+      "query": "best standing desk converter",
+      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-standing-desk-converters/?utm_source=openai",
+      "domain": "forbes.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Forbes Personal Shopper 'best standing desk converters' is affiliate commerce roundup. Downrank vs stronger independent tests; deny endorsement."
+    },
+    {
+      "id": "v1p16",
+      "query": "best standing desk converter",
+      "url": "https://odm.ergotron.com/Portals/0/literature/productSheets/english/05-WF-TL_TAA.pdf",
+      "domain": "odm.ergotron.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Ergotron OEM product sheet PDF. Specs/pricing-sheet style vendor literature \u2014 attribute specs only; no endorsement."
+    },
+    {
+      "id": "v1p17",
+      "query": "best standing desk converter",
+      "url": "https://www.upliftdesk.com/e7-electric-standing-desk-converter/?goal=0_596f138886-8b10b35cb7-55919904",
+      "domain": "upliftdesk.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Uplift Desk brand product page for E7 converter. Vendor marketing \u2014 attribute features/price; deny endorsement."
+    },
+    {
+      "id": "v1p18",
+      "query": "best standing desk converter",
+      "url": "https://www.humanscale.com/products/standing-desks/quickstand-eco-desk-converter?utm_source=openai",
+      "domain": "humanscale.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Humanscale QuickStand Eco product page. Vendor \u2014 attribute specs; deny endorsement."
+    },
+    {
+      "id": "v1p19",
+      "query": "best standing desk converter",
+      "url": "https://vivo-us.com/products/desk-v000k?variant=45139793346836&utm_source=openai",
+      "domain": "vivo-us.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "VIVO desk converter product page. Budget vendor listing \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p20",
+      "query": "best standing desk converter",
+      "url": "https://www.bestbuy.com/site/flexispot-m7-series-35w-manual-adjustable-standing-desk-converter-black/10142716.p?skuId=10142716&utm_source=openai",
+      "domain": "bestbuy.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Best Buy FlexiSpot retail listing. Retailer product page with price/availability \u2014 attribute; deny endorsement as advice."
+    },
+    {
+      "id": "v1p21",
+      "query": "best portable monitor for travel",
+      "url": "https://psref.lenovo.com/syspool/Sys/PDF/ThinkVision/ThinkVision_M14d_Monitor/ThinkVision_M14d_Monitor_Spec.pdf",
+      "domain": "psref.lenovo.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Lenovo ThinkVision M14d official spec PDF. Vendor specs \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p22",
+      "query": "best portable monitor for travel",
+      "url": "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-oled-mq13ah/techspec/",
+      "domain": "asus.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ASUS ZenScreen OLED techspec page. Vendor specs \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p23",
+      "query": "best portable monitor for travel",
+      "url": "https://www.servethehome.com/arzopa-z1rc-16-qhd-portable-monitor-review/",
+      "domain": "servethehome.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ServeTheHome Arzopa portable monitor review. Niche tech review site; useful attributed hands-on, not sole 'best travel monitor' warrant."
+    },
+    {
+      "id": "v1p24",
+      "query": "best portable monitor for travel",
+      "url": "https://www.lg.com/us/business/download/resources/CT40000311/lg_spec_sheet_16mq70.asdu_052215_lr%5B20220702_063612%5D.pdf",
+      "domain": "lg.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "LG portable monitor spec sheet PDF. Vendor literature \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p25",
+      "query": "best portable monitor for travel",
+      "url": "https://www.notebookcheck.net/14-inch-Dell-C1422H-portable-monitor-review-Lightweight-and-basic-with-no-extras.595270.0.html",
+      "domain": "notebookcheck.net",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Notebookcheck Dell C1422H portable monitor review \u2014 established laptop/display lab tester. Endorsement allow for that model."
+    },
+    {
+      "id": "v1p26",
+      "query": "best portable monitor for travel",
+      "url": "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-go-mb16awp/?utm_source=openai",
+      "domain": "asus.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ASUS ZenScreen Go product marketing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p27",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.apple.com/newsroom/2025/09/introducing-airpods-pro-3-the-ultimate-audio-experience/",
+      "domain": "apple.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Apple Newsroom AirPods Pro 3 launch PR. First-party marketing \u2014 attribute announced features; deny endorsement vs competitors."
+    },
+    {
+      "id": "v1p28",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.rtings.com/headphones/reviews/best/noise-cancelling-earbuds",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS best noise-cancelling earbuds ranking. Lab ANC/isolation measurements \u2014 endorsement allow."
+    },
+    {
+      "id": "v1p29",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.rtings.com/headphones/reviews/bose/quietcomfort-ultra-earbuds-2nd-gen?utm_source=openai",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS Bose QC Ultra Earbuds 2nd gen review. Lab product review \u2014 endorsement allow for that model."
+    },
+    {
+      "id": "v1p30",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.soundguys.com/sennheiser-momentum-true-wireless-4-review-111429/",
+      "domain": "soundguys.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "SoundGuys Sennheiser MTW4 review with measurements. Strong audio measurement site \u2014 endorsement allow."
+    },
+    {
+      "id": "v1p31",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.soundguys.com/sony-wf-1000xm6-review-152013/?utm_source=openai",
+      "domain": "soundguys.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+       "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "SoundGuys Sony WF-1000XM6 review. Same SoundGuys measurement standard \u2014 endorsement allow."
+    },
+    {
+      "id": "v1p32",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.ada.org/resources/ada-library/oral-health-topics/toothbrushes?utm_source=openai",
+      "domain": "ada.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ADA oral-health topic page on toothbrushes. Institutional dental facts; does not crown a consumer 'best' brush."
+    },
+    {
+      "id": "v1p33",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://manuals.plus/asin/B0B5HTX7YW.pdf?utm_source=openai",
+      "domain": "manuals.plus",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "manuals.plus ASIN PDF aggregator of a product manual. Thin third-party mirror of user-manual content \u2014 downrank; attribute only; no endorsement."
+    },
+    {
+      "id": "v1p34",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.ada.org/resources/research/science/ada-seal-of-acceptance/?utm_source=openai",
+      "domain": "ada.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ADA Seal of Acceptance program page. Use for seal/acceptance facts; not a product ranking endorsement."
+    },
+    {
+      "id": "v1p35",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.usa.philips.com/c-m-pe/electric-toothbrushes/4100-series?utm_source=openai",
+      "domain": "usa.philips.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Philips Sonicare 4100 series brand page. Vendor \u2014 attribute specs; deny endorsement."
+    },
+    {
+      "id": "v1p36",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-electric-toothbrush/?utm_source=openai",
+      "domain": "forbes.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Forbes Personal Shopper best electric toothbrush affiliate roundup. Commerce listicle \u2014 downrank; deny endorsement."
+    },
+    {
+      "id": "v1p37",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://oralb.com/en-us/products/replacement-brush-heads/oral-b-io-gentle-care-replacement-brush-head-1-count-white/?utm_source=openai",
+      "domain": "oralb.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Oral-B iO Gentle Care brush-head product page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p38",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.goodhousekeeping.com/cooking-tools/cookware-reviews/a62938973/lodge-cast-iron-skillet-review/?utm_source=openai",
+      "domain": "goodhousekeeping.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": { 
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Good Housekeeping Lodge skillet review. Hearst commerce/test kitchen with affiliate; attribute; deny sole endorsement."
+    },
+    {
+      "id": "v1p39",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.goodhousekeeping.com/cooking-tools/g29993894/best-cast-iron-skillets/?utm_source=openai",
+      "domain": "goodhousekeeping.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Good Housekeeping best cast iron skillets roundup. Same affiliate commerce pattern \u2014 deny endorsement."
+    },
+    {
+      "id": "v1p40",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.consumerreports.org/home-garden/cookware/tramontina-enameled-cast-iron-series-1000/m400501/?utm_source=openai",
+      "domain": "consumerreports.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Consumer Reports Tramontina enameled cast iron product page. Institutional tester \u2014 attribute scores; deny open endorsement without full CR context."
+    },
+    {
+      "id": "v1p41",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.youtube.com/watch?v=kmVmKmR0CXA&utm_source=openai",
+      "domain": "youtube.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "YouTube video cite. Opaque creator incentives without transcript/channel audit \u2014 downrank; attribute opinions; deny endorsement."
+    },
+    {
+      "id": "v1p42",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://qz.com/best-frying-pans-consumer-reports?utm_source=openai",
+      "domain": "qz.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Quartz piece referencing Consumer Reports frying-pan work. Secondary journalism \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p43",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid=e1310453-1880-43a5-982b-cf9b30cfdc47&type=pdf&utm_source=openai",
+      "domain": "dailymed.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "DailyMed/NLM drug-label PDF for a sunscreen. Authoritative label facts (SPF, actives); not a 'best for oily skin' endorsement."
+    },
+    {
+      "id": "v1p44",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.neutrogena.com/products/sun/neutrogena-ultra-sheer-invisible-gel-face-sunscreen-broad-spectrum-spf-40/6807869?utm_source=openai",
+      "domain": "neutrogena.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Neutrogena Ultra Sheer product page. Brand vendor \u2014 attribute claims; deny endorsement."
+    },
+    {
+      "id": "v1p45",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.neutrogena.com/skin/clear-face-sunscreen?utm_source=openai",
+      "domain": "neutrogena.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Neutrogena Clear Face sunscreen category page. Brand marketing \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p46",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.eucerinus.com/products/sun-protection/clear-skin-spf-50-face-sunscreen?utm_source=openai",
+      "domain": "eucerinus.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Eucerin Clear Skin SPF 50 face sunscreen product page. Brand vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p47",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.cetaphil.com/us/products/product-categories/all-moisturizers/dermacontrol-oil-absorbing-moisturizer-spf-30/302994313044.html?utm_source=openai",
+      "domain": "cetaphil.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Cetaphil Dermacontrol oil-absorbing moisturizer SPF 30 page. Brand vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p48",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.aad.org/spot-skin-cancer/learn-about-skin-cancer/prevent-skin-cancer/how-to-select-a-sunscreen?utm_source=openai",
+      "domain": "aad.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "AAD how-to-select-a-sunscreen guidance. Strong dermatology org facts on SPF/broad-spectrum; does not crown a drugstore oily-skin winner."
+    },
+    {
+      "id": "v1p49",
+      "query": "best cheap protein powder for beginners",
+      "url": "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0480974&Standard=306&utm_source=openai",
+      "domain": "info.nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "NSF Certified for Sport company listing page. Certification roster facts \u2014 allow as facts; not a 'best cheap powder' pick."
+    },
+    {
+      "id": "v1p50",
+      "query": "best cheap protein powder for beginners",
+      "url": "https://www.nowfoods.com/products/sports-nutrition/whey-protein-isolate-unflavored-powder?SKU=452&utm_source=openai",
+      "domain": "nowfoods.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "NOW Foods whey isolate product page. Brand vendor \u2014 attribute nutrition/price claims; deny endorsement."
+    },
+    {
+      "id": "v1p51",
+      "query": "best cheap protein powder for beginners",
+      "url": "https://us.myprotein.com/p/sports-nutrition/impact-whey-protein/10852500/?utm_source=openai",
+      "domain": "us.myprotein.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Myprotein Impact Whey product page. Brand/DTC vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p52",
+      "query": "best cheap protein powder for beginners",
+      "url": "https://www.target.com/p/-/A-90043369?utm_source=openai",
+      "domain": "target.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Target retail product listing for a protein powder. Retailer page \u2014 attribute price/availability; deny endorsement."
+    },
+    {
+      "id": "v1p53",
+      "query": "best cheap protein powder for beginners",
+      "url": "https://www.nsf.org/consumer-resources/articles/certified-for-sport-program?utm_source=openai",
+      "domain": "nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "NSF Certified for Sport program explainer. Institutional certification facts; not product endorsement."
+    },
+    {
+      "id": "v1p54",
+      "query": "best cheap protein powder for beginners",
+      "url": "https://www.consumerreports.org/health/food-safety/answering-faqs-high-lead-levels-in-protein-powders-shakes-a4805850762/?utm_source=openai",
+      "domain": "consumerreports.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Consumer Reports FAQ on lead in protein powders/shakes. Institutional safety reporting \u2014 factual allow; does not endorse a best cheap powder."
+    },
+    {
+      "id": "v1p55",
+      "query": "best project management tool for freelancers",
+      "url": "https://www.paymoapp.com/pricing/",
+      "domain": "paymoapp.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Paymo pricing page. Vendor pricing \u2014 attribute plan facts; deny endorsement."
+    },
+    {
+      "id": "v1p56",
+      "query": "best project management tool for freelancers",
+      "url": "https://www.hellobonsai.com/pricing",
+      "domain": "hellobonsai.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Bonsai pricing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p57",
+      "query": "best project management tool for freelancers",
+      "url": "https://www.plutio.com/pricing",
+      "domain": "plutio.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Plutio pricing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p58",
+      "query": "best project management tool for freelancers",
+      "url": "https://clickup.com/pricing",
+      "domain": "clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ClickUp pricing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p59",
+      "query": "best project management tool for freelancers",
+      "url": "https://trello.com/pricing?hsLang=en",
+      "domain": "trello.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Trello pricing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p60",
+      "query": "best project management tool for freelancers",
+      "url": "https://basecamp.com/pricing",
+      "domain": "basecamp.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Basecamp pricing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p61",
+      "query": "best email marketing platform for small shop",
+      "url": "https://www.techradar.com/reviews/mailerlite?utm_source=openai",
+      "domain": "techradar.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "TechRadar MailerLite review. Mainstream tech review with affiliate; attribute features; deny sole endorsement for small-shop pick."
+    },
+    {
+      "id": "v1p62",
+      "query": "best email marketing platform for small shop",
+      "url": "https://help.klaviyo.com/hc/en-us/articles/115005080407?utm_source=openai",
+      "domain": "help.klaviyo.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Klaviyo Help Center article. First-party product docs \u2014 attribute how product works; deny endorsement vs alternatives."
+    },
+    {
+      "id": "v1p63",
+      "query": "best email marketing platform for small shop",
+      "url": "https://www.omnisend.com/features/?utm_source=openai",
+      "domain": "omnisend.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Omnisend features marketing page. Vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p64",
+      "query": "best email marketing platform for small shop",
+      "url": "https://help.brevo.com/hc/en-us?utm_source=openai",
+      "domain": "help.brevo.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Brevo Help Center hub. First-party support docs \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p65",
+      "query": "best email marketing platform for small shop",
+      "url": "https://www.shopify.com/email-marketing?utm_source=openai",
+      "domain": "shopify.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Shopify Email marketing product page. Platform vendor upsell \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p66",
+      "query": "best email marketing platform for small shop",
+      "url": "https://mailchimp.com/resources/how-to-create-a-marketing-automation-strategy/?utm_source=openai",
+      "domain": "mailchimp.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Mailchimp resource/blog on automation strategy. Brand content marketing \u2014 attribute tips; deny crowning Mailchimp as best."
+    },
+    {
+      "id": "v1p67",
+      "query": "best travel credit card for beginners 2026",
+      "url": "https://media.chase.com/news/Meet-the-New-Chase-Sapphire-Preferred?utm_source=openai",
+      "domain": "media.chase.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Chase media PR for Sapphire Preferred. Issuer marketing \u2014 attribute offer terms carefully; deny endorsement."
+    },
+    {
+      "id": "v1p68",
+      "query": "best travel credit card for beginners 2026",
+      "url": "https://www.capitalone.com/credit-cards/venture/?msockid=0ac79fe5a8eb611720c98994a911600c&utm_source=openai",
+      "domain": "capitalone.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Capital One Venture card product page. Issuer vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p69",
+      "query": "best travel credit card for beginners 2026",
+      "url": "https://www.wellsfargo.com/credit-cards/features/cell-phone-protection/?utm_source=openai",
+      "domain": "wellsfargo.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Wells Fargo cell-phone protection feature page. Narrow issuer benefit explainer \u2014 attribute that feature only; deny card endorsement."
+    },
+    {
+      "id": "v1p70",
+      "query": "best travel credit card for beginners 2026",
+      "url": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card?msockid=04b5a8275ac960540fd8bef85bf861ab&utm_source=openai",
+      "domain": "citi.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Citi Strata Premier card page. Issuer vendor \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p71",
+      "query": "best travel credit card for beginners 2026",
+      "url": "https://promo.bankofamerica.com/ccsearchlp10/compare-cards-3/?code=QAF2LJ&utm_source=openai",
+      "domain": "promo.bankofamerica.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Bank of America promo compare-cards landing with tracking code. Acquisition landing page \u2014 downrank; attribute; deny endorsement."
+    },
+    {
+      "id": "v1p72",
+      "query": "best travel credit card for beginners 2026",
+      "url": "https://www.bankrate.com/credit-cards/travel/best-travel-cards/?cid=1000&utm_source=openai",
+      "domain": "bankrate.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Bankrate best travel cards roundup. Established personal-finance publisher with affiliate relationships \u2014 attribute rankings; deny sole endorsement for beginners."
+    },
+    {
+      "id": "v1p73",
+      "query": "best dishwasher for hard water",
+      "url": "https://www.mieleusa.com/support/customer-assistance/dishwashing-1316/all/dishware_spotted_or_not_dry-92704805771?utm_source=openai",
+      "domain": "mieleusa.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Miele support article on spotted/not-dry dishware. Brand support troubleshooting \u2014 attribute hard-water tips; deny crowning Miele as best."
+    },
+    {
+      "id": "v1p74",
+      "query": "best dishwasher for hard water",
+      "url": "https://www.bosch-home.com/us/en/category/dishwashers?f_bvc_mo=bvc_bvc_bema&f_highlights_ma=water_softener",
+      "domain": "bosch-home.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Bosch dishwashers category filtered for water softener. Brand catalog \u2014 attribute feature presence; deny endorsement."
+    },
+    {
+      "id": "v1p75",
+      "query": "best dishwasher for hard water",
+      "url": "https://www.thermador.com/us/products/dishwashers?utm_source=openai",
+      "domain": "thermador.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Thermador dishwashers product category. Brand catalog \u2014 attribute; deny endorsement."
+    },
+    {
+      "id": "v1p76",
+      "query": "best dishwasher for hard water",
+      "url": "https://asko.hgecdn.net/medias/US-CA-ASKO-Dishwasher-Brochure-R12.pdf?context=bWFzdGVyfGRvY3VtZW50c3wyMTc2OTUzNXxhcHBsaWNhdGlvbi9wZGZ8YUdGaEwyZ3lZeTh4TlRNd05UZzJNemsxTkRRMk1pOVZVMTlEUVY5QlUwdFBYMFJwYzJoM1lYTm9aWEpmUW5KdlkyaDFjbVZmVWpFeUxuQmtaZ3xjNzdlYjc3OGJjMThkMGZhMDIzYmRiZjk1ZTJlMGEyOWY4MGM4ZjdlZDViYTA5MmVmOTgyY2QzZDU1NzZjZDBm&utm_source=openai",
+      "domain": "asko.hgecdn.net",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ASKO dishwasher brochure PDF. Brand literature \u2014 attribute specs; deny endorsement."
+    },
+    {
+      "id": "v1p77",
+      "query": "best dishwasher for hard water",
+      "url": "https://www.subzero-wolf.com/assistance/answers/cove/dishwasher/when-to-purchase-a-cove-water-softener-model?utm_source=openai",
+      "domain": "subzero-wolf.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Sub-Zero/Wolf/Cove FAQ on when to buy water-softener dishwasher model. Brand support \u2014 attribute guidance; deny endorsement."
+    },
+    {
+      "id": "v1p78",
+      "query": "best dishwasher for hard water",
+      "url": "https://media3.bosch-home.com/Documents/9001964600_A.pdf?utm_source=openai",
+      "domain": "media3.bosch-home.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Bosch dishwasher manual/document PDF. Vendor documentation \u2014 attribute operating facts; deny endorsement."
+    },
+    {
+      "id": "v1p79",
+      "query": "best budget trail running shoes reddit",
+      "url": "https://www.reddit.com/r/trailrunning/comments/1g0gkd8?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/trailrunning thread. Open UGC discussion \u2014 attribute anecdotes; deny endorsement; parasitic none (real forum, not plant farm)."
+    },
+    {
+      "id": "v1p80",
+      "query": "best budget trail running shoes reddit",
+      "url": "https://www.reddit.com/r/trailrunning/comments/11e3zld/finding_good_trail_running_shoes_below_100_bucks/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/trailrunning budget shoes under $100 thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p81",
+      "query": "best budget trail running shoes reddit",
+      "url": "https://www.reddit.com/r/RunningShoeGeeks/comments/1tyd6a2/weekend_discussion_saucony_running_shoes/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/RunningShoeGeeks Saucony weekend discussion. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p82",
+      "query": "best budget trail running shoes reddit",
+      "url": "https://www.reddit.com/r/trailrunning/comments/1t7nqxs/road_cyclist_need_advice_for_budget_running_gear/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/trailrunning budget gear advice thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p83",
+      "query": "best budget trail running shoes reddit",
+      "url": "https://www.reddit.com/r/trailrunning/comments/uxgspy?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/trailrunning thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p84",
+      "query": "best budget trail running shoes reddit",
+      "url": "https://www.reddit.com/r/trailrunning/comments/1ozwbq2/whats_the_best_trail_running_shoes_for_beginners/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/trailrunning beginners trail shoes thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p85",
+      "query": "best home gym equipment forums",
+      "url": "https://thehiveindex.com/communities/r-homegym/?utm_source=openai",
+      "domain": "thehiveindex.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Hive Index directory page for r/homegym. Legitimate cross-platform community directory (not a brand plant farm). Useful to find the forum; do not endorse equipment from the directory page."
+    },
+    {
+      "id": "v1p86",
+      "query": "best home gym equipment forums",
+      "url": "https://gummysearch.com/r/GarageGym/?utm_source=openai",
+      "domain": "gummysearch.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "GummySearch r/GarageGym page \u2014 Reddit audience-research/marketing tool (service shut down late 2025). Thin secondary analytics page for marketers; downrank vs the actual forum; parasitic none (not a planted brand campaign)."
+    },
+    {
+      "id": "v1p87",
+      "query": "best home gym equipment forums",
+      "url": "https://startingstrength.com/resources/forum/gyms-and-equipment/94288-garage-gym-suggestions-uneven-floors-gym.html",
+      "domain": "startingstrength.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Starting Strength forum garage-gym thread. Real specialty strength forum \u2014 attribute member advice; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p88",
+      "query": "best home gym equipment forums",
+      "url": "https://t-nation.com/t/creating-a-home-gym/277260?utm_source=openai",
+      "domain": "t-nation.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "T-Nation home gym discussion thread. Long-running fitness forum \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p89",
+      "query": "best home gym equipment forums",
+      "url": "https://homegymforum.com/",
+      "domain": "homegymforum.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "HomeGymForum.com forum index. Real niche forum home \u2014 attribute community discussion; deny crowning equipment; parasitic none."
+    },
+    {
+      "id": "v1p90",
+      "query": "best home gym equipment forums",
+      "url": "https://podcasts.apple.com/us/podcast/16-rogue-or-rep-with-cost-in-mind-part-1-with-joe-gray/id1593736660?i=1000548366050&utm_source=openai",
+      "domain": "podcasts.apple.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Apple Podcasts episode on Rogue vs REP cost. Audio media with unclear sponsorship from cite alone \u2014 downrank; attribute opinions; deny endorsement."
+    },
+    {
+      "id": "v1p91",
+      "query": "best espresso machine under 500 reddit",
+      "url": "https://www.reddit.com/r/espresso/comments/1ruh0fp/whats_better_between_gaggia_classic_pro_pid_vs/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/espresso Gaggia Classic Pro PID comparison thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p92",
+      "query": "best espresso machine under 500 reddit",
+      "url": "https://www.reddit.com/r/espresso/comments/1smjdez/gaggia_classic_pro_e24_vs_breville_bambino_plus/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/espresso Gaggia vs Breville Bambino Plus thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p93",
+      "query": "best espresso machine under 500 reddit",
+      "url": "https://www.reddit.com/r/espresso/comments/1rrojvb/convince_me_not_to_get_the_cafelat_robot_500/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/espresso Cafelat Robot ~$500 thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p94",
+      "query": "best espresso machine under 500 reddit",
+      "url": "https://www.reddit.com/r/espresso/comments/1h6e8pl/does_anyone_have_this_or_any_other_manual/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/espresso manual machine discussion. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p95",
+      "query": "best espresso machine under 500 reddit",
+      "url": "https://www.reddit.com/r/espresso/comments/1jpfyc1?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/espresso thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p96",
+      "query": "best espresso machine under 500 reddit",
+      "url": "https://www.reddit.com/r/espresso/comments/16t15gb?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Reddit r/espresso thread. Real UGC \u2014 attribute; deny endorsement; parasitic none."
+    },
+    {
+      "id": "v1p97",
+      "query": "is Manscaped a legit brand?",
+      "url": "https://www.manscaped.com/pages/about?utm_source=openai",
+      "domain": "manscaped.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Manscaped About page. First-party brand story \u2014 attribute company claims; deny treating as proof of legitimacy alone. Research: real DTC brand sold at Target etc., but BBB pattern-of-complaints on subscriptions."
+    },
+    {
+      "id": "v1p98",
+      "query": "is Manscaped a legit brand?",
+      "url": "https://www.target.com/c/men-s-shaving/manscaped/-/N-4tevlZvcpal?utm_source=openai",
+      "domain": "target.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Target retailer category for Manscaped. Third-party retail presence supports 'real brand sold in stores' \u2014 attribute stocking; not an endorsement that practices are trustworthy."
+    },
+    {
+      "id": "v1p99",
+      "query": "is Manscaped a legit brand?",
+      "url": "https://www.businesswire.com/news/home/20211123005563/en/MANSCAPED-a-Leading-Mens-Lifestyle-and-Consumer-Brand-to-Become-a-Publicly-Traded-Company-via-Business-Combination-With-Bright-Lights-Acquisition-Corp.?utm_source=openai",
+      "domain": "businesswire.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Business Wire SPAC/deal press release (2021). Wire PR about corporate transaction \u2014 attribute that a deal was announced; not consumer trust proof."
+    },
+    {
+      "id": "v1p100",
+      "query": "is Manscaped a legit brand?",
+      "url": "https://www.bbb.org/us/ca/carlsbad/profile/hygiene-products/manscaped-1126-172020684?utm_source=openai",
+      "domain": "bbb.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "BBB Manscaped profile. Useful for complaint/accreditation facts with attribution; BBB does not endorse businesses. Research: accredited but rating withheld amid subscription complaint pattern."
+    },
+    {
+      "id": "v1p101",
+      "query": "is Manscaped a legit brand?",
+      "url": "https://www.trustpilot.com/review/manscaped.com?utm_source=openai",
+      "domain": "trustpilot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Trustpilot Manscaped reviews (~3.2/5, mixed; subscription complaints common). Aggregate UGC \u2014 attribute summary carefully; deny treating as sole legitimacy verdict or product endorsement."
+    },
+    {
+      "id": "v1p102",
+      "query": "is Ridge Wallet worth it or a scam?",
+      "url": "https://www.wired.com/review/ridge-wallet/",
+      "domain": "wired.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "WIRED Ridge Wallet review. Mainstream editorial review \u2014 attribute hands-on verdict; deny automatic 'buy' endorsement (worth-it is preference/price). Research: legitimate product, not a scam."
+    },
+    {
+      "id": "v1p103",
+      "query": "is Ridge Wallet worth it or a scam?",
+      "url": "https://ridge.com/pages/returns-exchanges%20?utm_source=openai",
+      "domain": "ridge.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Ridge returns/exchanges policy page. Brand policy \u2014 attribute terms; deny worth-it endorsement."
+    },
+    {
+      "id": "v1p104",
+      "query": "is Ridge Wallet worth it or a scam?",
+      "url": "https://ridge.com/collections/wallets/products/aluminum-black?variant=39585827979338&utm_source=openai",
+      "domain": "ridge.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Ridge aluminum wallet product page. Brand vendor \u2014 attribute specs/price; deny endorsement; not evidence of scam by itself."
+    },
+    {
+      "id": "v1p105",
+      "query": "is Ridge Wallet worth it or a scam?",
+      "url": "https://packhacker.com/travel-gear/the-ridge/wallet-titanium/",
+      "domain": "packhacker.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Pack Hacker Ridge titanium wallet review (affiliate-disclosed travel gear site). Attribute measured review; deny sole endorsement. Research: product is real premium wallet, not a scam."
+    },
+    {
+      "id": "v1p106",
+      "query": "is Ridge Wallet worth it or a scam?",
+      "url": "https://www.aarp.org/money/scams-fraud/rfid-wallets-purses//?utm_source=openai",
+      "domain": "aarp.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "AARP article on RFID wallets/scams context. Institutional consumer-protection framing \u2014 factual allow on RFID/scam education; does not endorse Ridge."
+    },
+    {
+      "id": "v1p107",
+      "query": "is Ridge Wallet worth it or a scam?",
+      "url": "https://ridge.com/pages/warranty-policy?utm_source=openai",
+      "domain": "ridge.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Ridge warranty policy page. Brand policy \u2014 attribute warranty claims; deny worth-it endorsement."
+    },
+    {
+      "id": "v1p108",
+      "query": "is Blueland a trustworthy brand?",
+      "url": "https://www.bcorporation.net/en-us/find-a-b-corp/company/one-home-brands-inc/?utm_source=openai",
+      "domain": "bcorporation.net",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "B Lab B Corp profile for One Home Brands / Blueland (score ~110). Third-party certification registry \u2014 factual allow for B Corp status; deny product endorsement."
+    },
+    {
+      "id": "v1p109",
+      "query": "is Blueland a trustworthy brand?",
+      "url": "https://assets.bbbprograms.org/docs/default-source/bbb-national-programs/case-digests/naddigest_2024_environmental.pdf",
+      "domain": "assets.bbbprograms.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "BBB National Programs NAD environmental case digests PDF. Secondary regulatory/advertising-case digest \u2014 attribute any case facts carefully; not a brand endorsement."
+    },
+    {
+      "id": "v1p110",
+      "query": "is Blueland a trustworthy brand?",
+      "url": "https://www.trustpilot.com/review/blueland.com?utm_source=openai",
+      "domain": "trustpilot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Trustpilot Blueland reviews. Aggregate UGC \u2014 attribute; deny sole trustworthiness verdict."
+    },
+    {
+      "id": "v1p111",
+      "query": "is Blueland a trustworthy brand?",
+      "url": "https://www.bbb.org/us/ny/new-york/profile/cleaning-supplies/blueland-0121-87139106",
+      "domain": "bbb.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "BBB Blueland business profile (not accredited). Use for complaint/history facts with attribution; BBB non-accreditation alone \u2260 scam."
+    },
+    {
+      "id": "v1p112",
+      "query": "is Blueland a trustworthy brand?",
+      "url": "https://www.epa.gov/saferchoice/2024-safer-choice-partner-year-award-winners",
+      "domain": "epa.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "EPA Safer Choice 2024 Partner of the Year winners page. Government recognition list \u2014 factual allow that Blueland/awardees appear; deny commercial product endorsement."
+    }
+  ],
+  "llm_labeler": {
+    "description": "Independent LLM labels added alongside human labels. Judgments from LABEL_GUIDE.md + open-web research on each URL/ecosystem. Did NOT use Anti-GEO heuristics, role_hint as answers, or system permission/risk outputs.",
+    "labeler": "cursor-composer-independent-research",
+    "guide": "data/permissions_eval/LABEL_GUIDE.md",
+    "labeled_at": "2026-08-04T08:02:38Z",
+    "n_pages": 112
+  }
+}

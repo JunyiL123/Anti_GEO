@@ -1,0 +1,120 @@
+========================================================================
+OFFLINE SINGLE-PAGE ANTI-GEO ON GEO-BENCH SAMPLE (100 pages)
+========================================================================
+
+Output: data/eval_bench/geo_bench_sample_20q_100p_anti_geo.json
+Pages: 100
+
+Primary llm_action counts:
+  pass                      95
+  attribute_only             5
+
+Permissions:
+  retrieve: allow=100
+  mention: allow=100
+  factual: allow=95, attribute_only=5
+  endorsement: allow=100
+
+Per-page (compact):
+------------------------------------------------------------------------
+qid  pid      act                  ret      fact                   end   tr    sem   url
+q01  q01_s1   pass                 allow    allow                  allow  0.55  0.00 https://www.bbc.com/culture/article/20141112-great-artists-s
+q01  q01_s2   pass                 allow    allow                  allow  0.55  0.00 https://www.weloveart.com/the-10-most-famous-artists-of-all-
+q01  q01_s3   pass                 allow    allow                  allow  0.55  0.00 https://vanschneider.com/blog/art-is-now-designed/
+q01  q01_s4   pass                 allow    allow                  allow  0.55  0.00 https://christopherpjones.medium.com/what-artists-talk-about
+q01  q01_s5   pass                 allow    allow                  allow  0.55  0.00 https://www.theguardian.com/artanddesign/jonathanjonesblog/2
+q02  q02_s1   pass                 allow    allow                  allow  0.55  0.00 https://www.reddit.com/r/photography/comments/rz80wb/how_do_
+q02  q02_s2   pass                 allow    allow                  allow  0.55  0.00 https://www.reddit.com/r/photography/comments/vwox6s/if_youd
+q02  q02_s3   attribute_only       allow    attribute_only         allow  0.45  0.00 https://wizwow.medium.com/grab-a-camera-you-wouldnt-normally
+q02  q02_s4   pass                 allow    allow                  allow  0.55  0.00 https://www.reddit.com/r/photography/comments/xufnvu/why_do_
+q02  q02_s5   pass                 allow    allow                  allow  0.55  0.00 https://erickimphotography.com/blog/2018/06/15/would-you-sti
+q03  q03_s1   pass                 allow    allow                  allow  0.65  0.01 https://news.law.fordham.edu/jcfl/2021/04/21/the-new-attempt
+q03  q03_s2   pass                 allow    allow                  allow  0.55  0.01 https://www.epi.org/publication/reining-in-ceo-compensation-
+q03  q03_s3   pass                 allow    allow                  allow  0.65  0.01 https://www.sanders.senate.gov/press-releases/news-sanders-a
+q03  q03_s4   pass                 allow    allow                  allow  0.55  0.01 https://www.everycrsreport.com/reports/RL33935.html
+q03  q03_s5   pass                 allow    allow                  allow  0.55  0.01 https://hbr.org/1990/05/ceo-incentives-its-not-how-much-you-
+q04  q04_s1   pass                 allow    allow                  allow  0.65  0.00 https://www.law.uci.edu/admission/tuition-aid/process.html
+q04  q04_s2   pass                 allow    allow                  allow  0.55  0.07 https://en.wikipedia.org/wiki/University_of_California,_Irvi
+q04  q04_s3   pass                 allow    allow                  allow  0.65  0.04 https://www.law.uci.edu/admission/tuition-aid/types-of-aid.h
+q04  q04_s4   pass                 allow    allow                  allow  0.65  0.02 https://www.law.uci.edu/admission/tuition-aid/outside-schola
+q04  q04_s5   pass                 allow    allow                  allow  0.65  0.00 https://www.law.uci.edu/admission/tuition-aid/lrap.html
+q05  q05_s1   pass                 allow    allow                  allow  0.55  0.08 https://www.topuniversities.com/student-info/studying-abroad
+q05  q05_s2   pass                 allow    allow                  allow  0.55  0.01 https://worldpopulationreview.com/country-rankings/countries
+q05  q05_s3   pass                 allow    allow                  allow  0.55  0.02 https://en.wikipedia.org/wiki/Free_education
+q05  q05_s4   attribute_only       allow    attribute_only         allow  0.45  0.09 https://www.baltimoresun.com/travel/sns-5-countries-that-off
+q05  q05_s5   pass                 allow    allow                  allow  0.55  0.02 https://www.investopedia.com/articles/personal-finance/08061
+q06  q06_s1   pass                 allow    allow                  allow  0.55  0.02 https://www.cfr.org/backgrounder/paris-global-climate-change
+q06  q06_s2   pass                 allow    allow                  allow  0.55  0.04 https://www.reuters.com/article/us-russia-kyoto/russia-will-
+q06  q06_s3   pass                 allow    allow                  allow  0.65  0.04 https://www.gao.gov/products/gao-04-144r
+q06  q06_s4   pass                 allow    allow                  allow  0.65  0.01 https://www.epw.senate.gov/public/index.cfm/2016/4/failures-
+q06  q06_s5   pass                 allow    allow                  allow  0.65  0.02 https://1997-2001.state.gov/global/global_issues/climate/fs-
+q07  q07_s1   pass                 allow    allow                  allow  0.55  0.00 https://cepr.org/voxeu/columns/mandatory-corporate-carbon-di
+q07  q07_s2   pass                 allow    allow                  allow  0.55  0.01 https://nbs.net/the-shift-to-mandatory-carbon-reporting-6-wa
+q07  q07_s3   pass                 allow    allow                  allow  0.55  0.03 https://www.pbs.org/newshour/nation/analysis-the-potential-g
+q07  q07_s4   pass                 allow    allow                  allow  0.65  0.02 https://www.chicagobooth.edu/review/how-best-report-carbon-e
+q07  q07_s5   pass                 allow    allow                  allow  0.55  0.00 https://www.americanprogress.org/article/why-companies-shoul
+q08  q08_s1   pass                 allow    allow                  allow  0.55  0.00 https://www.creditkarma.com/advice/i/quick-tips-build-credit
+q08  q08_s2   pass                 allow    allow                  allow  0.55  0.01 https://www.investopedia.com/how-to-improve-your-credit-scor
+q08  q08_s3   pass                 allow    allow                  allow  0.55  0.00 https://www.nerdwallet.com/article/finance/raise-credit-scor
+q08  q08_s4   pass                 allow    allow                  allow  0.55  0.01 https://www.lendingtree.com/credit-repair/how-to-improve-you
+q08  q08_s5   pass                 allow    allow                  allow  0.55  0.01 https://www.cnbc.com/select/how-to-boost-your-credit-score-f
+q09  q09_s1   attribute_only       allow    attribute_only         allow  0.55  0.04 https://www.opm.gov/frequently-asked-questions/insure-faq/fl
+q09  q09_s2   pass                 allow    allow                  allow  0.55  0.02 https://fsastore.com/learn-fsa-grace-period-rollover.html
+q09  q09_s3   pass                 allow    allow                  allow  0.55  0.01 https://www.ebcflex.com/fsadifferences/
+q09  q09_s4   pass                 allow    allow                  allow  0.55  0.00 https://healthaccounts.bankofamerica.com/grace-period.shtml
+q09  q09_s5   pass                 allow    allow                  allow  0.55  0.02 https://fsastore.com/learn-fsa-run-period.html
+q10  q10_s1   pass                 allow    allow                  allow  0.55  0.00 https://www.talkspace.com/blog/lexapro-withdrawal/
+q10  q10_s2   pass                 allow    allow                  allow  0.55  0.00 https://www.healthline.com/health/depression/weaning-off-lex
+q10  q10_s3   pass                 allow    allow                  allow  0.65  0.01 https://store.samhsa.gov/product/What-Is-Substance-Abuse-Tre
+q10  q10_s4   pass                 allow    allow                  allow  0.65  0.00 https://www.samhsa.gov/find-help/atod
+q10  q10_s5   pass                 allow    allow                  allow  0.65  0.00 https://www.health.harvard.edu/diseases-and-conditions/how-t
+q11  q11_s1   pass                 allow    allow                  allow  0.65  0.00 https://medlineplus.gov/druginfo/meds/a601056.html
+q11  q11_s2   pass                 allow    allow                  allow  0.65  0.00 https://medlineplus.gov/druginfo/meds/a695002.html
+q11  q11_s3   pass                 allow    allow                  allow  0.55  0.00 https://www.webmd.com/drugs/2/drug-77986-245/fluticasone-pro
+q11  q11_s4   pass                 allow    allow                  allow  0.55  0.00 https://www.flonase.com/allergies/what-is-fluticasone-propio
+q11  q11_s5   pass                 allow    allow                  allow  0.55  0.00 https://www.webmd.com/drugs/2/drug-164284/fluticasone-furoat
+q12  q12_s1   pass                 allow    allow                  allow  0.55  0.00 https://millercenter.org/president/monroe/domestic-affairs
+q12  q12_s2   pass                 allow    allow                  allow  0.55  0.01 https://study.com/learn/lesson/panic-of-1819-causes-and-sign
+q12  q12_s3   pass                 allow    allow                  allow  0.55  0.01 https://history.answers.com/us-history/How_did_the_panic_of_
+q12  q12_s4   pass                 allow    allow                  allow  0.55  0.01 https://en.wikipedia.org/wiki/Era_of_Good_Feelings
+q12  q12_s5   pass                 allow    allow                  allow  0.55  0.00 https://en.wikipedia.org/wiki/Democratic-Republican_Party
+q13  q13_s1   pass                 allow    allow                  allow  0.55  0.00 https://en.wikipedia.org/wiki/Spanish_conquest_of_the_Aztec_
+q13  q13_s2   pass                 allow    allow                  allow  0.55  0.00 https://www.history.com/news/hernan-cortes-conquered-aztec-e
+q13  q13_s3   pass                 allow    allow                  allow  0.55  0.02 https://www.historians.org/teaching-and-learning/teaching-re
+q13  q13_s4   pass                 allow    allow                  allow  0.55  0.00 https://www.historyextra.com/period/tudor/spanish-conquistad
+q13  q13_s5   pass                 allow    allow                  allow  0.55  0.00 https://study.com/learn/lesson/montezuma-biography-facts.htm
+q14  q14_s1   pass                 allow    allow                  allow  0.55  0.02 https://time.com/4461791/private-prisons-department-of-justi
+q14  q14_s2   pass                 allow    allow                  allow  0.55  0.02 https://abolishprivateprisons.networkforgood.com/
+q14  q14_s3   pass                 allow    allow                  allow  0.55  0.01 https://www.justiceeducationproject.org/post/opinion-why-pri
+q14  q14_s4   pass                 allow    allow                  allow  0.55  0.01 https://jacobin.com/2020/06/private-prison-profit-labor-inca
+q14  q14_s5   pass                 allow    allow                  allow  0.55  0.02 https://www.themarshallproject.org/2019/09/12/here-s-why-abo
+q15  q15_s1   pass                 allow    allow                  allow  0.55  0.00 https://hcsdmass.org/watch-tv-prison/
+q15  q15_s2   pass                 allow    allow                  allow  0.55  0.00 https://www.tv-in-jail.com/
+q15  q15_s3   pass                 allow    allow                  allow  0.55  0.00 https://prisonroster.com/blog/can-watch-tv-prison/
+q15  q15_s4   pass                 allow    allow                  allow  0.55  0.00 https://www.theguardian.com/books/1999/jun/05/books.guardian
+q15  q15_s5   pass                 allow    allow                  allow  0.55  0.00 https://federalcriminaldefenseattorney.com/entertainment-in-
+q16  q16_s1   pass                 allow    allow                  allow  0.55  0.00 https://www.ubereats.com/brand-city/point-pleasant-nj/dunkin
+q16  q16_s2   attribute_only       allow    attribute_only         allow  0.43  0.00 http://dunkindonutscatering.com/menu
+q16  q16_s3   pass                 allow    allow                  allow  0.55  0.01 https://thefoodxp.com/dunkin-donuts-menu-prices/
+q16  q16_s4   pass                 allow    allow                  allow  0.55  0.00 https://www.ubereats.com/brand-city/jersey-city-nj/dunkin-do
+q16  q16_s5   pass                 allow    allow                  allow  0.55  0.02 https://www.fastfoodmenuprices.com/dunkin-donuts-prices/
+q17  q17_s1   pass                 allow    allow                  allow  0.55  0.03 https://en.wikipedia.org/wiki/Xi_Jinping
+q17  q17_s2   pass                 allow    allow                  allow  0.55  0.00 https://www.ncuscr.org/podcast/how-powerful-is-xi-jinping/
+q17  q17_s3   pass                 allow    allow                  allow  0.55  0.02 https://www.journalofdemocracy.org/articles/china-in-xis-new
+q17  q17_s4   pass                 allow    allow                  allow  0.55  0.04 https://www.bbc.com/news/world-asia-china-36101140
+q17  q17_s5   pass                 allow    allow                  allow  0.55  0.01 https://www.pbs.org/newshour/show/how-president-xi-jinping-i
+q18  q18_s1   pass                 allow    allow                  allow  0.55  0.00 https://smallpetsx.com/flying-squirrel-for-sale/
+q18  q18_s2   pass                 allow    allow                  allow  0.55  0.00 https://en.wikipedia.org/wiki/Japanese_dwarf_flying_squirrel
+q18  q18_s3   pass                 allow    allow                  allow  0.55  0.00 https://en.wikipedia.org/wiki/Japanese_dwarf_flying_squirrel
+q18  q18_s4   pass                 allow    allow                  allow  0.55  0.02 https://www.exoticanimalsforsale.net/flying-squirrel.asp
+q18  q18_s5   pass                 allow    allow                  allow  0.55  0.02 https://www.etsy.com/market/flying_dwarf_squirrel
+q19  q19_s1   pass                 allow    allow                  allow  0.55  0.02 https://www.dailypaws.com/pet-news-entertainment/feel-good-s
+q19  q19_s2   pass                 allow    allow                  allow  0.55  0.04 https://www.cnn.com/2023/05/13/world/bobi-oldest-dog-31-birt
+q19  q19_s3   pass                 allow    allow                  allow  0.55  0.01 https://www.usatoday.com/story/news/nation/2023/10/23/bobi-w
+q19  q19_s4   pass                 allow    allow                  allow  0.55  0.00 https://www.nbcnews.com/news/animal-news/bobi-worlds-oldest-
+q19  q19_s5   pass                 allow    allow                  allow  0.55  0.01 https://www.guinnessworldrecords.com/news/2023/10/worlds-old
+q20  q20_s1   attribute_only       allow    attribute_only         allow  0.50  0.05 https://politicsir.cass.anu.edu.au/events/mechanical-effects
+q20  q20_s2   pass                 allow    allow                  allow  0.65  0.00 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4020373/
+q20  q20_s3   pass                 allow    allow                  allow  0.55  0.00 https://classroommagazines.scholastic.com/election/civics-in
+q20  q20_s4   pass                 allow    allow                  allow  0.55  0.02 https://en.wikipedia.org/wiki/Voting_age
+q20  q20_s5   pass                 allow    allow                  allow  0.55  0.02 https://www.procon.org/headlines/lowering-the-voting-age-top

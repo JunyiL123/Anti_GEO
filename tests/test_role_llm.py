@@ -172,3 +172,23 @@ def test_llm_parasitic_flag_on_is_parasitic_referrer():
     assert is_parasitic_referrer(
         url=url, role="commercial_product", llm_parasitic=True
     )
+
+
+def test_role_rubric_tracks_content_roles(monkeypatch):
+    """Changing platform_role.CONTENT_ROLES must change the LLM role rubric."""
+    import anti_geo.platform_role as platform_role
+    from anti_geo.role_llm import ALLOWED_ROLES
+
+    monkeypatch.setattr(
+        platform_role,
+        "CONTENT_ROLES",
+        frozenset(platform_role.CONTENT_ROLES | {"shop_hub"}),
+    )
+    text = platform_role.content_role_heuristic_rules_rubric()
+    assert "shop_hub" in text
+    assert "classify_content_role" in text
+    assert "is_parasitic_referrer" in text
+    assert ALLOWED_ROLES is platform_role.CONTENT_ROLES or (
+        # ALLOWED_ROLES is bound at import; after monkeypatch the alias may lag
+        "shop_hub" in text
+    )

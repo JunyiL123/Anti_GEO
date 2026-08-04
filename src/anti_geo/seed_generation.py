@@ -32,6 +32,53 @@ def _brand_hint(entity: str, role: str, commercial_tier: str) -> str:
     return ""
 
 
+# Neutral brand recall only — never complaint / "is X legit" / forum packs.
+ROUND2_NEUTRAL_SEED_LIMIT = 4
+
+
+def apply_neutral_brand_seeds(
+    queries: list[str],
+    meta: PageMetadata,
+    *,
+    url: str,
+    limit: int,
+    prepend_only: bool = False,
+) -> list[str]:
+    """Prepend neutral brand-mention seeds: entity, entity reviews, domain.
+
+    Does not add forum/legit/BBB complaint queries (those bias parasitic share).
+    """
+    domain = registrable_domain(urlparse(url).netloc)
+    entity = (meta.entity or "").strip()
+    extras: list[str] = []
+    if entity:
+        extras.append(entity)
+        extras.append(f"{entity} reviews")
+    if domain:
+        extras.append(domain)
+    for alias in list(meta.aliases or [])[:2]:
+        a = (alias or "").strip()
+        if a and a.casefold() != entity.casefold():
+            extras.append(a)
+
+    if prepend_only:
+        merged = _normalize_queries(extras + list(queries), limit=limit)
+    else:
+        # Prefer neutrals first, then keep existing unique queries.
+        merged = _normalize_queries(extras + list(queries), limit=limit)
+    return merged
+
+
+def neutral_brand_seeds_round2(
+    meta: PageMetadata,
+    *,
+    url: str,
+    limit: int = ROUND2_NEUTRAL_SEED_LIMIT,
+) -> list[str]:
+    """Small second-pass seed set when round 1 yields n_verified==0."""
+    return apply_neutral_brand_seeds([], meta, url=url, limit=limit, prepend_only=True)
+
+
 def _metadata_blob(
     *,
     url: str,
@@ -186,5 +233,19 @@ def resolve_seed_queries(
     if pack in ("forum", "forums"):
         queries = apply_forum_seed_pack(queries, meta, limit=limit)
         source_label = f"{source_label}+forum"
+
+    # Neutral brand recall (not complaint/forum pack) for commercial-ish pages.
+    commercial_tier = page_context.commercial_tier if page_context else "none"
+    if _brand_hint(meta.entity, role, commercial_tier) or role in (
+        "commercial_product",
+        "review_profile",
+        "expert_listicle",
+    ):
+        before = list(queries)
+        queries = apply_neutral_brand_seeds(
+            queries, meta, url=url, limit=limit
+        )
+        if queries != before:
+            source_label = f"{source_label}+neutral"
 
     return queries, source_label, base_confidence

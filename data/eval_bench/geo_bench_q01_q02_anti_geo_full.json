@@ -1,0 +1,381 @@
+{
+  "queries": [
+    {
+      "query_id": "q01",
+      "query": "Why are great artists more famous for their paintings than for their drawings?",
+      "tags": [
+        "intermediate",
+        "informational",
+        "arts and entertainment",
+        "non-technical",
+        "question",
+        "fact",
+        "non-sensitive",
+        "research"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q01_s1",
+          "source_rank": 1,
+          "url": "https://www.bbc.com/culture/article/20141112-great-artists-steal",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0017964071856287425,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 7.578592814371257e-05,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0017964071856287425,
+          "endorsement_risk": 7.578592814371257e-05,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s2",
+          "source_rank": 2,
+          "url": "https://www.weloveart.com/the-10-most-famous-artists-of-all-time/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.07500000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s3",
+          "source_rank": 3,
+          "url": "https://vanschneider.com/blog/art-is-now-designed/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s4",
+          "source_rank": 4,
+          "url": "https://christopherpjones.medium.com/what-artists-talk-about-when-they-talk-about-their-art-14373a87b452",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.0,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q01_s5",
+          "source_rank": 5,
+          "url": "https://www.theguardian.com/artanddesign/jonathanjonesblog/2011/aug/19/art-popular-monet-van-gogh",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.05714285714285714,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "query_id": "q02",
+      "query": "What wouldn't you photograph?",
+      "tags": [
+        "simple",
+        "informational",
+        "arts and entertainment",
+        "non-technical",
+        "question",
+        "opinion",
+        "non-sensitive",
+        "research"
+      ],
+      "query_intent": "informational",
+      "pages": [
+        {
+          "page_id": "q02_s1",
+          "source_rank": 1,
+          "url": "https://www.reddit.com/r/photography/comments/rz80wb/how_do_you_ask_to_take_pictures_of_others_cars/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q02_s2",
+          "source_rank": 2,
+          "url": "https://www.reddit.com/r/photography/comments/vwox6s/if_youd_live_in_a_city_which_didnt_inspire_you/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q02_s3",
+          "source_rank": 3,
+          "url": "https://wizwow.medium.com/grab-a-camera-you-wouldnt-normally-use-and-make-some-images-of-stuff-you-normally-wouldn-t-shoot-301fe63eab67",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.8,
+            "source_trust": 0.45000000000000007,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.2,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.45,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.45000000000000007,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded",
+            "quote_citation_heavy"
+          ],
+          "domain_signals": [],
+          "reasons": [
+            "thin_content"
+          ]
+        },
+        {
+          "page_id": "q02_s4",
+          "source_rank": 4,
+          "url": "https://www.reddit.com/r/photography/comments/xufnvu/why_do_you_take_photographs_what_do_you_actually/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.13333333333333333,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.63,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [
+            "front_loaded",
+            "quote_citation_heavy"
+          ],
+          "domain_signals": [],
+          "reasons": []
+        },
+        {
+          "page_id": "q02_s5",
+          "source_rank": 5,
+          "url": "https://erickimphotography.com/blog/2018/06/15/would-you-still-take-photos-if-nobody-else-would-ever-see-your-photos/",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "recommended_action": "pass",
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.55,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.12,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.35,
+            "concealment_risk": 0.0
+          },
+          "trust_score": 0.55,
+          "semantic_risk": 0.0,
+          "endorsement_risk": 0.0,
+          "content_flags": [],
+          "domain_signals": [],
+          "reasons": []
+        }
+      ]
+    }
+  ]
+}

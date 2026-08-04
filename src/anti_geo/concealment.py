@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 from anti_geo.content_signals import extract_content_signals
 from anti_geo.models import ConcealmentSignals
+from anti_geo.page_context import tag_in_chrome
 
 # Mark on soup tags so fetch/segments can strip the same subtrees.
 CONCEALED_ATTR = "data-anti-geo-concealed"
@@ -115,6 +116,43 @@ _GEO_L1_FLAGS = frozenset(
         "comparative_superlatives",
         "front_loaded",
     }
+)
+
+# Soft downrank band — schema vs body divergence / inflation (not presence alone).
+SCHEMA_MISMATCH_FLAGS = frozenset(
+    {
+        "schema_faq_body_mismatch",
+        "schema_faq_dual_channel_stuffed",
+        "schema_rating_without_reviews",
+        "schema_rating_templated_reviews",
+        "schema_sameas_inflated",
+    }
+)
+
+_HOWTO_SCHEMA_TYPES = frozenset({"HowTo", "HowToStep", "HowToDirection", "HowToTip"})
+_SAMEAS_ENTITY_TYPES = frozenset(
+    {"Organization", "Person", "Corporation", "LocalBusiness", "Brand"}
+)
+_STRONG_SAMEAS_SUFFIXES = (
+    "wikipedia.org",
+    "linkedin.com",
+    "twitter.com",
+    "x.com",
+    "facebook.com",
+    "instagram.com",
+    "youtube.com",
+    "github.com",
+    "crunchbase.com",
+)
+_WEAK_SAMEAS_HOST_HINTS = (
+    "bit.ly",
+    "tinyurl",
+    "linktr.ee",
+    "bio.link",
+    "carrd.co",
+    "about.me",
+    "profile.",
+    "profiles.",
 )
 
 
@@ -315,6 +353,43 @@ def _structured_channel_texts(soup: BeautifulSoup) -> list[tuple[str, str]]:
     return out
 
 
+_BEST_PHRASE_RE = re.compile(r"\bbest\b.{0,40}", re.I)
+_COMPARATIVE_HIT_RE = re.compile(
+    r"\b(?:best|#\s*1|ranked|leading|outperforms?|superior|experts?)\b",
+    re.I,
+)
+
+
+def _chrome_rhetoric_is_dense(text: str) -> bool:
+    """Non-trivial chrome: long block or repeated Best/#1/leading packaging."""
+    if _word_count(text) >= 40:
+        return True
+    comparative_hits = len(_COMPARATIVE_HIT_RE.findall(text or ""))
+    if comparative_hits >= 3:
+        return True
+    best_phrases = {m.group(0).lower().strip() for m in _BEST_PHRASE_RE.finditer(text or "")}
+    if len(best_phrases) >= 2:
+        return True
+    ranked = len(re.findall(r"\b(?:#\s*1|ranked)\b", text or "", re.I))
+    if len(best_phrases) >= 1 and ranked >= 1:
+        return True
+    return False
+
+
+def _l1_rhetoric_diverges(hidden_text: str, visible_text: str) -> bool:
+    if _word_count(hidden_text) < 8:
+        return False
+    hidden_sigs = extract_content_signals(hidden_text)
+    visible_sigs = extract_content_signals(visible_text) if visible_text else None
+    hidden_geo = set(hidden_sigs.flags) & _GEO_L1_FLAGS
+    visible_geo = set(visible_sigs.flags) & _GEO_L1_FLAGS if visible_sigs else set()
+    if not hidden_geo:
+        return False
+    if hidden_geo & visible_geo and not (hidden_geo - visible_geo):
+        return False
+    return not visible_geo or bool(hidden_geo - visible_geo)
+
+
 def _meta_diverges(meta_text: str, visible_text: str) -> bool:
     """True when meta looks like a distinct payload vs body (or has instructions)."""
     if _has_instruction_pattern(meta_text):
@@ -325,6 +400,352 @@ def _meta_diverges(meta_text: str, visible_text: str) -> bool:
         return False
     overlap = len(meta_tokens & vis_tokens) / max(len(meta_tokens), 1)
     return overlap < 0.25 and len(meta_tokens) >= 5
+
+
+def _as_list(node: object) -> list:
+    if node is None:
+        return []
+    if isinstance(node, list):
+        return node
+    return [node]
+
+
+def _schema_types(item: dict) -> set[str]:
+    raw = item.get("@type", "")
+    if isinstance(raw, list):
+        return {str(x).split("/")[-1] for x in raw}
+    if raw:
+        return {str(raw).split("/")[-1]}
+    return set()
+
+
+def _walk_jsonld_nodes(node: object) -> list[dict]:
+    """Flatten JSON-LD dicts including @graph (same shape as page_identity)."""
+    out: list[dict] = []
+    if isinstance(node, dict):
+        if "@graph" in node:
+            for child in _as_list(node["@graph"]):
+                out.extend(_walk_jsonld_nodes(child))
+        else:
+            out.append(node)
+            for key in (
+                "mainEntity",
+                "acceptedAnswer",
+                "suggestedAnswer",
+                "step",
+                "itemListElement",
+                "review",
+                "aggregateRating",
+                "author",
+                "brand",
+                "publisher",
+                "provider",
+            ):
+                if key in node:
+                    out.extend(_walk_jsonld_nodes(node[key]))
+    elif isinstance(node, list):
+        for child in node:
+            out.extend(_walk_jsonld_nodes(child))
+    return out
+
+
+def _iter_jsonld_nodes(soup: BeautifulSoup) -> list[dict]:
+    nodes: list[dict] = []
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = (script.string or script.get_text() or "").strip()
+        if not raw:
+            continue
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        nodes.extend(_walk_jsonld_nodes(data))
+    return nodes
+
+
+def _token_set(text: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]{4,}", (text or "").lower()))
+
+
+def _token_overlap_ratio(needle: str, haystack: str) -> float:
+    """Fraction of needle tokens present in haystack (0 if needle empty → 1.0)."""
+    a = _token_set(needle)
+    if not a:
+        return 1.0
+    b = _token_set(haystack)
+    return len(a & b) / len(a)
+
+
+def _text_field(node: object) -> str:
+    if isinstance(node, str):
+        return _normalize_ws(node)
+    if isinstance(node, dict):
+        for key in ("text", "name", "description", "reviewBody", "answer"):
+            if key in node:
+                got = _text_field(node[key])
+                if got:
+                    return got
+    return ""
+
+
+def _collect_faq_howto_chunks(nodes: list[dict]) -> tuple[list[str], int]:
+    """Return (answer/step text chunks, question count)."""
+    chunks: list[str] = []
+    q_count = 0
+    for item in nodes:
+        types = _schema_types(item)
+        if "Question" in types:
+            q_count += 1
+            for ans_key in ("acceptedAnswer", "suggestedAnswer"):
+                for ans in _as_list(item.get(ans_key)):
+                    text = _text_field(ans)
+                    if text:
+                        chunks.append(text)
+        if types & _HOWTO_SCHEMA_TYPES:
+            for key in ("text", "name", "description"):
+                text = _text_field(item.get(key))
+                if text and _word_count(text) >= 3:
+                    chunks.append(text)
+            for step in _as_list(item.get("step")):
+                text = _text_field(step)
+                if text:
+                    chunks.append(text)
+    seen: set[str] = set()
+    unique: list[str] = []
+    for c in chunks:
+        key = c.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(c)
+    return unique, q_count
+
+
+def _faq_howto_mismatches_body(nodes: list[dict], visible_text: str) -> bool:
+    chunks, q_count = _collect_faq_howto_chunks(nodes)
+    if not chunks:
+        return False
+    schema_words = _word_count(" ".join(chunks))
+    size_ok = q_count >= 5 or schema_words >= 150 or len(chunks) >= 5
+    if not size_ok:
+        return False
+    overlaps = [_token_overlap_ratio(c, visible_text) for c in chunks]
+    mean_overlap = sum(overlaps) / max(len(overlaps), 1)
+    vis_words = _word_count(visible_text)
+    dwarfs = schema_words >= 150 and vis_words > 0 and schema_words / vis_words >= 3.0
+    return mean_overlap < 0.25 or (dwarfs and mean_overlap < 0.4)
+
+
+def _faq_text_looks_stuffed(text: str) -> bool:
+    """Comparative / authority packaging in FAQ copy (bland how-to stays clean)."""
+    if not (text or "").strip():
+        return False
+    hits = len(_COMPARATIVE_HIT_RE.findall(text))
+    if hits >= 3:
+        return True
+    best_phrases = {
+        m.group(0).lower().strip() for m in _BEST_PHRASE_RE.finditer(text)
+    }
+    if len(best_phrases) >= 2 and hits >= 2:
+        return True
+    # Authority stacking phrases common in GEO FAQ stuffing.
+    authority = len(
+        re.findall(
+            r"\b(?:according to experts?|industry[\s-]?leading|top[\s-]?rated|"
+            r"must[\s-]?have|highly recommended)\b",
+            text,
+            re.I,
+        )
+    )
+    return authority >= 2 and hits >= 1
+
+
+def _faq_howto_dual_channel_stuffed(nodes: list[dict], visible_text: str) -> bool:
+    """Large FAQ mirrored on-page *and* stuffed with comparative/GEO rhetoric."""
+    chunks, q_count = _collect_faq_howto_chunks(nodes)
+    if not chunks:
+        return False
+    joined = " ".join(chunks)
+    schema_words = _word_count(joined)
+    size_ok = q_count >= 5 or schema_words >= 150 or len(chunks) >= 5
+    if not size_ok:
+        return False
+    overlaps = [_token_overlap_ratio(c, visible_text) for c in chunks]
+    mean_overlap = sum(overlaps) / max(len(overlaps), 1)
+    if mean_overlap < 0.6:
+        return False
+    return _faq_text_looks_stuffed(joined)
+
+
+def _parse_float(raw: object) -> float | None:
+    if raw is None:
+        return None
+    try:
+        return float(str(raw).strip().replace(",", ""))
+    except (TypeError, ValueError):
+        return None
+
+
+def _parse_int(raw: object) -> int | None:
+    val = _parse_float(raw)
+    if val is None:
+        return None
+    return int(val)
+
+
+def _visible_review_evidence(visible_text: str, review_bodies: list[str]) -> bool:
+    if not (visible_text or "").strip():
+        return False
+    bodies_on_page = sum(
+        1 for b in review_bodies if b and _token_overlap_ratio(b, visible_text) >= 0.5
+    )
+    if bodies_on_page >= 2:
+        return True
+    lower = visible_text.lower()
+    reviewish = len(re.findall(r"\breviews?\b", lower))
+    stars = len(re.findall(r"\b(?:stars?|out of 5|/\s*5)\b", lower))
+    return reviewish >= 3 or (reviewish >= 1 and stars >= 2)
+
+
+def _rating_without_reviews(nodes: list[dict], visible_text: str) -> bool:
+    extreme_aggregate, review_bodies = _collect_rating_and_reviews(nodes)
+
+    if extreme_aggregate and not _visible_review_evidence(visible_text, review_bodies):
+        return True
+    if len(review_bodies) >= 5:
+        missing = sum(
+            1 for b in review_bodies if _token_overlap_ratio(b, visible_text) < 0.25
+        )
+        if missing / len(review_bodies) >= 0.7:
+            return True
+    return False
+
+
+def _collect_rating_and_reviews(
+    nodes: list[dict],
+) -> tuple[bool, list[str]]:
+    """Return (extreme_aggregate, review_bodies)."""
+    review_bodies: list[str] = []
+    extreme_aggregate = False
+    for item in nodes:
+        types = _schema_types(item)
+        if "Review" in types:
+            body = _normalize_ws(str(item.get("reviewBody") or ""))
+            if body:
+                review_bodies.append(body)
+        candidates: list[dict] = []
+        agg = item.get("aggregateRating")
+        if isinstance(agg, dict):
+            candidates.append(agg)
+        if "AggregateRating" in types:
+            candidates.append(item)
+        for cand in candidates:
+            rating = _parse_float(cand.get("ratingValue"))
+            count = _parse_int(
+                cand.get("ratingCount")
+                if cand.get("ratingCount") is not None
+                else cand.get("reviewCount")
+            )
+            if rating is not None and count is not None and rating >= 4.5 and count >= 50:
+                extreme_aggregate = True
+    return extreme_aggregate, review_bodies
+
+
+def _pair_similarity(a: str, b: str) -> float:
+    """Symmetric token-overlap similarity in [0, 1]."""
+    if not a or not b:
+        return 0.0
+    return (
+        _token_overlap_ratio(a, b) + _token_overlap_ratio(b, a)
+    ) / 2.0
+
+
+def _review_bodies_look_templated(bodies: list[str]) -> bool:
+    """True when most pairwise similarities among bodies are near-duplicates."""
+    if len(bodies) < 3:
+        return False
+    high = 0
+    total = 0
+    for i in range(len(bodies)):
+        for j in range(i + 1, len(bodies)):
+            total += 1
+            if _pair_similarity(bodies[i], bodies[j]) >= 0.7:
+                high += 1
+    return total > 0 and high / total >= 0.5
+
+
+def _rating_templated_reviews(nodes: list[dict], visible_text: str) -> bool:
+    """Extreme AggregateRating plus on-page review bodies that look cloned."""
+    extreme, review_bodies = _collect_rating_and_reviews(nodes)
+    if not extreme or len(review_bodies) < 3:
+        return False
+    on_page = [
+        b for b in review_bodies if _token_overlap_ratio(b, visible_text) >= 0.5
+    ]
+    if len(on_page) < 3:
+        return False
+    return _review_bodies_look_templated(on_page)
+
+
+def _host_from_url(url: str) -> str:
+    m = re.match(r"^https?://([^/]+)", (url or "").strip(), re.I)
+    if not m:
+        return ""
+    return m.group(1).lower().removeprefix("www.")
+
+
+def _is_strong_sameas_host(host: str) -> bool:
+    if not host:
+        return False
+    return any(host == s or host.endswith("." + s) for s in _STRONG_SAMEAS_SUFFIXES)
+
+
+def _sameas_inflated(nodes: list[dict]) -> bool:
+    for item in nodes:
+        types = _schema_types(item)
+        if not (types & _SAMEAS_ENTITY_TYPES):
+            continue
+        same_as = [
+            str(u).strip()
+            for u in _as_list(item.get("sameAs"))
+            if isinstance(u, str) and u.strip()
+        ]
+        if len(same_as) < 8:
+            continue
+        hosts = [h for h in (_host_from_url(u) for u in same_as) if h]
+        if len(hosts) < 8:
+            continue
+        unique_hosts = set(hosts)
+        strong = sum(1 for h in hosts if _is_strong_sameas_host(h))
+        weak = sum(1 for h in hosts if any(hint in h for hint in _WEAK_SAMEAS_HOST_HINTS))
+        dup_ratio = 1.0 - (len(unique_hosts) / max(len(hosts), 1))
+        weak_or_unknown = len(hosts) - strong
+        if weak_or_unknown >= 6 or dup_ratio >= 0.35 or weak >= 4:
+            return True
+    return False
+
+
+def detect_schema_mismatch_flags(
+    soup: BeautifulSoup,
+    visible_text: str,
+) -> list[str]:
+    """Divergence / inflation flags; presence of FAQ/Review alone is not enough."""
+    nodes = _iter_jsonld_nodes(soup)
+    if not nodes:
+        return []
+    flags: list[str] = []
+    if _faq_howto_mismatches_body(nodes, visible_text):
+        flags.append("schema_faq_body_mismatch")
+    elif _faq_howto_dual_channel_stuffed(nodes, visible_text):
+        # Mirrored stuffing is the complement of mismatch; mutually exclusive.
+        flags.append("schema_faq_dual_channel_stuffed")
+    if _rating_without_reviews(nodes, visible_text):
+        flags.append("schema_rating_without_reviews")
+    elif _rating_templated_reviews(nodes, visible_text):
+        flags.append("schema_rating_templated_reviews")
+    if _sameas_inflated(nodes):
+        flags.append("schema_sameas_inflated")
+    return flags
 
 
 def strip_concealed_elements(soup: BeautifulSoup) -> None:
@@ -404,12 +825,13 @@ def _extract_from_soup(
             if _has_instruction_pattern(text):
                 structured_flagged_parts.append(text)
 
-    # Classify DOM blocks: a11y allowlist vs suspicious.
+    # Classify DOM blocks: a11y allowlist vs suspicious; split chrome vs body.
     suspicious_texts: list[str] = []
+    chrome_suspicious_texts: list[str] = []
+    non_chrome_suspicious_texts: list[str] = []
     a11y_instruction_texts: list[str] = []
     block_count = 0
     for tag, text, a11y in zip(marked, dom_texts, a11y_flags, strict=True):
-        _ = tag
         has_instr = _has_instruction_pattern(text)
         if a11y and not has_instr:
             # Benign screen-reader chrome: keep marked (out of visible) but no flag.
@@ -418,6 +840,10 @@ def _extract_from_soup(
         if a11y and has_instr:
             a11y_instruction_texts.append(text)
         suspicious_texts.append(text)
+        if tag_in_chrome(tag):
+            chrome_suspicious_texts.append(text)
+        else:
+            non_chrome_suspicious_texts.append(text)
 
     hidden_corpus = _normalize_ws(" ".join(suspicious_texts + structured_flagged_parts))
     all_concealed = _normalize_ws(
@@ -452,18 +878,19 @@ def _extract_from_soup(
     if _has_instruction_pattern(combined_hidden) or a11y_instruction_texts:
         flags.append("hidden_instruction_pattern")
 
-    # Hidden GEO rhetoric: L1 flags in already-suspicious concealed text only.
-    # Do not fall back to all structured_parts — benign JSON-LD would L1-score.
-    concealed_for_l1 = " ".join(suspicious_texts + structured_flagged_parts)
-    if _word_count(concealed_for_l1) >= 8:
-        hidden_sigs = extract_content_signals(concealed_for_l1)
-        visible_sigs = extract_content_signals(visible_text) if visible_text else None
-        hidden_geo = set(hidden_sigs.flags) & _GEO_L1_FLAGS
-        visible_geo = set(visible_sigs.flags) & _GEO_L1_FLAGS if visible_sigs else set()
-        if hidden_geo and not (hidden_geo & visible_geo):
-            # Divergence: concealed has GEO rhetoric visible lacks (or different).
-            if not visible_geo or hidden_geo - visible_geo:
-                flags.append("hidden_geo_rhetoric")
+    # Hidden GEO rhetoric: non-chrome CSS-hidden + flagged structured only.
+    # Chrome boilerplate gets a softer path (or ignore if trivial).
+    non_chrome_for_l1 = " ".join(non_chrome_suspicious_texts + structured_flagged_parts)
+    if _l1_rhetoric_diverges(non_chrome_for_l1, visible_text):
+        flags.append("hidden_geo_rhetoric")
+
+    chrome_for_l1 = " ".join(chrome_suspicious_texts)
+    if (
+        "hidden_geo_rhetoric" not in flags
+        and _chrome_rhetoric_is_dense(chrome_for_l1)
+        and _l1_rhetoric_diverges(chrome_for_l1, visible_text)
+    ):
+        flags.append("hidden_chrome_rhetoric")
 
     # Visible-body IPI (footer directives, etc.) — same patterns, not CSS-hidden.
     visible_instruction = bool(visible_text and _has_instruction_pattern(visible_text))
@@ -513,6 +940,11 @@ def _extract_from_soup(
         promo_corpus_parts.append(visible_text)
     if promo_corpus_parts and _has_promotional_instruction(" ".join(promo_corpus_parts)):
         flags.append("promotional_instruction_pattern")
+
+    # Schema ↔ body mismatch / inflation (soft). After chrome cleanup so flags stick.
+    for flag in detect_schema_mismatch_flags(soup, visible_text):
+        if flag not in flags:
+            flags.append(flag)
 
     signals = ConcealmentSignals(
         visible_word_count=vis_words,
@@ -628,6 +1060,9 @@ def compute_concealment_risk(
     - Hidden / structured / promotional-visible IPI → ``>= 0.9`` (reject band)
     - Visible instructional quotes without site promotion → ``0.55`` (downrank)
     - Hidden GEO rhetoric alone → ``0.55`` (downrank)
+    - Dense chrome-only hidden rhetoric → ``0.35`` (soft; below retrieve downrank)
+    - Schema FAQ/rating/sameAs mismatch, dual-channel FAQ stuffing, or
+      templated reviews → ``0.55`` (downrank)
 
     CSS hidden-ratio, offscreen chrome, and structured markup alone are ignored:
     paywall gates and news-site nav routinely inflate those without being GEO.
@@ -654,5 +1089,9 @@ def compute_concealment_risk(
         # Educational / explanatory quotes of PI wording — demote, do not auto-reject.
         risk = max(risk, 0.55)
     if "hidden_geo_rhetoric" in flags:
+        risk = max(risk, 0.55)
+    if "hidden_chrome_rhetoric" in flags:
+        risk = max(risk, 0.35)
+    if flags & SCHEMA_MISMATCH_FLAGS:
         risk = max(risk, 0.55)
     return min(1.0, risk)

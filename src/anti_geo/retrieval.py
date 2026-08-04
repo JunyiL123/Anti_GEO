@@ -141,13 +141,23 @@ def _source_permissions(
     query_intent: str,
     config: DefenseConfig,
 ) -> SourcePermissions:
+    role = classify_content_role(source.url, source=source)
     subscores = compute_subscores(source, query, query_intent, config)
     fetch_failure = _fetch_failure_kind(source) if not source.fetch_ok else None
+    concealment_flags = (
+        list(source.concealment.flags)
+        if source.concealment is not None
+        else None
+    )
     return derive_permissions(
         subscores,
         fetch_failure_kind=fetch_failure,
         has_persuasive_content=_has_persuasive_content(source),
         config=config,
+        content_role=role,
+        query_intent=query_intent,
+        query=query,
+        concealment_flags=concealment_flags,
     )
 
 

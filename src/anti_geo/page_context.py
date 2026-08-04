@@ -92,7 +92,12 @@ def _is_chrome_region(tag: Tag) -> bool:
     return bool(_CHROME_CLASS_RE.search(_class_id_blob(tag)))
 
 
-def _anchor_in_chrome(tag: Tag) -> bool:
+def tag_in_chrome(tag: Tag) -> bool:
+    """True if tag or an ancestor is site chrome (nav/footer/cookie/menu…)."""
+    if not isinstance(tag, Tag):
+        return False
+    if _is_chrome_region(tag):
+        return True
     for parent in tag.parents:
         if not isinstance(parent, Tag):
             continue
@@ -101,6 +106,10 @@ def _anchor_in_chrome(tag: Tag) -> bool:
         if _is_chrome_region(parent):
             return True
     return False
+
+
+def _anchor_in_chrome(tag: Tag) -> bool:
+    return tag_in_chrome(tag)
 
 
 def _main_content_root(soup: BeautifulSoup) -> Tag:

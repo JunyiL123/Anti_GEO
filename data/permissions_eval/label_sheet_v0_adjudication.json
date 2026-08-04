@@ -1,0 +1,1619 @@
+{
+  "description": "Combined human vs LLM adjudication sheet for permissions_eval label_sheet_v0. For each page, adjudicated_labels is pre-filled from human/LLM agreement: when both agree on a field, that value is copied; when they disagree, the field is null and must be filled by a human adjudicator. Do not mutate the source sheets.",
+  "created_at": "2026-07-24T07:06:25Z",
+  "sources": {
+    "human": "data/permissions_eval/label_sheet_v0.json",
+    "llm": "data/permissions_eval/label_sheet_v0_llm.json",
+    "guide": "data/permissions_eval/LABEL_GUIDE.md"
+  },
+  "fields": [
+    "retrieve_permission",
+    "mention_permission",
+    "factual_permission",
+    "endorsement_permission",
+    "parasitic"
+  ],
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "prefill_rule": "If human_labels[field] == llm_labels[field], copy into adjudicated_labels[field]; else set adjudicated_labels[field] = null (needs human choice).",
+  "n_pages": 42,
+  "n_needs_adjudication": 16,
+  "n_field_disagreements": 22,
+  "field_disagreement_counts": {
+    "endorsement_permission": 3,
+    "factual_permission": 12,
+    "retrieve_permission": 6,
+    "parasitic": 1
+  },
+  "pages": [
+    {
+      "id": "p01",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+      "domain": "sleepfoundation.org",
+      "role_hint": "clean_review_or_institutional",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p02",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2803%2914792-7/fulltext",
+      "domain": "thelancet.com",
+      "role_hint": "clean_review_or_institutional",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p03",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+      "domain": "rtings.com",
+      "role_hint": "clean_review_or_institutional",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true,
+      "human_note": "this is the one that is closest to endorsement_permission=true"
+    },
+    {
+      "id": "p04",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney",
+      "domain": "fda.gov",
+      "role_hint": "institutional_clean",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p05",
+      "query": "best weight loss supplements that work",
+      "url": "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+      "domain": "ods.od.nih.gov",
+      "role_hint": "institutional_clean",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p06",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.nccih.nih.gov/health/providers/digest/dietary-supplements-marketed-for-weight-loss-bodybuilding-and-sexual-enhancement-science",
+      "domain": "nccih.nih.gov",
+      "role_hint": "institutional_clean",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p07",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/drugs/medication-health-fraud-notifications/weight-loss-product-notifications",
+      "domain": "fda.gov",
+      "role_hint": "institutional_clean",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p08",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+      "domain": "fda.gov",
+      "role_hint": "institutional_clean",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p09",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+      "domain": "the-independent.com",
+      "role_hint": "medical_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p10",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.vanicream.com/product/vanicream-moisturizing-cream",
+      "domain": "vanicream.com",
+      "role_hint": "medical_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p11",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://nationaleczema.org/treatments/moisturizing/",
+      "domain": "nationaleczema.org",
+      "role_hint": "medical_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p12",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/pick-moisturizer",
+      "domain": "aad.org",
+      "role_hint": "medical_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p13",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/",
+      "domain": "security.org",
+      "role_hint": "vpn_listicle_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p14",
+      "query": "best VPN 2026",
+      "url": "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+      "domain": "uk.pcmag.com",
+      "role_hint": "vpn_listicle_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p15",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/no-log/",
+      "domain": "security.org",
+      "role_hint": "vpn_listicle_or_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p16",
+      "query": "best VPN 2026",
+      "url": "https://protonvpn.com/blog/no-logs-audit",
+      "domain": "protonvpn.com",
+      "role_hint": "commercial_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true,
+      "human_note": "bucket=review_framed; target=https://www.security.org/vpn/best/"
+    },
+    {
+      "id": "p17",
+      "query": "best VPN 2026",
+      "url": "https://www.pcworld.com/article/616724/fastest-vpn.html",
+      "domain": "pcworld.com",
+      "role_hint": "commercial_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "human_note": "bucket=hard_endorsement; target=https://www.security.org/vpn/best/"
+    },
+    {
+      "id": "p18",
+      "query": "best VPN 2026",
+      "url": "https://cybernews.com/vpn/protonvpn-review/pricing/",
+      "domain": "cybernews.com",
+      "role_hint": "commercial_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "human_note": "bucket=hard_endorsement; target=https://www.security.org/vpn/best/"
+    },
+    {
+      "id": "p19",
+      "query": "best password manager for small business",
+      "url": "https://1password.com/pricing/password-manager",
+      "domain": "1password.com",
+      "role_hint": "vendor_pricing",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p20",
+      "query": "best password manager for small business",
+      "url": "https://bitwarden.com/pricing/business/",
+      "domain": "bitwarden.com",
+      "role_hint": "vendor_pricing",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p21",
+      "query": "best password manager for small business",
+      "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+      "domain": "keepersecurity.com",
+      "role_hint": "vendor_pricing",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p22",
+      "query": "best password manager for small business",
+      "url": "https://www.dashlane.com/pricing",
+      "domain": "dashlane.com",
+      "role_hint": "vendor_pricing",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p23",
+      "query": "best password manager for small business",
+      "url": "https://blog.lastpass.com/posts/notice-of-recent-security-incident",
+      "domain": "blog.lastpass.com",
+      "role_hint": "expert_listicle",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true,
+      "human_note": "bucket=review_framed; target=https://1password.com/pricing/password-manager"
+    },
+    {
+      "id": "p24",
+      "query": "best password manager for small business",
+      "url": "https://www.security.org/password-manager/dashlane/",
+      "domain": "security.org",
+      "role_hint": "factual_blog",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "human_note": "bucket=review_framed; target=https://1password.com/pricing/password-manager"
+    },
+    {
+      "id": "p25",
+      "query": "best password manager for small business",
+      "url": "https://comparedge.com/tools/bitwarden/pricing",
+      "domain": "comparedge.com",
+      "role_hint": "commercial_product",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true,
+      "human_note": "bucket=review_framed; target=https://bitwarden.com/pricing/business/"
+    },
+    {
+      "id": "p26",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+      "domain": "redditrecs.com",
+      "role_hint": "reddit_intent_mix",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p27",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+      "domain": "rtings.com",
+      "role_hint": "reddit_intent_mix",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true,
+      "human_note": "one of the only sites that could be marked as endorsement_permission=true"
+    },
+    {
+      "id": "p28",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+      "domain": "keychron.com",
+      "role_hint": "reddit_intent_mix",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p29",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+      "domain": "rtings.com",
+      "role_hint": "reddit_intent_mix",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true,
+      "human_note": "one of the only sites that could be marked as endorsement_permission=true"
+    },
+    {
+      "id": "p30",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.reddit.com/r/antivirus/comments/1dfp6vk/multiple_malware_detections_for_keyboard_software/?rdt=65264",
+      "domain": "reddit.com",
+      "role_hint": "ugc_thread",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "human_note": "bucket=hard_endorsement; hard_endorsement=True"
+    },
+    {
+      "id": "p31",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/",
+      "domain": "head-fi.org",
+      "role_hint": "forum_or_ugc_adjacent",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p32",
+      "query": "best headphones forums",
+      "url": "https://www.audiosciencereview.com/forum/index.php",
+      "domain": "audiosciencereview.com",
+      "role_hint": "forum_or_ugc_adjacent",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "domain": "headphonesty.com",
+      "role_hint": "forum_or_ugc_adjacent",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p34",
+      "query": "best headphones forums",
+      "url": "https://forum.headphones.com/top",
+      "domain": "forum.headphones.com",
+      "role_hint": "forum_or_ugc_adjacent",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p35",
+      "query": "best headphones forums",
+      "url": "https://forums.whathifi.com/forums/headphones-etc/",
+      "domain": "forums.whathifi.com",
+      "role_hint": "forum_or_ugc_adjacent",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p36",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/high-end-audio-forum.113/",
+      "domain": "head-fi.org",
+      "role_hint": "forum_or_ugc_adjacent",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p37",
+      "query": "is theograce a good brand?",
+      "url": "https://www.trustpilot.com/review/theograce.com",
+      "domain": "trustpilot.com",
+      "role_hint": "brand_site_or_review",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p38",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/",
+      "domain": "theograce.com",
+      "role_hint": "brand_site_or_review",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p39",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/why-theo-grace",
+      "domain": "theograce.com",
+      "role_hint": "brand_site_or_review",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false
+    },
+    {
+      "id": "p40",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/return-policy",
+      "domain": "theograce.com",
+      "role_hint": "brand_site_or_review",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p41",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/warranty-conditions",
+      "domain": "theograce.com",
+      "role_hint": "brand_site_or_review",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    },
+    {
+      "id": "p42",
+      "query": "is theograce a good brand?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com",
+      "domain": "scamadviser.com",
+      "role_hint": "trust_checker",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": false,
+        "all_agree": false
+      },
+      "needs_adjudication": true
+    }
+  ]
+}

@@ -7,6 +7,7 @@ from anti_geo.investigation import ReferralProfile, VerifiedReferrer
 from anti_geo.models import FetchResult, PageContextSignals
 from anti_geo.platform_role import is_ugc_role
 from anti_geo.query_investigation import (
+    _norm_url,
     format_query_investigation_report,
     investigate_query,
 )
@@ -364,8 +365,8 @@ def test_rejected_answer_cites_do_not_use_grounding_pool(monkeypatch):
             commercial="spam.example" in url,
         )
 
-    def fake_decide(source, query_intent="informational", query=None):
-        report = real_decide(source, query_intent, query=query)
+    def fake_decide(source, query_intent="informational", query=None, **kwargs):
+        report = real_decide(source, query_intent, query=query, **kwargs)
         if "spam.example" in source.url and report.permissions is not None:
             return replace(
                 report,
@@ -594,3 +595,217 @@ def test_mode_a_reuses_scored_cite_for_mode_b(monkeypatch):
     assert len(fetch_calls) == 1
     assert fetch_calls[0] == COMMERCIAL
     assert result.rows[0].n_verified == 3
+
+
+def test_norm_url_decodes_percent_parens():
+    """Sheet %28/%29 must match fetch final_url with literal ( )."""
+    encoded = (
+        "https://www.thelancet.com/journals/lancet/article/"
+        "PIIS0140-6736%2803%2914792-7/fulltext"
+    )
+    decoded = (
+        "https://www.thelancet.com/journals/lancet/article/"
+        "PIIS0140-6736(03)14792-7/fulltext"
+    )
+    assert _norm_url(encoded) == _norm_url(decoded)
+    assert encoded.lower() != decoded.lower()  # naive match would fail
+    assert _norm_url(encoded + "/") == _norm_url(decoded)
+
+
+def test_forced_urls_encoding_mismatch_keeps_cite_row(monkeypatch):
+    """Forced cite with %28 still lands in result.rows when final_url decodes."""
+    encoded = "https://www.example.com/article/PIIS%2803%2914792-7/full"
+    decoded = "https://www.example.com/article/PIIS(03)14792-7/full"
+    engine = _QueryEngine([])
+
+    def fake_fetch(url: str, **kwargs):
+        # Simulate HTTP client returning decoded parentheses in final_url.
+        return _fetch_for(
+            decoded if _norm_url(url) == _norm_url(encoded) else url,
+            title="Lancet-like",
+            text="clinical trial evidence for mattress support " * 20,
+        )
+
+    def fake_discover(target_url, entity, seeds, engine, **kwargs):
+        return ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="low",
+            n_verified=0,
+            mix={},
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", fake_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query(
+        "best mattress for back pain",
+        engine=engine,
+        site_workers=1,
+        forced_urls=[encoded],
+    )
+    assert len(result.rows) == 1
+    assert _norm_url(result.rows[0].url) == _norm_url(encoded)
+    assert _norm_url(result.rows[0].single_page.source.url) == _norm_url(decoded)
+
+
+def test_forced_urls_replace_engine_cites(monkeypatch):
+    engine = _QueryEngine([EDITORIAL])  # SERP would return editorial only
+    discover_calls: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        if "brandshop.com" in url:
+            return _fetch_for(
+                url,
+                title="Neo Laptop | BrandShop",
+                text="Buy the Neo Laptop now. Add to cart. Free shipping.",
+                commercial=True,
+            )
+        return _fetch_for(url, title="PCMag", text="review of laptops " * 30)
+
+    def fake_discover(target_url, entity, seeds, engine, **kwargs):
+        discover_calls.append(target_url)
+        return ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="low",
+            n_verified=0,
+            mix={},
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", fake_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query(
+        "best neo laptop",
+        engine=engine,
+        site_workers=1,
+        forced_urls=[COMMERCIAL],
+    )
+    assert engine.queries == []  # SERP not consulted
+    assert result.cited_urls == [COMMERCIAL]
+    assert any("forced/replaced" in n.lower() or "forced" in n.lower() for n in result.notes)
+    assert any("brandshop.com" in u for u in discover_calls)
+    assert all("pcmag.com" not in u for u in discover_calls)
+    assert result.mode_b_ran >= 1
+
+
+def test_mode_b_ugc_runs_discover_on_ugc(monkeypatch):
+    engine = _QueryEngine([REDDIT, COMMERCIAL])
+    discover_calls: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        if "reddit.com" in url:
+            return _fetch_for(
+                url,
+                title="Budget tip thread",
+                text=(
+                    "My dad got me a neo laptop from BrandShop last month and it "
+                    "handles school work fine. Anyway checking capital gains advice."
+                ),
+            )
+        return _fetch_for(
+            url,
+            title="Neo Laptop | BrandShop",
+            text="Buy the Neo Laptop now. Add to cart. Free shipping.",
+            commercial=True,
+        )
+
+    def fake_discover(target_url, entity, seeds, engine, **kwargs):
+        discover_calls.append(target_url)
+        return ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="medium",
+            n_verified=2,
+            mix={"ugc_thread": 2},
+            referrers_verified=[
+                VerifiedReferrer(
+                    url=f"https://www.reddit.com/r/x/comments/{i}/",
+                    role="ugc_thread",
+                    connection="brand_mention",
+                    connection_confidence="weak",
+                )
+                for i in range(2)
+            ],
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", fake_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["seed a"], "template", "high"),
+    )
+
+    result = investigate_query(
+        "best budget laptop brandshop",
+        engine=engine,
+        site_workers=2,
+        seed_workers=1,
+        fetch_workers=1,
+        mode_b_ugc=True,
+    )
+    ugc_row = next(r for r in result.rows if r.is_ugc)
+    assert ugc_row.referral_profile is not None
+    assert ugc_row.referral_profile.status != "skipped"
+    assert ugc_row.n_verified == 2
+    assert any("reddit.com" in u for u in discover_calls)
+    assert any("brandshop.com" in u for u in discover_calls)
+    assert result.ugc_skipped == 0
+    assert result.mode_b_ran >= 2
+
+
+def test_mode_b_ugc_default_still_skips(monkeypatch):
+    """Regression: default mode_b_ugc=False keeps UGC Mode B skip."""
+    engine = _QueryEngine([REDDIT, COMMERCIAL])
+    discover_calls: list[str] = []
+
+    def fake_fetch(url: str, **kwargs):
+        if "reddit.com" in url:
+            return _fetch_for(url, title="thread", text="casual laptop chat " * 20)
+        return _fetch_for(
+            url,
+            title="Neo Laptop | BrandShop",
+            text="Buy the Neo Laptop now. Add to cart. Free shipping.",
+            commercial=True,
+        )
+
+    def fake_discover(target_url, entity, seeds, engine, **kwargs):
+        discover_calls.append(target_url)
+        return ReferralProfile(
+            status="sparse",
+            discovery_status="success",
+            confidence="low",
+            n_verified=0,
+            mix={},
+        )
+
+    monkeypatch.setattr("anti_geo.query_investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", fake_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.resolve_seed_queries",
+        lambda *a, **k: (["s1"], "template", "high"),
+    )
+
+    result = investigate_query(
+        "best neo laptop",
+        engine=engine,
+        site_workers=1,
+        mode_b_ugc=False,
+    )
+    ugc_row = next(r for r in result.rows if r.is_ugc)
+    assert ugc_row.referral_profile.status == "skipped"
+    assert all("reddit.com" not in u for u in discover_calls)
+    assert result.ugc_skipped >= 1

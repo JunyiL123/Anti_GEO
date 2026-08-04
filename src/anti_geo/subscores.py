@@ -61,6 +61,8 @@ def compute_rhetorical_manipulation(source: SourceScore) -> float:
     concealment = source.concealment
     if concealment and "hidden_geo_rhetoric" in concealment.flags:
         risk = min(1.0, risk + 0.2)
+    elif concealment and "hidden_chrome_rhetoric" in concealment.flags:
+        risk = min(1.0, risk + 0.08)
     return risk
 
 

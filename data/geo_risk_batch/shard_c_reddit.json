@@ -1,0 +1,987 @@
+{
+  "shard": "shard_c_reddit",
+  "started_at": "2026-07-14T13:41:47.954348+00:00",
+  "engine": "azure",
+  "investigations": [
+    {
+      "query": "best budget mechanical keyboard reddit",
+      "elapsed_s": 477.4,
+      "error": null,
+      "result": {
+        "query": "best budget mechanical keyboard reddit",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+          "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+          "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+          "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018"
+        ],
+        "claim_entity": "Quiet Tools Compare",
+        "site_workers": 3,
+        "ugc_skipped": 0,
+        "mode_b_ran": 4,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 4 non-UGC (site_workers=3).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural UGC/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "attribute_only",
+            "llm_actions": [
+              "attribute_only",
+              "mention_only"
+            ],
+            "source_trust": 0.47000000000000003,
+            "endorsement_risk": 0.0,
+            "n_verified": 10,
+            "ugc_verified_share": 0.1,
+            "ugc_verified_count": 1,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.47000000000000003,
+              "rhetorical_manipulation": 0.06799999999999999,
+              "retrieval_manipulation_risk": 0.07500000000000001,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.55,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "attribute_only",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 10,
+              "mix": {
+                "commercial_product": 8,
+                "ugc_thread": 1,
+                "factual_blog": 1
+              },
+              "citations_domain_mix": {
+                "commercial_product": 10,
+                "factual_blog": 6,
+                "ugc_thread": 2
+              },
+              "geo_suspected": false,
+              "citations_sampled": 18,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "medium",
+                "referrer_commercial_share": 0.8,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.aulagaming.com/products/aula-win68-he",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "best budget thocky gaming keyboard under $100",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://epomaker.com/products/epomaker-aula-f75",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "best budget thocky gaming keyboard under $100",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.rtings.com/keyboard/reviews/aula/f99-f75",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "best budget thocky gaming keyboard under $100",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0029,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://epomaker.com/blogs/software/epomaker-x-aula-f75-driver",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 keyboard review and Reddit opinions",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0338,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://aulakeyboard.com/product/aula-f75/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 keyboard review and Reddit opinions",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0096,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://reddb.ai/product/aula-f75",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 keyboard review and Reddit opinions",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0229,
+                  "content_flags": [
+                    "mentions_alternatives"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.reddit.com/r/antivirus/comments/1dfp6vk/multiple_malware_detections_for_keyboard_software/?rdt=65264",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 keyboard review and Reddit opinions",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0429,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 1.0,
+                  "content_segment_role": "comment"
+                },
+                {
+                  "url": "https://vrkaa.com/blogs/before-you-buy/fix-aula-f75-connectivity-issues",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 software layout and Bluetooth issues",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0126,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.aulastar.com/faq/496.html",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 software layout and Bluetooth issues",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://aulakeyboard.com/2026/02/02/everything-you-need-to-know-about-aula-keyboards/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "aula",
+                  "seed_query": "AULA F75 software layout and Bluetooth issues",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 8 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 1/5 seed answers (AI-visible footprint, not a verified referrer)."
+              ],
+              "referrer_content_scored": 8,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "medium",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": true,
+              "evidence_weak": false,
+              "mechanisms": [
+                "on_page"
+              ],
+              "semantic_risk": 0.06799999999999999,
+              "retrieval_manipulation_risk": 0.07500000000000001,
+              "n_verified": 10,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "attribute_only",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.06799999999999999
+          },
+          {
+            "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.04571428571428571,
+              "retrieval_manipulation_risk": 0.2,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "commercial_product": 8,
+                "factual_blog": 10
+              },
+              "geo_suspected": false,
+              "citations_sampled": 18,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 4/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.057142857142857134,
+              "retrieval_manipulation_risk": 0.2,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.057142857142857134
+          },
+          {
+            "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 8,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.01649620587264929,
+              "retrieval_manipulation_risk": 0.08000000000000002,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 8,
+              "mix": {
+                "commercial_product": 7,
+                "factual_blog": 1
+              },
+              "citations_domain_mix": {
+                "commercial_product": 12,
+                "factual_blog": 8
+              },
+              "geo_suspected": false,
+              "citations_sampled": 20,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.875,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.pcworld.com/article/2104107/keychron-c3-pro-review.html",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "Keychron C3 Pro review for typing and gaming",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0625,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.makeuseof.com/keychron-c3-pro-review/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "Keychron C3 Pro review for typing and gaming",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.003,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.reviewed.com/gaming/content/keychron-c3-pro-review",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "Keychron C3 Pro review for typing and gaming",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0196,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://mechanicalkeyboards.com/products/ducky-tinker-65-keyboard",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "best affordable wired mechanical keyboards with QMK VIA support",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0108,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://www.howtogeek.com/keychron-c3-pro-wired-mechanical-keyboard-review/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "Keychron C3 Pro QMK VIA wired mechanical keyboard features",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.gadgetwisdom.com/2024/01/26/review-the-keychron-c3-pro-keyboard-a-value-priced-mechanical-keyboard/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "is the Keychron C3 Pro hot swappable and programmable",
+                  "content_scored": true,
+                  "content_high_risk": true,
+                  "content_semantic_risk": 0.0171,
+                  "content_flags": [
+                    "front_loaded",
+                    "planted_mention"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://keychron.ca/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "is the Keychron C3 Pro hot swappable and programmable",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://keychron.com.au/blogs/news/red-switch-vs-brown-switch-key-differences-explained",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keychron",
+                  "seed_query": "Keychron C3 Pro red switch vs brown switch",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0124,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 8 high-manipulability referrers (top-8 by structure); high-risk=1.",
+                "Target cited in 4/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 8,
+              "referrer_content_high_risk": 1,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.01649620587264929,
+              "retrieval_manipulation_risk": 0.08000000000000002,
+              "n_verified": 8,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 1,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.01649620587264929
+          },
+          {
+            "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.68,
+            "endorsement_risk": 0.0,
+            "n_verified": 1,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.68,
+              "rhetorical_manipulation": 0.0022857142857142868,
+              "retrieval_manipulation_risk": 0.2,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 1,
+              "mix": {
+                "commercial_product": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 5,
+                "commercial_product": 10
+              },
+              "geo_suspected": false,
+              "citations_sampled": 15,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 1.0,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://rkgamingstore.com/products/rk61-60-percent-keyboard",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "royal",
+                  "seed_query": "Royal Kludge RK61 vs Aula F75 keyboard comparison",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 1 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 1/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 1,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.0028571428571428584,
+              "retrieval_manipulation_risk": 0.2,
+              "n_verified": 1,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0028571428571428584
+          }
+        ],
+        "independence": {
+          "urls": [
+            "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+            "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+            "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+            "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018"
+          ],
+          "naive_source_count": 4,
+          "cluster_count": 3,
+          "max_cluster_similarity": 0.806,
+          "is_likely_coordinated": false,
+          "pairwise_similarity": {
+            "https://redditrecs.com/gaming-keyboard/model/aula-f75/ \u2194 https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards": 0.056,
+            "https://redditrecs.com/gaming-keyboard/model/aula-f75/ \u2194 https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard": 0.056,
+            "https://redditrecs.com/gaming-keyboard/model/aula-f75/ \u2194 https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018": 0.062,
+            "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards \u2194 https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard": 0.076,
+            "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards \u2194 https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018": 0.806,
+            "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard \u2194 https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018": 0.074
+          },
+          "reasons": [
+            "high_textual_similarity_across_domains",
+            "likely_shared_copy_or_template"
+          ]
+        },
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "attribute_only"
+          ],
+          "response_mode": "attributed_answer",
+          "safe_answer": "Q: best budget mechanical keyboard reddit\n\nA: According to [https://redditrecs.com/gaming-keyboard/model/aula-f75/], AULA F75 - All Reddit Reviews, in One Place RedditRecs Gaming Keyboards / AULA AULA F75 Amazon $65 Aula Gaming Keyboard $71 Running these analyses costs money. Buy through my links to help keep lights on! I may get a small commission. TL;DR: Budget king for thocky sound, but layout and software flaw (attributed; not independently verified)."
+        }
+      }
+    },
+    {
+      "query": "best running shoes for flat feet reddit",
+      "elapsed_s": 369.3,
+      "error": null,
+      "result": {
+        "query": "best running shoes for flat feet reddit",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://www.redditmedia.com/r/RunningShoeGeeks/comments/1fp5nbz/running_as_a_flat_foot_runner_for_4_months/",
+          "https://runrepeat.com/guides/best-overpronation-running-shoes",
+          "https://runrepeat.com/guides/best-flat-feet-running-shoes",
+          "https://www.redditmedia.com/r/RunningShoeGeeks/comments/19cxfdx/have_i_gaslighted_myself_into_thinking_i/"
+        ],
+        "claim_entity": "Buying",
+        "site_workers": 2,
+        "ugc_skipped": 0,
+        "mode_b_ran": 2,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 2 non-UGC (site_workers=2).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural UGC/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://runrepeat.com/guides/best-overpronation-running-shoes",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.029498997995991982,
+              "retrieval_manipulation_risk": 0.08571428571428572,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 29,
+                "expert_listicle": 1,
+                "commercial_product": 1
+              },
+              "geo_suspected": false,
+              "citations_sampled": 31,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 3,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 3/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.029498997995991982,
+              "retrieval_manipulation_risk": 0.08571428571428572,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.029498997995991982
+          },
+          {
+            "url": "https://runrepeat.com/guides/best-flat-feet-running-shoes",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.029261363636363634,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 22,
+                "expert_listicle": 1
+              },
+              "geo_suspected": false,
+              "citations_sampled": 23,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 1/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.029261363636363634,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.029261363636363634
+          }
+        ],
+        "independence": {
+          "urls": [
+            "https://runrepeat.com/guides/best-overpronation-running-shoes",
+            "https://runrepeat.com/guides/best-flat-feet-running-shoes"
+          ],
+          "naive_source_count": 2,
+          "cluster_count": 1,
+          "max_cluster_similarity": 0.52,
+          "is_likely_coordinated": true,
+          "pairwise_similarity": {
+            "https://runrepeat.com/guides/best-overpronation-running-shoes \u2194 https://runrepeat.com/guides/best-flat-feet-running-shoes": 0.52
+          },
+          "reasons": [
+            "high_textual_similarity_across_domains"
+          ]
+        },
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "pass_balanced_editorial"
+          ],
+          "response_mode": "hedged_answer",
+          "safe_answer": "Q: best running shoes for flat feet reddit\n\nA: [https://runrepeat.com/guides/best-overpronation-running-shoes] 7 Best Running Shoes For Overpronation in 2026 | RunRepeat Hiring remote: Content writer / review specialist in Reviews Back Running Hiking Track and XC Walking Training Tennis Basketball Sneakers Buying guides Running shoes Best Running Shoes For Overpronation 7 Best Running Shoes For Overpronation in 2026 Jovana Subic on Jul 13, 2026 | Reviewed using methodology 2.5 The role of overpronation run"
+        }
+      }
+    },
+    {
+      "query": "best dog food for allergies reddit",
+      "elapsed_s": 1669.8,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best home security camera system reddit",
+      "elapsed_s": 16.3,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best cordless vacuum under 300 reddit",
+      "elapsed_s": 16.4,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best language learning app 2026 reddit",
+      "elapsed_s": 16.3,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best budgeting app for couples reddit",
+      "elapsed_s": 16.4,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best electric toothbrush reddit",
+      "elapsed_s": 16.5,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best portable monitor for travel reddit",
+      "elapsed_s": 16.5,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best sleep tracking wearable reddit",
+      "elapsed_s": 16.4,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http_proxy.py\", line 316, in handle_request\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/http11.py\", line 376, in start_tls\n    return self._stream.start_tls(ssl_context, server_hostname, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    }
+  ],
+  "updated_at": "2026-07-14T14:25:39.341884+00:00",
+  "finished_at": "2026-07-14T14:25:39.346888+00:00"
+}

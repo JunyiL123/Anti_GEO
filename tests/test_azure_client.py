@@ -18,7 +18,35 @@ def test_load_azure_config_missing(monkeypatch):
     monkeypatch.delenv("AZURE_OPENAI_ENDPOINT", raising=False)
     monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
     monkeypatch.delenv("AZURE_OPENAI_DEPLOYMENT", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("OPENAI_MODEL", raising=False)
     assert load_azure_config() is None
+
+
+def test_load_openai_platform_config(monkeypatch):
+    monkeypatch.delenv("AZURE_OPENAI_ENDPOINT", raising=False)
+    monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("AZURE_OPENAI_DEPLOYMENT", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+    monkeypatch.delenv("OPENAI_MODEL", raising=False)
+    cfg = load_azure_config()
+    assert cfg is not None
+    assert cfg.provider == "openai"
+    assert cfg.deployment == "gpt-5"
+    assert cfg.api_key == "sk-test"
+
+
+def test_openai_platform_overrides_azure(monkeypatch):
+    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.openai.azure.com/")
+    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "azure-secret")
+    monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.5")
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-platform")
+    monkeypatch.setenv("OPENAI_MODEL", "gpt-4.1")
+    cfg = load_azure_config()
+    assert cfg is not None
+    assert cfg.provider == "openai"
+    assert cfg.deployment == "gpt-4.1"
+    assert cfg.api_key == "sk-platform"
 
 
 def test_azure_api_slot_caps_concurrency(monkeypatch):
@@ -48,11 +76,13 @@ def test_azure_api_slot_caps_concurrency(monkeypatch):
 
 
 def test_load_azure_config_from_env(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.openai.azure.com/")
     monkeypatch.setenv("AZURE_OPENAI_API_KEY", "secret")
     monkeypatch.setenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.5")
     cfg = load_azure_config()
     assert cfg is not None
+    assert cfg.provider == "azure"
     assert cfg.deployment == "gpt-5.5"
     assert cfg.responses_base_url.endswith("/openai/v1/")
 
@@ -211,6 +241,7 @@ def test_resolve_seed_queries_template_fallback(monkeypatch):
     from anti_geo.investigation import PageMetadata, generate_seed_queries
 
     monkeypatch.delenv("AZURE_OPENAI_ENDPOINT", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     meta = PageMetadata(
         entity="Example Product",
         category="widgets",
@@ -225,8 +256,9 @@ def test_resolve_seed_queries_template_fallback(monkeypatch):
         mode="auto",
         limit=4,
     )
-    assert source == "template"
-    assert queries == generate_seed_queries("commercial_product", meta, limit=4)
+    assert source == "template+neutral"
+    assert len(queries) >= 1
+    assert any("example product" in q.lower() for q in queries)
     assert confidence == "high"
 
 

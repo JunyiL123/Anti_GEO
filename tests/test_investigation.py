@@ -1304,3 +1304,241 @@ def test_plain_blog_does_not_inflate_parasitic_share():
         [("factual_blog", f"https://example.com/blog/post-{i}") for i in range(10)]
     )
     assert parasitic_share_from_verified(refs) == 0.0
+
+
+def test_vendor_target_needs_higher_elevate_bar():
+    from anti_geo.investigation import derive_parasitic_geo_elevated
+
+    # Mid risk elevates non-vendor when N is adequate and share hits soft floor.
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.42,
+        n_verified=5,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="expert_listicle",
+        parasitic_share=0.40,
+    )
+    # N=1 share=1.0 continuous risk alone must not elevate (thin-N trap).
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.51,
+        n_verified=1,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="factual_blog",
+        parasitic_share=1.0,
+    )
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.42,
+        n_verified=5,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        parasitic_share=0.40,
+    )
+    # Vendor-like via commercial_tier medium (role may be factual_blog).
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.36,
+        n_verified=6,
+        parasitic_count=2,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="factual_blog",
+        target_commercial_tier="medium",
+        parasitic_share=0.33,
+    )
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.55,
+        n_verified=5,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+    )
+    # Surface-only count without plant density must not elevate.
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.2,
+        n_verified=5,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        high_conf_parasitic=0,
+    )
+    # Count rule elevates when plant density is present.
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.2,
+        n_verified=5,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        high_conf_parasitic=1,
+    )
+    # SoundGuys-like: N=10, share 0.30, count=3, no high_conf → none.
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.39,
+        n_verified=10,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="factual_blog",
+        parasitic_share=0.30,
+        high_conf_parasitic=0,
+    )
+    # High-trust vendor: continuous risk alone must not elevate.
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.72,
+        n_verified=6,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        target_source_trust=0.70,
+    )
+    # Count + plant density still elevates high-trust vendors.
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.2,
+        n_verified=5,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        target_source_trust=0.70,
+        high_conf_parasitic=1,
+    )
+
+
+def test_n0_no_soft_prior_listicle_stays_none():
+    """N=0 AI-cited listicle must not auto-elevate (soft prior removed)."""
+    from anti_geo.investigation import (
+        ReferralProfile,
+        apply_brand_self_parasitic_elevated,
+    )
+    from anti_geo.parasitic_llm import heuristic_parasitic_tier as tier
+
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=2,
+        parasitic_geo_risk=0.0,
+        parasitic_geo_elevated=False,
+    )
+    # Brand-self rule is commercial_product-only; listicle stays none.
+    apply_brand_self_parasitic_elevated(
+        profile,
+        content_role="expert_listicle",
+        source_trust=0.3,
+        query="best VPN 2026",
+    )
+    assert profile.parasitic_geo_elevated is False
+    assert tier(profile) == "none"
+
+
+def test_brand_self_elevated_low_trust_thin_n():
+    from anti_geo.investigation import (
+        ReferralProfile,
+        apply_brand_self_parasitic_elevated,
+    )
+
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=2,
+    )
+    apply_brand_self_parasitic_elevated(
+        profile,
+        content_role="commercial_product",
+        source_trust=0.35,
+        query="is TheoGrace a good brand?",
+    )
+    assert profile.parasitic_geo_elevated is True
+    assert profile.parasitic_geo_risk >= 0.40
+
+    # AI-cited shopping query alone must not elevate (Dashlane/Cybernews FPs).
+    shopping_cited = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=4,
+    )
+    apply_brand_self_parasitic_elevated(
+        shopping_cited,
+        content_role="commercial_product",
+        source_trust=0.35,
+        query="best VPN 2026",
+    )
+    assert shopping_cited.parasitic_geo_elevated is False
+
+    high_trust = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=3,
+    )
+    apply_brand_self_parasitic_elevated(
+        high_trust,
+        content_role="commercial_product",
+        source_trust=0.70,
+        query="is Vanicream a good brand?",
+    )
+    # Brand-legit query alone is enough (trust no longer gates).
+    assert high_trust.parasitic_geo_elevated is True
+
+    listicle = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=2,
+    )
+    apply_brand_self_parasitic_elevated(
+        listicle,
+        content_role="expert_listicle",
+        source_trust=0.3,
+        query="best VPN 2026",
+    )
+    assert listicle.parasitic_geo_elevated is False
+
+
+def test_neutral_brand_seeds_no_legit_pack():
+    from anti_geo.investigation import PageMetadata
+    from anti_geo.seed_generation import apply_neutral_brand_seeds, neutral_brand_seeds_round2
+    meta = PageMetadata(entity="Theo Grace", org="", category="", topic="", price_hint="", aliases=["TheoGrace"])
+    seeds = apply_neutral_brand_seeds([], meta, url="https://www.theograce.com/", limit=6)
+    joined = " ".join(seeds).lower()
+    assert "theo grace" in joined
+    assert "reviews" in joined
+    assert "theograce.com" in joined or "theograce" in joined
+    assert "legit" not in joined
+    assert "bbb" not in joined
+    r2 = neutral_brand_seeds_round2(meta, url="https://www.theograce.com/")
+    assert 1 <= len(r2) <= 4

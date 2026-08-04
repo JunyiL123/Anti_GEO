@@ -1,5 +1,6 @@
 from anti_geo.fetch import (
     _html_looks_like_cf_challenge,
+    _is_transient_http_error,
     fetch_page,
     looks_like_bot_wall,
 )
@@ -8,6 +9,73 @@ from anti_geo.hosts import is_major_news_host
 
 def test_bot_wall_http_403():
     assert looks_like_bot_wall(403, "Access Denied")
+
+
+def test_transient_http_error_markers():
+    assert _is_transient_http_error("The read operation timed out")
+    assert _is_transient_http_error("ConnectError: [Errno 61] Connection refused")
+    assert not _is_transient_http_error("404 Not Found")
+    assert not _is_transient_http_error(None)
+
+
+def test_httpx_retries_once_on_timeout(monkeypatch):
+    """Slow hosts (Scamadviser) often trip the first read timeout; one retry recovers."""
+    from anti_geo.fetch import _HtmlFetch, _fetch_html_httpx
+
+    calls: list[float] = []
+
+    def _flaky(url: str, timeout: float):
+        calls.append(timeout)
+        if len(calls) == 1:
+            return _HtmlFetch(
+                html="",
+                final_url=url,
+                status_code=None,
+                redirect_count=0,
+                error="The read operation timed out",
+            )
+        return _HtmlFetch(
+            html="<html><head><title>ok</title></head><body>"
+            + (" trust score review " * 40)
+            + "</body></html>",
+            final_url=url,
+            status_code=200,
+            redirect_count=0,
+            error=None,
+        )
+
+    monkeypatch.setattr("anti_geo.fetch._fetch_html_httpx_once", _flaky)
+    monkeypatch.setattr("anti_geo.fetch.time.sleep", lambda _s: None)
+    hit = _fetch_html_httpx(
+        "https://www.scamadviser.com/check-website/theograce.com",
+        timeout=20.0,
+    )
+    assert hit.error is None
+    assert hit.status_code == 200
+    assert len(calls) == 2
+    assert calls[1] >= calls[0] * 1.5
+
+
+def test_httpx_no_retry_on_permanent_error(monkeypatch):
+    from anti_geo.fetch import _HtmlFetch, _fetch_html_httpx
+
+    calls = 0
+
+    def _once(url: str, timeout: float):
+        nonlocal calls
+        calls += 1
+        return _HtmlFetch(
+            html="",
+            final_url=url,
+            status_code=None,
+            redirect_count=0,
+            error="Name or service not known",
+        )
+
+    monkeypatch.setattr("anti_geo.fetch._fetch_html_httpx_once", _once)
+    hit = _fetch_html_httpx("https://example.invalid/", timeout=5.0)
+    assert hit.error == "Name or service not known"
+    assert calls == 1
 
 
 def test_bot_wall_cloudflare_interstitial():

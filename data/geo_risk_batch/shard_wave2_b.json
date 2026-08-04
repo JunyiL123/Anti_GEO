@@ -1,0 +1,1376 @@
+{
+  "shard": "shard_wave2_b",
+  "started_at": "2026-07-16T03:51:11.932455+00:00",
+  "engine": "azure",
+  "investigations": [
+    {
+      "query": "reddit recommended password manager for small business",
+      "elapsed_s": 369.7,
+      "error": null,
+      "result": {
+        "query": "reddit recommended password manager for small business",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://1password.com/product/teams-small-business-password-manager",
+          "https://www.redditmedia.com/r/sysadmin/comments/17d7eiy/password_manager_for_a_small_team/",
+          "https://www.keepersecurity.com/pricing/business-and-enterprise.html"
+        ],
+        "claim_entity": "teams small business password manager",
+        "site_workers": 2,
+        "ugc_skipped": 0,
+        "mode_b_ran": 2,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 2 non-UGC (site_workers=2).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural parasitic-surface/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://1password.com/product/teams-small-business-password-manager",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 3,
+            "parasitic_verified_share": 0.3333333333333333,
+            "parasitic_verified_count": 1,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.014279091330551693,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 3,
+              "mix": {
+                "commercial_product": 1,
+                "factual_blog": 1,
+                "review_profile": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 13,
+                "review_profile": 2,
+                "commercial_product": 1
+              },
+              "geo_suspected": false,
+              "geo_risk": 0.2607,
+              "geo_elevated": false,
+              "citations_sampled": 16,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.6666666666666666,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "1password",
+                  "seed_query": "password manager for small team with shared vaults",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.15,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.15,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://agilebits.github.io/security-design/key-security-features.html",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "1password",
+                  "seed_query": "1Password Teams Starter Pack review",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0033,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://cyberinsider.com/password-manager/reviews/1password/",
+                  "role": "review_profile",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "1password",
+                  "seed_query": "1Password Teams Starter Pack review",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0136,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 2 referrers (parasitic=1, soft_editorial=1); high-risk=0.",
+                "Target cited in 4/12 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+              ],
+              "referrer_content_scored": 2,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.014279091330551693,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 3,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.014279091330551693
+          },
+          {
+            "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 10,
+            "parasitic_verified_share": 0.3,
+            "parasitic_verified_count": 3,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.00780114722753346,
+              "retrieval_manipulation_risk": 0.08571428571428572,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.0,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 10,
+              "mix": {
+                "commercial_product": 4,
+                "factual_blog": 2,
+                "review_profile": 2,
+                "ugc_thread": 1,
+                "institutional": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 21,
+                "commercial_product": 3,
+                "institutional": 1,
+                "ugc_thread": 2,
+                "review_profile": 2
+              },
+              "geo_suspected": false,
+              "geo_risk": 0.1618,
+              "geo_elevated": false,
+              "citations_sampled": 29,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 10,
+              "semantic_alignment": {
+                "target_commercial_tier": "medium",
+                "referrer_commercial_share": 0.6,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://help.keeper.io/article/158-how-much-is-keeper",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+                  "seed_query": "Keeper password manager for business",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.vendr.com/marketplace/keeper-security",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keepersecurity",
+                  "seed_query": "Keeper Enterprise password manager pricing",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.15,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.15,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://docs.keeper.io/enterprise-guide/why-choose-keeper-enterprise",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keepersecurity",
+                  "seed_query": "Keeper Business vs Enterprise plans",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://docs.keeper.io/enterprise-guide",
+                  "role": "factual_blog",
+                  "connection": "llm_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "Keeper Enterprise and MSP Guide",
+                  "seed_query": "Keeper enterprise password vault features",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0125,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://costbench.com/software/password-management/keeper/",
+                  "role": "commercial_product",
+                  "connection": "llm_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "Keeper Pricing 2026",
+                  "seed_query": "Keeper vs 1Password business pricing",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.15,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.15,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.gartner.com/reviews/market/password-management-tools/compare/product/bitwarden-vs-keeper-enterprise-password-manager",
+                  "role": "review_profile",
+                  "connection": "llm_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "Keeper Enterprise Password Manager",
+                  "seed_query": "Keeper vs Bitwarden enterprise password manager",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0234,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.reddit.com/r/sysadmin/comments/11nkxfl/replacing_lastpass_enterprise_with_keeper/?rdt=48707",
+                  "role": "ugc_thread",
+                  "connection": "llm_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "Replacing LastPass Enterprise with Keeper",
+                  "seed_query": "site:reddit.com Keeper enterprise password manager",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0376,
+                  "content_flags": [],
+                  "content_manipulability": 1.0,
+                  "content_thread_surface": 1.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36266",
+                  "role": "institutional",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keepersecurity",
+                  "seed_query": "is Keeper password manager legit for business",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.gartner.com/reviews/product/keeper-enterprise-password-manager",
+                  "role": "review_profile",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keepersecurity",
+                  "seed_query": "is Keeper password manager legit for business",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0105,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://trust.keeper.io/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "keepersecurity",
+                  "seed_query": "is Keeper password manager legit for business",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.15,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.15,
+                  "content_segment_role": ""
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Stopped after 12 seeds: 10 verified referrers (adaptive mix decisive).",
+                "Scored 5 referrers (parasitic=3, soft_editorial=2); high-risk=0.",
+                "Target cited in 10/12 seed answers (AI-visible footprint, not a verified referrer)."
+              ],
+              "referrer_content_scored": 5,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "clean",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": true,
+              "evidence_weak": false,
+              "mechanisms": [],
+              "semantic_risk": 0.00780114722753346,
+              "retrieval_manipulation_risk": 0.08571428571428572,
+              "n_verified": 10,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.00780114722753346
+          }
+        ],
+        "independence": {
+          "urls": [
+            "https://1password.com/product/teams-small-business-password-manager",
+            "https://www.keepersecurity.com/pricing/business-and-enterprise.html"
+          ],
+          "naive_source_count": 2,
+          "cluster_count": 2,
+          "max_cluster_similarity": 0.097,
+          "is_likely_coordinated": false,
+          "pairwise_similarity": {
+            "https://1password.com/product/teams-small-business-password-manager \u2194 https://www.keepersecurity.com/pricing/business-and-enterprise.html": 0.097
+          },
+          "reasons": []
+        },
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "pass_through"
+          ],
+          "response_mode": "direct_answer",
+          "safe_answer": "Q: reddit recommended password manager for small business\n\nA: Password Management for Teams & Small Business | 1Password Skip to Main Content Secure credentials for humans, machines, and AI agents. Switch to 1Password. A new kind of password manager for small businesses Secure your small business without breaking the bank or hiring a massive IT team. Protect every work account with secure passwords and keep on top of potential threats with a single, easy-to-"
+        }
+      }
+    },
+    {
+      "query": "best project management tool startups actually use reddit",
+      "elapsed_s": 853.6,
+      "error": null,
+      "result": {
+        "query": "best project management tool startups actually use reddit",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://linear.app/customers",
+          "https://www.notion.com/product/projects",
+          "https://gummysearch.com/tools/best-products/project-management-software/",
+          "https://www.atlassian.com/software/startups",
+          "https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/"
+        ],
+        "claim_entity": "Linear",
+        "site_workers": 4,
+        "ugc_skipped": 0,
+        "mode_b_ran": 5,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 5 non-UGC (site_workers=4).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural parasitic-surface/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://linear.app/customers",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "attribute_only",
+            "llm_actions": [
+              "attribute_only",
+              "mention_only"
+            ],
+            "source_trust": 0.53,
+            "endorsement_risk": 0.0,
+            "n_verified": 6,
+            "parasitic_verified_share": 0.0,
+            "parasitic_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.53,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.55,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "attribute_only",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 6,
+              "mix": {
+                "factual_blog": 5,
+                "commercial_product": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 35
+              },
+              "geo_suspected": false,
+              "geo_risk": 0.0,
+              "geo_elevated": false,
+              "citations_sampled": 35,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 9,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.16666666666666666,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://bloomberry.com/data/linear/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "linear",
+                  "seed_query": "who uses Linear issue tracking software",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0149,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.eleken.co/blog-posts/linear-app-case-study",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "linear",
+                  "seed_query": "Linear case studies for product and engineering teams",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0449,
+                  "content_flags": [
+                    "front_loaded",
+                    "mentions_alternatives"
+                  ],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.pocus.com/case-studies/how-linear-is-moving-upmarket-with-signal-based-playbooks",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "linear",
+                  "seed_query": "Linear case studies for product and engineering teams",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.15,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.15,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://aakashgupta.medium.com/linear-hit-1-25b-with-100-employees-heres-how-they-did-it-54e168a5145f",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "linear",
+                  "seed_query": "Linear case studies for product and engineering teams",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0065,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://cursor.com/blog/linear",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "linear",
+                  "seed_query": "how Cursor uses Linear for product development",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0116,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://specialprojects.automattic.com/project-handbook/assigning-designers-and-developers/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "linear",
+                  "seed_query": "Automattic migration from Jira to Linear",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0305,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 5 referrers (parasitic=0, soft_editorial=5); high-risk=0.",
+                "Target cited in 9/12 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+              ],
+              "referrer_content_scored": 5,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [
+                "on_page"
+              ],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "n_verified": 6,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "attribute_only",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          },
+          {
+            "url": "https://www.notion.com/product/projects",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "block_endorsement",
+            "llm_actions": [
+              "pass",
+              "attribute_only",
+              "block_endorsement"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 10,
+            "parasitic_verified_share": 0.7,
+            "parasitic_verified_count": 7,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.00976460331299041,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 10,
+              "mix": {
+                "factual_blog": 1,
+                "expert_listicle": 2,
+                "ugc_thread": 6,
+                "review_profile": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 22,
+                "commercial_product": 3,
+                "review_profile": 2,
+                "ugc_thread": 4
+              },
+              "geo_suspected": true,
+              "geo_risk": 0.79,
+              "geo_elevated": false,
+              "citations_sampled": 31,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 6,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.3,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://coda.io/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "best connected workspace for docs wikis and project management",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0753,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://work-management.org/project-management/notion-review/",
+                  "role": "expert_listicle",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "is Notion good for managing projects",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0114,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://sonary.com/b/notion-labs-inc/notion%2bproject-management/",
+                  "role": "expert_listicle",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "is Notion good for managing projects",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.039,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.reddit.com/r/Notion/comments/1h4g6ku/project_managers_how_do_you_use_notion/?rdt=64586",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "Notion Projects reddit reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0129,
+                  "content_flags": [],
+                  "content_manipulability": 1.0,
+                  "content_thread_surface": 1.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": "comment"
+                },
+                {
+                  "url": "https://www.reddit.com/r/Notion/comments/1ia1c0u/who_else_use_notion_project_templates_for/?rdt=39646",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "Notion Projects reddit reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 1.0,
+                  "content_thread_surface": 1.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": "comment"
+                },
+                {
+                  "url": "https://www.reddit.com/r/Notion/comments/1g607c9/those_who_have_used_notion_for_engineeringrelated/?rdt=60496",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "Notion Projects reddit reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 1.0,
+                  "content_thread_surface": 1.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": "comment"
+                },
+                {
+                  "url": "https://www.reddit.com/r/Notion/comments/1enuxrh/notion_is_so_slow_for_me_is_there_anything_i_can/?rdt=43859",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "Notion Projects reddit reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.55,
+                  "content_editability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.reddit.com/r/Notion/comments/1h4g6ku/project_managers_how_do_you_use_notion/?rdt=59137",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "site:reddit.com Notion project management",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0129,
+                  "content_flags": [],
+                  "content_manipulability": 1.0,
+                  "content_thread_surface": 1.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": "comment"
+                },
+                {
+                  "url": "https://www.reddit.com/r/Notion/comments/1g607c9/those_who_have_used_notion_for_engineeringrelated/?rdt=39170",
+                  "role": "ugc_thread",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "site:reddit.com Notion project management",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 1.0,
+                  "content_thread_surface": 1.0,
+                  "content_editability": 0.0,
+                  "content_segment_role": "comment"
+                },
+                {
+                  "url": "https://saasprobe.com/reviews/notion-review-2026/",
+                  "role": "review_profile",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "notion",
+                  "seed_query": "is Notion Projects worth it for teams",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0474,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 10 referrers (parasitic=7, soft_editorial=3); high-risk=0.",
+                "Target cited in 6/12 seed answers (AI-visible footprint, not a verified referrer).",
+                "Parasitic-surface-heavy referrer mix (medium N) with no editorial/institutional share."
+              ],
+              "referrer_content_scored": 10,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "high",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": true,
+              "parasitic_soft": false,
+              "evidence_strong": true,
+              "evidence_weak": false,
+              "mechanisms": [
+                "referrer"
+              ],
+              "semantic_risk": 0.00976460331299041,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 10,
+              "geo_suspected": true,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "block_endorsement",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.00976460331299041
+          },
+          {
+            "url": "https://gummysearch.com/tools/best-products/project-management-software/",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.68,
+            "endorsement_risk": 0.0,
+            "n_verified": 1,
+            "parasitic_verified_share": 0.0,
+            "parasitic_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.68,
+              "rhetorical_manipulation": 0.01262752646775746,
+              "retrieval_manipulation_risk": 0.08571428571428572,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.9099999999999999,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 1,
+              "mix": {
+                "factual_blog": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 50,
+                "ugc_thread": 4
+              },
+              "geo_suspected": false,
+              "geo_risk": 0.0,
+              "geo_elevated": false,
+              "citations_sampled": 54,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://thehiveindex.com/communities/r-projectmanagement/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "gummysearch",
+                  "seed_query": "site:reddit.com project management software recommendations",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.1312,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 1 referrers (parasitic=0, soft_editorial=1); high-risk=0.",
+                "Target cited in 4/12 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+              ],
+              "referrer_content_scored": 1,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.01262752646775746,
+              "retrieval_manipulation_risk": 0.08571428571428572,
+              "n_verified": 1,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.01262752646775746
+          },
+          {
+            "url": "https://www.atlassian.com/software/startups",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.56,
+            "endorsement_risk": 0.0,
+            "n_verified": 4,
+            "parasitic_verified_share": 0.0,
+            "parasitic_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.56,
+              "rhetorical_manipulation": 0.007715387912558937,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 4,
+              "mix": {
+                "factual_blog": 2,
+                "expert_listicle": 2
+              },
+              "citations_domain_mix": {
+                "factual_blog": 9,
+                "ugc_thread": 1
+              },
+              "geo_suspected": false,
+              "geo_risk": 0.0,
+              "geo_elevated": false,
+              "citations_sampled": 10,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 11,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.5,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://cloudcredits.io/providers/atlassian/programs/atlassian-for-startups",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "atlassian",
+                  "seed_query": "Atlassian startup program eligibility",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://guptadeepak.com/startup-offers/programs/atlassian-for-startups",
+                  "role": "expert_listicle",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "atlassian.com/software/startups",
+                  "seed_query": "Atlassian for Startups requirements for company age and funding",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0035,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://techcrunch.com/2024/06/06/atlassian-now-gives-startups-a-year-of-free-access/",
+                  "role": "expert_listicle",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "atlassian",
+                  "seed_query": "Atlassian for Startups requirements for company age and funding",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.thestartupstarterkit.com/startup-perks/atlassian-startup",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "atlassian",
+                  "seed_query": "Atlassian for Startups requirements for company age and funding",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0221,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 4 referrers (parasitic=0, soft_editorial=4); high-risk=0.",
+                "Target cited in 11/12 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+              ],
+              "referrer_content_scored": 4,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.007715387912558937,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "n_verified": 4,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.007715387912558937
+          },
+          {
+            "url": "https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/",
+            "is_ugc": false,
+            "content_role": "expert_listicle",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 3,
+            "parasitic_verified_share": 0.3333333333333333,
+            "parasitic_verified_count": 1,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.03431338637149775,
+              "retrieval_manipulation_risk": 0.09090909090909091,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 3,
+              "mix": {
+                "review_profile": 1,
+                "factual_blog": 2
+              },
+              "citations_domain_mix": {
+                "factual_blog": 24,
+                "review_profile": 1
+              },
+              "geo_suspected": false,
+              "geo_risk": 0.2607,
+              "geo_elevated": false,
+              "citations_sampled": 25,
+              "seed_queries_run": 12,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.3333333333333333,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://trustanalytica.org/ca/bc/vancouver/reviews/the-digital-project-manager",
+                  "role": "review_profile",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "the digital project manager",
+                  "seed_query": "is The Digital Project Manager legit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0294,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.55,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.55,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://ccrs.pmi.org/search/course/524411",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "the digital project manager",
+                  "seed_query": "is The Digital Project Manager legit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0278,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.youtube.com/%40thedigitalprojectmanager",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "the digital project manager",
+                  "seed_query": "site:reddit.com The Digital Project Manager project management software",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.075,
+                  "content_flags": [],
+                  "content_manipulability": 0.4,
+                  "content_thread_surface": 0.0,
+                  "content_editability": 0.4,
+                  "content_segment_role": "body"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 3 referrers (parasitic=1, soft_editorial=2); high-risk=0.",
+                "Target cited in 1/12 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+              ],
+              "referrer_content_scored": 3,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.03431338637149775,
+              "retrieval_manipulation_risk": 0.09090909090909091,
+              "n_verified": 3,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.03431338637149775
+          }
+        ],
+        "independence": {
+          "urls": [
+            "https://linear.app/customers",
+            "https://www.notion.com/product/projects",
+            "https://gummysearch.com/tools/best-products/project-management-software/",
+            "https://www.atlassian.com/software/startups",
+            "https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/"
+          ],
+          "naive_source_count": 5,
+          "cluster_count": 5,
+          "max_cluster_similarity": 0.156,
+          "is_likely_coordinated": false,
+          "pairwise_similarity": {
+            "https://linear.app/customers \u2194 https://www.notion.com/product/projects": 0.081,
+            "https://linear.app/customers \u2194 https://gummysearch.com/tools/best-products/project-management-software/": 0.081,
+            "https://linear.app/customers \u2194 https://www.atlassian.com/software/startups": 0.064,
+            "https://linear.app/customers \u2194 https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/": 0.077,
+            "https://www.notion.com/product/projects \u2194 https://gummysearch.com/tools/best-products/project-management-software/": 0.062,
+            "https://www.notion.com/product/projects \u2194 https://www.atlassian.com/software/startups": 0.101,
+            "https://www.notion.com/product/projects \u2194 https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/": 0.08,
+            "https://gummysearch.com/tools/best-products/project-management-software/ \u2194 https://www.atlassian.com/software/startups": 0.054,
+            "https://gummysearch.com/tools/best-products/project-management-software/ \u2194 https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/": 0.069,
+            "https://www.atlassian.com/software/startups \u2194 https://thedigitalprojectmanager.com/tools/best-project-management-software-for-startups/": 0.156
+          },
+          "reasons": []
+        },
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "attribute_only"
+          ],
+          "response_mode": "attributed_answer",
+          "safe_answer": "Q: best project management tool startups actually use reddit\n\nA: According to [https://linear.app/customers], Skip to content \u2192 Product Resources Customers Pricing Now Contact Docs Open app Log in Sign up Customers Featured SaaS AI Fintech Consumer Hardware Health Enterprise Boom Supersonic builds as fast as it flies Watch video \u2192 Why OpenAI chose Linear and scaled to 3,000 users Read story \u2192 How Cursor bui (attributed; not independently verified)."
+        }
+      }
+    }
+  ],
+  "updated_at": "2026-07-16T04:11:35.155655+00:00"
+}

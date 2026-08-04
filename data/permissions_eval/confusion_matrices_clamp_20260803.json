@@ -1,0 +1,1764 @@
+{
+  "description": "Confusion matrices for four permissions + 3-class parasitic. Primary gold = adjudicated_labels; Anti-GEO = Mode A forced preds.",
+  "created_at": "2026-08-03T04:35:30.715724+00:00",
+  "sources": {
+    "adjudication": "data/permissions_eval/label_sheet_v0_adjudication.json",
+    "anti_geo": "data/permissions_eval/label_sheet_v0_anti_geo_mode_a_forced_clamp_20260803.json"
+  },
+  "fields": [
+    "retrieve_permission",
+    "mention_permission",
+    "factual_permission",
+    "endorsement_permission",
+    "parasitic"
+  ],
+  "ordinal": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "n_adjudication_pages": 42,
+  "n_anti_geo_pages": 41,
+  "comparisons": {
+    "anti_vs_adjudicated": {
+      "gold": "adjudicated",
+      "pred": "anti",
+      "n_pages_pool": 41,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              24,
+              3,
+              2,
+              1
+            ],
+            [
+              4,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.7560975609756098,
+          "macro_f1": 0.37356321839080464,
+          "quadratic_weighted_kappa": 0.16891891891891886,
+          "off_by_one_rate": 0.17073170731707318,
+          "label_counts_gold": {
+            "allow": 30,
+            "downrank": 11,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 28,
+            "downrank": 10,
+            "defer": 2,
+            "reject": 1
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              39,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9512195121951219,
+          "macro_f1": 0.4875,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.04878048780487805,
+          "label_counts_gold": {
+            "allow": 41,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 39,
+            "deny": 2
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              7,
+              0,
+              0,
+              1
+            ],
+            [
+              4,
+              15,
+              4,
+              1
+            ],
+            [
+              1,
+              2,
+              3,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0
+            ]
+          ],
+          "accuracy": 0.6097560975609756,
+          "macro_f1": 0.4516768292682927,
+          "quadratic_weighted_kappa": 0.4600526777875328,
+          "off_by_one_rate": 0.3170731707317073,
+          "label_counts_gold": {
+            "allow": 8,
+            "attribute_only": 24,
+            "require_corroboration": 7,
+            "deny": 2
+          },
+          "label_counts_pred": {
+            "allow": 12,
+            "attribute_only": 17,
+            "require_corroboration": 9,
+            "deny": 3
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              38
+            ]
+          ],
+          "accuracy": 0.975609756097561,
+          "macro_f1": 0.8935064935064935,
+          "quadratic_weighted_kappa": 0.7875647668393783,
+          "off_by_one_rate": 0.024390243902439025,
+          "label_counts_gold": {
+            "allow": 2,
+            "deny": 39
+          },
+          "label_counts_pred": {
+            "allow": 3,
+            "deny": 38
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 38,
+          "ids": [
+            "p01",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41"
+          ],
+          "skipped_ids": [
+            "p02",
+            "p15",
+            "p42"
+          ],
+          "matrix": [
+            [
+              30,
+              2,
+              0
+            ],
+            [
+              1,
+              5,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9210526315789473,
+          "macro_f1": 0.8608058608058607,
+          "quadratic_weighted_kappa": 0.7219512195121951,
+          "off_by_one_rate": 0.07894736842105263,
+          "label_counts_gold": {
+            "none": 32,
+            "elevated": 6,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 31,
+            "elevated": 7,
+            "suspected": 0
+          }
+        }
+      }
+    },
+    "human_vs_llm": {
+      "gold": "human",
+      "pred": "llm",
+      "n_pages_pool": 42,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 42,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p37",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              31,
+              1,
+              0,
+              0
+            ],
+            [
+              5,
+              5,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.8571428571428571,
+          "macro_f1": 0.7683823529411765,
+          "quadratic_weighted_kappa": 0.5434782608695652,
+          "off_by_one_rate": 0.14285714285714285,
+          "label_counts_gold": {
+            "allow": 32,
+            "downrank": 10,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 36,
+            "downrank": 6,
+            "defer": 0,
+            "reject": 0
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 42,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p37",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              42,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "quadratic_weighted_kappa": 1.0,
+          "off_by_one_rate": 0.0,
+          "label_counts_gold": {
+            "allow": 42,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 42,
+            "deny": 0
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 42,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p37",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              8,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              16,
+              1,
+              0
+            ],
+            [
+              0,
+              9,
+              5,
+              1
+            ],
+            [
+              0,
+              1,
+              0,
+              1
+            ]
+          ],
+          "accuracy": 0.7142857142857143,
+          "macro_f1": 0.680094130675526,
+          "quadratic_weighted_kappa": 0.7112740604949588,
+          "off_by_one_rate": 0.2619047619047619,
+          "label_counts_gold": {
+            "allow": 8,
+            "attribute_only": 17,
+            "require_corroboration": 15,
+            "deny": 2
+          },
+          "label_counts_pred": {
+            "allow": 8,
+            "attribute_only": 26,
+            "require_corroboration": 6,
+            "deny": 2
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 42,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p37",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              0,
+              0
+            ],
+            [
+              3,
+              39
+            ]
+          ],
+          "accuracy": 0.9285714285714286,
+          "macro_f1": 0.4814814814814815,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.07142857142857142,
+          "label_counts_gold": {
+            "allow": 0,
+            "deny": 42
+          },
+          "label_counts_pred": {
+            "allow": 3,
+            "deny": 39
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 42,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p37",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              34,
+              0,
+              0
+            ],
+            [
+              1,
+              7,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9761904761904762,
+          "macro_f1": 0.9594202898550724,
+          "quadratic_weighted_kappa": 0.918918918918919,
+          "off_by_one_rate": 0.023809523809523808,
+          "label_counts_gold": {
+            "none": 34,
+            "elevated": 8,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 35,
+            "elevated": 7,
+            "suspected": 0
+          }
+        }
+      }
+    },
+    "anti_vs_human": {
+      "gold": "human",
+      "pred": "anti",
+      "n_pages_pool": 41,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              25,
+              3,
+              2,
+              1
+            ],
+            [
+              3,
+              7,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.7804878048780488,
+          "macro_f1": 0.38686440677966094,
+          "quadratic_weighted_kappa": 0.1988105352591334,
+          "off_by_one_rate": 0.14634146341463414,
+          "label_counts_gold": {
+            "allow": 31,
+            "downrank": 10,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 28,
+            "downrank": 10,
+            "defer": 2,
+            "reject": 1
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              39,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9512195121951219,
+          "macro_f1": 0.4875,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.04878048780487805,
+          "label_counts_gold": {
+            "allow": 41,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 39,
+            "deny": 2
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              7,
+              0,
+              0,
+              1
+            ],
+            [
+              4,
+              8,
+              4,
+              1
+            ],
+            [
+              1,
+              8,
+              4,
+              1
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ]
+          ],
+          "accuracy": 0.4634146341463415,
+          "macro_f1": 0.37960358056265986,
+          "quadratic_weighted_kappa": 0.3662306777645661,
+          "off_by_one_rate": 0.43902439024390244,
+          "label_counts_gold": {
+            "allow": 8,
+            "attribute_only": 17,
+            "require_corroboration": 14,
+            "deny": 2
+          },
+          "label_counts_pred": {
+            "allow": 12,
+            "attribute_only": 17,
+            "require_corroboration": 9,
+            "deny": 3
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              0,
+              0
+            ],
+            [
+              3,
+              38
+            ]
+          ],
+          "accuracy": 0.926829268292683,
+          "macro_f1": 0.48101265822784817,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.07317073170731707,
+          "label_counts_gold": {
+            "allow": 0,
+            "deny": 41
+          },
+          "label_counts_pred": {
+            "allow": 3,
+            "deny": 38
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 38,
+          "ids": [
+            "p01",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41"
+          ],
+          "skipped_ids": [
+            "p02",
+            "p15",
+            "p42"
+          ],
+          "matrix": [
+            [
+              30,
+              2,
+              0
+            ],
+            [
+              1,
+              5,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9210526315789473,
+          "macro_f1": 0.8608058608058607,
+          "quadratic_weighted_kappa": 0.7219512195121951,
+          "off_by_one_rate": 0.07894736842105263,
+          "label_counts_gold": {
+            "none": 32,
+            "elevated": 6,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 31,
+            "elevated": 7,
+            "suspected": 0
+          }
+        }
+      }
+    },
+    "anti_vs_llm": {
+      "gold": "llm",
+      "pred": "anti",
+      "n_pages_pool": 41,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              26,
+              6,
+              2,
+              1
+            ],
+            [
+              2,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.7317073170731707,
+          "macro_f1": 0.3313492063492064,
+          "quadratic_weighted_kappa": 0.10791993037423853,
+          "off_by_one_rate": 0.1951219512195122,
+          "label_counts_gold": {
+            "allow": 35,
+            "downrank": 6,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 28,
+            "downrank": 10,
+            "defer": 2,
+            "reject": 1
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              39,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9512195121951219,
+          "macro_f1": 0.4875,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.04878048780487805,
+          "label_counts_gold": {
+            "allow": 41,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 39,
+            "deny": 2
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              7,
+              0,
+              0,
+              1
+            ],
+            [
+              4,
+              15,
+              6,
+              1
+            ],
+            [
+              1,
+              2,
+              1,
+              1
+            ],
+            [
+              0,
+              0,
+              2,
+              0
+            ]
+          ],
+          "accuracy": 0.5609756097560976,
+          "macro_f1": 0.3851328903654485,
+          "quadratic_weighted_kappa": 0.4057971014492754,
+          "off_by_one_rate": 0.36585365853658536,
+          "label_counts_gold": {
+            "allow": 8,
+            "attribute_only": 26,
+            "require_corroboration": 5,
+            "deny": 2
+          },
+          "label_counts_pred": {
+            "allow": 12,
+            "attribute_only": 17,
+            "require_corroboration": 9,
+            "deny": 3
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 41,
+          "ids": [
+            "p01",
+            "p02",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41",
+            "p42"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              3,
+              0
+            ],
+            [
+              0,
+              38
+            ]
+          ],
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "quadratic_weighted_kappa": 1.0,
+          "off_by_one_rate": 0.0,
+          "label_counts_gold": {
+            "allow": 3,
+            "deny": 38
+          },
+          "label_counts_pred": {
+            "allow": 3,
+            "deny": 38
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 38,
+          "ids": [
+            "p01",
+            "p03",
+            "p04",
+            "p05",
+            "p06",
+            "p07",
+            "p08",
+            "p09",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "p28",
+            "p29",
+            "p30",
+            "p31",
+            "p32",
+            "p33",
+            "p34",
+            "p35",
+            "p36",
+            "p38",
+            "p39",
+            "p40",
+            "p41"
+          ],
+          "skipped_ids": [
+            "p02",
+            "p15",
+            "p42"
+          ],
+          "matrix": [
+            [
+              30,
+              2,
+              0
+            ],
+            [
+              1,
+              5,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9210526315789473,
+          "macro_f1": 0.8608058608058607,
+          "quadratic_weighted_kappa": 0.7219512195121951,
+          "off_by_one_rate": 0.07894736842105263,
+          "label_counts_gold": {
+            "none": 32,
+            "elevated": 6,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 31,
+            "elevated": 7,
+            "suspected": 0
+          }
+        }
+      }
+    }
+  },
+  "parasitic_exclude_ids": [
+    "p02",
+    "p15",
+    "p42"
+  ],
+  "parasitic_exclude_note": "Excluded from parasitic matrices involving Anti-GEO when predictions.parasitic_source is None (Mode B not really run)."
+}
