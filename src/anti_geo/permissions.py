@@ -32,6 +32,15 @@ _BRAND_LEGIT_QUERY_RE = re.compile(
     r"worth\s+it|trusted)\b",
     re.I,
 )
+# Query asks for UGC/forum opinions → matching ugc_thread should retrieve=allow
+# (LABEL_GUIDE); do not downrank merely for being UGC.
+_UGC_INTENT_QUERY_RE = re.compile(
+    r"\b("
+    r"reddit|forums?|quora|tiktok|ugc|community|"
+    r"youtube\s+comments?"
+    r")\b",
+    re.I,
+)
 # Low-trust vendor factual floor on shopping / brand-legit queries.
 VENDOR_FACTUAL_TRUST_MAX = 0.55
 UGC_HUB_ROLES = frozenset({"ugc_thread"})
@@ -129,20 +138,26 @@ RETRIEVE (from subscores + fetch + content_role):
   institutional, or high-trust factual_blog (trust >= {TRUST_ALLOW}) stay
   allow/downrank (do not defer); otherwise → defer
 - concealment_risk >= {CONCEALMENT_REJECT} (attack-class IPI) → reject, except
-  shopping expert_listicle/review_profile without promotional IPI and without
-  intent_mismatch >= {INTENT_MISMATCH_DOWNRANK} → downrank (not reject)
+  shopping expert_listicle/review_profile OR institutional OR shopping/brand-legit
+  commercial_product without promotional IPI and without intent_mismatch >=
+  {INTENT_MISMATCH_DOWNRANK} → downrank (not reject)
 - concealment soft [{CONCEALMENT_DOWNRANK}, {CONCEALMENT_REJECT}) alone does NOT
   downrank shopping expert_listicle/review_profile (endorse handled separately)
 - intent_mismatch >= {INTENT_MISMATCH_DOWNRANK} OR visibility_dominance >= {VISIBILITY_DOMINANCE_DOWNRANK}
   OR consensus coordinated → downrank
 - source_trust < {SOURCE_TRUST_DOWNRANK} → downrank
+- EXCEPTION (UGC-intent): query asks for reddit/forum/UGC/community AND
+  content_role=ugc_thread → retrieve=allow despite soft trust/intent/concealment/
+  visibility downrank signals. Still defer/reject on fetch failure / hard IPI.
+  Still downrank when consensus_integrity=coordinated (parasitic-adjacent).
 - shopping + commercial_product + source_trust < {VENDOR_RETRIEVE_TRUST_MAX}
   (or soft concealment / intent mismatch) → downrank
 - brand-legit query + commercial_product → downrank
 - else allow
-- Shopping expert_listicle/review_profile with heuristic retrieve=allow: do NOT
-  change retrieve to downrank unless intent_mismatch >= {INTENT_MISMATCH_DOWNRANK}
-  or concealment reject — you may still tighten endorse/factual
+- Shopping expert_listicle/review_profile OR UGC-intent ugc_thread with heuristic
+  retrieve=allow: do NOT change retrieve to downrank unless intent_mismatch >=
+  {INTENT_MISMATCH_DOWNRANK} (listicle only) / coordinated / concealment reject —
+  you may still tighten endorse/factual
 - If retrieve=reject from IPI (not fetch reject): also deny factual + endorsement
 
 MENTION:
@@ -152,7 +167,8 @@ MENTION:
 - else allow
 
 FACTUAL:
-- fetch reject/defer → deny
+- fetch reject/defer → deny  (REJECT only for factual hard-deny)
+- fetch defer → factual attribute_only (retrieve stays defer; endorse deny)
 - fetch_confidence < {FETCH_CONFIDENCE_DEFER}: ugc_thread / institutional /
   high-trust factual_blog with successful fetch → attribute_only (cap); otherwise → deny
 - coordinated consensus AND factual_claim_reliability < {FACTUAL_COORDINATED_RELIABILITY_MAX} → deny
@@ -163,20 +179,23 @@ FACTUAL:
 - trust >= {TRUST_ALLOW} AND reliability >= {RELIABILITY_ALLOW} AND intent_mismatch < {INTENT_MISMATCH_ALLOW_MAX}
   AND concealment_risk < {CONCEALMENT_ATTRIBUTE} → allow
 - else attribute_only
-- brand-legit query + commercial_product → factual deny
+- brand-legit query + commercial_product → factual attribute_only
 - shopping + expert_listicle/review_profile: if trust ladder would grant allow →
   force attribute_only (quote-cap; commercial reviews are not unattributed engine fact)
 - shopping/navigational + commercial_product + source_trust < {VENDOR_FACTUAL_TRUST_MAX}:
   floor factual at attribute_only (unless already deny)
-- shopping + ugc_thread: floor factual at attribute_only (unless already deny)
+- shopping + ugc_thread/review_profile: floor factual at require_corroboration
+  (unless already deny)
 - Shopping expert_listicle/review_profile/factual_blog: LLM may tighten allow→attribute_only;
-  do NOT escalate heuristic allow/attribute_only to require_corroboration/deny;
-  do NOT loosen attribute_only to allow. Unattributed allow only for institutional /
-  primary medical-regulatory on shopping queries.
+  do NOT escalate heuristic allow/attribute_only to require_corroboration/deny on
+  expert_listicle alone when hybrid clamps apply; do NOT loosen attribute_only to
+  allow. Unattributed allow only for institutional / primary medical-regulatory
+  on shopping queries.
 
 ENDORSEMENT:
 - factual=deny → deny
 - consensus coordinated → deny
+- shopping + commercial_product OR institutional → deny (fact sheets ≠ picks)
 - endorsement_risk >= {config.endorsement_risk_block} → deny
 - endorsement_risk >= {config.endorsement_risk_trust_gate} AND trust < {config.trust_endorsement_min} → deny
 - harm_severity >= {HARM_SEVERITY_HIGH} AND persuasive packaging AND trust < {config.trust_endorsement_min} → deny
@@ -268,6 +287,9 @@ def derive_permissions(
     if retrieve == "reject" and fetch_failure_kind != "reject":
         factual = "deny"
         endorsement = "deny"
+    # Failed/soft fetch gate: never endorse from a deferred page.
+    if fetch_failure_kind == "defer":
+        endorsement = "deny"
 
     return SourcePermissions(
         retrieve_permission=retrieve,
@@ -285,6 +307,13 @@ def _brand_legit_query(query: str | None) -> bool:
     if not query or not str(query).strip():
         return False
     return bool(_BRAND_LEGIT_QUERY_RE.search(str(query)))
+
+
+def _ugc_intent_query(query: str | None) -> bool:
+    """True when the query asks for UGC / forum / Reddit-style opinions."""
+    if not query or not str(query).strip():
+        return False
+    return bool(_UGC_INTENT_QUERY_RE.search(str(query)))
 
 
 def soft_fetch_floor(
@@ -331,10 +360,20 @@ def _derive_retrieve_permission(
     shopping = _shopping_intent(query_intent)
     shopping_listicle = shopping and content_role in SHOPPING_LISTICLE_ROLES
 
-    # Attack-class IPI: auto-reject, except shopping listicle/review without a
-    # second promo/intent signal → downrank (endorse handled separately).
+    # Attack-class IPI: auto-reject, except shopping listicle/review,
+    # institutional, or shopping/brand-legit vendor PDPs without a second
+    # promo/intent signal → downrank (LABEL_GUIDE: keep usable with AO/RC
+    # facts; endorse handled separately).
     if subscores.concealment_risk >= CONCEALMENT_REJECT:
-        if shopping_listicle and fetch_failure_kind != "reject":
+        soft_vendor = content_role == "commercial_product" and (
+            shopping or _brand_legit_query(query)
+        )
+        soft_ipi_roles = (
+            shopping_listicle
+            or content_role == "institutional"
+            or soft_vendor
+        )
+        if soft_ipi_roles and fetch_failure_kind != "reject":
             promo = bool(concealment_flags & IPI_PROMO_FLAGS)
             extreme_intent = (
                 float(subscores.intent_mismatch) >= INTENT_MISMATCH_DOWNRANK
@@ -353,16 +392,25 @@ def _derive_retrieve_permission(
     # (gold often retrieve=allow; endorse handled separately).
     concealment_downrank = soft_concealment and not shopping_listicle
 
+    ugc_on_intent = content_role in UGC_HUB_ROLES and _ugc_intent_query(query)
+    coordinated = ctx.consensus_integrity == "coordinated"
+
     # Style/retrieval-manipulation alone is not a convictor (strong premise).
-    if (
+    # UGC-intent + ugc_thread: do not downrank merely for being UGC / soft
+    # trust-intent-concealment-visibility signals (LABEL_GUIDE). Coordinated
+    # consensus still downranks (parasitic-adjacent).
+    soft_downrank = (
         concealment_downrank
         or subscores.intent_mismatch >= INTENT_MISMATCH_DOWNRANK
         or ctx.visibility_dominance >= VISIBILITY_DOMINANCE_DOWNRANK
-        or ctx.consensus_integrity == "coordinated"
-    ):
-        return "downrank"
-    if subscores.source_trust < SOURCE_TRUST_DOWNRANK:
-        return "downrank"
+        or coordinated
+        or subscores.source_trust < SOURCE_TRUST_DOWNRANK
+    )
+    if soft_downrank:
+        if ugc_on_intent and not coordinated:
+            pass  # fall through to allow (fetch/IPI floors already applied)
+        else:
+            return "downrank"
 
     # Vendor PDP: downrank with low trust, brand-legit query, or other risk
     # signals (not role-alone on ordinary shopping).
@@ -406,8 +454,22 @@ def _derive_factual_permission(
     query_intent: str = "informational",
     query: str | None = None,
 ) -> str:
-    if fetch_failure_kind in ("reject", "defer"):
+    # Fetch reject: do not use claims. Fetch defer is a retrieve gate only —
+    # cap factual at attribute_only (LABEL_GUIDE / CM exclude defer from retrieve).
+    if fetch_failure_kind == "reject":
         return "deny"
+    if fetch_failure_kind == "defer":
+        factual = "attribute_only"
+        shopping = _shopping_intent(query_intent)
+        if content_role == "commercial_product" and _brand_legit_query(query):
+            return "attribute_only"
+        if (
+            shopping
+            and content_role == "ugc_thread"
+            and factual in ("allow", "attribute_only")
+        ):
+            factual = "attribute_only"
+        return factual
 
     soft_fetch = (
         subscores.fetch_confidence < FETCH_CONFIDENCE_DEFER
@@ -466,9 +528,10 @@ def _derive_factual_permission(
 
     shopping = _shopping_intent(query_intent)
 
-    # Brand-legit query + vendor storefront: do not treat self-claims as facts.
+    # Brand-legit query + vendor storefront: do not treat self-claims as
+    # unattributed facts (attribute_only, not hard deny — LABEL_GUIDE brand recipe).
     if content_role == "commercial_product" and _brand_legit_query(query):
-        return "deny"
+        return "attribute_only"
 
     # Commercial reviews: quote-cap — not unattributed engine fact on shopping.
     if (
@@ -487,13 +550,14 @@ def _derive_factual_permission(
     ):
         factual = "attribute_only"
 
-    # Shopping UGC: floor at attribute_only (unless already deny).
+    # Shopping UGC / third-party review profiles: require corroboration
+    # (LABEL_GUIDE: anecdote/reputation pages are not free AO engine fact).
     if (
         shopping
-        and content_role == "ugc_thread"
+        and content_role in ("ugc_thread", "review_profile")
         and factual in ("allow", "attribute_only")
     ):
-        factual = "attribute_only"
+        factual = "require_corroboration"
 
     return factual
 
@@ -511,8 +575,10 @@ def _derive_endorsement_permission(
         return "deny"
     if ctx.consensus_integrity == "coordinated":
         return "deny"
-    # Vendor PDP on shopping queries should not crown a pick.
-    if _shopping_intent(query_intent) and content_role == "commercial_product":
+    shopping = _shopping_intent(query_intent)
+    # Vendor PDP / institutional fact sheets on shopping: not a product pick
+    # (fail-open without LLM — commercial endorsement_risk≈0 hole).
+    if shopping and content_role in ("commercial_product", "institutional"):
         return "deny"
     if subscores.endorsement_risk >= config.endorsement_risk_block:
         return "deny"

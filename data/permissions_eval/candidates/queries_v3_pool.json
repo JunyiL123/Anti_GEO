@@ -1,0 +1,99 @@
+{
+  "description": "Eval-loop candidate query pool — not gold. Expand cites separately; draft→adjudicate before paper use.",
+  "created_at": "2026-08-05T11:19:25.191563+00:00",
+  "protocol": "data/permissions_eval/eval_loop_protocol.json",
+  "dry_run": false,
+  "n_queries": 15,
+  "queries": [
+    {
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "stratum": "vendor_legit",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "stratum": "affiliate_best",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "stratum": "reddit_push",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "stratum": "supplement_claim",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best online therapy platform for couples without insurance",
+      "stratum": "medical_adjacent",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best home theater projector recommended by AV forums",
+      "stratum": "forum_index",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "Brooklinen promo code that actually works Reddit",
+      "stratum": "coupon_ugc",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "stratum": "comparison",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "stratum": "vendor_legit",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "stratum": "affiliate_best",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "stratum": "reddit_push",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "stratum": "supplement_claim",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "stratum": "medical_adjacent",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "stratum": "forum_index",
+      "intent": "commercial",
+      "source": "llm"
+    },
+    {
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "stratum": "comparison",
+      "intent": "commercial",
+      "source": "llm"
+    }
+  ]
+}

@@ -42,6 +42,9 @@ _BOT_WALL_SNIPPETS = (
     "errors.edgesuite.net",
     "request blocked",
     "bot detection",
+    # Reddit anonymous gate (title often "Please wait for verification").
+    "please wait for verification",
+    "wait for verification",
     # Head-Fi custom interstitial (not Cloudflare wording).
     "help us keep head-fi secure",
     "real head-fi'er",

@@ -31,6 +31,10 @@ from anti_geo.query_investigation import (
     CiteInvestigationRow,
     investigate_query,
 )
+from anti_geo.investigation import (
+    referral_profile_from_label_pred,
+    referral_profile_to_freeze_dict,
+)
 
 
 def _parasitic_tier_from_profile(profile) -> str:
@@ -70,7 +74,7 @@ def _prediction_from_cite_row(row: CiteInvestigationRow) -> dict:
     sp = row.single_page
     perms = sp.permissions
     rp = row.referral_profile
-    return {
+    pred = {
         "retrieve_permission": perms.retrieve_permission if perms else None,
         "mention_permission": perms.mention_permission if perms else None,
         "factual_permission": perms.factual_permission if perms else None,
@@ -93,6 +97,40 @@ def _prediction_from_cite_row(row: CiteInvestigationRow) -> dict:
         "is_ugc": row.is_ugc,
         "mode_b_error": row.mode_b_error,
     }
+    # Persist full mix so later iterations can freeze Mode B rediscovery.
+    if rp is not None and rp.status != "skipped":
+        pred["referral_freeze"] = referral_profile_to_freeze_dict(rp)
+    return pred
+
+
+def _load_frozen_referrals(path: Path) -> dict[str, object]:
+    """Map normalized URL → ReferralProfile from a prior label-sheet Anti-GEO JSON."""
+    from anti_geo.investigation import ReferralProfile
+
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    out: dict[str, object] = {}
+    for page in doc.get("pages") or []:
+        if not page.get("ok"):
+            continue
+        pred = page.get("predictions") or {}
+        url = page.get("url") or pred.get("target_url_final")
+        if not url:
+            continue
+        key = _norm_url(str(url))
+        profile = referral_profile_from_label_pred(pred)
+        if profile is None:
+            # Prior run had no Mode B summary — keep skip (do not rediscover).
+            profile = ReferralProfile(
+                status="skipped",
+                discovery_status="skipped",
+                confidence="low",
+                notes=[
+                    "Frozen Mode B skip from prior label-sheet row "
+                    "(no Mode B summary in prior dump)."
+                ],
+            )
+        out[key] = profile
+    return out
 
 
 def _match_cite_row(
@@ -164,8 +202,28 @@ def main() -> None:
     )
     parser.add_argument("--resume", action="store_true", help="Skip ids already ok in --out")
     parser.add_argument("--no-progress", action="store_true")
+    parser.add_argument(
+        "--freeze-referral-from",
+        type=Path,
+        default=None,
+        help=(
+            "Prior label-sheet Anti-GEO JSON: reuse Mode B referral mixes / "
+            "parasitic flags (skip rediscovery). Prefer rows with referral_freeze."
+        ),
+    )
     args = parser.parse_args()
 
+    frozen_referrals = (
+        _load_frozen_referrals(args.freeze_referral_from)
+        if args.freeze_referral_from
+        else {}
+    )
+    if args.freeze_referral_from:
+        print(
+            f"Frozen Mode B profiles loaded: {len(frozen_referrals)} URLs "
+            f"from {args.freeze_referral_from}",
+            flush=True,
+        )
     rows = _load_rows(args.sheet)
     if args.ids.strip():
         want = {x.strip() for x in args.ids.split(",") if x.strip()}
@@ -191,6 +249,9 @@ def main() -> None:
             "query_intent": args.intent,
             "forced_cites": bool(args.forced_cites),
             "mode_b_ugc": bool(args.mode_b_ugc),
+            "freeze_referral_from": (
+                str(args.freeze_referral_from) if args.freeze_referral_from else None
+            ),
             "seed_limit": args.seed_limit,
             "max_verified": args.max_verified,
             "skip_ids": sorted(skip_ids),
@@ -255,6 +316,7 @@ def main() -> None:
                 progress=progress,
                 forced_urls=urls if args.forced_cites else None,
                 mode_b_ugc=bool(args.mode_b_ugc),
+                frozen_referral_by_url=frozen_referrals or None,
             )
             cite_by_id_error: dict[str, str] = {}
             for i, row in enumerate(qrows):

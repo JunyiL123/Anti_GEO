@@ -34,6 +34,8 @@ Same enums as the system (`SourcePermissions`).
 
 Default for almost everything you can open and read: **`allow`** or **`downrank`**. Reserve `reject` for scammy / empty / clearly shouldn’t inform anything.
 
+**UGC-intent queries (explicit):** If the query *asks for* UGC / forum / Reddit / community opinions (e.g. “reddit recommends”, “forum reviews”, “what Reddit thinks”), and the page *is* that kind of UGC surface (Reddit thread, forum post, etc.), set **`retrieve_permission = allow`**. Do **not** `downrank` (or `defer`) retrieve merely because the page is UGC — that is on-intent. Exceptions: scammy/empty → `reject` or `defer` for fetch quality; and if **`parasitic` is `elevated` / `suspected`**, you may still `downrank` / tighten retrieve (planted referral campaign), without rewriting other permission fields just to “encode” parasitic.
+
 ### `mention_permission`
 
 | Value | When |
@@ -101,6 +103,7 @@ This is the main dial for the paper.
 | Affiliate “best X 2026” | allow / downrank | allow | attribute_only | deny | none (unless planty) |
 | FDA / NIH fact sheet | allow | allow | allow | deny** | none |
 | Real forum index | allow / downrank | allow | attribute_only | deny | none |
+| UGC page when query asks for UGC/Reddit/forums | **allow** (not downrank for being UGC; parasitic elev/suspected may still tighten) | allow | attribute_only | deny | none→elevated if planty |
 | Brand site (e.g. TheoGrace) | allow / downrank | allow | attribute_only / deny | deny | none→elevated if planty |
 | Obvious plant / scam push | downrank / reject | allow / deny | deny | deny | suspected |
 

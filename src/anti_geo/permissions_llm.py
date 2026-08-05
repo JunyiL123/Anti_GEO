@@ -28,8 +28,10 @@ from anti_geo.permissions import (
     FETCH_CONFIDENCE_DEFER,
     INTENT_MISMATCH_DOWNRANK,
     SHOPPING_LISTICLE_ROLES,
+    UGC_HUB_ROLES,
     soft_fetch_floor,
     permissions_heuristic_rules_rubric,
+    _ugc_intent_query,
 )
 from anti_geo.platform_role import classify_content_role
 
@@ -374,6 +376,8 @@ def merge_permissions_hybrid(
     protect_heuristic_retrieve_downrank: bool = False,
     protect_listicle_factual_attribute_only: bool = False,
     protect_review_factual_no_allow: bool = False,
+    protect_institutional_factual_allow: bool = False,
+    protect_heuristic_factual_require_corroboration: bool = False,
     protect_heuristic_endorsement_deny: bool = False,
 ) -> SourcePermissions:
     """Bidirectional field merge; hard IPI/fetch floors keep heuristic.
@@ -381,8 +385,9 @@ def merge_permissions_hybrid(
     When ``endorse_tighten_only`` (soft concealment), only endorsement may
     change, and only allow→deny (tighten).
 
-    When ``protect_listicle_retrieve_allow``, shopping listicle/review with
-    heuristic retrieve=allow keeps allow (LLM may still change endorse/factual).
+    When ``protect_listicle_retrieve_allow``, shopping listicle/review **or**
+    UGC-intent ``ugc_thread`` with heuristic retrieve=allow keeps allow
+    (LLM may still change endorse/factual).
 
     When ``protect_heuristic_retrieve_downrank``, LLM cannot loosen heuristic
     retrieve=downrank → allow (shopping/brand-legit vendor path).
@@ -393,6 +398,12 @@ def merge_permissions_hybrid(
 
     When ``protect_review_factual_no_allow``, shopping listicle/review/factual_blog
     with heuristic factual=attribute_only cannot loosen to allow.
+
+    When ``protect_institutional_factual_allow``, institutional heuristic
+    factual=allow cannot be tightened by the LLM.
+
+    When ``protect_heuristic_factual_require_corroboration``, heuristic
+    require_corroboration cannot be loosened to allow/attribute_only.
 
     When ``protect_heuristic_endorsement_deny``, LLM cannot loosen heuristic
     endorsement=deny → allow.
@@ -449,6 +460,18 @@ def merge_permissions_hybrid(
         and factual == "allow"
     ):
         factual = "attribute_only"
+    if (
+        protect_institutional_factual_allow
+        and heuristic.factual_permission == "allow"
+        and factual in ("attribute_only", "require_corroboration", "deny")
+    ):
+        factual = "allow"
+    if (
+        protect_heuristic_factual_require_corroboration
+        and heuristic.factual_permission == "require_corroboration"
+        and factual in ("allow", "attribute_only")
+    ):
+        factual = "require_corroboration"
 
     endorse = (
         suggestion.endorsement_permission
@@ -574,16 +597,27 @@ def maybe_apply_permissions_llm(
         or float(subscores.intent_mismatch) < INTENT_MISMATCH_DOWNRANK
     )
     protect_listicle_retrieve_allow = (
-        shopping
-        and role in SHOPPING_LISTICLE_ROLES
+        (
+            (shopping and role in SHOPPING_LISTICLE_ROLES)
+            or (role in UGC_HUB_ROLES and _ugc_intent_query(query))
+            # Keep heuristic retrieve=allow on non-vendor pages (LLM often
+            # over-tightens factual_blog / institutional via intent mismatch).
+            or (
+                role not in ("commercial_product",)
+                and role != ""
+            )
+        )
         and heuristic.retrieve_permission == "allow"
         and intent_ok
         and not concealment_is_hard(subscores)
     )
     protect_heuristic_retrieve_downrank = (
         heuristic.retrieve_permission == "downrank"
-        and role == "commercial_product"
-        and (shopping or brand_legit)
+        and (
+            (role == "commercial_product" and (shopping or brand_legit))
+            or (role in UGC_HUB_ROLES and brand_legit)
+            or (shopping and role in ("institutional", "factual_blog"))
+        )
     )
     # Hard clamps: block invent-require/deny on shopping listicle/review when
     # heuristic is allow/attribute_only; allow→AO tightening is accepted.
@@ -592,11 +626,21 @@ def maybe_apply_permissions_llm(
         shopping
         and role in SHOPPING_LISTICLE_ROLES
         and heuristic.factual_permission in ("allow", "attribute_only")
+        # review_profile now floors at require_corroboration in heuristics;
+        # do not block that RC outcome via the listicle AO clamp.
+        and heuristic.factual_permission != "require_corroboration"
     )
     protect_review_factual_no_allow = (
         shopping
         and role in (*SHOPPING_LISTICLE_ROLES, "factual_blog")
         and heuristic.factual_permission == "attribute_only"
+    )
+    protect_institutional_factual_allow = (
+        role == "institutional"
+        and heuristic.factual_permission == "allow"
+    )
+    protect_heuristic_factual_require_corroboration = (
+        heuristic.factual_permission == "require_corroboration"
     )
     # Endorsement deny is the paper dial — LLM may tighten allow→deny only.
     protect_heuristic_endorsement_deny = (
@@ -631,6 +675,10 @@ def maybe_apply_permissions_llm(
         protect_heuristic_retrieve_downrank=protect_heuristic_retrieve_downrank,
         protect_listicle_factual_attribute_only=protect_listicle_factual_attribute_only,
         protect_review_factual_no_allow=protect_review_factual_no_allow,
+        protect_institutional_factual_allow=protect_institutional_factual_allow,
+        protect_heuristic_factual_require_corroboration=(
+            protect_heuristic_factual_require_corroboration
+        ),
         protect_heuristic_endorsement_deny=protect_heuristic_endorsement_deny,
     )
     reason = (suggestion.reason if suggestion else "") or (

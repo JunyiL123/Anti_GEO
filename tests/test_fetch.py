@@ -165,6 +165,14 @@ def test_thin_error_page_is_bot_wall():
     assert looks_like_bot_wall(200, "Error 404")
 
 
+def test_bot_wall_reddit_verification_gate():
+    assert looks_like_bot_wall(
+        200,
+        "",
+        title="Reddit - Please wait for verification",
+    )
+
+
 def test_major_news_hosts():
     assert is_major_news_host("www.nytimes.com")
     assert is_major_news_host("https://www.theguardian.com/art/foo")

@@ -222,7 +222,6 @@ def evaluate(
 
         field_results: dict[str, Any] = {}
         for field in FIELDS:
-            levels = _levels(schema, field)
             pairs: list[tuple[str, str]] = []
             used_ids: list[str] = []
             skipped: list[str] = []
@@ -241,11 +240,24 @@ def evaluate(
                 if g is None or p is None:
                     skipped.append(pid)
                     continue
+                # Defer = fetch/quality gate, not a use-rights judgment — exclude
+                # from retrieve CMs (either side).
+                if field == "retrieve_permission" and (
+                    str(g) == "defer" or str(p) == "defer"
+                ):
+                    skipped.append(pid)
+                    continue
                 pairs.append((str(g), str(p)))
                 used_ids.append(pid)
 
-            m = _matrix(pairs, levels)
+            levels = _levels(schema, field)
+            if field == "retrieve_permission":
+                # Drop unused defer column/row when excluded from scoring.
+                levels = [lab for lab in levels if lab != "defer"]
             order = ORDINAL[field]
+            if field == "retrieve_permission":
+                order = tuple(lab for lab in order if lab != "defer")
+            m = _matrix(pairs, levels)
             entry: dict[str, Any] = {
                 "levels": levels,
                 "n": len(pairs),
@@ -263,6 +275,10 @@ def evaluate(
                     lab: Counter(p for _, p in pairs).get(lab, 0) for lab in levels
                 },
             }
+            if field == "retrieve_permission":
+                entry["exclude_note"] = (
+                    "Excluded ids where gold or pred retrieve_permission == defer"
+                )
             field_results[field] = entry
 
         results["comparisons"][cmp_key] = {
@@ -287,7 +303,9 @@ def _write_markdown(payload: dict[str, Any], path: Path) -> None:
         f"`{', '.join(payload['parasitic_exclude_ids']) or '(none)'}`",
         "",
         "Five separate matrices per comparison (no fused score). "
-        "`parasitic` is **3-class** (`none` / `elevated` / `suspected`), not boolean.",
+        "`parasitic` is **3-class** (`none` / `elevated` / `suspected`), not boolean. "
+        "`retrieve_permission` rows where gold or pred is `defer` are excluded "
+        "(fetch gate, not scored as a use-rights class).",
         "",
     ]
 
@@ -350,6 +368,12 @@ def _write_markdown(payload: dict[str, Any], path: Path) -> None:
             if field == "parasitic" and e.get("skipped_ids"):
                 lines += [
                     f"_Skipped (Mode B missing or null): "
+                    f"{', '.join(e['skipped_ids'])}_",
+                    "",
+                ]
+            if field == "retrieve_permission" and e.get("skipped_ids"):
+                lines += [
+                    f"_Skipped (retrieve defer on gold or pred): "
                     f"{', '.join(e['skipped_ids'])}_",
                     "",
                 ]

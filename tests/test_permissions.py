@@ -9,7 +9,7 @@ from anti_geo.permissions import (
 
 
 def test_derive_permissions_defer_denies_all_content_use():
-    """Failed fetch → defer retrieve; no mention/facts/endorse until re-fetched."""
+    """Failed fetch → defer retrieve; mention/endorse denied; factual capped AO."""
     subs = SourceSubscores(
         fetch_confidence=0.2,
         source_trust=0.5,
@@ -23,12 +23,39 @@ def test_derive_permissions_defer_denies_all_content_use():
     perms = derive_permissions(subs, fetch_failure_kind="defer")
     assert perms.retrieve_permission == "defer"
     assert perms.mention_permission == "deny"
-    assert perms.factual_permission == "deny"
+    assert perms.factual_permission == "attribute_only"
     assert perms.endorsement_permission == "deny"
     primary, actions = derive_llm_actions(perms, subs)
     assert primary == "defer_fetch"
     assert "defer_fetch" in actions
     assert "reject" not in actions
+
+
+def test_ugc_fetch_failure_still_hard_defers():
+    """Failed Reddit/UGC scrape → defer + mention deny; factual capped AO."""
+    subs = SourceSubscores(
+        fetch_confidence=0.2,
+        source_trust=0.55,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.5,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.0,
+    )
+    perms = derive_permissions(
+        subs,
+        content_role="ugc_thread",
+        query_intent="commercial",
+        fetch_failure_kind="defer",
+    )
+    assert perms.retrieve_permission == "defer"
+    assert perms.mention_permission == "deny"
+    assert perms.factual_permission == "attribute_only"
+    assert perms.endorsement_permission == "deny"
+    primary, _ = derive_llm_actions(perms, subs)
+    assert primary == "defer_fetch"
 
 
 def test_derive_llm_actions_pass_for_clean_source():
@@ -463,6 +490,32 @@ def test_non_shopping_concealment_still_rejects():
     assert perms.retrieve_permission == "reject"
 
 
+def test_institutional_concealment_softens_to_downrank():
+    from anti_geo.permissions import derive_permissions
+    from anti_geo.models import SourceSubscores
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.70,
+        rhetorical_manipulation=0.1,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.65,
+        intent_mismatch=0.0,
+        harm_severity=0.35,
+        concealment_risk=0.95,
+    )
+    perms = derive_permissions(
+        subs,
+        content_role="institutional",
+        query_intent="commercial",
+        concealment_flags=["hidden_instruction_pattern"],
+    )
+    assert perms.retrieve_permission == "downrank"
+    assert perms.mention_permission == "allow"
+    # Softened IPI → downrank does not force factual deny cascade.
+    assert perms.factual_permission in ("allow", "attribute_only", "require_corroboration")
+
+
 def test_ugc_hub_very_low_fetch_confidence_still_mentions():
     """Successful UGC hub fetch: mention stays allow below MENTION_DENY bar."""
     from anti_geo.permissions import derive_permissions
@@ -486,8 +539,8 @@ def test_ugc_hub_very_low_fetch_confidence_still_mentions():
     )
     assert perms.mention_permission == "allow"
     assert perms.retrieve_permission != "defer"
-    # Soft-fetch caps at attribute_only; shopping UGC floor stays attribute_only.
-    assert perms.factual_permission == "attribute_only"
+    # Soft-fetch + shopping UGC → require_corroboration (not free AO).
+    assert perms.factual_permission == "require_corroboration"
 
 
 def test_brand_legit_vendor_retrieve_downrank_and_factual_floor():
@@ -511,11 +564,11 @@ def test_brand_legit_vendor_retrieve_downrank_and_factual_floor():
         query="is TheoGrace a good brand?",
     )
     assert perms.retrieve_permission == "downrank"
-    assert perms.factual_permission == "deny"
+    assert perms.factual_permission == "attribute_only"
     assert perms.endorsement_permission == "deny"
 
 
-def test_shopping_ugc_factual_floor_attribute_only():
+def test_shopping_ugc_factual_floor_require_corroboration():
     from anti_geo.permissions import derive_permissions
     from anti_geo.models import SourceSubscores
     subs = SourceSubscores(
@@ -534,11 +587,115 @@ def test_shopping_ugc_factual_floor_attribute_only():
         content_role="ugc_thread",
         query_intent="commercial",
     )
-    assert perms.factual_permission == "attribute_only"
+    assert perms.factual_permission == "require_corroboration"
     assert perms.retrieve_permission == "allow"
 
 
-def test_shopping_high_trust_review_quote_caps_to_attribute_only():
+def test_ugc_intent_query_keeps_retrieve_allow_despite_soft_downrank_signals():
+    """Query asks for Reddit + ugc_thread → allow (not downrank for being UGC)."""
+    from anti_geo.models import QueryContextScores, SourceSubscores
+    from anti_geo.permissions import derive_permissions
+
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.25,  # would normally soft-downrank
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.4,
+        intent_mismatch=0.6,  # would normally soft-downrank
+        harm_severity=0.2,
+        concealment_risk=0.55,  # soft concealment
+    )
+    ctx = QueryContextScores("healthy", 0.0, 0.7)
+    perms = derive_permissions(
+        subs,
+        query_context=ctx,
+        content_role="ugc_thread",
+        query_intent="commercial",
+        query="best invisible braces reddit recommends 2026",
+    )
+    assert perms.retrieve_permission == "allow"
+    assert perms.factual_permission == "require_corroboration"
+
+
+def test_ugc_intent_still_downranks_when_consensus_coordinated():
+    from anti_geo.models import QueryContextScores, SourceSubscores
+    from anti_geo.permissions import derive_permissions
+
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.55,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.5,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.0,
+    )
+    ctx = QueryContextScores("coordinated", 0.0, 0.1)
+    perms = derive_permissions(
+        subs,
+        query_context=ctx,
+        content_role="ugc_thread",
+        query_intent="commercial",
+        query="FlexiSpot coupon code working Reddit",
+    )
+    assert perms.retrieve_permission == "downrank"
+
+
+def test_ugc_page_without_ugc_intent_still_soft_downranks():
+    """UGC page on a non-UGC query can still downrank on low trust."""
+    from anti_geo.models import SourceSubscores
+    from anti_geo.permissions import derive_permissions
+
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.25,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.4,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.0,
+    )
+    perms = derive_permissions(
+        subs,
+        content_role="ugc_thread",
+        query_intent="commercial",
+        query="best mattress for back pain 2026",
+    )
+    assert perms.retrieve_permission == "downrank"
+
+
+def test_ugc_intent_fetch_defer_still_hard_defers():
+    from anti_geo.models import SourceSubscores
+    from anti_geo.permissions import derive_permissions
+
+    subs = SourceSubscores(
+        fetch_confidence=0.2,
+        source_trust=0.55,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.5,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.0,
+    )
+    perms = derive_permissions(
+        subs,
+        content_role="ugc_thread",
+        query_intent="commercial",
+        query="best X reddit recommends 2026",
+        fetch_failure_kind="defer",
+    )
+    assert perms.retrieve_permission == "defer"
+
+
+def test_shopping_high_trust_review_quote_caps_and_rc_floor():
     from anti_geo.permissions import derive_permissions
     from anti_geo.models import SourceSubscores
     subs = SourceSubscores(
@@ -552,14 +709,20 @@ def test_shopping_high_trust_review_quote_caps_to_attribute_only():
         harm_severity=0.2,
         concealment_risk=0.0,
     )
-    for role in ("review_profile", "expert_listicle"):
-        perms = derive_permissions(
-            subs,
-            content_role=role,
-            query_intent="commercial",
-        )
-        assert perms.factual_permission == "attribute_only", role
-        assert perms.retrieve_permission == "allow"
+    listicle = derive_permissions(
+        subs,
+        content_role="expert_listicle",
+        query_intent="commercial",
+    )
+    assert listicle.factual_permission == "attribute_only"
+    assert listicle.retrieve_permission == "allow"
+    review = derive_permissions(
+        subs,
+        content_role="review_profile",
+        query_intent="commercial",
+    )
+    assert review.factual_permission == "require_corroboration"
+    assert review.retrieve_permission == "allow"
 
 
 def test_shopping_institutional_high_trust_still_allows_factual():
@@ -582,6 +745,7 @@ def test_shopping_institutional_high_trust_still_allows_factual():
         query_intent="commercial",
     )
     assert perms.factual_permission == "allow"
+    assert perms.endorsement_permission == "deny"
 
 
 def test_factual_blog_not_auto_endorse_deny_on_shopping():
@@ -604,3 +768,51 @@ def test_factual_blog_not_auto_endorse_deny_on_shopping():
         query_intent="commercial",
     )
     assert perms.endorsement_permission == "allow"
+
+
+def test_shopping_ugc_and_review_require_corroboration():
+    from anti_geo.permissions import derive_permissions
+    from anti_geo.models import SourceSubscores
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.55,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.55,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.0,
+    )
+    for role in ("ugc_thread", "review_profile"):
+        perms = derive_permissions(
+            subs,
+            content_role=role,
+            query_intent="commercial",
+        )
+        assert perms.factual_permission == "require_corroboration", role
+
+
+def test_shopping_vendor_hard_ipi_softens_to_downrank():
+    from anti_geo.permissions import derive_permissions
+    from anti_geo.models import SourceSubscores
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.45,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.4,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.95,
+    )
+    perms = derive_permissions(
+        subs,
+        content_role="commercial_product",
+        query_intent="commercial",
+        query="is TheoGrace legit",
+    )
+    assert perms.retrieve_permission == "downrank"
+    assert perms.factual_permission == "attribute_only"
+    assert perms.endorsement_permission == "deny"

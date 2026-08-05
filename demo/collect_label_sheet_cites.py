@@ -127,6 +127,8 @@ def _rebuild_sheet(
     *,
     engine: str,
     max_pages: int,
+    id_prefix: str = "v1p",
+    sheet_name: str = "v1",
 ) -> tuple[dict, dict]:
     pages: list[dict] = []
     query_meta: list[dict] = []
@@ -147,7 +149,7 @@ def _rebuild_sheet(
             page_i += 1
             pages.append(
                 {
-                    "id": f"v1p{page_i:02d}",
+                    "id": f"{id_prefix}{page_i:02d}",
                     "query": query,
                     "url": url,
                     "domain": _domain(url),
@@ -160,9 +162,10 @@ def _rebuild_sheet(
     now = datetime.now(timezone.utc).isoformat()
     blind = {
         "description": (
-            "Permissions paper expansion label sheet (v1): commercial-intent "
-            "queries only. Engine cites only — labels empty for human labeling. "
-            "Anti-GEO system outputs are NOT in this file. See LABEL_GUIDE.md."
+            f"Permissions paper expansion label sheet ({sheet_name}): "
+            "commercial-intent queries only. Engine cites only — labels empty "
+            "for human labeling. Anti-GEO system outputs are NOT in this file. "
+            "See LABEL_GUIDE.md."
         ),
         "claim_focus": (
             "per-source use rights under commercial recommend queries; "
@@ -177,7 +180,9 @@ def _rebuild_sheet(
         "pages": pages,
     }
     raw = {
-        "description": "Raw engine cite lists for v1 (no Anti-GEO scoring).",
+        "description": (
+            f"Raw engine cite lists for {sheet_name} (no Anti-GEO scoring)."
+        ),
         "created_at": now,
         "engine": engine,
         "queries": raw_rows,
@@ -205,6 +210,16 @@ def main() -> None:
     ap.add_argument("--engine", default="azure")
     ap.add_argument("--max-pages-per-query", type=int, default=6)
     ap.add_argument("--query-delay", type=float, default=1.0)
+    ap.add_argument(
+        "--id-prefix",
+        default="v1p",
+        help="Page id prefix (e.g. v3p → v3p01, v3p02, …)",
+    )
+    ap.add_argument(
+        "--sheet-name",
+        default="v1",
+        help="Sheet name used in blind/raw descriptions (e.g. v3)",
+    )
     ap.add_argument(
         "--resume",
         action="store_true",
@@ -254,7 +269,11 @@ def main() -> None:
         # Incremental save after each query.
         ordered = [raw_by_q[q] for q in queries if q in raw_by_q]
         blind, raw = _rebuild_sheet(
-            ordered, engine=args.engine, max_pages=args.max_pages_per_query
+            ordered,
+            engine=args.engine,
+            max_pages=args.max_pages_per_query,
+            id_prefix=args.id_prefix,
+            sheet_name=args.sheet_name,
         )
         args.raw_out.write_text(json.dumps(raw, indent=2) + "\n", encoding="utf-8")
         args.blind_out.write_text(json.dumps(blind, indent=2) + "\n", encoding="utf-8")
@@ -264,7 +283,11 @@ def main() -> None:
 
     ordered = [raw_by_q[q] for q in queries if q in raw_by_q]
     blind, raw = _rebuild_sheet(
-        ordered, engine=args.engine, max_pages=args.max_pages_per_query
+        ordered,
+        engine=args.engine,
+        max_pages=args.max_pages_per_query,
+        id_prefix=args.id_prefix,
+        sheet_name=args.sheet_name,
     )
     args.raw_out.write_text(json.dumps(raw, indent=2) + "\n", encoding="utf-8")
     args.blind_out.write_text(json.dumps(blind, indent=2) + "\n", encoding="utf-8")

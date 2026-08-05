@@ -161,6 +161,150 @@ class ReferralProfile:
     parasitic_llm_reason: str = ""
 
 
+def verified_referrer_from_dict(data: dict) -> VerifiedReferrer:
+    """Restore one verified referrer from a freeze / dump dict."""
+    return VerifiedReferrer(
+        url=str(data.get("url") or ""),
+        role=str(data.get("role") or ""),
+        connection=str(data.get("connection") or ""),
+        connection_confidence=str(data.get("connection_confidence") or "high"),
+        matched_marker=str(data.get("matched_marker") or ""),
+        seed_query=str(data.get("seed_query") or ""),
+        role_source=str(data.get("role_source") or "heuristic"),
+        role_reason=str(data.get("role_reason") or ""),
+        llm_parasitic=bool(data.get("llm_parasitic") or False),
+        content_scored=bool(data.get("content_scored") or False),
+        content_high_risk=bool(data.get("content_high_risk") or False),
+        content_semantic_risk=float(data.get("content_semantic_risk") or 0.0),
+        content_flags=list(data.get("content_flags") or []),
+        content_manipulability=float(data.get("content_manipulability") or 0.0),
+        content_thread_surface=float(data.get("content_thread_surface") or 0.0),
+        content_editability=float(data.get("content_editability") or 0.0),
+        content_segment_role=str(data.get("content_segment_role") or ""),
+    )
+
+
+def referral_profile_to_freeze_dict(profile: ReferralProfile) -> dict:
+    """Serialize Mode B profile for eval-loop freeze (mix + tier flags)."""
+    from dataclasses import asdict
+
+    return {
+        "status": profile.status,
+        "discovery_status": profile.discovery_status,
+        "confidence": profile.confidence,
+        "n_verified": profile.n_verified,
+        "mix": dict(profile.mix or {}),
+        "citations_domain_mix": dict(profile.citations_domain_mix or {}),
+        "parasitic_geo_suspected": profile.parasitic_geo_suspected,
+        "parasitic_geo_risk": profile.parasitic_geo_risk,
+        "parasitic_geo_elevated": profile.parasitic_geo_elevated,
+        "citations_sampled": profile.citations_sampled,
+        "seed_queries_run": profile.seed_queries_run,
+        "target_cited_in_answers": profile.target_cited_in_answers,
+        "semantic_alignment": asdict(profile.semantic_alignment)
+        if profile.semantic_alignment
+        else None,
+        "referrers_verified": [asdict(r) for r in profile.referrers_verified],
+        "discovery_errors": list(profile.discovery_errors or []),
+        "notes": list(profile.notes or []),
+        "referrer_content_scored": profile.referrer_content_scored,
+        "referrer_content_high_risk": profile.referrer_content_high_risk,
+        "referrer_content_coordinated": profile.referrer_content_coordinated,
+        "parasitic_source": profile.parasitic_source,
+        "parasitic_llm_reason": profile.parasitic_llm_reason,
+    }
+
+
+def referral_profile_from_freeze_dict(data: dict) -> ReferralProfile:
+    """Restore a frozen Mode B profile (prefer full mix; flags always applied)."""
+    refs_raw = data.get("referrers_verified") or []
+    verified = [
+        verified_referrer_from_dict(r) for r in refs_raw if isinstance(r, dict)
+    ]
+    align_raw = data.get("semantic_alignment")
+    alignment = None
+    if isinstance(align_raw, dict) and align_raw.get("label"):
+        alignment = SemanticAlignment(
+            target_commercial_tier=str(align_raw.get("target_commercial_tier") or "none"),
+            referrer_commercial_share=float(align_raw.get("referrer_commercial_share") or 0.0),
+            aligned=bool(align_raw.get("aligned")),
+            label=str(align_raw.get("label") or "inconclusive"),
+        )
+    notes = list(data.get("notes") or [])
+    if "Frozen referral mix" not in " ".join(notes):
+        notes = [
+            "Frozen referral mix (eval loop — no Mode B rediscovery).",
+            *notes,
+        ]
+    return ReferralProfile(
+        status=str(data.get("status") or "sparse"),
+        discovery_status=str(data.get("discovery_status") or "success"),
+        confidence=str(data.get("confidence") or "medium"),
+        n_verified=int(data.get("n_verified") or len(verified) or 0),
+        mix=dict(data.get("mix") or {}),
+        citations_domain_mix=dict(data.get("citations_domain_mix") or {}),
+        parasitic_geo_suspected=data.get("parasitic_geo_suspected"),
+        parasitic_geo_risk=float(data.get("parasitic_geo_risk") or 0.0),
+        parasitic_geo_elevated=bool(data.get("parasitic_geo_elevated") or False),
+        citations_sampled=int(data.get("citations_sampled") or 0),
+        seed_queries_run=int(data.get("seed_queries_run") or 0),
+        target_cited_in_answers=int(data.get("target_cited_in_answers") or 0),
+        semantic_alignment=alignment,
+        referrers_verified=verified,
+        discovery_errors=list(data.get("discovery_errors") or []),
+        notes=notes,
+        referrer_content_scored=int(data.get("referrer_content_scored") or 0),
+        referrer_content_high_risk=int(data.get("referrer_content_high_risk") or 0),
+        referrer_content_coordinated=bool(
+            data.get("referrer_content_coordinated") or False
+        ),
+        parasitic_source=str(data.get("parasitic_source") or "heuristic"),
+        parasitic_llm_reason=str(data.get("parasitic_llm_reason") or ""),
+    )
+
+
+def referral_profile_from_label_pred(pred: dict) -> ReferralProfile | None:
+    """Build a freeze profile from label-sheet ``predictions`` (legacy or full).
+
+    Prefer ``referral_freeze`` / ``referrers_verified``. Else, if Mode B summary
+    fields exist, build a flag-preserving stub (empty referrer list) so re-runs
+    skip rediscovery and keep the same parasitic tier.
+    """
+    if not isinstance(pred, dict):
+        return None
+    freeze = pred.get("referral_freeze")
+    if isinstance(freeze, dict):
+        return referral_profile_from_freeze_dict(freeze)
+    if isinstance(pred.get("referrers_verified"), list):
+        return referral_profile_from_freeze_dict(pred)
+    # Legacy summary-only rows (no mix dump).
+    has_mode_b = (
+        pred.get("parasitic_source") is not None
+        or pred.get("n_verified") is not None
+        or pred.get("referral_status") is not None
+        or pred.get("parasitic_geo_risk") is not None
+    )
+    if not has_mode_b:
+        return None
+    return referral_profile_from_freeze_dict(
+        {
+            "status": pred.get("referral_status") or "sparse",
+            "discovery_status": "success",
+            "confidence": "medium",
+            "n_verified": pred.get("n_verified") or 0,
+            "parasitic_geo_suspected": pred.get("parasitic_geo_suspected"),
+            "parasitic_geo_risk": pred.get("parasitic_geo_risk") or 0.0,
+            "parasitic_geo_elevated": bool(pred.get("parasitic_geo_elevated") or False),
+            "parasitic_source": pred.get("parasitic_source") or "heuristic",
+            "parasitic_llm_reason": pred.get("parasitic_llm_reason") or "",
+            "referrers_verified": [],
+            "notes": [
+                "Frozen from legacy label-sheet Mode B summary (referrer list unavailable)."
+            ],
+        }
+    )
+
+
 # Hard convict: parasitic share above this at N>=PARASITIC_GEO_HARD_N with no editorial.
 PARASITIC_GEO_SUSPECTED_SHARE = 0.5
 # Soft share band sits just under the hard bar (N>=PARASITIC_GEO_HARD_N, no editorial).

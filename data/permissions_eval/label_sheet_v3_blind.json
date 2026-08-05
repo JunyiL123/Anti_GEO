@@ -1,0 +1,1064 @@
+{
+  "description": "Permissions paper expansion label sheet (v3): commercial-intent queries only. Engine cites only \u2014 labels empty for human labeling. Anti-GEO system outputs are NOT in this file. See LABEL_GUIDE.md.",
+  "claim_focus": "per-source use rights under commercial recommend queries; Mode B parasitic evaluated separately and may only tighten actions",
+  "created_at": "2026-08-05T11:29:31.742672+00:00",
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "label_instructions": {
+    "retrieve_permission": "Should the engine retrieve/use this page at all for this query? allow | downrank | defer | reject",
+    "mention_permission": "May the answer name/attribute this source? allow | deny",
+    "factual_permission": "May the answer use claims from this page as facts? allow | attribute_only | require_corroboration | deny",
+    "endorsement_permission": "May the answer recommend / crown a pick from this page? allow | deny. Legal GEO-y marketing alone is not automatic deny \u2014 deny when you would not trust it as advice.",
+    "parasitic": "Separate Mode B judgment (not single-page): none | elevated | suspected. Do not change the four permissions to 'encode' this \u2014 keep them independent."
+  },
+  "n_queries": 15,
+  "n_pages": 59,
+  "queries": [
+    {
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "n_pages": 5,
+      "intent": "commercial"
+    },
+    {
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "n_pages": 5,
+      "intent": "commercial"
+    },
+    {
+      "query": "best online therapy platform for couples without insurance",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "best home theater projector recommended by AV forums",
+      "n_pages": 3,
+      "intent": "commercial"
+    },
+    {
+      "query": "Brooklinen promo code that actually works Reddit",
+      "n_pages": 3,
+      "intent": "commercial"
+    },
+    {
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "n_pages": 2,
+      "intent": "commercial"
+    },
+    {
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "n_pages": 3,
+      "intent": "commercial"
+    },
+    {
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "n_pages": 4,
+      "intent": "commercial"
+    },
+    {
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "n_pages": 5,
+      "intent": "commercial"
+    },
+    {
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "n_pages": 5,
+      "intent": "commercial"
+    }
+  ],
+  "pages": [
+    {
+      "id": "v3p01",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://help.backmarket.com/hc/en-us/articles/360026820453-Returns-and-Refunds-Policy?utm_source=openai",
+      "domain": "help.backmarket.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p02",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.backmarket.com/en-us/quality?utm_source=openai",
+      "domain": "backmarket.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p03",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.trustpilot.com/review/www.backmarket.com?utm_source=openai",
+      "domain": "trustpilot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p04",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.bbb.org/us/ny/new-york/profile/online-retailer/back-market-inc-0121-176814/complaints?utm_source=openai",
+      "domain": "bbb.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p05",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.midea.com/us/store/cooling-and-heating/dehumidifiers/midea-cube-20-pt-dehumidifier-for-basement--room--or-garage---co.mad35s1qwt?utm_source=openai",
+      "domain": "midea.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p06",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.homedepot.com/p/320468342?_pxhc=1670378528822",
+      "domain": "homedepot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p07",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.rtings.com/dehumidifier/reviews/best/basement",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p08",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.energystar.gov/productfinder/product/certified-dehumidifiers/details/2370988/export/pdf?utm_source=openai",
+      "domain": "energystar.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p09",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.energystar.gov/products/dehumidifiers",
+      "domain": "energystar.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p10",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/1vfwjh6/best_ergonomic_chair_for_300/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p11",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/1uyl8mx/is_320_a_good_deal_for_a_steelcase_leap_v2_in/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p12",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/1u0o7z6/just_received_my_colamy_atlas_my_first_ergo_chair/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p13",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/z2aamu?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p14",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://prod-site.thorne.com/products/dp/magnesium-bisglycinate?utm_source=openai",
+      "domain": "prod-site.thorne.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p15",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://dsld.od.nih.gov/label/205309?utm_source=openai",
+      "domain": "dsld.od.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p16",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://www.nowfoods.com/products/supplements/magnesium-glycinate-tablets?VARI=1627&utm_source=openai",
+      "domain": "nowfoods.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p17",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://www.doctorsbest.com/products/doctor-s-best-high-absorption-magnesium-lysinate-glycinate-chelated-albion-traacs-240-tablets-100-mg-per-tablet-16567?utm_source=openai",
+      "domain": "doctorsbest.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p18",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40918053/?utm_source=openai",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p19",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://openpathcollective.org/frequently-asked-questions-from-therapy-seekers/?utm_source=openai",
+      "domain": "openpathcollective.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p20",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://www.betterhelp.com/advice/therapy/where-can-i-find-couples-therapy-near-me//?utm_source=openai",
+      "domain": "betterhelp.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p21",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://www.ourritual.com/plans?utm_source=openai",
+      "domain": "ourritual.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p22",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://help.talkspace.com/hc/en-us/articles/360041531131-Talkspace-Services-Out-of-Pocket-Pricing?utm_source=openai",
+      "domain": "help.talkspace.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p23",
+      "query": "best home theater projector recommended by AV forums",
+      "url": "https://www.avforums.com/articles/tvs-projectors-best-of-2025-2026-avforums-editors-choice-awards.23119/?utm_source=openai",
+      "domain": "avforums.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p24",
+      "query": "best home theater projector recommended by AV forums",
+      "url": "https://news.epson.com/news/pro-cinema-ls9000-4k-laser-projector?utm_source=openai",
+      "domain": "news.epson.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p25",
+      "query": "best home theater projector recommended by AV forums",
+      "url": "https://www.valerion.com/product/valerion-visionmaster-pro2-pro-4k-rgb-triple-laser-projector?image=1&model=Pro&utm_source=openai",
+      "domain": "valerion.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p26",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.reddit.com/r/discountcodepromocode/comments/1v5d9my/brooklinen_discount_code_15627820_15_off_verified/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p27",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.reddit.com/r/maximumfun/comments/1uyi2ib/use_code_blank_at_checkout/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p28",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.wethrift.com/brooklinen?utm_source=openai",
+      "domain": "wethrift.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p29",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://www.samsung.com/us/rings/galaxy-ring/buy/galaxy-ring-titanium-black-sm-q50xnzkaxar/?utm_source=openai",
+      "domain": "samsung.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p30",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://www.nature.com/articles/s41598-025-93774-z.pdf",
+      "domain": "nature.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p31",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://www.samsung.com/us/rings/galaxy-ring/?r=true",
+      "domain": "samsung.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p32",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://ouraring.com/membership?pubDate=20260102",
+      "domain": "ouraring.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p33",
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "url": "https://www.quince.com/quince-offers",
+      "domain": "quince.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p34",
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "url": "https://www.washingtonpost.com/style/fashion/2025/02/19/cashmere-quince-uniqlo-naadam/",
+      "domain": "washingtonpost.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p35",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://levoit.com/products/lvac-200-cordless-vacuum?bvstate=pg%3A8%2Fct%3Ar&country=US&currency=USD&gad_source=1&gbraid=0AAAAACKUb63CMEFhJx4KxAEKrDLnKCCGW&tw_adid=741533508928&tw_campaign=21051369242&tw_source=yahoo&variant=43344013918359",
+      "domain": "levoit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p36",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://www.techgearlab.com/reviews/floor-cleaning/cordless-stick-vacuum/levoit-lvac-200?utm_source=openai",
+      "domain": "techgearlab.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p37",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://www.bissell.com/en-us/product/powerclean-furfinder-cordless-stick-vacuum-4052.html?bvstate=pg%3A5%2Fct%3Ar&pr_rd_page=20",
+      "domain": "bissell.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p38",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://www.dreametech.com/products/dreame-r20-pure-cordless-stick-vacuum",
+      "domain": "dreametech.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p39",
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "url": "https://www.reddit.com/r/mealkits/comments/1tb3olk/what_is_the_best_budget_friendly_kit/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p40",
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "url": "https://www.everyplate.com/?locale=en-US&utm_source=openai",
+      "domain": "everyplate.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p41",
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "url": "https://www.reddit.com/r/ReadyMeals/comments/1o3fqxp/factor_vs_cookunity/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p42",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://nsfsport-prod.nsf.org/certified-products/listing-detail.php?id=1258469",
+      "domain": "nsfsport-prod.nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p43",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0418947&Standard=306",
+      "domain": "info.nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p44",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://choice.wetestyoutrust.com/supplement-search/sports-research/collagen-peptides-organic?utm_source=openai",
+      "domain": "choice.wetestyoutrust.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p45",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37717022/?utm_source=openai",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p46",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://mitoredlight.com/products/mitopro-x-series?okeReviewsNextUrl=https%253A%252F%252Fapi.okendo.io%252Fv1%252Fstores%252F549e04b9-02ec-45a7-87b0-46198133f54b%252Fproducts%252Fshopify-8052427751592%252Freviews%253Flimit%253D5%2526orderBy%253Ddate%252520desc%2526lastEvaluated%253D%25257B%252522dateCreated%252522%25253A%2525222026-04-13T20%25253A33%25253A18.559Z%252522%25252C%252522subscriberId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%252522%25252C%252522reviewId%252522%25253A%252522206aa928-f43d-4af8-ae4e-35bbe364b11b%252522%25252C%252522subscriberId_productId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%25253Ashopify-8052427751592%252522%25257D&okeReviewsPageNum=2",
+      "domain": "mitoredlight.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p47",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://hoogahealth.com/products/hgpro750",
+      "domain": "hoogahealth.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p48",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38758297/?utm_source=openai",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p49",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://www.aad.org/public/cosmetic/safety/red-light-therapy?utm_source=openai",
+      "domain": "aad.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p50",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1uqf4f7/best_prebuilt_gaming_pcs_2026_which_ones_are/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p51",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1sa9ndy/best_prebuilt_brand_that_known_for_long_term/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p52",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1uus9c2/falcon_northwest/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p53",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1mki1yl/best_prebuilt_brandsbuilders/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p54",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/PrebuiltGamingPC/comments/1kd6mmp?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p55",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://clickup.com/pricing",
+      "domain": "clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p56",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://help.clickup.com/hc/en-us/articles/6328033402007-Use-ClickUp-for-design-reviews?utm_source=openai",
+      "domain": "help.clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p57",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://clickup.com/solutions/agency-management",
+      "domain": "clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p58",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://www.notion.com/product/projects?trk=public_post_comment-text",
+      "domain": "notion.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v3p59",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://www.notion.com/pricing",
+      "domain": "notion.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "note": null,
+      "labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    }
+  ]
+}

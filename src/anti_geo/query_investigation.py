@@ -301,13 +301,19 @@ def investigate_query(
     deep: bool = False,
     forced_urls: list[str] | None = None,
     mode_b_ugc: bool = False,
+    frozen_referral_by_url: dict[str, ReferralProfile] | None = None,
 ) -> QueryInvestigationResult:
     """Mode A: query → cites → L1-L3 all; Mode B for non-UGC (or UGC if mode_b_ugc).
 
     ``forced_urls`` (opt-in): replace engine cite list with this set (no SERP merge).
     ``mode_b_ugc`` (opt-in): run Mode B on UGC cites too (default skips them).
+    ``frozen_referral_by_url`` (opt-in): map normalized URL → prior Mode B profile;
+    skips rediscovery for those cites (eval-loop freeze).
     """
     prog = progress or NullProgress()
+    frozen_map = {
+        _norm_url(k): v for k, v in (frozen_referral_by_url or {}).items()
+    }
     intent_hit = resolve_query_intent(query, query_intent)
     query_intent = intent_hit.intent
     if deep:
@@ -474,6 +480,12 @@ def investigate_query(
     mode_b_errors: dict[str, str] = {}
     mb_label = "cites" if mode_b_ugc else "non-UGC"
 
+    if frozen_map:
+        notes.append(
+            f"Frozen Mode B referral profiles applied for {len(frozen_map)} URL(s) "
+            "(no rediscovery)."
+        )
+
     if mode_b_candidate_urls and resolved is not None:
         prog.set_counts(
             0,
@@ -487,6 +499,18 @@ def investigate_query(
                 pre_fetch = cached[0] if cached else None
                 pre_report = cached[1] if cached else None
                 pre_role = cached[2] if cached else None
+                frozen = frozen_map.get(_norm_url(url))
+                if frozen is not None and pre_report is not None:
+                    role = pre_role or classify_content_role(
+                        url, source=pre_report.source
+                    )
+                    row = _row_from_report(
+                        pre_report,
+                        role=role,
+                        is_ugc=is_ugc_role(role),
+                        profile=frozen,
+                    )
+                    return url, row, None
                 row = _run_mode_b_for_cite(
                     url,
                     query=query,
