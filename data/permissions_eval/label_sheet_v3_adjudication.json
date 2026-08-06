@@ -1,0 +1,2646 @@
+{
+  "description": "v3 adjudicated gold: human overrides in adjudicated_labels where present; otherwise accept LABEL_GUIDE LLM drafts. Paper gold for Anti-GEO CMs.",
+  "created_at": "2026-08-06T03:50:29.441869+00:00",
+  "sources": {
+    "edit": "data/permissions_eval/label_sheet_v3_adjudication_edit.json",
+    "draft": "data/permissions_eval/label_sheet_v3_llm_gold_draft.json",
+    "blind": "data/permissions_eval/label_sheet_v3_blind.json",
+    "guide": "data/permissions_eval/LABEL_GUIDE.md"
+  },
+  "fields": [
+    "retrieve_permission",
+    "mention_permission",
+    "factual_permission",
+    "endorsement_permission",
+    "parasitic"
+  ],
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "prefill_rule": "adjudicated_labels[field] if set; else human_labels; else accept llm_labels (whitespace stripped).",
+  "n_pages": 59,
+  "n_field_accepts_from_llm": 285,
+  "n_field_human_amends": 10,
+  "pages": [
+    {
+      "id": "v3p01",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://help.backmarket.com/hc/en-us/articles/360026820453-Returns-and-Refunds-Policy?utm_source=openai",
+      "domain": "help.backmarket.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Back Market’s official help page is relevant for its stated returns and refunds policy, but as a first-party source it should not independently establish overall trustworthiness or support an endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p02",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.backmarket.com/en-us/quality?utm_source=openai",
+      "domain": "backmarket.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Back Market’s own quality page is useful for attributed claims about its policies, but it should not independently establish trustworthiness or support an endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p03",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.trustpilot.com/review/www.backmarket.com?utm_source=openai",
+      "domain": "trustpilot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "adjudicated_override",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Relevant consumer-review aggregation for assessing trustworthiness, but claims and ratings should be attributed to Trustpilot and should not alone support a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p04",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.bbb.org/us/ny/new-york/profile/online-retailer/back-market-inc-0121-176814/complaints?utm_source=openai",
+      "domain": "bbb.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "BBB complaint records are relevant to retailer trustworthiness but are selection-biased and should be attributed rather than treated as a definitive verdict.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p05",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.midea.com/us/store/cooling-and-heating/dehumidifiers/midea-cube-20-pt-dehumidifier-for-basement--room--or-garage---co.mad35s1qwt?utm_source=openai",
+      "domain": "midea.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Midea product page; suitable for product details and self-reported specifications with attribution, but not as an independent basis for a best-product recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p06",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.homedepot.com/p/320468342?_pxhc=1670378528822",
+      "domain": "homedepot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Home Depot product page: usable for attributed product details or pricing, but not sufficient as independent support for a best-product recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p07",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.rtings.com/dehumidifier/reviews/best/basement",
+      "domain": "rtings.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "RTINGS is a strong independent testing/review source suitable for informing and supporting a recommendation, with shopping claims attributed to the source.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p08",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.energystar.gov/productfinder/product/certified-dehumidifiers/details/2370988/export/pdf?utm_source=openai",
+      "domain": "energystar.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official ENERGY STAR certification record; suitable for verified product facts, but not as a standalone recommendation for the best basement dehumidifier.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p09",
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "url": "https://www.energystar.gov/products/dehumidifiers",
+      "domain": "energystar.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official ENERGY STAR resource suitable for authoritative efficiency and dehumidifier guidance, but not a standalone basis for crowning a specific product.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p10",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/1vfwjh6/best_ergonomic_chair_for_300/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm_explicit",
+        "mention_permission": "accept_llm_explicit",
+        "factual_permission": "accept_llm_explicit",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly asks for Reddit opinions, and this is an on-intent Reddit thread. Its claims should be attributed as user opinions rather than treated as independent facts or sufficient grounds for endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p11",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/1uyl8mx/is_320_a_good_deal_for_a_steelcase_leap_v2_in/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly asks for Reddit opinions, so this Reddit thread is on-intent UGC. Its claims should be attributed, and it should not independently determine a product recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p12",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/1u0o7z6/just_received_my_colamy_atlas_my_first_ergo_chair/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly asks for Reddit opinions, and this is an on-intent Reddit user thread. Its claims should be attributed, not treated as sufficient grounds for a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p13",
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "url": "https://www.reddit.com/r/OfficeChairs/comments/z2aamu?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly asks for Reddit opinions, so this Reddit thread is on-intent UGC. Its claims should be attributed, and it should not independently determine a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p14",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://prod-site.thorne.com/products/dp/magnesium-bisglycinate?utm_source=openai",
+      "domain": "prod-site.thorne.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Brand product page; usable for attributed product details, but not as independent evidence for a best-supplement recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p15",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://dsld.od.nih.gov/label/205309?utm_source=openai",
+      "domain": "dsld.od.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "NIH's Dietary Supplement Label Database is an authoritative source for label contents, but it does not independently establish that the product is best for sleep or relaxation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p16",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://www.nowfoods.com/products/supplements/magnesium-glycinate-tablets?VARI=1627&utm_source=openai",
+      "domain": "nowfoods.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "This is a manufacturer product page, suitable for attributed product details but not an independent basis for naming the best supplement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p17",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://www.doctorsbest.com/products/doctor-s-best-high-absorption-magnesium-lysinate-glycinate-chelated-albion-traacs-240-tablets-100-mg-per-tablet-16567?utm_source=openai",
+      "domain": "doctorsbest.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Brand product page; suitable for attributed product details, but not an independent basis for naming the best sleep or relaxation supplement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p18",
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40918053/?utm_source=openai",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "adjudicated_override",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "PubMed is a credible research index, but an individual study should be attributed and cannot by itself support endorsing a specific magnesium glycinate supplement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p19",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://openpathcollective.org/frequently-asked-questions-from-therapy-seekers/?utm_source=openai",
+      "domain": "openpathcollective.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Open Path's FAQ is relevant for self-reported service details and costs, but as the provider's own page it should not independently support a best-platform endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p20",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://www.betterhelp.com/advice/therapy/where-can-i-find-couples-therapy-near-me//?utm_source=openai",
+      "domain": "betterhelp.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "BetterHelp is a therapy vendor’s own advice page, so it may provide attributable context but should not independently determine the best platform recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p21",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://www.ourritual.com/plans?utm_source=openai",
+      "domain": "ourritual.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Vendor plans/pricing page; suitable for attributed details about its own service, but not as independent support for a best-platform recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p22",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://help.talkspace.com/hc/en-us/articles/360041531131-Talkspace-Services-Out-of-Pocket-Pricing?utm_source=openai",
+      "domain": "help.talkspace.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Talkspace's official help page is a relevant primary source for its out-of-pocket pricing, but as a vendor-owned page its claims should be attributed and it should not independently support a best-platform endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p23",
+      "query": "best home theater projector recommended by AV forums",
+      "url": "https://www.avforums.com/articles/tvs-projectors-best-of-2025-2026-avforums-editors-choice-awards.23119/?utm_source=openai",
+      "domain": "avforums.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "AVForums is an established specialist publication, and its Editors’ Choice awards are directly relevant to a query seeking AV-forum recommendations. Its judgments should be attributed, but they can support a recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p24",
+      "query": "best home theater projector recommended by AV forums",
+      "url": "https://news.epson.com/news/pro-cinema-ls9000-4k-laser-projector?utm_source=openai",
+      "domain": "news.epson.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "adjudicated_override",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Epson’s own product announcement is off-intent for a query seeking AV-forum recommendations; it may support attributed product claims but not an independent endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p25",
+      "query": "best home theater projector recommended by AV forums",
+      "url": "https://www.valerion.com/product/valerion-visionmaster-pro2-pro-4k-rgb-triple-laser-projector?image=1&model=Pro&utm_source=openai",
+      "domain": "valerion.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "adjudicated_override",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Brand product page, not an AV-forum source; usable for attributed product details but not as independent recommendation evidence.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p26",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.reddit.com/r/discountcodepromocode/comments/1v5d9my/brooklinen_discount_code_15627820_15_off_verified/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "suspected"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "suspected"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks Reddit UGC, but the promotional subreddit, code-heavy title, and “verified” claim create a clear planted-referral vibe; the unsupported code claim should not be treated as fact.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p27",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.reddit.com/r/maximumfun/comments/1uyi2ib/use_code_blank_at_checkout/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "suspected"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "suspected"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly asks for Reddit, but the unrelated subreddit and generic checkout-code framing suggest a potentially planted promotion. Any claim that the code works should be corroborated.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p28",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.wethrift.com/brooklinen?utm_so                                                                                                                                                                                        urce=openai",
+      "domain": "wethrift.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Coupon aggregator is not the Reddit/UGC source requested, and working-code claims should be independently verified.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p29",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://www.samsung.com/us/rings/galaxy-ring/buy/galaxy-ring-titanium-black-sm-q50xnzkaxar/?utm_source=openai",
+      "domain": "samsung.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Samsung product page; usable for attributed Galaxy Ring details, but it is a vendor source and should not independently support a comparative recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p30",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://www.nature.com/articles/s41598-025-93774-z.pdf",
+      "domain": "nature.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "A peer-reviewed Nature article may inform attributed sleep-tracking evidence, but it should not independently determine a purchase recommendation or current subscription pricing.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p31",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://www.samsung.com/us/rings/galaxy-ring/?r=true",
+      "domain": "samsung.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Samsung product page; useful for attributed Galaxy Ring features and pricing/subscription claims, but vendor self-claims should not determine the comparative recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p32",
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "url": "https://ouraring.com/membership?pubDate=20260102",
+      "domain": "ouraring.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Oura membership page is relevant for subscription pricing, but vendor claims should be attributed and it should not independently determine the product recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p33",
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "url": "https://www.quince.com/quince-offers",
+      "domain": "quince.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "field_sources": {
+        "retrieve_permission": "adjudicated_override",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "adjudicated_override"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Quince’s own offers page is relevant as a primary source for its stated promotions, but it cannot independently establish the retailer’s legitimacy or justify a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p34",
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "url": "https://www.washingtonpost.com/style/fashion/2025/02/19/cashmere-quince-uniqlo-naadam/",
+      "domain": "washingtonpost.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The Washington Post is a credible independent editorial source, and the article appears directly relevant to evaluating Quince cashmere. Shopping claims should be attributed, but its independent assessment can support a recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p35",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://levoit.com/products/lvac-200-cordless-vacuum?bvstate=pg%3A8%2Fct%3Ar&country=US&currency=USD&gad_source=1&gbraid=0AAAAACKUb63CMEFhJx4KxAEKrDLnKCCGW&tw_adid=741533508928&tw_campaign=21051369242&tw_source=yahoo&variant=43344013918359",
+      "domain": "levoit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "This is the brand's own product page, so it is usable for attributed product details and pricing but should not independently support a best-pick endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p36",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://www.techgearlab.com/reviews/floor-cleaning/cordless-stick-vacuum/levoit-lvac-200?utm_source=openai",
+      "domain": "techgearlab.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "TechGearLab is a recognizable independent product-testing outlet; its review is suitable for attributed facts and can support a recommendation, with no apparent planted-referral signal.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p37",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://www.bissell.com/en-us/product/powerclean-furfinder-cordless-stick-vacuum-4052.html?bvstate=pg%3A5%2Fct%3Ar&pr_rd_page=20",
+      "domain": "bissell.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "This is a manufacturer product page, suitable for attributed product details but not an independent basis for recommending the vacuum as the best option.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p38",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://www.dreametech.com/products/dreame-r20-pure-cordless-stick-vacuum",
+      "domain": "dreametech.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official brand product page; usable for attributed product details, but vendor self-interest makes it unsuitable as the sole basis for a recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p39",
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "url": "https://www.reddit.com/r/mealkits/comments/1tb3olk/what_is_the_best_budget_friendly_kit/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks Reddit opinions, and this is an on-topic Reddit thread. User claims should be attributed, and the thread alone should not determine a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p40",
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "url": "https://www.everyplate.com/?locale=en-US&utm_source=openai",
+      "domain": "everyplate.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official EveryPlate brand site, not a Reddit or community-opinion source; usable for attributed product details but not for establishing Reddit consensus or an independent recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p41",
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "url": "https://www.reddit.com/r/ReadyMeals/comments/1o3fqxp/factor_vs_cookunity/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly asks for Reddit opinion, and this is an on-intent Reddit comparison thread. Its claims should be attributed as user opinions rather than treated as independent facts or a sole basis for endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p42",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://nsfsport-prod.nsf.org/certified-products/listing-detail.php?id=1258469",
+      "domain": "nsfsport-prod.nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official NSF Certified for Sport product listing; suitable for verifying third-party certification, but not for independently endorsing the product as the best overall choice.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p43",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0418947&Standard=306",
+      "domain": "info.nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official NSF certification listing is suitable for verifying third-party testing status, but it does not independently establish which collagen powder is best for joints and skin.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p44",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://choice.wetestyoutrust.com/supplement-search/sports-research/collagen-peptides-organic?utm_source=openai",
+      "domain": "choice.wetestyoutrust.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "adjudicated_override",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "A third-party certification listing is directly relevant for verifying testing status, but certification alone does not support crowning the product as best for joints and skin.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p45",
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37717022/?utm_source=openai",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "PubMed is a credible biomedical index and may support attributed study findings, but this article alone should not determine a commercial product recommendation or verify a specific powder's third-party testing.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p46",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://mitoredlight.com/products/mitopro-x-series?okeReviewsNextUrl=https%253A%252F%252Fapi.okendo.io%252Fv1%252Fstores%252F549e04b9-02ec-45a7-87b0-46198133f54b%252Fproducts%252Fshopify-8052427751592%252Freviews%253Flimit%253D5%2526orderBy%253Ddate%252520desc%2526lastEvaluated%253D%25257B%252522dateCreated%252522%25253A%2525222026-04-13T20%25253A33%25253A18.559Z%252522%25252C%252522subscriberId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%252522%25252C%252522reviewId%252522%25253A%252522206aa928-f43d-4af8-ae4e-35bbe364b11b%252522%25252C%252522subscriberId_productId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%25253Ashopify-8052427751592%252522%25257D&okeReviewsPageNum=2",
+      "domain": "mitoredlight.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Brand-owned product page; usable for attributed product details and vendor claims, but not as an independent basis for a best-pick recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p47",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://hoogahealth.com/products/hgpro750",
+      "domain": "hoogahealth.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "This is a vendor product page for a Hooga red light therapy panel. It can be retrieved and named, but product and recovery claims should be attributed to the vendor, and the page alone should not support a purchase recommendation. No planted-referral signal is evident from the URL/domain.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p48",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38758297/?utm_source=openai",
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "defer",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "adjudicated_override",
+        "mention_permission": "accept_llm",
+        "factual_permission": "adjudicated_override",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "PubMed is a credible biomedical index, but without the article title or abstract, relevance and study quality cannot be assessed; it should not independently support a product recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p49",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://www.aad.org/public/cosmetic/safety/red-light-therapy?utm_source=openai",
+      "domain": "aad.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "American Academy of Dermatology safety guidance is suitable for factual medical context, but it should not be used to select or endorse a specific at-home panel.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p50",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1uqf4f7/best_prebuilt_gaming_pcs_2026_which_ones_are/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "adjudicated_override"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks enthusiast-forum opinions, so the Reddit thread is on-intent. Its claims should be attributed and not independently drive a purchase recommendation; the SEO-like 2026 title creates a soft planted-promotion concern.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p51",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1sa9ndy/best_prebuilt_brand_that_known_for_long_term/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks enthusiast-forum opinions, and this is an on-topic Reddit thread. Its claims should be attributed as user opinions rather than treated as established facts, and it should not independently determine a recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p52",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1uus9c2/falcon_northwest/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks enthusiast-forum opinions, and this is an on-intent Reddit thread. Its claims should be attributed as user opinion rather than treated as standalone facts or a sufficient basis for endorsement; no planted-referral signal is evident from the URL alone.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p53",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/Prebuilts/comments/1mki1yl/best_prebuilt_brandsbuilders/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks enthusiast-forum opinions, and this is an on-topic Reddit thread. Its claims should be attributed as user opinions and should not alone support a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p54",
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "url": "https://www.reddit.com/r/PrebuiltGamingPC/comments/1kd6mmp?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The query explicitly seeks enthusiast-forum opinions, and this is an on-intent Reddit thread. Its claims should be attributed as user opinions and should not independently determine a recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p55",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://clickup.com/pricing",
+      "domain": "clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official vendor pricing page; useful for current ClickUp plan and pricing claims with attribution, but not an independent basis for recommending ClickUp over Notion.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p56",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://help.clickup.com/hc/en-us/articles/6328033402007-Use-ClickUp-for-design-reviews?utm_source=openai",
+      "domain": "help.clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Relevant first-party ClickUp documentation, but its product claims should be attributed and should not independently determine the recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p57",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://clickup.com/solutions/agency-management",
+      "domain": "clickup.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "ClickUp's agency-management page is a vendor source: useful for attributed information about its own offering, but not an independent basis for a Notion-vs-ClickUp recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p58",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://www.notion.com/product/projects?trk=public_post_comment-text",
+      "domain": "notion.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Notion product page is useful for attributed first-party details about Notion Projects, but it is a vendor source and should not independently determine a Notion-vs-ClickUp recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "v3p59",
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "url": "https://www.notion.com/pricing",
+      "domain": "notion.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "field_sources": {
+        "retrieve_permission": "accept_llm",
+        "mention_permission": "accept_llm",
+        "factual_permission": "accept_llm",
+        "endorsement_permission": "accept_llm",
+        "parasitic": "accept_llm"
+      },
+      "note": null,
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official vendor pricing page; useful for attributed Notion pricing and plan details, but not an independent basis for recommending Notion over ClickUp.",
+        "system_leakage_checked": true,
+        "guide_only": true,
+        "attempts": 1
+      }
+    }
+  ]
+}

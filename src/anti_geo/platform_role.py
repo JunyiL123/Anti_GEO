@@ -316,11 +316,15 @@ def is_parasitic_referrer(
     content_high_risk: bool = False,
     llm_parasitic: bool = False,
 ) -> bool:
-    """Potential parasitic GEO surface for mix share (unweighted boolean).
+    """Potential parasitic GEO *surface* for discovery / soft telemetry.
 
     Always: open-posting UGC paths, Medium-like /p/, review_profile,
     forum/community directory aggregators, or Mode B LLM parasitic flag.
     Conditional: factual_blog only when L1 already marked high-risk.
+
+    Hard Mode B share / suspected uses
+    ``investigation.counts_toward_hard_parasitic_share`` (plant stance ∪
+    high-conf ∪ coordination) so pure complaint UGC does not inflate risk.
     """
     if llm_parasitic:
         return True

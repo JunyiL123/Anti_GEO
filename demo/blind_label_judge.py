@@ -114,6 +114,7 @@ def _label_one(
     page: dict[str, Any],
     guide: str,
     dry_run: bool,
+    retries: int = 3,
 ) -> dict[str, Any]:
     _assert_no_system_leakage(page)
     query = str(page.get("query") or "")
@@ -132,22 +133,41 @@ def _label_one(
             },
         }
 
+    import time
+
     from anti_geo.azure_client import chat_completion_json, is_azure_configured, load_azure_config
 
     if not is_azure_configured():
         raise SystemExit("Live labeling needs Azure/OpenAI env")
 
-    payload = chat_completion_json(messages, config=load_azure_config())
-    labels = _validate_labels(payload)
-    return {
-        "llm_labels": labels,
-        "draft_meta": {
-            "dry_run": False,
-            "brief_reason": payload.get("brief_reason"),
-            "system_leakage_checked": True,
-            "guide_only": True,
-        },
-    }
+    last_exc: Exception | None = None
+    for attempt in range(1, max(1, retries) + 1):
+        try:
+            payload = chat_completion_json(messages, config=load_azure_config())
+            labels = _validate_labels(payload)
+            return {
+                "llm_labels": labels,
+                "draft_meta": {
+                    "dry_run": False,
+                    "brief_reason": payload.get("brief_reason"),
+                    "system_leakage_checked": True,
+                    "guide_only": True,
+                    "attempts": attempt,
+                },
+            }
+        except Exception as exc:  # noqa: BLE001
+            last_exc = exc
+            if attempt >= retries:
+                break
+            wait = min(30.0, 2.0**attempt)
+            print(
+                f"  retry {attempt}/{retries} after {type(exc).__name__}: {exc} "
+                f"(sleep {wait:.0f}s)",
+                flush=True,
+            )
+            time.sleep(wait)
+    assert last_exc is not None
+    raise last_exc
 
 
 def main() -> None:
@@ -226,7 +246,28 @@ def main() -> None:
         except Exception as exc:  # noqa: BLE001
             print(f"  FAIL {pid}: {exc}", flush=True)
             _write(out_pages)
-            raise
+            # Persist progress; continue so a later --resume can finish the sheet.
+            row = {
+                "id": page.get("id"),
+                "query": page.get("query"),
+                "url": page.get("url"),
+                "domain": page.get("domain") or _domain(str(page.get("url") or "")),
+                "source": page.get("source"),
+                "role_hint": page.get("role_hint"),
+                "llm_labels": {f: None for f in FIELDS},
+                "draft_meta": {
+                    "dry_run": False,
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "system_leakage_checked": True,
+                    "guide_only": True,
+                },
+                "human_labels": {f: None for f in FIELDS},
+                "adjudicated_labels": {f: None for f in FIELDS},
+            }
+            out_pages.append(row)
+            prior[pid] = row
+            _write(out_pages)
+            continue
         row = {
             "id": page.get("id"),
             "query": page.get("query"),

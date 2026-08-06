@@ -273,7 +273,7 @@ def test_shady_vendor_retrieve_downrank():
     from anti_geo.models import SourceSubscores
     subs = SourceSubscores(
         fetch_confidence=0.9,
-        source_trust=0.40,
+        source_trust=0.30,
         rhetorical_manipulation=0.0,
         retrieval_manipulation_risk=0.0,
         endorsement_risk=0.0,
@@ -338,7 +338,8 @@ def test_institutional_soft_fetch_floor():
         fetch_failure_kind=None,
     )
     assert perms.retrieve_permission != "defer"
-    assert perms.factual_permission == "attribute_only"
+    # High-trust institutional soft-fetch may still allow facts.
+    assert perms.factual_permission == "allow"
     assert perms.mention_permission == "allow"
 
 
@@ -539,8 +540,8 @@ def test_ugc_hub_very_low_fetch_confidence_still_mentions():
     )
     assert perms.mention_permission == "allow"
     assert perms.retrieve_permission != "defer"
-    # Soft-fetch + shopping UGC → require_corroboration (not free AO).
-    assert perms.factual_permission == "require_corroboration"
+    # Soft-fetch + shopping UGC → attribute_only.
+    assert perms.factual_permission == "attribute_only"
 
 
 def test_brand_legit_vendor_retrieve_downrank_and_factual_floor():
@@ -568,7 +569,7 @@ def test_brand_legit_vendor_retrieve_downrank_and_factual_floor():
     assert perms.endorsement_permission == "deny"
 
 
-def test_shopping_ugc_factual_floor_require_corroboration():
+def test_shopping_ugc_factual_floor_attribute_only():
     from anti_geo.permissions import derive_permissions
     from anti_geo.models import SourceSubscores
     subs = SourceSubscores(
@@ -586,8 +587,9 @@ def test_shopping_ugc_factual_floor_require_corroboration():
         subs,
         content_role="ugc_thread",
         query_intent="commercial",
+        query="best office chair reddit recommends",
     )
-    assert perms.factual_permission == "require_corroboration"
+    assert perms.factual_permission == "attribute_only"
     assert perms.retrieve_permission == "allow"
 
 
@@ -616,7 +618,7 @@ def test_ugc_intent_query_keeps_retrieve_allow_despite_soft_downrank_signals():
         query="best invisible braces reddit recommends 2026",
     )
     assert perms.retrieve_permission == "allow"
-    assert perms.factual_permission == "require_corroboration"
+    assert perms.factual_permission == "attribute_only"
 
 
 def test_ugc_intent_still_downranks_when_consensus_coordinated():
@@ -695,7 +697,7 @@ def test_ugc_intent_fetch_defer_still_hard_defers():
     assert perms.retrieve_permission == "defer"
 
 
-def test_shopping_high_trust_review_quote_caps_and_rc_floor():
+def test_shopping_high_trust_review_quote_caps_to_attribute_only():
     from anti_geo.permissions import derive_permissions
     from anti_geo.models import SourceSubscores
     subs = SourceSubscores(
@@ -709,20 +711,15 @@ def test_shopping_high_trust_review_quote_caps_and_rc_floor():
         harm_severity=0.2,
         concealment_risk=0.0,
     )
-    listicle = derive_permissions(
-        subs,
-        content_role="expert_listicle",
-        query_intent="commercial",
-    )
-    assert listicle.factual_permission == "attribute_only"
-    assert listicle.retrieve_permission == "allow"
-    review = derive_permissions(
-        subs,
-        content_role="review_profile",
-        query_intent="commercial",
-    )
-    assert review.factual_permission == "require_corroboration"
-    assert review.retrieve_permission == "allow"
+    for role in ("review_profile", "expert_listicle"):
+        perms = derive_permissions(
+            subs,
+            content_role=role,
+            query_intent="commercial",
+            query="best cordless stick vacuum under $250",
+        )
+        assert perms.factual_permission == "attribute_only", role
+        assert perms.retrieve_permission == "allow"
 
 
 def test_shopping_institutional_high_trust_still_allows_factual():
@@ -770,7 +767,7 @@ def test_factual_blog_not_auto_endorse_deny_on_shopping():
     assert perms.endorsement_permission == "allow"
 
 
-def test_shopping_ugc_and_review_require_corroboration():
+def test_shopping_ugc_and_review_attribute_only_unless_brand_legit():
     from anti_geo.permissions import derive_permissions
     from anti_geo.models import SourceSubscores
     subs = SourceSubscores(
@@ -789,8 +786,16 @@ def test_shopping_ugc_and_review_require_corroboration():
             subs,
             content_role=role,
             query_intent="commercial",
+            query="best office chair under $300 according to Reddit",
         )
-        assert perms.factual_permission == "require_corroboration", role
+        assert perms.factual_permission == "attribute_only", role
+    brand = derive_permissions(
+        subs,
+        content_role="ugc_thread",
+        query_intent="commercial",
+        query="is TheoGrace jewelry legit reddit",
+    )
+    assert brand.factual_permission == "require_corroboration"
 
 
 def test_shopping_vendor_hard_ipi_softens_to_downrank():
@@ -816,3 +821,26 @@ def test_shopping_vendor_hard_ipi_softens_to_downrank():
     assert perms.retrieve_permission == "downrank"
     assert perms.factual_permission == "attribute_only"
     assert perms.endorsement_permission == "deny"
+
+
+def test_mid_trust_shopping_pdp_retrieve_allow():
+    from anti_geo.permissions import derive_permissions
+    from anti_geo.models import SourceSubscores
+    subs = SourceSubscores(
+        fetch_confidence=0.9,
+        source_trust=0.50,
+        rhetorical_manipulation=0.0,
+        retrieval_manipulation_risk=0.0,
+        endorsement_risk=0.0,
+        factual_claim_reliability=0.5,
+        intent_mismatch=0.0,
+        harm_severity=0.2,
+        concealment_risk=0.0,
+    )
+    perms = derive_permissions(
+        subs,
+        content_role="commercial_product",
+        query_intent="commercial",
+        query="best magnesium glycinate for sleep",
+    )
+    assert perms.retrieve_permission == "allow"

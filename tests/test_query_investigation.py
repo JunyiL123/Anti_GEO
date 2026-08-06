@@ -404,6 +404,7 @@ def test_rejected_answer_cites_do_not_use_grounding_pool(monkeypatch):
 
 
 def test_adaptive_stop_helper():
+    from anti_geo.content_signals import PLANT_STANCE_PROMOTIONAL
     from anti_geo.investigation import _referral_mix_decisive
 
     few = [
@@ -416,11 +417,23 @@ def test_adaptive_stop_helper():
     ]
     assert not _referral_mix_decisive(few)
 
+    # Hard share is stance-gated: unscored/complaint UGC alone is not decisive.
+    surface_only = [
+        VerifiedReferrer(
+            url=f"https://reddit.com/r/x/comments/{i}/",
+            role="ugc_thread",
+            connection="brand_mention",
+        )
+        for i in range(8)
+    ]
+    assert not _referral_mix_decisive(surface_only)
+
     heavy = [
         VerifiedReferrer(
             url=f"https://reddit.com/r/x/comments/{i}/",
             role="ugc_thread",
             connection="brand_mention",
+            content_plant_stance=PLANT_STANCE_PROMOTIONAL,
         )
         for i in range(8)
     ]

@@ -176,18 +176,23 @@ def parasitic_llm_gate(
 
 
 def _referrer_summaries(profile: Any) -> list[str]:
+    from anti_geo.investigation import counts_toward_hard_parasitic_share
+
+    coordinated = bool(getattr(profile, "referrer_content_coordinated", False))
     lines: list[str] = []
     for ref in (profile.referrers_verified or [])[:_MAX_REFERRER_SUMMARIES]:
-        parasitic = is_parasitic_referrer(
+        surface = is_parasitic_referrer(
             url=ref.url,
             role=ref.role,
             content_high_risk=ref.content_high_risk,
             llm_parasitic=ref.llm_parasitic,
         )
+        hard = counts_toward_hard_parasitic_share(ref, coordinated=coordinated)
+        stance = getattr(ref, "content_plant_stance", "") or "unknown"
         lines.append(
             f"- url={ref.url} role={ref.role} connection={ref.connection} "
             f"llm_parasitic={ref.llm_parasitic} content_high_risk={ref.content_high_risk} "
-            f"counts_parasitic={parasitic}"
+            f"plant_stance={stance} parasitic_surface={surface} hard_share={hard}"
         )
     return lines
 
@@ -203,11 +208,20 @@ def build_parasitic_llm_messages(
         high_conf_parasitic_count_from_verified,
         parasitic_count_from_verified,
         parasitic_share_from_verified,
+        parasitic_surface_count_from_verified,
+        parasitic_surface_share_from_verified,
     )
 
     n = int(profile.n_verified or 0)
-    share = parasitic_share_from_verified(profile.referrers_verified)
-    pcount = parasitic_count_from_verified(profile.referrers_verified)
+    coordinated = bool(getattr(profile, "referrer_content_coordinated", False))
+    share = parasitic_share_from_verified(
+        profile.referrers_verified, coordinated=coordinated
+    )
+    pcount = parasitic_count_from_verified(
+        profile.referrers_verified, coordinated=coordinated
+    )
+    surface_count = parasitic_surface_count_from_verified(profile.referrers_verified)
+    surface_share = parasitic_surface_share_from_verified(profile.referrers_verified)
     hconf = high_conf_parasitic_count_from_verified(profile.referrers_verified)
     editorial = editorial_count_from_profile(profile)
     prior = heuristic_parasitic_tier(profile)
@@ -240,6 +254,9 @@ def build_parasitic_llm_messages(
         f"n_verified: {n}\n"
         f"parasitic_count: {pcount}\n"
         f"parasitic_share: {share if share is not None else 0.0}\n"
+        f"parasitic_surface_count: {surface_count}\n"
+        f"parasitic_surface_share: "
+        f"{surface_share if surface_share is not None else 0.0}\n"
         f"high_conf_parasitic_count: {hconf}\n"
         f"editorial_institutional_count: {editorial}\n"
         f"parasitic_geo_risk: {float(profile.parasitic_geo_risk):.4f}\n"

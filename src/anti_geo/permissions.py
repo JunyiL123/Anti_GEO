@@ -150,9 +150,9 @@ RETRIEVE (from subscores + fetch + content_role):
   content_role=ugc_thread → retrieve=allow despite soft trust/intent/concealment/
   visibility downrank signals. Still defer/reject on fetch failure / hard IPI.
   Still downrank when consensus_integrity=coordinated (parasitic-adjacent).
-- shopping + commercial_product + source_trust < {VENDOR_RETRIEVE_TRUST_MAX}
-  (or soft concealment / intent mismatch) → downrank
-- brand-legit query + commercial_product → downrank
+- shopping + commercial_product: brand-legit OR trust < {SOURCE_TRUST_DOWNRANK}
+  OR (soft concealment AND intent_mismatch >= {INTENT_MISMATCH_DOWNRANK}) → downrank
+  (ordinary mid-trust shopping PDPs stay allow)
 - else allow
 - Shopping expert_listicle/review_profile OR UGC-intent ugc_thread with heuristic
   retrieve=allow: do NOT change retrieve to downrank unless intent_mismatch >=
@@ -184,8 +184,8 @@ FACTUAL:
   force attribute_only (quote-cap; commercial reviews are not unattributed engine fact)
 - shopping/navigational + commercial_product + source_trust < {VENDOR_FACTUAL_TRUST_MAX}:
   floor factual at attribute_only (unless already deny)
-- shopping + ugc_thread/review_profile: floor factual at require_corroboration
-  (unless already deny)
+- shopping + ugc_thread/review_profile: floor factual at attribute_only;
+  brand-legit + ugc/review → require_corroboration (reputation digs)
 - Shopping expert_listicle/review_profile/factual_blog: LLM may tighten allow→attribute_only;
   do NOT escalate heuristic allow/attribute_only to require_corroboration/deny on
   expert_listicle alone when hybrid clamps apply; do NOT loosen attribute_only to
@@ -412,14 +412,17 @@ def _derive_retrieve_permission(
         else:
             return "downrank"
 
-    # Vendor PDP: downrank with low trust, brand-legit query, or other risk
-    # signals (not role-alone on ordinary shopping).
+    # Vendor PDP: downrank for brand-legit digs, very low trust, or soft
+    # concealment+intent — not mid-trust ordinary shopping PDPs (gold often
+    # retrieve=allow on "best X" product pages).
     if shopping and content_role == "commercial_product":
         if (
-            subscores.source_trust < VENDOR_RETRIEVE_TRUST_MAX
-            or _brand_legit_query(query)
-            or soft_concealment
-            or subscores.intent_mismatch >= INTENT_MISMATCH_DOWNRANK
+            _brand_legit_query(query)
+            or subscores.source_trust < SOURCE_TRUST_DOWNRANK
+            or (
+                soft_concealment
+                and subscores.intent_mismatch >= INTENT_MISMATCH_DOWNRANK
+            )
         ):
             return "downrank"
 
@@ -483,8 +486,17 @@ def _derive_factual_permission(
         return "deny"
 
     if soft_fetch:
-        # Soft-fetch floor: cap at attribute_only (later floors may still raise).
-        factual = "attribute_only"
+        # Soft-fetch floor: cap at attribute_only, except high-trust institutional
+        # pages may still allow facts (Energy Star / NIH / PubMed style).
+        if (
+            content_role == "institutional"
+            and float(subscores.source_trust) >= TRUST_ALLOW
+            and float(subscores.factual_claim_reliability) >= RELIABILITY_ALLOW
+            and float(subscores.intent_mismatch) < INTENT_MISMATCH_ALLOW_MAX
+        ):
+            factual = "allow"
+        else:
+            factual = "attribute_only"
     else:
         if (
             ctx.consensus_integrity == "coordinated"
@@ -550,14 +562,19 @@ def _derive_factual_permission(
     ):
         factual = "attribute_only"
 
-    # Shopping UGC / third-party review profiles: require corroboration
-    # (LABEL_GUIDE: anecdote/reputation pages are not free AO engine fact).
-    if (
-        shopping
-        and content_role in ("ugc_thread", "review_profile")
-        and factual in ("allow", "attribute_only")
-    ):
-        factual = "require_corroboration"
+    # Shopping UGC / review profiles:
+    # - brand-legit reputation digs → require_corroboration
+    # - UGC-intent forum asks → attribute_only (LABEL_GUIDE recipe; not RC)
+    # - other shopping review_profile → attribute_only (quote-cap), not RC
+    if shopping and factual in ("allow", "attribute_only"):
+        brand_legit = _brand_legit_query(query)
+        ugc_on_intent = content_role in UGC_HUB_ROLES and _ugc_intent_query(query)
+        if brand_legit and content_role in ("ugc_thread", "review_profile"):
+            factual = "require_corroboration"
+        elif content_role in ("ugc_thread", "review_profile"):
+            factual = "attribute_only"
+            if ugc_on_intent and content_role == "ugc_thread":
+                factual = "attribute_only"
 
     return factual
 

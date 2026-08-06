@@ -177,8 +177,13 @@ def _row_from_report(
     parasitic_count: int | None = None
     if profile is not None and profile.status != "skipped":
         n_verified = profile.n_verified
-        parasitic_count = parasitic_count_from_verified(profile.referrers_verified)
-        parasitic_share = parasitic_share_from_verified(profile.referrers_verified)
+        coordinated = bool(profile.referrer_content_coordinated)
+        parasitic_count = parasitic_count_from_verified(
+            profile.referrers_verified, coordinated=coordinated
+        )
+        parasitic_share = parasitic_share_from_verified(
+            profile.referrers_verified, coordinated=coordinated
+        )
 
     return CiteInvestigationRow(
         url=working.source.url,
@@ -216,6 +221,7 @@ def _run_mode_b_for_cite(
     adaptive_stop: bool,
     use_llm_connection: bool | None = None,
     use_llm_role: bool | None = None,
+    use_llm_stance: bool | None = None,
     fetch: FetchResult | None = None,
     single_page: UrlAnalysisReport | None = None,
     content_role: str | None = None,
@@ -238,6 +244,7 @@ def _run_mode_b_for_cite(
         adaptive_stop=adaptive_stop,
         use_llm_connection=use_llm_connection,
         use_llm_role=use_llm_role,
+        use_llm_stance=use_llm_stance,
         progress=NullProgress(),
         fetch=fetch,
         single_page=single_page,
@@ -296,6 +303,7 @@ def investigate_query(
     adaptive_stop: bool = True,
     use_llm_connection: bool | None = None,
     use_llm_role: bool | None = None,
+    use_llm_stance: bool | None = None,
     cite_cap: int | None = DEFAULT_CITE_CAP,
     progress: Progress | None = None,
     deep: bool = False,
@@ -529,6 +537,7 @@ def investigate_query(
                     adaptive_stop=adaptive_stop,
                     use_llm_connection=use_llm_connection,
                     use_llm_role=use_llm_role,
+                    use_llm_stance=use_llm_stance,
                     fetch=pre_fetch,
                     single_page=pre_report,
                     content_role=pre_role,

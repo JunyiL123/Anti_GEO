@@ -25,6 +25,7 @@ from anti_geo.page_identity import strip_listicle_boilerplate
 from anti_geo.permissions import derive_llm_actions, merge_llm_actions
 from anti_geo.platform_role import (
     classify_content_role,
+    is_open_posting_path,
     is_parasitic_referrer,
     registrable_domain,
 )
@@ -36,6 +37,10 @@ from anti_geo.referrer_content import (
     build_excerpt_candidate,
     referrer_content_tighten_extras,
     score_top_referrers,
+)
+from anti_geo.content_signals import (
+    PLANT_STANCE_PROMOTIONAL,
+    PLANT_STANCE_UNKNOWN,
 )
 from anti_geo.role_llm import resolve_referrer_role
 from anti_geo.scorer import score_source
@@ -123,6 +128,10 @@ class VerifiedReferrer:
     content_thread_surface: float = 0.0
     content_editability: float = 0.0
     content_segment_role: str = ""
+    # Mode B hard-share stance: promotional | complaint | neutral | unknown
+    content_plant_stance: str = PLANT_STANCE_UNKNOWN
+    content_plant_stance_source: str = "heuristic"  # heuristic | llm
+    content_plant_stance_reason: str = ""
 
 
 @dataclass
@@ -181,6 +190,15 @@ def verified_referrer_from_dict(data: dict) -> VerifiedReferrer:
         content_thread_surface=float(data.get("content_thread_surface") or 0.0),
         content_editability=float(data.get("content_editability") or 0.0),
         content_segment_role=str(data.get("content_segment_role") or ""),
+        content_plant_stance=str(
+            data.get("content_plant_stance") or PLANT_STANCE_UNKNOWN
+        ),
+        content_plant_stance_source=str(
+            data.get("content_plant_stance_source") or "heuristic"
+        ),
+        content_plant_stance_reason=str(
+            data.get("content_plant_stance_reason") or ""
+        ),
     )
 
 
@@ -391,6 +409,13 @@ Hard suspected (when N is adequate):
   → suspected
 - Soft share band [{GEO_SOFT_SHARE_LO}, {GEO_SOFT_SHARE_HI}] at N>={PARASITIC_GEO_HARD_N} with no editorial
   → elevated (not suspected)
+- parasitic_count / parasitic_share are HARD share (stance-gated): UGC/review_profile
+  count only with promotional plant stance (glaze / competitor-bash / affiliate),
+  content_high_risk / planted_mention, or coordinated referrer set. Pure complaint
+  or unscored UGC stays in parasitic_surface_* telemetry only.
+- Ambiguous UGC/review stance (unknown|neutral|complaint) may get an optional
+  Azure backup that re-applies classify_plant_stance rules on the excerpt;
+  fail-open to heuristic; never rewrite Group A permissions.
 
 Continuous risk / soft elevate:
 - parasitic_geo_risk from share + count (editorial dampens; high-conf parasitic boosts)
@@ -678,8 +703,15 @@ def apply_forum_seed_pack(
 def shadow_soft_path_metrics(profile: ReferralProfile) -> dict:
     """Candidate soft-path gates for experiments — does not affect live actions."""
     n = profile.n_verified
-    parasitic_n = parasitic_count_from_verified(profile.referrers_verified)
-    share = parasitic_share_from_verified(profile.referrers_verified)
+    coordinated = bool(profile.referrer_content_coordinated)
+    parasitic_n = parasitic_count_from_verified(
+        profile.referrers_verified, coordinated=coordinated
+    )
+    share = parasitic_share_from_verified(
+        profile.referrers_verified, coordinated=coordinated
+    )
+    surface_n = parasitic_surface_count_from_verified(profile.referrers_verified)
+    surface_share = parasitic_surface_share_from_verified(profile.referrers_verified)
     share_f = float(share) if share is not None else 0.0
     high_conf_parasitic = high_conf_parasitic_count_from_verified(
         profile.referrers_verified
@@ -688,6 +720,8 @@ def shadow_soft_path_metrics(profile: ReferralProfile) -> dict:
         "n_verified": n,
         "parasitic_count": parasitic_n,
         "parasitic_share": share,
+        "parasitic_surface_count": surface_n,
+        "parasitic_surface_share": surface_share,
         "high_conf_parasitic_count": high_conf_parasitic,
         "editorial_institutional_count": _editorial_institutional_count(profile.mix),
         "parasitic_geo_suspected_live": profile.parasitic_geo_suspected,
@@ -1155,6 +1189,9 @@ def _apply_referrer_content_scores(
         ref.content_thread_surface = hit.thread_surface
         ref.content_editability = hit.editability
         ref.content_segment_role = hit.segment_role
+        ref.content_plant_stance = hit.plant_stance or PLANT_STANCE_UNKNOWN
+        ref.content_plant_stance_source = "heuristic"
+        ref.content_plant_stance_reason = ""
 
 
 _RELATED_BRAND_STEM_MIN = 4
@@ -1315,8 +1352,13 @@ class _DiscoveryState:
     same_brand_cache: dict[tuple[str, str], bool] = field(default_factory=dict)
 
 
-def parasitic_count_from_verified(verified: list[VerifiedReferrer]) -> int:
-    """Unweighted count of potential parasitic GEO referrers."""
+def parasitic_surface_count_from_verified(verified: list[VerifiedReferrer]) -> int:
+    """Unweighted count of parasitic *surfaces* (discovery / soft telemetry).
+
+    Open UGC, review profiles, Medium ``/p/``, forum directories, etc. Does not
+    apply plant-stance gating — use :func:`parasitic_count_from_verified` for
+    hard share / suspected / risk numerators.
+    """
     return sum(
         1
         for ref in verified
@@ -1326,6 +1368,67 @@ def parasitic_count_from_verified(verified: list[VerifiedReferrer]) -> int:
             content_high_risk=ref.content_high_risk,
             llm_parasitic=ref.llm_parasitic,
         )
+    )
+
+
+def _is_stance_gated_parasitic_surface(url: str, role: str) -> bool:
+    """UGC / review hubs need promotional stance for hard parasitic share."""
+    if (role or "").strip() in ("ugc_thread", "review_profile"):
+        return True
+    return is_open_posting_path(url)
+
+
+def _resolved_plant_stance(ref: VerifiedReferrer) -> str:
+    stance = (ref.content_plant_stance or "").strip().lower()
+    if stance and stance != PLANT_STANCE_UNKNOWN:
+        return stance
+    flags = [str(f).lower() for f in (ref.content_flags or [])]
+    if ref.content_high_risk or "planted_mention" in flags:
+        return PLANT_STANCE_PROMOTIONAL
+    if "comparative_superlatives" in flags:
+        return PLANT_STANCE_PROMOTIONAL
+    return stance or PLANT_STANCE_UNKNOWN
+
+
+def counts_toward_hard_parasitic_share(
+    ref: VerifiedReferrer,
+    *,
+    coordinated: bool = False,
+) -> bool:
+    """Hard Mode B parasitic numerator: surface ∩ (stance ∪ high-conf ∪ coord).
+
+    Keeps surface discovery via :func:`is_parasitic_referrer`. For UGC /
+    review_profile, pure organic complaints / neutral / unscored pages are
+    discounted unless content is promotional (glaze, competitor-bash,
+    affiliate), high-conf planted, or the referrer set is coordinated
+    (sockpuppet complaint farms).
+    """
+    if not is_parasitic_referrer(
+        url=ref.url,
+        role=ref.role,
+        content_high_risk=ref.content_high_risk,
+        llm_parasitic=ref.llm_parasitic,
+    ):
+        return False
+    if not _is_stance_gated_parasitic_surface(ref.url, ref.role):
+        return True
+    if coordinated:
+        return True
+    if ref.content_high_risk:
+        return True
+    return _resolved_plant_stance(ref) == PLANT_STANCE_PROMOTIONAL
+
+
+def parasitic_count_from_verified(
+    verified: list[VerifiedReferrer],
+    *,
+    coordinated: bool = False,
+) -> int:
+    """Hard parasitic count for risk / suspected / elevate (stance-gated UGC)."""
+    return sum(
+        1
+        for ref in verified
+        if counts_toward_hard_parasitic_share(ref, coordinated=coordinated)
     )
 
 
@@ -1348,12 +1451,24 @@ def high_conf_parasitic_count_from_verified(
 
 def parasitic_share_from_verified(
     verified: list[VerifiedReferrer],
+    *,
+    coordinated: bool = False,
 ) -> float | None:
-    """Parasitic proportion among verified referrers; None when N is 0."""
+    """Hard parasitic proportion among verified referrers; None when N is 0."""
     n = len(verified)
     if n <= 0:
         return None
-    return parasitic_count_from_verified(verified) / n
+    return parasitic_count_from_verified(verified, coordinated=coordinated) / n
+
+
+def parasitic_surface_share_from_verified(
+    verified: list[VerifiedReferrer],
+) -> float | None:
+    """Surface-only parasitic proportion (telemetry; not used for suspected)."""
+    n = len(verified)
+    if n <= 0:
+        return None
+    return parasitic_surface_count_from_verified(verified) / n
 
 
 def _editorial_institutional_count(mix: dict[str, int]) -> int:
@@ -1370,7 +1485,10 @@ def parasitic_soft_downrank_band(profile: ReferralProfile) -> bool:
     n = profile.n_verified
     if n < PARASITIC_GEO_HARD_N or _editorial_institutional_count(profile.mix) > 0:
         return False
-    share = parasitic_share_from_verified(profile.referrers_verified)
+    share = parasitic_share_from_verified(
+        profile.referrers_verified,
+        coordinated=bool(profile.referrer_content_coordinated),
+    )
     return (
         share is not None
         and GEO_SOFT_SHARE_LO <= share <= GEO_SOFT_SHARE_HI
@@ -1823,6 +1941,7 @@ def discover_referrers(
     adaptive_stop: bool = False,
     use_llm_connection: bool | None = None,
     use_llm_role: bool | None = None,
+    use_llm_stance: bool | None = None,
 ) -> ReferralProfile:
     prog = progress or NullProgress()
     if engine is None:
@@ -2007,6 +2126,23 @@ def discover_referrers(
     )
     notes.extend(content_summary.notes)
 
+    from anti_geo.stance_llm import maybe_resolve_plant_stances
+
+    scores_by_url = {
+        s.url.rstrip("/").lower(): s for s in content_summary.scores if s.excerpt
+    }
+    stance_upgrades = maybe_resolve_plant_stances(
+        verified,
+        scores_by_url,
+        entity=entity,
+        use_llm=use_llm_stance,
+    )
+    if stance_upgrades:
+        notes.append(
+            f"Plant-stance LLM backup upgraded {stance_upgrades} ambiguous "
+            "UGC/review referrer(s)."
+        )
+
     domain_mix = _citation_domain_mix(citations)
 
     if not citations and errors:
@@ -2088,8 +2224,14 @@ def discover_referrers(
         )
 
     editorial = _editorial_institutional_count(mix)
-    parasitic_share = parasitic_share_from_verified(verified) or 0.0
-    parasitic_count = parasitic_count_from_verified(verified)
+    coordinated = bool(content_summary.coordinated)
+    parasitic_share = (
+        parasitic_share_from_verified(verified, coordinated=coordinated) or 0.0
+    )
+    parasitic_count = parasitic_count_from_verified(
+        verified, coordinated=coordinated
+    )
+    surface_count = parasitic_surface_count_from_verified(verified)
     high_conf_parasitic = high_conf_parasitic_count_from_verified(verified)
     parasitic_geo_risk = compute_parasitic_geo_risk(
         n_verified=n,
@@ -2104,20 +2246,27 @@ def discover_referrers(
     parasitic_geo_suspected: bool | None = False
     soft_share_note = False
 
+    if surface_count > parasitic_count:
+        notes.append(
+            f"Plant-stance gate: hard parasitic {parasitic_count}/{n} "
+            f"(surface {surface_count}/{n}); complaint/neutral UGC discounted."
+        )
+
     if n >= PARASITIC_GEO_COMPLETE_N:
         status = "complete"
         confidence = "medium"
         if parasitic_share > PARASITIC_GEO_SUSPECTED_SHARE and editorial == 0:
             parasitic_geo_suspected = True
             notes.append(
-                "Parasitic-surface-heavy verified referrer mix with no editorial/institutional share."
+                "Hard parasitic-share-heavy verified referrer mix "
+                "(promotional/plant stance) with no editorial/institutional share."
             )
         elif editorial > 0:
             notes.append("Editorial/institutional referrers present — organic buzz likely for large brands.")
         elif editorial == 0 and GEO_SOFT_SHARE_LO <= parasitic_share <= GEO_SOFT_SHARE_HI:
             soft_share_note = True
             notes.append(
-                f"Elevated parasitic-surface share ({int(GEO_SOFT_SHARE_LO*100)}–"
+                f"Elevated hard parasitic share ({int(GEO_SOFT_SHARE_LO*100)}–"
                 f"{int(GEO_SOFT_SHARE_HI*100)}%) with no editorial/institutional "
                 "— soft downrank band."
             )
@@ -2127,12 +2276,13 @@ def discover_referrers(
         if parasitic_share > PARASITIC_GEO_SUSPECTED_SHARE and editorial == 0:
             parasitic_geo_suspected = True
             notes.append(
-                "Parasitic-surface-heavy referrer mix (medium N) with no editorial/institutional share."
+                "Hard parasitic-share-heavy referrer mix (medium N) with no "
+                "editorial/institutional share."
             )
         elif editorial == 0 and GEO_SOFT_SHARE_LO <= parasitic_share <= GEO_SOFT_SHARE_HI:
             soft_share_note = True
             notes.append(
-                f"Elevated parasitic-surface share ({int(GEO_SOFT_SHARE_LO*100)}–"
+                f"Elevated hard parasitic share ({int(GEO_SOFT_SHARE_LO*100)}–"
                 f"{int(GEO_SOFT_SHARE_HI*100)}%, medium N) with no editorial/institutional "
                 "— soft downrank band."
             )
@@ -2142,7 +2292,8 @@ def discover_referrers(
         if parasitic_share >= SPARSE_SUSPICIOUS_SHARE and n >= SPARSE_SUSPICIOUS_MIN_N:
             status = "sparse_suspicious"
             notes.append(
-                "Small N but homogeneous parasitic surfaces — qualitative suspicion only, not auto-flag."
+                "Small N but homogeneous hard-parasitic surfaces — qualitative "
+                "suspicion only, not auto-flag."
             )
         else:
             parasitic_geo_suspected = False
@@ -2362,6 +2513,7 @@ def investigate_url(
     use_llm_connection: bool | None = None,
     use_llm_role: bool | None = None,
     use_llm_parasitic: bool | None = None,
+    use_llm_stance: bool | None = None,
     engine: EngineAdapter | None = None,
     fetch: FetchResult | None = None,
     single_page: UrlAnalysisReport | None = None,
@@ -2454,6 +2606,7 @@ def investigate_url(
                 adaptive_stop=adaptive_stop,
                 use_llm_connection=use_llm_connection,
                 use_llm_role=use_llm_role,
+                use_llm_stance=use_llm_stance,
             )
 
             # Round 2: neutral brand seeds only when round 1 yields N=0.
@@ -2494,6 +2647,7 @@ def investigate_url(
                         adaptive_stop=adaptive_stop,
                         use_llm_connection=use_llm_connection,
                         use_llm_role=use_llm_role,
+                        use_llm_stance=use_llm_stance,
                     )
                     seeds = list(seeds) + round2
                     seed_source = f"{seed_source}+neutral_r2"
@@ -2715,7 +2869,18 @@ def format_investigation_report(result: InvestigationResult) -> str:
                 content_high_risk=ref.content_high_risk,
                 llm_parasitic=ref.llm_parasitic,
             )
-            para_tag = " parasitic" if parasitic else ""
+            hard = counts_toward_hard_parasitic_share(
+                ref, coordinated=bool(rp.referrer_content_coordinated)
+            )
+            if hard:
+                para_tag = " hard-parasitic"
+            elif parasitic:
+                para_tag = " surface-parasitic"
+            else:
+                para_tag = ""
+            stance = (ref.content_plant_stance or "").strip()
+            if stance and stance != PLANT_STANCE_UNKNOWN:
+                content_bit = f"{content_bit} stance={stance}"
             src_tag = f" role={ref.role_source}" if ref.role_source == "llm" else ""
             lines.append(
                 f"  [{ref.connection_confidence}] [{ref.role}]{para_tag}{src_tag} "
@@ -2728,8 +2893,10 @@ def format_investigation_report(result: InvestigationResult) -> str:
         [
             "",
             "── Shadow soft-path (experiment; not live) ──",
-            f"  Parasitic: {shadow['parasitic_count']}/{shadow['n_verified']} "
+            f"  Hard parasitic: {shadow['parasitic_count']}/{shadow['n_verified']} "
             f"(share={shadow['parasitic_share']})",
+            f"  Surface parasitic: {shadow['parasitic_surface_count']}/"
+            f"{shadow['n_verified']} (share={shadow['parasitic_surface_share']})",
             f"  High-conf parasitic: {shadow['high_conf_parasitic_count']}",
             f"  Live: parasitic_geo_suspected={shadow['parasitic_geo_suspected_live']} "
             f"elevated={shadow.get('parasitic_geo_elevated_live')} "

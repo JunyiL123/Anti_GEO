@@ -606,6 +606,12 @@ def maybe_apply_permissions_llm(
                 role not in ("commercial_product",)
                 and role != ""
             )
+            # Ordinary shopping PDPs: keep heuristic allow (LLM over-downranks).
+            or (
+                shopping
+                and role == "commercial_product"
+                and not brand_legit
+            )
         )
         and heuristic.retrieve_permission == "allow"
         and intent_ok
@@ -626,9 +632,13 @@ def maybe_apply_permissions_llm(
         shopping
         and role in SHOPPING_LISTICLE_ROLES
         and heuristic.factual_permission in ("allow", "attribute_only")
-        # review_profile now floors at require_corroboration in heuristics;
-        # do not block that RC outcome via the listicle AO clamp.
-        and heuristic.factual_permission != "require_corroboration"
+    )
+    # UGC-intent / non-brand-legit review: keep AO; block LLM inventing RC.
+    protect_ugc_factual_attribute_only = (
+        shopping
+        and role in ("ugc_thread", "review_profile")
+        and heuristic.factual_permission == "attribute_only"
+        and not brand_legit
     )
     protect_review_factual_no_allow = (
         shopping
@@ -673,7 +683,10 @@ def maybe_apply_permissions_llm(
         endorse_tighten_only=endorse_tighten_only,
         protect_listicle_retrieve_allow=protect_listicle_retrieve_allow,
         protect_heuristic_retrieve_downrank=protect_heuristic_retrieve_downrank,
-        protect_listicle_factual_attribute_only=protect_listicle_factual_attribute_only,
+        protect_listicle_factual_attribute_only=(
+            protect_listicle_factual_attribute_only
+            or protect_ugc_factual_attribute_only
+        ),
         protect_review_factual_no_allow=protect_review_factual_no_allow,
         protect_institutional_factual_allow=protect_institutional_factual_allow,
         protect_heuristic_factual_require_corroboration=(

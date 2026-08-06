@@ -1,0 +1,171 @@
+{
+  "description": "Plant-stance Mode B live eval subset (gold parasitic + prior elevated FPs)",
+  "created_at": "2026-08-06T07:50:14.221734+00:00",
+  "pages": [
+    {
+      "id": "v3p04",
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "url": "https://www.bbb.org/us/ny/new-york/profile/online-retailer/back-market-inc-0121-176814/complaints?utm_source=openai",
+      "domain": "bbb.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v3p20",
+      "query": "best online therapy platform for couples without insurance",
+      "url": "https://www.betterhelp.com/advice/therapy/where-can-i-find-couples-therapy-near-me//?utm_source=openai",
+      "domain": "betterhelp.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v3p26",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.reddit.com/r/discountcodepromocode/comments/1v5d9my/brooklinen_discount_code_15627820_15_off_verified/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "suspected"
+      }
+    },
+    {
+      "id": "v3p27",
+      "query": "Brooklinen promo code that actually works Reddit",
+      "url": "https://www.reddit.com/r/maximumfun/comments/1uyi2ib/use_code_blank_at_checkout/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "suspected"
+      }
+    },
+    {
+      "id": "v3p33",
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "url": "https://www.quince.com/quince-offers",
+      "domain": "quince.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      }
+    },
+    {
+      "id": "v3p35",
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "url": "https://levoit.com/products/lvac-200-cordless-vacuum?bvstate=pg%3A8%2Fct%3Ar&country=US&currency=USD&gad_source=1&gbraid=0AAAAACKUb63CMEFhJx4KxAEKrDLnKCCGW&tw_adid=741533508928&tw_campaign=21051369242&tw_source=yahoo&variant=43344013918359",
+      "domain": "levoit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v3p46",
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "url": "https://mitoredlight.com/products/mitopro-x-series?okeReviewsNextUrl=https%253A%252F%252Fapi.okendo.io%252Fv1%252Fstores%252F549e04b9-02ec-45a7-87b0-46198133f54b%252Fproducts%252Fshopify-8052427751592%252Freviews%253Flimit%253D5%2526orderBy%253Ddate%252520desc%2526lastEvaluated%253D%25257B%252522dateCreated%252522%25253A%2525222026-04-13T20%25253A33%25253A18.559Z%252522%25252C%252522subscriberId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%252522%25252C%252522reviewId%252522%25253A%252522206aa928-f43d-4af8-ae4e-35bbe364b11b%252522%25252C%252522subscriberId_productId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%25253Ashopify-8052427751592%252522%25257D&okeReviewsPageNum=2",
+      "domain": "mitoredlight.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v0p26",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+      "domain": "redditrecs.com",
+      "source": null,
+      "role_hint": "reddit_intent_mix",
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      }
+    },
+    {
+      "id": "v0p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "domain": "headphonesty.com",
+      "source": null,
+      "role_hint": "forum_or_ugc_adjacent",
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      }
+    },
+    {
+      "id": "v0p38",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/",
+      "domain": "theograce.com",
+      "source": null,
+      "role_hint": "brand_site_or_review",
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      }
+    },
+    {
+      "id": "v2p35",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.reddit.com/r/StandingDesk/comments/1reechm/flexispot_promo_code/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "adjudicated_labels": {
+        "retrieve_permission": "defer",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      }
+    }
+  ]
+}

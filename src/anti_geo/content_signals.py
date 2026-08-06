@@ -99,6 +99,115 @@ ENTITY_PLATFORM_CONTEXT_RE = re.compile(
 TOKEN_RE = re.compile(r"[a-z0-9]+")
 QUERY_STOP = frozenset({"a", "an", "the", "is", "are", "what", "how", "for", "to", "of", "in", "on"})
 
+# Mode B plant-stance (hard parasitic share): promotional beats complaint.
+PLANT_STANCE_PROMOTIONAL = "promotional"
+PLANT_STANCE_COMPLAINT = "complaint"
+PLANT_STANCE_NEUTRAL = "neutral"
+PLANT_STANCE_UNKNOWN = "unknown"
+
+_AFFILIATE_PROMO_RE = re.compile(
+    r"\b("
+    r"affiliate|sponsored|paid\s+partnership|partner\s+link|my\s+link|"
+    r"use\s+(?:my\s+)?code|discount\s+code|promo\s+code|coupon\s+code"
+    r")\b",
+    re.I,
+)
+_GLAZE_RE = re.compile(
+    r"\b("
+    r"highly\s+recommend|must[- ]buy|game[- ]?changer|life[- ]?changing|"
+    r"best\s+purchase|absolutely\s+love|genuinely\s+love|obsessed\s+with|"
+    r"switched\s+to|go\s+with|check\s+(?:them|it)\s+out|worth\s+every\s+(?:penny|cent)"
+    r")\b",
+    re.I,
+)
+_COMPETITOR_BASH_RE = re.compile(
+    r"\b("
+    r"instead\s+of|skip\s+\w+|don'?t\s+buy\s+\w+|avoid\s+\w+|"
+    r"better\s+than\s+\w+|unlike\s+\w+|ditch(?:ed)?\s+\w+|"
+    r"switch(?:ed)?\s+(?:from|away\s+from)\s+\w+"
+    r")\b",
+    re.I,
+)
+_COMPLAINT_RE = re.compile(
+    r"\b("
+    r"scam|fraud|ripoff|rip[- ]off|never\s+received|didn'?t\s+arrive|"
+    r"no\s+refund|stolen|chargeback|do\s+not\s+buy|don'?t\s+buy|"
+    r"customer\s+service|terrible|horrible|worst\s+(?:company|experience)|"
+    r"complaint|refund\s+denied|still\s+waiting|ghosted\s+me"
+    r")\b",
+    re.I,
+)
+
+
+def classify_plant_stance(
+    text: str,
+    *,
+    flags: list[str] | None = None,
+) -> str:
+    """Classify UGC/review referrer stance for Mode B hard parasitic share.
+
+    Returns one of: promotional | complaint | neutral | unknown.
+
+    Promotional includes glaze, competitor-bash, affiliate promo, and planted
+    soft-sell. Any promotional signal wins over co-occurring complaints
+    (complaint-shaped plants still count). Empty text → unknown.
+    """
+    flags_l = [str(f).lower() for f in (flags or [])]
+    if "planted_mention" in flags_l or "comparative_superlatives" in flags_l:
+        return PLANT_STANCE_PROMOTIONAL
+
+    blob = (text or "").strip()
+    if not blob:
+        return PLANT_STANCE_UNKNOWN
+
+    promo = bool(
+        _AFFILIATE_PROMO_RE.search(blob)
+        or _GLAZE_RE.search(blob)
+        or _COMPETITOR_BASH_RE.search(blob)
+        or ENDORSEMENT_RE.search(blob)
+    )
+    if promo:
+        return PLANT_STANCE_PROMOTIONAL
+
+    if _COMPLAINT_RE.search(blob):
+        return PLANT_STANCE_COMPLAINT
+
+    return PLANT_STANCE_NEUTRAL
+
+
+def plant_stance_heuristic_rules_rubric() -> str:
+    """Encode classify_plant_stance for the Mode B stance LLM backup."""
+    stances = "|".join(
+        (
+            PLANT_STANCE_PROMOTIONAL,
+            PLANT_STANCE_COMPLAINT,
+            PLANT_STANCE_NEUTRAL,
+            PLANT_STANCE_UNKNOWN,
+        )
+    )
+    return f"""\
+You classify plant stance of a third-party UGC/review referrer for Anti-GEO
+Mode B hard parasitic share — NOT an independent free-form labeler. Apply the
+SAME rules as anti_geo.content_signals.classify_plant_stance.
+
+Return JSON only:
+{{"stance":"<{stances}>","reason":"short"}}
+
+=== Anti-GEO plant-stance heuristic rules (must follow) ===
+
+- promotional: glaze / stealth endorsement, competitor-bash ("skip X, use Brand"),
+  affiliate/sponsored/promo-code CTA, planted soft-sell narrative, or flags
+  planted_mention / comparative_superlatives. ANY promotional signal wins over
+  co-occurring complaints (complaint-shaped plants still count as promotional).
+- complaint: organic complaint/scam/refund rant with NO promotional signal.
+- neutral: how-to / incidental brand mention without promo or complaint.
+- unknown: empty / unusable excerpt.
+
+Do NOT invent promotional stance without textual evidence. Prefer complaint or
+neutral over promotional when unsure. This affects Mode B hard share only —
+never rewrite retrieve/endorsement permissions.
+"""
+
 
 def _density(text: str, patterns: list[str]) -> float:
     hits = sum(len(re.findall(p, text.lower())) for p in patterns)
