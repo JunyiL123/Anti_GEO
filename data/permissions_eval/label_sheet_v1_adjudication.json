@@ -1,0 +1,1963 @@
+{
+  "description": "Combined human vs LLM adjudication sheet for permissions_eval label_sheet_v1. Only pages with both human labels and llm_labels complete are included. For each page, adjudicated_labels is pre-filled from agreement: when both agree on a field, that value is copied; when they disagree, the field is null and must be filled by a human adjudicator. Do not mutate label_sheet_v1.json for adjudication \u2014 edit adjudicated_labels here (or the companion .md).",
+  "created_at": "2026-08-04T09:46:04Z",
+  "sources": {
+    "sheet": "data/permissions_eval/label_sheet_v1.json",
+    "guide": "data/permissions_eval/LABEL_GUIDE.md",
+    "human_field": "pages[].labels",
+    "llm_field": "pages[].llm_labels"
+  },
+  "fields": [
+    "retrieve_permission",
+    "mention_permission",
+    "factual_permission",
+    "endorsement_permission",
+    "parasitic"
+  ],
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "prefill_rule": "If human_labels[field] == llm_labels[field], copy into adjudicated_labels[field]; else set adjudicated_labels[field] = null (needs human choice).",
+  "n_source_pages": 112,
+  "n_pages": 47,
+  "n_skipped_incomplete_human": 65,
+  "n_needs_adjudication": 0,
+  "n_field_disagreements": 8,
+  "field_disagreement_counts": {
+    "endorsement_permission": 5,
+    "factual_permission": 2,
+    "retrieve_permission": 1
+  },
+  "pages": [
+    {
+      "id": "v1p01",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.outsideonline.com/outdoor-gear/run/best-stability-shoes/",
+      "domain": "outsideonline.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Outside Online gear 'best stability shoes' is editorial/affiliate commerce ranking. Fine to cite with attribution; would not crown a flat-feet pick from this page alone.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p02",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.rtings.com/running-shoes/reviews/best/stability",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS stability running-shoes ranking with lab methodology. Strong enough independent testing that endorsement from this page is reasonable for a commercial shoe query.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p03",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.runnersworld.com/gear/a20865766/best-stability-running-shoes/",
+      "domain": "runnersworld.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Runner's World affiliate 'best stability' listicle. Useful attributed roundup; not sole warrant to recommend a specific shoe for flat feet.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p04",
+      "query": "best running shoes for flat feet 2026",
+      "url": "https://www.solereview.com/best-running-shoes-for-overpronators/",
+      "domain": "solereview.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Sole Review is long-running independent shoe review (buys shoes, publishes receipts) with affiliate links. Trustworthy enough to allow endorsement for overpronation/stability picks.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "endorsement_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p05",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.rtings.com/robot-vacuum/reviews/roborock/q5-max-plus?utm_source=openai",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS individual Roborock Q5 Max+ review with measured scores. OK to recommend this model from this page for pet-hair under-$400 if it fits the band.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p06",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.consumerreports.org/appliances/vacuum-cleaners/irobot-roomba-i4-evo/m407684/?utm_source=openai",
+      "domain": "consumerreports.org",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Consumer Reports Roomba i4 Evo product page. Strong institutional tester, but CR membership/paywall and single-model focus \u2014 attribute scores; don't treat as open endorsement without full CR context.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p07",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.rtings.com/robot-vacuum/reviews/best/pet-hair",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS best-for-pet-hair robot vacuum ranking. Lab-based category pick page \u2014 endorsement allow.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p08",
+      "query": "best robot vacuum for pet hair under $400",
+      "url": "https://www.rtings.com/robot-vacuum/reviews/shark/matrix-robot-rv2300s-rv2310ae",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS Shark Matrix robot review. Same lab standard as other RTINGS product reviews \u2014 endorsement allow.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p09",
+      "query": "best air purifier for allergies",
+      "url": "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home?utm_source=openai",
+      "domain": "epa.gov",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "EPA indoor air cleaners guidance. Authoritative factual source; regulatory/educational pages should not crown a commercial 'best purifier'.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p10",
+      "query": "best air purifier for allergies",
+      "url": "https://downloads.energystar.gov/bi/qplist/Room_Air_Cleaners_Qualified_Product_List.pdf?bae4-e90d=&utm_source=openai",
+      "domain": "downloads.energystar.gov",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ENERGY STAR qualified room air cleaners PDF list. Use for certification/efficiency facts; does not pick a single best allergy purifier.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "endorsement_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p11",
+      "query": "best air purifier for allergies",
+      "url": "https://www.popularmechanics.com/technology/gear/a71054072/coway-airmega-mighty2-air-purifier-review/?utm_source=openai",
+      "domain": "popularmechanics.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Popular Mechanics single-product Coway review \u2014 lifestyle/affiliate-leaning gear media. Attribute; require more before crowning for allergies.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "factual_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p12",
+      "query": "best air purifier for allergies",
+      "url": "https://www.rtings.com/air-purifier/reviews/levoit/core-300s?utm_source=openai",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS Levoit Core 300S review with measured CADR/noise. Strong lab review \u2014 endorsement allow for that model.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p13",
+      "query": "best air purifier for allergies",
+      "url": "https://www.techgearlab.com/reviews/health-fitness/air-purifier/blueair-blue-pure-311i-max?utm_source=openai",
+      "domain": "techgearlab.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "TechGearLab Blueair review. Decent outdoor/gear tester with affiliate commerce; attribute measurements, deny sole endorsement for medical-adjacent allergy use.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p14",
+      "query": "best air purifier for allergies",
+      "url": "https://asthmaandallergyfriendly.com/USA/certified_products/products_categories/air-cleaners/portable-air-cleaners/",
+      "domain": "asthmaandallergyfriendly.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Asthma & Allergy Friendly certified portable air cleaners list (AAFA + Allergy Standards). Legitimate certification catalog \u2014 facts about certification OK; do not treat mark as crowning a best product.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "endorsement_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p15",
+      "query": "best standing desk converter",
+      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/best-standing-desk-converters/?utm_source=openai",
+      "domain": "forbes.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Forbes Personal Shopper 'best standing desk converters' is affiliate commerce roundup. Downrank vs stronger independent tests; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": false,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "retrieve_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p16",
+      "query": "best standing desk converter",
+      "url": "https://odm.ergotron.com/Portals/0/literature/productSheets/english/05-WF-TL_TAA.pdf",
+      "domain": "odm.ergotron.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Ergotron OEM product sheet PDF. Specs/pricing-sheet style vendor literature \u2014 attribute specs only; no endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p17",
+      "query": "best standing desk converter",
+      "url": "https://www.upliftdesk.com/e7-electric-standing-desk-converter/?goal=0_596f138886-8b10b35cb7-55919904",
+      "domain": "upliftdesk.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Uplift Desk brand product page for E7 converter. Vendor marketing \u2014 attribute features/price; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p18",
+      "query": "best standing desk converter",
+      "url": "https://www.humanscale.com/products/standing-desks/quickstand-eco-desk-converter?utm_source=openai",
+      "domain": "humanscale.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Humanscale QuickStand Eco product page. Vendor \u2014 attribute specs; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p19",
+      "query": "best standing desk converter",
+      "url": "https://vivo-us.com/products/desk-v000k?variant=45139793346836&utm_source=openai",
+      "domain": "vivo-us.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "VIVO desk converter product page. Budget vendor listing \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p20",
+      "query": "best standing desk converter",
+      "url": "https://www.bestbuy.com/site/flexispot-m7-series-35w-manual-adjustable-standing-desk-converter-black/10142716.p?skuId=10142716&utm_source=openai",
+      "domain": "bestbuy.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Best Buy FlexiSpot retail listing. Retailer product page with price/availability \u2014 attribute; deny endorsement as advice.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p21",
+      "query": "best portable monitor for travel",
+      "url": "https://psref.lenovo.com/syspool/Sys/PDF/ThinkVision/ThinkVision_M14d_Monitor/ThinkVision_M14d_Monitor_Spec.pdf",
+      "domain": "psref.lenovo.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Lenovo ThinkVision M14d official spec PDF. Vendor specs \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p22",
+      "query": "best portable monitor for travel",
+      "url": "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-oled-mq13ah/techspec/",
+      "domain": "asus.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ASUS ZenScreen OLED techspec page. Vendor specs \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p23",
+      "query": "best portable monitor for travel",
+      "url": "https://www.servethehome.com/arzopa-z1rc-16-qhd-portable-monitor-review/",
+      "domain": "servethehome.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ServeTheHome Arzopa portable monitor review. Niche tech review site; useful attributed hands-on, not sole 'best travel monitor' warrant.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p24",
+      "query": "best portable monitor for travel",
+      "url": "https://www.lg.com/us/business/download/resources/CT40000311/lg_spec_sheet_16mq70.asdu_052215_lr%5B20220702_063612%5D.pdf",
+      "domain": "lg.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "LG portable monitor spec sheet PDF. Vendor literature \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p25",
+      "query": "best portable monitor for travel",
+      "url": "https://www.notebookcheck.net/14-inch-Dell-C1422H-portable-monitor-review-Lightweight-and-basic-with-no-extras.595270.0.html",
+      "domain": "notebookcheck.net",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Notebookcheck Dell C1422H portable monitor review \u2014 established laptop/display lab tester. Endorsement allow for that model.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "endorsement_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p26",
+      "query": "best portable monitor for travel",
+      "url": "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-go-mb16awp/?utm_source=openai",
+      "domain": "asus.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ASUS ZenScreen Go product marketing page. Vendor \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p27",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.apple.com/newsroom/2025/09/introducing-airpods-pro-3-the-ultimate-audio-experience/",
+      "domain": "apple.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Apple Newsroom AirPods Pro 3 launch PR. First-party marketing \u2014 attribute announced features; deny endorsement vs competitors.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p28",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.rtings.com/headphones/reviews/best/noise-cancelling-earbuds",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS best noise-cancelling earbuds ranking. Lab ANC/isolation measurements \u2014 endorsement allow.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p29",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.rtings.com/headphones/reviews/bose/quietcomfort-ultra-earbuds-2nd-gen?utm_source=openai",
+      "domain": "rtings.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "RTINGS Bose QC Ultra Earbuds 2nd gen review. Lab product review \u2014 endorsement allow for that model.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p30",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.soundguys.com/sennheiser-momentum-true-wireless-4-review-111429/",
+      "domain": "soundguys.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "SoundGuys Sennheiser MTW4 review with measurements. Strong audio measurement site \u2014 endorsement allow.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": false,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "endorsement_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p31",
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "url": "https://www.soundguys.com/sony-wf-1000xm6-review-152013/?utm_source=openai",
+      "domain": "soundguys.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "SoundGuys Sony WF-1000XM6 review. Same SoundGuys measurement standard \u2014 endorsement allow.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p32",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.ada.org/resources/ada-library/oral-health-topics/toothbrushes?utm_source=openai",
+      "domain": "ada.org",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ADA oral-health topic page on toothbrushes. Institutional dental facts; does not crown a consumer 'best' brush.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p33",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://manuals.plus/asin/B0B5HTX7YW.pdf?utm_source=openai",
+      "domain": "manuals.plus",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "manuals.plus ASIN PDF aggregator of a product manual. Thin third-party mirror of user-manual content \u2014 downrank; attribute only; no endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p34",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.ada.org/resources/research/science/ada-seal-of-acceptance/?utm_source=openai",
+      "domain": "ada.org",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "ADA Seal of Acceptance program page. Use for seal/acceptance facts; not a product ranking endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p35",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://www.usa.philips.com/c-m-pe/electric-toothbrushes/4100-series?utm_source=openai",
+      "domain": "usa.philips.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Philips Sonicare 4100 series brand page. Vendor \u2014 attribute specs; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p37",
+      "query": "best electric toothbrush for sensitive gums",
+      "url": "https://oralb.com/en-us/products/replacement-brush-heads/oral-b-io-gentle-care-replacement-brush-head-1-count-white/?utm_source=openai",
+      "domain": "oralb.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Oral-B iO Gentle Care brush-head product page. Vendor \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p38",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.goodhousekeeping.com/cooking-tools/cookware-reviews/a62938973/lodge-cast-iron-skillet-review/?utm_source=openai",
+      "domain": "goodhousekeeping.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Good Housekeeping Lodge skillet review. Hearst commerce/test kitchen with affiliate; attribute; deny sole endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p39",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.goodhousekeeping.com/cooking-tools/g29993894/best-cast-iron-skillets/?utm_source=openai",
+      "domain": "goodhousekeeping.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Good Housekeeping best cast iron skillets roundup. Same affiliate commerce pattern \u2014 deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p40",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.consumerreports.org/home-garden/cookware/tramontina-enameled-cast-iron-series-1000/m400501/?utm_source=openai",
+      "domain": "consumerreports.org",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Consumer Reports Tramontina enameled cast iron product page. Institutional tester \u2014 attribute scores; deny open endorsement without full CR context.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p41",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://www.youtube.com/watch?v=kmVmKmR0CXA&utm_source=openai",
+      "domain": "youtube.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "YouTube video cite. Opaque creator incentives without transcript/channel audit \u2014 downrank; attribute opinions; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p42",
+      "query": "best cast iron skillet for beginners",
+      "url": "https://qz.com/best-frying-pans-consumer-reports?utm_source=openai",
+      "domain": "qz.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Quartz piece referencing Consumer Reports frying-pan work. Secondary journalism \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p43",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid=e1310453-1880-43a5-982b-cf9b30cfdc47&type=pdf&utm_source=openai",
+      "domain": "dailymed.nlm.nih.gov",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "DailyMed/NLM drug-label PDF for a sunscreen. Authoritative label facts (SPF, actives); not a 'best for oily skin' endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": false,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": false
+      },
+      "needs_adjudication": false,
+      "disagree_fields": [
+        "factual_permission"
+      ],
+      "adjudicator_note": "```"
+    },
+    {
+      "id": "v1p44",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.neutrogena.com/products/sun/neutrogena-ultra-sheer-invisible-gel-face-sunscreen-broad-spectrum-spf-40/6807869?utm_source=openai",
+      "domain": "neutrogena.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Neutrogena Ultra Sheer product page. Brand vendor \u2014 attribute claims; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p45",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.neutrogena.com/skin/clear-face-sunscreen?utm_source=openai",
+      "domain": "neutrogena.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Neutrogena Clear Face sunscreen category page. Brand marketing \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p46",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.eucerinus.com/products/sun-protection/clear-skin-spf-50-face-sunscreen?utm_source=openai",
+      "domain": "eucerinus.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Eucerin Clear Skin SPF 50 face sunscreen product page. Brand vendor \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p47",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.cetaphil.com/us/products/product-categories/all-moisturizers/dermacontrol-oil-absorbing-moisturizer-spf-30/302994313044.html?utm_source=openai",
+      "domain": "cetaphil.com",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "Cetaphil Dermacontrol oil-absorbing moisturizer SPF 30 page. Brand vendor \u2014 attribute; deny endorsement.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    },
+    {
+      "id": "v1p48",
+      "query": "best sunscreen for oily skin drugstore",
+      "url": "https://www.aad.org/spot-skin-cancer/learn-about-skin-cancer/prevent-skin-cancer/how-to-select-a-sunscreen?utm_source=openai",
+      "domain": "aad.org",
+      "role_hint": null,
+      "note": null,
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "llm_research_notes": "AAD how-to-select-a-sunscreen guidance. Strong dermatology org facts on SPF/broad-spectrum; does not crown a drugstore oily-skin winner.",
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "agreement": {
+        "retrieve_permission": true,
+        "mention_permission": true,
+        "factual_permission": true,
+        "endorsement_permission": true,
+        "parasitic": true,
+        "all_agree": true
+      },
+      "needs_adjudication": false,
+      "disagree_fields": []
+    }
+  ],
+  "adjudicated_at": "2026-08-04T09:51:11Z",
+  "adjudication_source": "data/permissions_eval/label_sheet_v1_adjudication.md"
+}

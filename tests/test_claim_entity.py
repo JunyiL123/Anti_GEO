@@ -161,3 +161,32 @@ def test_extract_shared_claim_keeps_best_in_query_fallback():
         )
         == "best budget wireless earbuds"
     )
+
+
+def test_claim_entity_rubric_tracks_role_sets(monkeypatch):
+    """Changing claim_entity role sets must change the LLM hybrid rubric."""
+    import anti_geo.claim_entity as claim_entity
+
+    monkeypatch.setattr(
+        claim_entity,
+        "_COMMERCIAL_ROLES",
+        frozenset(
+            {"commercial_product", "review_profile", "expert_listicle", "shop_hub"}
+        ),
+    )
+    text = claim_entity.claim_entity_heuristic_rules_rubric()
+    assert "shop_hub" in text
+    assert "_heuristic_pick" in text
+    assert "JUNK" in text
+    assert "Navigational intent" in text
+    msgs = claim_entity.build_claim_entity_llm_messages(
+        query="best widgets",
+        query_intent="commercial",
+        topic="best widgets",
+        brand=None,
+        heuristic="best widgets",
+        sources=[],
+        content_roles=["factual_blog"],
+    )
+    assert msgs[0]["content"] == text
+    assert "heuristic_pick: best widgets" in msgs[1]["content"]

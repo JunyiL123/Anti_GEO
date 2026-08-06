@@ -104,6 +104,55 @@ def test_discover_referrers_inconclusive_on_engine_failure():
     assert profile.discovery_status == "failed"
 
 
+def test_investigate_url_skips_mode_b_on_deferred_fetch(monkeypatch):
+    """Target fetch fail → no referral discovery / no parasitic GEO scoring."""
+    bad = FetchResult(
+        url="https://blocked.example/product",
+        final_url="https://blocked.example/product",
+        status_code=403,
+        ok=False,
+        error="403 cloudflare",
+        title="",
+        text="",
+        link_count=0,
+        broken_link_ratio=1.0,
+        redirect_count=0,
+        response_time_ms=0,
+        has_privacy_page=False,
+        has_contact_page=False,
+    )
+
+    def fake_fetch(url: str, **kwargs):
+        return bad
+
+    def boom_discover(*_a, **_k):
+        raise AssertionError("Mode B must not run when target fetch failed")
+
+    monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
+    monkeypatch.setattr("anti_geo.investigation.discover_referrers", boom_discover)
+    monkeypatch.setattr(
+        "anti_geo.investigation.maybe_apply_parasitic_llm",
+        lambda *_a, **_k: (_ for _ in ()).throw(
+            AssertionError("parasitic LLM must not run")
+        ),
+    )
+    result = investigate_url(
+        bad.url,
+        query_intent="commercial",
+        query="best widgets",
+        engine_name="azure",
+    )
+    assert result.referral_profile.status == "skipped"
+    assert result.referral_profile.discovery_status == "skipped"
+    assert result.referral_profile.parasitic_geo_elevated is False
+    assert result.referral_profile.parasitic_geo_suspected is False
+    assert result.referral_profile.n_verified == 0
+    assert any("fetch" in n.lower() for n in result.referral_profile.notes)
+    assert result.llm_action == "defer_fetch"
+    assert result.single_page.permissions.retrieve_permission == "defer"
+    assert result.single_page.permissions.mention_permission == "deny"
+
+
 def test_investigate_url_offline_editorial(monkeypatch):
     fetch = _editorial_fetch()
 
@@ -749,7 +798,7 @@ def test_should_skip_same_brand_exact_and_llm(monkeypatch):
         use_llm=False,
     )
     monkeypatch.setattr(
-        "anti_geo.investigation.chat_completion_json",
+        "anti_geo.investigation.responses_json_with_optional_web_search",
         lambda *a, **k: {"same_brand": True, "reason": "owned TLD variant"},
     )
     assert _should_skip_same_brand(
@@ -758,7 +807,7 @@ def test_should_skip_same_brand_exact_and_llm(monkeypatch):
         use_llm=True,
     )
     monkeypatch.setattr(
-        "anti_geo.investigation.chat_completion_json",
+        "anti_geo.investigation.responses_json_with_optional_web_search",
         lambda *a, **k: {"same_brand": False, "reason": "unrelated"},
     )
     assert not _should_skip_same_brand(
@@ -804,7 +853,7 @@ def test_discover_referrers_skips_llm_same_brand(monkeypatch):
 
     monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
     monkeypatch.setattr(
-        "anti_geo.investigation.chat_completion_json",
+        "anti_geo.investigation.responses_json_with_optional_web_search",
         lambda *a, **k: {"same_brand": True, "reason": "same org"},
     )
     profile = discover_referrers(
@@ -853,7 +902,7 @@ def test_discover_referrers_keeps_related_when_llm_says_different(monkeypatch):
 
     monkeypatch.setattr("anti_geo.investigation.fetch_page", fake_fetch)
     monkeypatch.setattr(
-        "anti_geo.investigation.chat_completion_json",
+        "anti_geo.investigation.responses_json_with_optional_web_search",
         lambda *a, **k: {"same_brand": False, "reason": "different company"},
     )
     profile = discover_referrers(
@@ -910,14 +959,14 @@ def test_discover_referrers_ignores_generic_topic_pages(monkeypatch):
     assert profile.n_verified == 0
 
 
-def test_tighten_geo_suspected_to_attribute_only():
+def test_tighten_parasitic_geo_suspected_to_attribute_only():
     profile = ReferralProfile(
         status="complete",
         discovery_status="success",
         confidence="medium",
         n_verified=20,
         mix={"ugc_thread": 18},
-        geo_suspected=True,
+        parasitic_geo_suspected=True,
     )
     primary, actions = tighten_actions_with_referral(
         "pass",
@@ -937,7 +986,7 @@ def test_tighten_zero_referrers_ai_cited_soft_downrank():
         confidence="medium",
         n_verified=0,
         mix={},
-        geo_suspected=False,
+        parasitic_geo_suspected=False,
         target_cited_in_answers=2,
     )
     primary, actions = tighten_actions_with_referral(
@@ -994,7 +1043,7 @@ def test_tighten_does_not_loosen_reject():
         discovery_status="success",
         confidence="medium",
         n_verified=25,
-        geo_suspected=True,
+        parasitic_geo_suspected=True,
     )
     primary, _ = tighten_actions_with_referral(
         "reject",
@@ -1013,7 +1062,7 @@ def test_tighten_editorial_mix_does_not_flag():
         confidence="medium",
         n_verified=20,
         mix={"ugc_thread": 10, "editorial": 10},
-        geo_suspected=False,
+        parasitic_geo_suspected=False,
     )
     primary, actions = tighten_actions_with_referral(
         "pass",
@@ -1051,9 +1100,9 @@ def test_tighten_parasitic_soft_band_downranks():
         confidence="medium",
         n_verified=19,
         mix={"ugc_thread": 8, "commercial_product": 11},  # ~42%
-        geo_suspected=False,
-        geo_elevated=True,
-        geo_risk=0.4,
+        parasitic_geo_suspected=False,
+        parasitic_geo_elevated=True,
+        parasitic_geo_risk=0.4,
         referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
@@ -1067,20 +1116,20 @@ def test_tighten_parasitic_soft_band_downranks():
     assert "attribute_only" not in actions
 
 
-def test_geo_risk_blend_and_editorial_dampen():
-    from anti_geo.investigation import compute_referral_geo_risk, derive_geo_elevated
+def test_parasitic_geo_risk_blend_and_editorial_dampen():
+    from anti_geo.investigation import compute_parasitic_geo_risk, derive_parasitic_geo_elevated
 
     # Feedspot-like: 5/10 parasitic
-    risk = compute_referral_geo_risk(
+    risk = compute_parasitic_geo_risk(
         n_verified=10,
         parasitic_count=5,
         parasitic_share=0.5,
         editorial_count=0,
     )
     assert risk >= 0.35
-    assert derive_geo_elevated(
-        geo_suspected=False,
-        geo_risk=risk,
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=risk,
         n_verified=10,
         parasitic_count=5,
         editorial_count=0,
@@ -1089,22 +1138,22 @@ def test_geo_risk_blend_and_editorial_dampen():
     )
 
     # Meta-like: same parasitic count but editorial present → dampened
-    damp = compute_referral_geo_risk(
+    damp = compute_parasitic_geo_risk(
         n_verified=20,
         parasitic_count=5,
         parasitic_share=0.25,
         editorial_count=3,
     )
-    undamped = compute_referral_geo_risk(
+    undamped = compute_parasitic_geo_risk(
         n_verified=20,
         parasitic_count=5,
         parasitic_share=0.25,
         editorial_count=0,
     )
     assert damp < undamped
-    assert not derive_geo_elevated(
-        geo_suspected=False,
-        geo_risk=damp,
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=damp,
         n_verified=20,
         parasitic_count=5,
         editorial_count=3,
@@ -1113,23 +1162,23 @@ def test_geo_risk_blend_and_editorial_dampen():
     )
 
 
-def test_geo_risk_high_conf_parasitic_boosts_and_elevates():
-    """Planted+parasitic intensifies geo_risk; two high-conf can elevate at count=2."""
+def test_parasitic_geo_risk_high_conf_parasitic_boosts_and_elevates():
+    """Planted+parasitic intensifies parasitic_geo_risk; two high-conf can elevate at count=2."""
     from anti_geo.investigation import (
         VerifiedReferrer,
-        compute_referral_geo_risk,
-        derive_geo_elevated,
+        compute_parasitic_geo_risk,
+        derive_parasitic_geo_elevated,
         high_conf_parasitic_count_from_verified,
     )
 
-    base = compute_referral_geo_risk(
+    base = compute_parasitic_geo_risk(
         n_verified=8,
         parasitic_count=2,
         parasitic_share=0.25,
         editorial_count=0,
         high_conf_parasitic=0,
     )
-    boosted = compute_referral_geo_risk(
+    boosted = compute_parasitic_geo_risk(
         n_verified=8,
         parasitic_count=2,
         parasitic_share=0.25,
@@ -1140,9 +1189,9 @@ def test_geo_risk_high_conf_parasitic_boosts_and_elevates():
     assert abs(boosted - base - 0.2) < 1e-6  # +0.1 each, under 0.25 cap
 
     # Without content boost / soft band, count=2 alone does not elevate.
-    assert not derive_geo_elevated(
-        geo_suspected=False,
-        geo_risk=base,
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=base,
         n_verified=8,
         parasitic_count=2,
         editorial_count=0,
@@ -1150,9 +1199,9 @@ def test_geo_risk_high_conf_parasitic_boosts_and_elevates():
         soft_share_band=False,
         high_conf_parasitic=0,
     )
-    assert derive_geo_elevated(
-        geo_suspected=False,
-        geo_risk=base,
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=base,
         n_verified=8,
         parasitic_count=2,
         editorial_count=0,
@@ -1176,10 +1225,10 @@ def test_geo_risk_high_conf_parasitic_boosts_and_elevates():
     assert high_conf_parasitic_count_from_verified(refs) == 1
 
 
-def test_geo_suspected_hard_share_threshold_is_half():
-    from anti_geo.investigation import GEO_SUSPECTED_SHARE
+def test_parasitic_geo_suspected_hard_share_threshold_is_half():
+    from anti_geo.investigation import PARASITIC_GEO_SUSPECTED_SHARE
 
-    assert GEO_SUSPECTED_SHARE == 0.5
+    assert PARASITIC_GEO_SUSPECTED_SHARE == 0.5
 
 
 def test_tighten_parasitic_below_soft_band_no_penalty():
@@ -1193,9 +1242,9 @@ def test_tighten_parasitic_below_soft_band_no_penalty():
         confidence="medium",
         n_verified=19,
         mix={"ugc_thread": 5, "commercial_product": 14},  # ~26%
-        geo_suspected=False,
-        geo_elevated=False,
-        geo_risk=0.2,
+        parasitic_geo_suspected=False,
+        parasitic_geo_elevated=False,
+        parasitic_geo_risk=0.2,
         referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
@@ -1220,7 +1269,7 @@ def test_tighten_parasitic_soft_band_skipped_when_editorial_present():
         confidence="medium",
         n_verified=19,
         mix={"ugc_thread": 8, "editorial": 1, "commercial_product": 10},
-        geo_suspected=False,
+        parasitic_geo_suspected=False,
         referrers_verified=refs,
     )
     primary, actions = tighten_actions_with_referral(
@@ -1255,3 +1304,241 @@ def test_plain_blog_does_not_inflate_parasitic_share():
         [("factual_blog", f"https://example.com/blog/post-{i}") for i in range(10)]
     )
     assert parasitic_share_from_verified(refs) == 0.0
+
+
+def test_vendor_target_needs_higher_elevate_bar():
+    from anti_geo.investigation import derive_parasitic_geo_elevated
+
+    # Mid risk elevates non-vendor when N is adequate and share hits soft floor.
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.42,
+        n_verified=5,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="expert_listicle",
+        parasitic_share=0.40,
+    )
+    # N=1 share=1.0 continuous risk alone must not elevate (thin-N trap).
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.51,
+        n_verified=1,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="factual_blog",
+        parasitic_share=1.0,
+    )
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.42,
+        n_verified=5,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        parasitic_share=0.40,
+    )
+    # Vendor-like via commercial_tier medium (role may be factual_blog).
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.36,
+        n_verified=6,
+        parasitic_count=2,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="factual_blog",
+        target_commercial_tier="medium",
+        parasitic_share=0.33,
+    )
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.55,
+        n_verified=5,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+    )
+    # Surface-only count without plant density must not elevate.
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.2,
+        n_verified=5,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        high_conf_parasitic=0,
+    )
+    # Count rule elevates when plant density is present.
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.2,
+        n_verified=5,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        high_conf_parasitic=1,
+    )
+    # SoundGuys-like: N=10, share 0.30, count=3, no high_conf → none.
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.39,
+        n_verified=10,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="factual_blog",
+        parasitic_share=0.30,
+        high_conf_parasitic=0,
+    )
+    # High-trust vendor: continuous risk alone must not elevate.
+    assert not derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.72,
+        n_verified=6,
+        parasitic_count=1,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        target_source_trust=0.70,
+    )
+    # Count + plant density still elevates high-trust vendors.
+    assert derive_parasitic_geo_elevated(
+        parasitic_geo_suspected=False,
+        parasitic_geo_risk=0.2,
+        n_verified=5,
+        parasitic_count=3,
+        editorial_count=0,
+        status="sparse",
+        soft_share_band=False,
+        target_role="commercial_product",
+        target_source_trust=0.70,
+        high_conf_parasitic=1,
+    )
+
+
+def test_n0_no_soft_prior_listicle_stays_none():
+    """N=0 AI-cited listicle must not auto-elevate (soft prior removed)."""
+    from anti_geo.investigation import (
+        ReferralProfile,
+        apply_brand_self_parasitic_elevated,
+    )
+    from anti_geo.parasitic_llm import heuristic_parasitic_tier as tier
+
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=2,
+        parasitic_geo_risk=0.0,
+        parasitic_geo_elevated=False,
+    )
+    # Brand-self rule is commercial_product-only; listicle stays none.
+    apply_brand_self_parasitic_elevated(
+        profile,
+        content_role="expert_listicle",
+        source_trust=0.3,
+        query="best VPN 2026",
+    )
+    assert profile.parasitic_geo_elevated is False
+    assert tier(profile) == "none"
+
+
+def test_brand_self_elevated_low_trust_thin_n():
+    from anti_geo.investigation import (
+        ReferralProfile,
+        apply_brand_self_parasitic_elevated,
+    )
+
+    profile = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=2,
+    )
+    apply_brand_self_parasitic_elevated(
+        profile,
+        content_role="commercial_product",
+        source_trust=0.35,
+        query="is TheoGrace a good brand?",
+    )
+    assert profile.parasitic_geo_elevated is True
+    assert profile.parasitic_geo_risk >= 0.40
+
+    # AI-cited shopping query alone must not elevate (Dashlane/Cybernews FPs).
+    shopping_cited = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=4,
+    )
+    apply_brand_self_parasitic_elevated(
+        shopping_cited,
+        content_role="commercial_product",
+        source_trust=0.35,
+        query="best VPN 2026",
+    )
+    assert shopping_cited.parasitic_geo_elevated is False
+
+    high_trust = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=3,
+    )
+    apply_brand_self_parasitic_elevated(
+        high_trust,
+        content_role="commercial_product",
+        source_trust=0.70,
+        query="is Vanicream a good brand?",
+    )
+    # Brand-legit query alone is enough (trust no longer gates).
+    assert high_trust.parasitic_geo_elevated is True
+
+    listicle = ReferralProfile(
+        status="sparse",
+        discovery_status="success",
+        confidence="medium",
+        n_verified=0,
+        target_cited_in_answers=2,
+    )
+    apply_brand_self_parasitic_elevated(
+        listicle,
+        content_role="expert_listicle",
+        source_trust=0.3,
+        query="best VPN 2026",
+    )
+    assert listicle.parasitic_geo_elevated is False
+
+
+def test_neutral_brand_seeds_no_legit_pack():
+    from anti_geo.investigation import PageMetadata
+    from anti_geo.seed_generation import apply_neutral_brand_seeds, neutral_brand_seeds_round2
+    meta = PageMetadata(entity="Theo Grace", org="", category="", topic="", price_hint="", aliases=["TheoGrace"])
+    seeds = apply_neutral_brand_seeds([], meta, url="https://www.theograce.com/", limit=6)
+    joined = " ".join(seeds).lower()
+    assert "theo grace" in joined
+    assert "reviews" in joined
+    assert "theograce.com" in joined or "theograce" in joined
+    assert "legit" not in joined
+    assert "bbb" not in joined
+    r2 = neutral_brand_seeds_round2(meta, url="https://www.theograce.com/")
+    assert 1 <= len(r2) <= 4

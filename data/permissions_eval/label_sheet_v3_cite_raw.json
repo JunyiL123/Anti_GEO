@@ -1,0 +1,277 @@
+{
+  "description": "Raw engine cite lists for v3 (no Anti-GEO scoring).",
+  "created_at": "2026-08-05T11:29:31.742672+00:00",
+  "engine": "azure",
+  "queries": [
+    {
+      "query": "is Back Market trustworthy for buying refurbished laptops?",
+      "elapsed_s": 20.77,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://help.backmarket.com/hc/en-us/articles/360026820453-Returns-and-Refunds-Policy?utm_source=openai",
+        "https://www.backmarket.com/en-us/quality?utm_source=openai",
+        "https://www.trustpilot.com/review/www.backmarket.com?utm_source=openai",
+        "https://www.bbb.org/us/ny/new-york/profile/online-retailer/back-market-inc-0121-176814/complaints?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://help.backmarket.com/hc/en-us/articles/360026820453-Returns-and-Refunds-Policy?utm_source=openai",
+        "https://www.backmarket.com/en-us/quality?utm_source=openai",
+        "https://www.trustpilot.com/review/www.backmarket.com?utm_source=openai",
+        "https://www.bbb.org/us/ny/new-york/profile/online-retailer/back-market-inc-0121-176814/complaints?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best compact dehumidifier for a basement apartment 2026",
+      "elapsed_s": 41.09,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://www.midea.com/us/store/cooling-and-heating/dehumidifiers/midea-cube-20-pt-dehumidifier-for-basement--room--or-garage---co.mad35s1qwt?utm_source=openai",
+        "https://www.homedepot.com/p/320468342?_pxhc=1670378528822",
+        "https://www.rtings.com/dehumidifier/reviews/best/basement",
+        "https://www.energystar.gov/productfinder/product/certified-dehumidifiers/details/2370988/export/pdf?utm_source=openai",
+        "https://www.energystar.gov/products/dehumidifiers"
+      ],
+      "kept_urls": [
+        "https://www.midea.com/us/store/cooling-and-heating/dehumidifiers/midea-cube-20-pt-dehumidifier-for-basement--room--or-garage---co.mad35s1qwt?utm_source=openai",
+        "https://www.homedepot.com/p/320468342?_pxhc=1670378528822",
+        "https://www.rtings.com/dehumidifier/reviews/best/basement",
+        "https://www.energystar.gov/productfinder/product/certified-dehumidifiers/details/2370988/export/pdf?utm_source=openai",
+        "https://www.energystar.gov/products/dehumidifiers"
+      ]
+    },
+    {
+      "query": "best ergonomic office chair under $300 according to Reddit",
+      "elapsed_s": 18.79,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.reddit.com/r/OfficeChairs/comments/1vfwjh6/best_ergonomic_chair_for_300/?utm_source=openai",
+        "https://www.reddit.com/r/OfficeChairs/comments/1uyl8mx/is_320_a_good_deal_for_a_steelcase_leap_v2_in/?utm_source=openai",
+        "https://www.reddit.com/r/OfficeChairs/comments/1u0o7z6/just_received_my_colamy_atlas_my_first_ergo_chair/?utm_source=openai",
+        "https://www.reddit.com/r/OfficeChairs/comments/z2aamu?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/OfficeChairs/comments/1vfwjh6/best_ergonomic_chair_for_300/?utm_source=openai",
+        "https://www.reddit.com/r/OfficeChairs/comments/1uyl8mx/is_320_a_good_deal_for_a_steelcase_leap_v2_in/?utm_source=openai",
+        "https://www.reddit.com/r/OfficeChairs/comments/1u0o7z6/just_received_my_colamy_atlas_my_first_ergo_chair/?utm_source=openai",
+        "https://www.reddit.com/r/OfficeChairs/comments/z2aamu?utm_source=openai"
+      ]
+    },
+    {
+      "query": "which magnesium glycinate supplement is best for sleep and relaxation?",
+      "elapsed_s": 38.32,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://prod-site.thorne.com/products/dp/magnesium-bisglycinate?utm_source=openai",
+        "https://dsld.od.nih.gov/label/205309?utm_source=openai",
+        "https://www.nowfoods.com/products/supplements/magnesium-glycinate-tablets?VARI=1627&utm_source=openai",
+        "https://www.doctorsbest.com/products/doctor-s-best-high-absorption-magnesium-lysinate-glycinate-chelated-albion-traacs-240-tablets-100-mg-per-tablet-16567?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/40918053/?utm_source=openai",
+        "https://ods.od.nih.gov/factsheets/magnesium-HealthProfessional/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://prod-site.thorne.com/products/dp/magnesium-bisglycinate?utm_source=openai",
+        "https://dsld.od.nih.gov/label/205309?utm_source=openai",
+        "https://www.nowfoods.com/products/supplements/magnesium-glycinate-tablets?VARI=1627&utm_source=openai",
+        "https://www.doctorsbest.com/products/doctor-s-best-high-absorption-magnesium-lysinate-glycinate-chelated-albion-traacs-240-tablets-100-mg-per-tablet-16567?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/40918053/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best online therapy platform for couples without insurance",
+      "elapsed_s": 26.44,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://openpathcollective.org/frequently-asked-questions-from-therapy-seekers/?utm_source=openai",
+        "https://www.betterhelp.com/advice/therapy/where-can-i-find-couples-therapy-near-me//?utm_source=openai",
+        "https://www.ourritual.com/plans?utm_source=openai",
+        "https://help.talkspace.com/hc/en-us/articles/360041531131-Talkspace-Services-Out-of-Pocket-Pricing?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://openpathcollective.org/frequently-asked-questions-from-therapy-seekers/?utm_source=openai",
+        "https://www.betterhelp.com/advice/therapy/where-can-i-find-couples-therapy-near-me//?utm_source=openai",
+        "https://www.ourritual.com/plans?utm_source=openai",
+        "https://help.talkspace.com/hc/en-us/articles/360041531131-Talkspace-Services-Out-of-Pocket-Pricing?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best home theater projector recommended by AV forums",
+      "elapsed_s": 33.71,
+      "error": null,
+      "n_engine_cites": 3,
+      "cited_urls": [
+        "https://www.avforums.com/articles/tvs-projectors-best-of-2025-2026-avforums-editors-choice-awards.23119/?utm_source=openai",
+        "https://news.epson.com/news/pro-cinema-ls9000-4k-laser-projector?utm_source=openai",
+        "https://www.valerion.com/product/valerion-visionmaster-pro2-pro-4k-rgb-triple-laser-projector?image=1&model=Pro&utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.avforums.com/articles/tvs-projectors-best-of-2025-2026-avforums-editors-choice-awards.23119/?utm_source=openai",
+        "https://news.epson.com/news/pro-cinema-ls9000-4k-laser-projector?utm_source=openai",
+        "https://www.valerion.com/product/valerion-visionmaster-pro2-pro-4k-rgb-triple-laser-projector?image=1&model=Pro&utm_source=openai"
+      ]
+    },
+    {
+      "query": "Brooklinen promo code that actually works Reddit",
+      "elapsed_s": 15.64,
+      "error": null,
+      "n_engine_cites": 3,
+      "cited_urls": [
+        "https://www.reddit.com/r/discountcodepromocode/comments/1v5d9my/brooklinen_discount_code_15627820_15_off_verified/?utm_source=openai",
+        "https://www.reddit.com/r/maximumfun/comments/1uyi2ib/use_code_blank_at_checkout/?utm_source=openai",
+        "https://www.wethrift.com/brooklinen?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/discountcodepromocode/comments/1v5d9my/brooklinen_discount_code_15627820_15_off_verified/?utm_source=openai",
+        "https://www.reddit.com/r/maximumfun/comments/1uyi2ib/use_code_blank_at_checkout/?utm_source=openai",
+        "https://www.wethrift.com/brooklinen?utm_source=openai"
+      ]
+    },
+    {
+      "query": "Samsung Galaxy Ring vs Oura Ring for sleep tracking and subscription cost",
+      "elapsed_s": 50.93,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.samsung.com/us/rings/galaxy-ring/buy/galaxy-ring-titanium-black-sm-q50xnzkaxar/?utm_source=openai",
+        "https://www.nature.com/articles/s41598-025-93774-z.pdf",
+        "https://www.samsung.com/us/rings/galaxy-ring/?r=true",
+        "https://ouraring.com/membership?pubDate=20260102"
+      ],
+      "kept_urls": [
+        "https://www.samsung.com/us/rings/galaxy-ring/buy/galaxy-ring-titanium-black-sm-q50xnzkaxar/?utm_source=openai",
+        "https://www.nature.com/articles/s41598-025-93774-z.pdf",
+        "https://www.samsung.com/us/rings/galaxy-ring/?r=true",
+        "https://ouraring.com/membership?pubDate=20260102"
+      ]
+    },
+    {
+      "query": "is Quince a legitimate place to buy cashmere clothing?",
+      "elapsed_s": 14.32,
+      "error": null,
+      "n_engine_cites": 2,
+      "cited_urls": [
+        "https://www.quince.com/quince-offers",
+        "https://www.washingtonpost.com/style/fashion/2025/02/19/cashmere-quince-uniqlo-naadam/"
+      ],
+      "kept_urls": [
+        "https://www.quince.com/quince-offers",
+        "https://www.washingtonpost.com/style/fashion/2025/02/19/cashmere-quince-uniqlo-naadam/"
+      ]
+    },
+    {
+      "query": "best cordless stick vacuum under $250 for hardwood floors",
+      "elapsed_s": 48.71,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://levoit.com/products/lvac-200-cordless-vacuum?bvstate=pg%3A8%2Fct%3Ar&country=US&currency=USD&gad_source=1&gbraid=0AAAAACKUb63CMEFhJx4KxAEKrDLnKCCGW&tw_adid=741533508928&tw_campaign=21051369242&tw_source=yahoo&variant=43344013918359",
+        "https://www.techgearlab.com/reviews/floor-cleaning/cordless-stick-vacuum/levoit-lvac-200?utm_source=openai",
+        "https://www.bissell.com/en-us/product/powerclean-furfinder-cordless-stick-vacuum-4052.html?bvstate=pg%3A5%2Fct%3Ar&pr_rd_page=20",
+        "https://www.dreametech.com/products/dreame-r20-pure-cordless-stick-vacuum"
+      ],
+      "kept_urls": [
+        "https://levoit.com/products/lvac-200-cordless-vacuum?bvstate=pg%3A8%2Fct%3Ar&country=US&currency=USD&gad_source=1&gbraid=0AAAAACKUb63CMEFhJx4KxAEKrDLnKCCGW&tw_adid=741533508928&tw_campaign=21051369242&tw_source=yahoo&variant=43344013918359",
+        "https://www.techgearlab.com/reviews/floor-cleaning/cordless-stick-vacuum/levoit-lvac-200?utm_source=openai",
+        "https://www.bissell.com/en-us/product/powerclean-furfinder-cordless-stick-vacuum-4052.html?bvstate=pg%3A5%2Fct%3Ar&pr_rd_page=20",
+        "https://www.dreametech.com/products/dreame-r20-pure-cordless-stick-vacuum"
+      ]
+    },
+    {
+      "query": "Reddit's favorite affordable meal delivery service for one person",
+      "elapsed_s": 19.3,
+      "error": null,
+      "n_engine_cites": 3,
+      "cited_urls": [
+        "https://www.reddit.com/r/mealkits/comments/1tb3olk/what_is_the_best_budget_friendly_kit/?utm_source=openai",
+        "https://www.everyplate.com/?locale=en-US&utm_source=openai",
+        "https://www.reddit.com/r/ReadyMeals/comments/1o3fqxp/factor_vs_cookunity/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/mealkits/comments/1tb3olk/what_is_the_best_budget_friendly_kit/?utm_source=openai",
+        "https://www.everyplate.com/?locale=en-US&utm_source=openai",
+        "https://www.reddit.com/r/ReadyMeals/comments/1o3fqxp/factor_vs_cookunity/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best collagen peptide powder for joints and skin with third-party testing",
+      "elapsed_s": 38.12,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://nsfsport-prod.nsf.org/certified-products/listing-detail.php?id=1258469",
+        "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0418947&Standard=306",
+        "https://choice.wetestyoutrust.com/supplement-search/sports-research/collagen-peptides-organic?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/37717022/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://nsfsport-prod.nsf.org/certified-products/listing-detail.php?id=1258469",
+        "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0418947&Standard=306",
+        "https://choice.wetestyoutrust.com/supplement-search/sports-research/collagen-peptides-organic?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/37717022/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best at-home red light therapy panel for muscle recovery",
+      "elapsed_s": 49.51,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://mitoredlight.com/products/mitopro-x-series?okeReviewsNextUrl=https%253A%252F%252Fapi.okendo.io%252Fv1%252Fstores%252F549e04b9-02ec-45a7-87b0-46198133f54b%252Fproducts%252Fshopify-8052427751592%252Freviews%253Flimit%253D5%2526orderBy%253Ddate%252520desc%2526lastEvaluated%253D%25257B%252522dateCreated%252522%25253A%2525222026-04-13T20%25253A33%25253A18.559Z%252522%25252C%252522subscriberId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%252522%25252C%252522reviewId%252522%25253A%252522206aa928-f43d-4af8-ae4e-35bbe364b11b%252522%25252C%252522subscriberId_productId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%25253Ashopify-8052427751592%252522%25257D&okeReviewsPageNum=2",
+        "https://hoogahealth.com/products/hgpro750",
+        "https://pubmed.ncbi.nlm.nih.gov/38758297/?utm_source=openai",
+        "https://www.aad.org/public/cosmetic/safety/red-light-therapy?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://mitoredlight.com/products/mitopro-x-series?okeReviewsNextUrl=https%253A%252F%252Fapi.okendo.io%252Fv1%252Fstores%252F549e04b9-02ec-45a7-87b0-46198133f54b%252Fproducts%252Fshopify-8052427751592%252Freviews%253Flimit%253D5%2526orderBy%253Ddate%252520desc%2526lastEvaluated%253D%25257B%252522dateCreated%252522%25253A%2525222026-04-13T20%25253A33%25253A18.559Z%252522%25252C%252522subscriberId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%252522%25252C%252522reviewId%252522%25253A%252522206aa928-f43d-4af8-ae4e-35bbe364b11b%252522%25252C%252522subscriberId_productId%252522%25253A%252522549e04b9-02ec-45a7-87b0-46198133f54b%25253Ashopify-8052427751592%252522%25257D&okeReviewsPageNum=2",
+        "https://hoogahealth.com/products/hgpro750",
+        "https://pubmed.ncbi.nlm.nih.gov/38758297/?utm_source=openai",
+        "https://www.aad.org/public/cosmetic/safety/red-light-therapy?utm_source=openai"
+      ]
+    },
+    {
+      "query": "most reliable prebuilt gaming PC brands according to enthusiast forums",
+      "elapsed_s": 39.02,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://www.reddit.com/r/Prebuilts/comments/1uqf4f7/best_prebuilt_gaming_pcs_2026_which_ones_are/?utm_source=openai",
+        "https://www.reddit.com/r/Prebuilts/comments/1sa9ndy/best_prebuilt_brand_that_known_for_long_term/?utm_source=openai",
+        "https://www.reddit.com/r/Prebuilts/comments/1uus9c2/falcon_northwest/?utm_source=openai",
+        "https://www.reddit.com/r/Prebuilts/comments/1mki1yl/best_prebuilt_brandsbuilders/?utm_source=openai",
+        "https://www.reddit.com/r/PrebuiltGamingPC/comments/1kd6mmp?utm_source=openai",
+        "https://www.reddit.com/r/buildapc/comments/1kx0aoy?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/Prebuilts/comments/1uqf4f7/best_prebuilt_gaming_pcs_2026_which_ones_are/?utm_source=openai",
+        "https://www.reddit.com/r/Prebuilts/comments/1sa9ndy/best_prebuilt_brand_that_known_for_long_term/?utm_source=openai",
+        "https://www.reddit.com/r/Prebuilts/comments/1uus9c2/falcon_northwest/?utm_source=openai",
+        "https://www.reddit.com/r/Prebuilts/comments/1mki1yl/best_prebuilt_brandsbuilders/?utm_source=openai",
+        "https://www.reddit.com/r/PrebuiltGamingPC/comments/1kd6mmp?utm_source=openai"
+      ]
+    },
+    {
+      "query": "Notion vs ClickUp for a small creative agency in 2026",
+      "elapsed_s": 61.2,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://clickup.com/pricing",
+        "https://help.clickup.com/hc/en-us/articles/6328033402007-Use-ClickUp-for-design-reviews?utm_source=openai",
+        "https://clickup.com/solutions/agency-management",
+        "https://www.notion.com/product/projects?trk=public_post_comment-text",
+        "https://www.notion.com/pricing"
+      ],
+      "kept_urls": [
+        "https://clickup.com/pricing",
+        "https://help.clickup.com/hc/en-us/articles/6328033402007-Use-ClickUp-for-design-reviews?utm_source=openai",
+        "https://clickup.com/solutions/agency-management",
+        "https://www.notion.com/product/projects?trk=public_post_comment-text",
+        "https://www.notion.com/pricing"
+      ]
+    }
+  ]
+}

@@ -83,3 +83,16 @@ def test_tighten_permissions_never_loosens():
     tightened = tighten_permissions(base, assessment)
     assert tightened.endorsement_permission == "deny"
     assert tightened.factual_permission in ("attribute_only", "deny")
+
+
+def test_commercial_heuristic_rules_rubric_tracks_config():
+    from anti_geo.commercial_policy import commercial_heuristic_rules_rubric
+    from anti_geo.config import DefenseConfig
+
+    text = commercial_heuristic_rules_rubric(
+        DefenseConfig(trust_endorsement_min=0.77, commercial_hedge_min_tier="high")
+    )
+    assert "Commercial packaging tighten" in text
+    assert "commercial tier >= high" in text
+    assert "trust < 0.77" in text
+    assert "must not loosen" in text.lower() or "Do not loosen" in text or "not loosen" in text

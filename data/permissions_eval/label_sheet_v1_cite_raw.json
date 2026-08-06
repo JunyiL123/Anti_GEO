@@ -1,0 +1,453 @@
+{
+  "description": "Raw engine cite lists for v1 (no Anti-GEO scoring).",
+  "created_at": "2026-08-04T03:53:40.483830+00:00",
+  "engine": "azure",
+  "queries": [
+    {
+      "query": "best running shoes for flat feet 2026",
+      "elapsed_s": 68.07,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.outsideonline.com/outdoor-gear/run/best-stability-shoes/",
+        "https://www.rtings.com/running-shoes/reviews/best/stability",
+        "https://www.runnersworld.com/gear/a20865766/best-stability-running-shoes/",
+        "https://www.solereview.com/best-running-shoes-for-overpronators/"
+      ],
+      "kept_urls": [
+        "https://www.outsideonline.com/outdoor-gear/run/best-stability-shoes/",
+        "https://www.rtings.com/running-shoes/reviews/best/stability",
+        "https://www.runnersworld.com/gear/a20865766/best-stability-running-shoes/",
+        "https://www.solereview.com/best-running-shoes-for-overpronators/"
+      ]
+    },
+    {
+      "query": "best robot vacuum for pet hair under $400",
+      "elapsed_s": 133.53,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.rtings.com/robot-vacuum/reviews/roborock/q5-max-plus?utm_source=openai",
+        "https://www.consumerreports.org/appliances/vacuum-cleaners/irobot-roomba-i4-evo/m407684/?utm_source=openai",
+        "https://www.rtings.com/robot-vacuum/reviews/best/pet-hair",
+        "https://www.rtings.com/robot-vacuum/reviews/shark/matrix-robot-rv2300s-rv2310ae"
+      ],
+      "kept_urls": [
+        "https://www.rtings.com/robot-vacuum/reviews/roborock/q5-max-plus?utm_source=openai",
+        "https://www.consumerreports.org/appliances/vacuum-cleaners/irobot-roomba-i4-evo/m407684/?utm_source=openai",
+        "https://www.rtings.com/robot-vacuum/reviews/best/pet-hair",
+        "https://www.rtings.com/robot-vacuum/reviews/shark/matrix-robot-rv2300s-rv2310ae"
+      ]
+    },
+    {
+      "query": "best air purifier for allergies",
+      "elapsed_s": 127.21,
+      "error": null,
+      "n_engine_cites": 10,
+      "cited_urls": [
+        "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home?utm_source=openai",
+        "https://downloads.energystar.gov/bi/qplist/Room_Air_Cleaners_Qualified_Product_List.pdf?bae4-e90d=&utm_source=openai",
+        "https://www.popularmechanics.com/technology/gear/a71054072/coway-airmega-mighty2-air-purifier-review/?utm_source=openai",
+        "https://www.rtings.com/air-purifier/reviews/levoit/core-300s?utm_source=openai",
+        "https://www.techgearlab.com/reviews/health-fitness/air-purifier/blueair-blue-pure-311i-max?utm_source=openai",
+        "https://asthmaandallergyfriendly.com/USA/certified_products/products_categories/air-cleaners/portable-air-cleaners/",
+        "https://www.rtings.com/air-purifier/reviews/best/allergies",
+        "https://www.consumerreports.org/appliances/air-purifiers/best-air-purifiers-of-the-year-a1197763201/?msockid=30bd5361809263ae2acc458981ac6223&utm_source=openai",
+        "https://ww2.arb.ca.gov/resources/documents/indoor-air-cleaning-devices-regulation?utm_source=openai",
+        "https://www.cdc.gov/niosh/bulletin/2023/diy-filtration.html?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.epa.gov/indoor-air-quality-iaq/air-cleaners-and-air-filters-home?utm_source=openai",
+        "https://downloads.energystar.gov/bi/qplist/Room_Air_Cleaners_Qualified_Product_List.pdf?bae4-e90d=&utm_source=openai",
+        "https://www.popularmechanics.com/technology/gear/a71054072/coway-airmega-mighty2-air-purifier-review/?utm_source=openai",
+        "https://www.rtings.com/air-purifier/reviews/levoit/core-300s?utm_source=openai",
+        "https://www.techgearlab.com/reviews/health-fitness/air-purifier/blueair-blue-pure-311i-max?utm_source=openai",
+        "https://asthmaandallergyfriendly.com/USA/certified_products/products_categories/air-cleaners/portable-air-cleaners/"
+      ]
+    },
+    {
+      "query": "best standing desk converter",
+      "elapsed_s": 145.35,
+      "error": null,
+      "n_engine_cites": 8,
+      "cited_urls": [
+        "https://www.forbes.com/sites/forbes-personal-shopper/article/best-standing-desk-converters/?utm_source=openai",
+        "https://odm.ergotron.com/Portals/0/literature/productSheets/english/05-WF-TL_TAA.pdf",
+        "https://www.upliftdesk.com/e7-electric-standing-desk-converter/?goal=0_596f138886-8b10b35cb7-55919904",
+        "https://www.humanscale.com/products/standing-desks/quickstand-eco-desk-converter?utm_source=openai",
+        "https://vivo-us.com/products/desk-v000k?variant=45139793346836&utm_source=openai",
+        "https://www.bestbuy.com/site/flexispot-m7-series-35w-manual-adjustable-standing-desk-converter-black/10142716.p?skuId=10142716&utm_source=openai",
+        "https://vivo-us.com/products/desk-v000s?variant=50449642324244&utm_source=openai",
+        "https://www.vari.com/on/demandware.static/-/Library-Sites-VariGlobalContentLibrary/default/dw1401affc/pdf/spec/High/403305_varidesk-proplus36-electric_specsheet-WEB.pdf?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.forbes.com/sites/forbes-personal-shopper/article/best-standing-desk-converters/?utm_source=openai",
+        "https://odm.ergotron.com/Portals/0/literature/productSheets/english/05-WF-TL_TAA.pdf",
+        "https://www.upliftdesk.com/e7-electric-standing-desk-converter/?goal=0_596f138886-8b10b35cb7-55919904",
+        "https://www.humanscale.com/products/standing-desks/quickstand-eco-desk-converter?utm_source=openai",
+        "https://vivo-us.com/products/desk-v000k?variant=45139793346836&utm_source=openai",
+        "https://www.bestbuy.com/site/flexispot-m7-series-35w-manual-adjustable-standing-desk-converter-black/10142716.p?skuId=10142716&utm_source=openai"
+      ]
+    },
+    {
+      "query": "best portable monitor for travel",
+      "elapsed_s": 90.61,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://psref.lenovo.com/syspool/Sys/PDF/ThinkVision/ThinkVision_M14d_Monitor/ThinkVision_M14d_Monitor_Spec.pdf",
+        "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-oled-mq13ah/techspec/",
+        "https://www.servethehome.com/arzopa-z1rc-16-qhd-portable-monitor-review/",
+        "https://www.lg.com/us/business/download/resources/CT40000311/lg_spec_sheet_16mq70.asdu_052215_lr%5B20220702_063612%5D.pdf",
+        "https://www.notebookcheck.net/14-inch-Dell-C1422H-portable-monitor-review-Lightweight-and-basic-with-no-extras.595270.0.html",
+        "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-go-mb16awp/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://psref.lenovo.com/syspool/Sys/PDF/ThinkVision/ThinkVision_M14d_Monitor/ThinkVision_M14d_Monitor_Spec.pdf",
+        "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-oled-mq13ah/techspec/",
+        "https://www.servethehome.com/arzopa-z1rc-16-qhd-portable-monitor-review/",
+        "https://www.lg.com/us/business/download/resources/CT40000311/lg_spec_sheet_16mq70.asdu_052215_lr%5B20220702_063612%5D.pdf",
+        "https://www.notebookcheck.net/14-inch-Dell-C1422H-portable-monitor-review-Lightweight-and-basic-with-no-extras.595270.0.html",
+        "https://www.asus.com/us/displays-desktops/monitors/zenscreen/asus-zenscreen-go-mb16awp/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best noise cancelling earbuds vs AirPods Pro",
+      "elapsed_s": 64.88,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://www.apple.com/newsroom/2025/09/introducing-airpods-pro-3-the-ultimate-audio-experience/",
+        "https://www.rtings.com/headphones/reviews/best/noise-cancelling-earbuds",
+        "https://www.rtings.com/headphones/reviews/bose/quietcomfort-ultra-earbuds-2nd-gen?utm_source=openai",
+        "https://www.soundguys.com/sennheiser-momentum-true-wireless-4-review-111429/",
+        "https://www.soundguys.com/sony-wf-1000xm6-review-152013/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.apple.com/newsroom/2025/09/introducing-airpods-pro-3-the-ultimate-audio-experience/",
+        "https://www.rtings.com/headphones/reviews/best/noise-cancelling-earbuds",
+        "https://www.rtings.com/headphones/reviews/bose/quietcomfort-ultra-earbuds-2nd-gen?utm_source=openai",
+        "https://www.soundguys.com/sennheiser-momentum-true-wireless-4-review-111429/",
+        "https://www.soundguys.com/sony-wf-1000xm6-review-152013/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best electric toothbrush for sensitive gums",
+      "elapsed_s": 106.7,
+      "error": null,
+      "n_engine_cites": 9,
+      "cited_urls": [
+        "https://www.ada.org/resources/ada-library/oral-health-topics/toothbrushes?utm_source=openai",
+        "https://manuals.plus/asin/B0B5HTX7YW.pdf?utm_source=openai",
+        "https://www.ada.org/resources/research/science/ada-seal-of-acceptance/?utm_source=openai",
+        "https://www.ada.org/resources/research/science/ada-seal-of-acceptance/product-search/a065e000007A381AAC/oral-b-io-series?utm_source=openai",
+        "https://www.usa.philips.com/c-m-pe/electric-toothbrushes/4100-series?utm_source=openai",
+        "https://www.forbes.com/sites/forbes-personal-shopper/article/best-electric-toothbrush/?utm_source=openai",
+        "https://oralb.com/en-us/products/replacement-brush-heads/oral-b-io-gentle-care-replacement-brush-head-1-count-white/?utm_source=openai",
+        "https://www.cochrane.org/evidence/CD004971_different-types-powered-toothbrushes-plaque-control-and-healthy-gums?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/42119935/"
+      ],
+      "kept_urls": [
+        "https://www.ada.org/resources/ada-library/oral-health-topics/toothbrushes?utm_source=openai",
+        "https://manuals.plus/asin/B0B5HTX7YW.pdf?utm_source=openai",
+        "https://www.ada.org/resources/research/science/ada-seal-of-acceptance/?utm_source=openai",
+        "https://www.usa.philips.com/c-m-pe/electric-toothbrushes/4100-series?utm_source=openai",
+        "https://www.forbes.com/sites/forbes-personal-shopper/article/best-electric-toothbrush/?utm_source=openai",
+        "https://oralb.com/en-us/products/replacement-brush-heads/oral-b-io-gentle-care-replacement-brush-head-1-count-white/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best cast iron skillet for beginners",
+      "elapsed_s": 36.58,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://www.goodhousekeeping.com/cooking-tools/cookware-reviews/a62938973/lodge-cast-iron-skillet-review/?utm_source=openai",
+        "https://www.goodhousekeeping.com/cooking-tools/g29993894/best-cast-iron-skillets/?utm_source=openai",
+        "https://www.consumerreports.org/home-garden/cookware/tramontina-enameled-cast-iron-series-1000/m400501/?utm_source=openai",
+        "https://www.youtube.com/watch?v=kmVmKmR0CXA&utm_source=openai",
+        "https://qz.com/best-frying-pans-consumer-reports?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.goodhousekeeping.com/cooking-tools/cookware-reviews/a62938973/lodge-cast-iron-skillet-review/?utm_source=openai",
+        "https://www.goodhousekeeping.com/cooking-tools/g29993894/best-cast-iron-skillets/?utm_source=openai",
+        "https://www.consumerreports.org/home-garden/cookware/tramontina-enameled-cast-iron-series-1000/m400501/?utm_source=openai",
+        "https://www.youtube.com/watch?v=kmVmKmR0CXA&utm_source=openai",
+        "https://qz.com/best-frying-pans-consumer-reports?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best sunscreen for oily skin drugstore",
+      "elapsed_s": 111.47,
+      "error": null,
+      "n_engine_cites": 10,
+      "cited_urls": [
+        "https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid=e1310453-1880-43a5-982b-cf9b30cfdc47&type=pdf&utm_source=openai",
+        "https://www.neutrogena.com/products/sun/neutrogena-ultra-sheer-invisible-gel-face-sunscreen-broad-spectrum-spf-40/6807869?utm_source=openai",
+        "https://www.neutrogena.com/skin/clear-face-sunscreen?utm_source=openai",
+        "https://www.eucerinus.com/products/sun-protection/clear-skin-spf-50-face-sunscreen?utm_source=openai",
+        "https://www.cetaphil.com/us/products/product-categories/all-moisturizers/dermacontrol-oil-absorbing-moisturizer-spf-30/302994313044.html?utm_source=openai",
+        "https://dailymed.nlm.nih.gov/dailymed/downloadpdffile.cfm?setId=e77a814b-bf9c-7eec-e053-2995a90a023a&utm_source=openai",
+        "https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid=cac97035-cf69-4019-e053-2a95a90a4920&utm_source=openai",
+        "https://www.aad.org/spot-skin-cancer/learn-about-skin-cancer/prevent-skin-cancer/how-to-select-a-sunscreen?utm_source=openai",
+        "https://www.aad.org/public/everyday-care/sun-protection/shade-clothing-sunscreen/how-to-apply-sunscreen?utm_source=openai",
+        "https://www.aad.org/public/everyday-care/sun-protection/shade-clothing-sunscreen/common-sunscreen-mistakes?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid=e1310453-1880-43a5-982b-cf9b30cfdc47&type=pdf&utm_source=openai",
+        "https://www.neutrogena.com/products/sun/neutrogena-ultra-sheer-invisible-gel-face-sunscreen-broad-spectrum-spf-40/6807869?utm_source=openai",
+        "https://www.neutrogena.com/skin/clear-face-sunscreen?utm_source=openai",
+        "https://www.eucerinus.com/products/sun-protection/clear-skin-spf-50-face-sunscreen?utm_source=openai",
+        "https://www.cetaphil.com/us/products/product-categories/all-moisturizers/dermacontrol-oil-absorbing-moisturizer-spf-30/302994313044.html?utm_source=openai",
+        "https://www.aad.org/spot-skin-cancer/learn-about-skin-cancer/prevent-skin-cancer/how-to-select-a-sunscreen?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best cheap protein powder for beginners",
+      "elapsed_s": 107.27,
+      "error": null,
+      "n_engine_cites": 7,
+      "cited_urls": [
+        "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0480974&Standard=306&utm_source=openai",
+        "https://www.nowfoods.com/products/sports-nutrition/whey-protein-isolate-unflavored-powder?SKU=452&utm_source=openai",
+        "https://us.myprotein.com/p/sports-nutrition/impact-whey-protein/10852500/?utm_source=openai",
+        "https://www.target.com/p/-/A-90043369?utm_source=openai",
+        "https://www.nowfoods.com/products/sports-nutrition/pea-protein-unflavored-powder?SKU=428&utm_source=openai",
+        "https://www.nsf.org/consumer-resources/articles/certified-for-sport-program?utm_source=openai",
+        "https://www.consumerreports.org/health/food-safety/answering-faqs-high-lead-levels-in-protein-powders-shakes-a4805850762/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://info.nsf.org/Certified/BannedSub/Listings.asp?Company=C0480974&Standard=306&utm_source=openai",
+        "https://www.nowfoods.com/products/sports-nutrition/whey-protein-isolate-unflavored-powder?SKU=452&utm_source=openai",
+        "https://us.myprotein.com/p/sports-nutrition/impact-whey-protein/10852500/?utm_source=openai",
+        "https://www.target.com/p/-/A-90043369?utm_source=openai",
+        "https://www.nsf.org/consumer-resources/articles/certified-for-sport-program?utm_source=openai",
+        "https://www.consumerreports.org/health/food-safety/answering-faqs-high-lead-levels-in-protein-powders-shakes-a4805850762/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best project management tool for freelancers",
+      "elapsed_s": 88.17,
+      "error": null,
+      "n_engine_cites": 7,
+      "cited_urls": [
+        "https://www.paymoapp.com/pricing/",
+        "https://www.hellobonsai.com/pricing",
+        "https://www.plutio.com/pricing",
+        "https://clickup.com/pricing",
+        "https://trello.com/pricing?hsLang=en",
+        "https://basecamp.com/pricing",
+        "https://www.notion.so/pricing"
+      ],
+      "kept_urls": [
+        "https://www.paymoapp.com/pricing/",
+        "https://www.hellobonsai.com/pricing",
+        "https://www.plutio.com/pricing",
+        "https://clickup.com/pricing",
+        "https://trello.com/pricing?hsLang=en",
+        "https://basecamp.com/pricing"
+      ]
+    },
+    {
+      "query": "best email marketing platform for small shop",
+      "elapsed_s": 52.0,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://www.techradar.com/reviews/mailerlite?utm_source=openai",
+        "https://help.klaviyo.com/hc/en-us/articles/115005080407?utm_source=openai",
+        "https://www.omnisend.com/features/?utm_source=openai",
+        "https://help.brevo.com/hc/en-us?utm_source=openai",
+        "https://www.shopify.com/email-marketing?utm_source=openai",
+        "https://mailchimp.com/resources/how-to-create-a-marketing-automation-strategy/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.techradar.com/reviews/mailerlite?utm_source=openai",
+        "https://help.klaviyo.com/hc/en-us/articles/115005080407?utm_source=openai",
+        "https://www.omnisend.com/features/?utm_source=openai",
+        "https://help.brevo.com/hc/en-us?utm_source=openai",
+        "https://www.shopify.com/email-marketing?utm_source=openai",
+        "https://mailchimp.com/resources/how-to-create-a-marketing-automation-strategy/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best travel credit card for beginners 2026",
+      "elapsed_s": 99.63,
+      "error": null,
+      "n_engine_cites": 8,
+      "cited_urls": [
+        "https://media.chase.com/news/Meet-the-New-Chase-Sapphire-Preferred?utm_source=openai",
+        "https://www.capitalone.com/credit-cards/venture/?msockid=0ac79fe5a8eb611720c98994a911600c&utm_source=openai",
+        "https://www.wellsfargo.com/credit-cards/features/cell-phone-protection/?utm_source=openai",
+        "https://www.citi.com/credit-cards/citi-strata-premier-credit-card?msockid=04b5a8275ac960540fd8bef85bf861ab&utm_source=openai",
+        "https://promo.bankofamerica.com/ccsearchlp10/compare-cards-3/?code=QAF2LJ&utm_source=openai",
+        "https://www.bankrate.com/credit-cards/travel/best-travel-cards/?cid=1000&utm_source=openai",
+        "https://www.nerdwallet.com/travel/learn/wells-fargo-transfer-partners?utm_source=openai",
+        "https://thepointsguy.com/credit-cards/how-to-calculate-your-5-24-standing/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://media.chase.com/news/Meet-the-New-Chase-Sapphire-Preferred?utm_source=openai",
+        "https://www.capitalone.com/credit-cards/venture/?msockid=0ac79fe5a8eb611720c98994a911600c&utm_source=openai",
+        "https://www.wellsfargo.com/credit-cards/features/cell-phone-protection/?utm_source=openai",
+        "https://www.citi.com/credit-cards/citi-strata-premier-credit-card?msockid=04b5a8275ac960540fd8bef85bf861ab&utm_source=openai",
+        "https://promo.bankofamerica.com/ccsearchlp10/compare-cards-3/?code=QAF2LJ&utm_source=openai",
+        "https://www.bankrate.com/credit-cards/travel/best-travel-cards/?cid=1000&utm_source=openai"
+      ]
+    },
+    {
+      "query": "best dishwasher for hard water",
+      "elapsed_s": 102.99,
+      "error": null,
+      "n_engine_cites": 9,
+      "cited_urls": [
+        "https://www.mieleusa.com/support/customer-assistance/dishwashing-1316/all/dishware_spotted_or_not_dry-92704805771?utm_source=openai",
+        "https://www.bosch-home.com/us/en/category/dishwashers?f_bvc_mo=bvc_bvc_bema&f_highlights_ma=water_softener",
+        "https://www.thermador.com/us/products/dishwashers?utm_source=openai",
+        "https://asko.hgecdn.net/medias/US-CA-ASKO-Dishwasher-Brochure-R12.pdf?context=bWFzdGVyfGRvY3VtZW50c3wyMTc2OTUzNXxhcHBsaWNhdGlvbi9wZGZ8YUdGaEwyZ3lZeTh4TlRNd05UZzJNemsxTkRRMk1pOVZVMTlEUVY5QlUwdFBYMFJwYzJoM1lYTm9aWEpmUW5KdlkyaDFjbVZmVWpFeUxuQmtaZ3xjNzdlYjc3OGJjMThkMGZhMDIzYmRiZjk1ZTJlMGEyOWY4MGM4ZjdlZDViYTA5MmVmOTgyY2QzZDU1NzZjZDBm&utm_source=openai",
+        "https://www.subzero-wolf.com/assistance/answers/cove/dishwasher/when-to-purchase-a-cove-water-softener-model?utm_source=openai",
+        "https://media3.bosch-home.com/Documents/9001964600_A.pdf?utm_source=openai",
+        "https://us.mieleusa.com/MieleMedia/docs/operatinginstructions/Dishwashers/English%20manuals/Operating%20Instructions/PG8080i_us.pdf?utm_source=openai",
+        "https://www.bosch-home.com/us/en/product/dishwashers/top-controls/SHP78CM5N?utm_source=openai",
+        "https://www.thermador.com/us/en/product/dishwashers/cleaning-care/00312330?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.mieleusa.com/support/customer-assistance/dishwashing-1316/all/dishware_spotted_or_not_dry-92704805771?utm_source=openai",
+        "https://www.bosch-home.com/us/en/category/dishwashers?f_bvc_mo=bvc_bvc_bema&f_highlights_ma=water_softener",
+        "https://www.thermador.com/us/products/dishwashers?utm_source=openai",
+        "https://asko.hgecdn.net/medias/US-CA-ASKO-Dishwasher-Brochure-R12.pdf?context=bWFzdGVyfGRvY3VtZW50c3wyMTc2OTUzNXxhcHBsaWNhdGlvbi9wZGZ8YUdGaEwyZ3lZeTh4TlRNd05UZzJNemsxTkRRMk1pOVZVMTlEUVY5QlUwdFBYMFJwYzJoM1lYTm9aWEpmUW5KdlkyaDFjbVZmVWpFeUxuQmtaZ3xjNzdlYjc3OGJjMThkMGZhMDIzYmRiZjk1ZTJlMGEyOWY4MGM4ZjdlZDViYTA5MmVmOTgyY2QzZDU1NzZjZDBm&utm_source=openai",
+        "https://www.subzero-wolf.com/assistance/answers/cove/dishwasher/when-to-purchase-a-cove-water-softener-model?utm_source=openai",
+        "https://media3.bosch-home.com/Documents/9001964600_A.pdf?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best budget trail running shoes reddit",
+      "elapsed_s": 49.1,
+      "error": null,
+      "n_engine_cites": 7,
+      "cited_urls": [
+        "https://www.reddit.com/r/trailrunning/comments/1g0gkd8?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/11e3zld/finding_good_trail_running_shoes_below_100_bucks/?utm_source=openai",
+        "https://www.reddit.com/r/RunningShoeGeeks/comments/1tyd6a2/weekend_discussion_saucony_running_shoes/?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/1t7nqxs/road_cyclist_need_advice_for_budget_running_gear/?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/uxgspy?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/1ozwbq2/whats_the_best_trail_running_shoes_for_beginners/?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/1jrj85d?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/trailrunning/comments/1g0gkd8?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/11e3zld/finding_good_trail_running_shoes_below_100_bucks/?utm_source=openai",
+        "https://www.reddit.com/r/RunningShoeGeeks/comments/1tyd6a2/weekend_discussion_saucony_running_shoes/?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/1t7nqxs/road_cyclist_need_advice_for_budget_running_gear/?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/uxgspy?utm_source=openai",
+        "https://www.reddit.com/r/trailrunning/comments/1ozwbq2/whats_the_best_trail_running_shoes_for_beginners/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best home gym equipment forums",
+      "elapsed_s": 58.78,
+      "error": null,
+      "n_engine_cites": 7,
+      "cited_urls": [
+        "https://thehiveindex.com/communities/r-homegym/?utm_source=openai",
+        "https://gummysearch.com/r/GarageGym/?utm_source=openai",
+        "https://startingstrength.com/resources/forum/gyms-and-equipment/94288-garage-gym-suggestions-uneven-floors-gym.html",
+        "https://t-nation.com/t/creating-a-home-gym/277260?utm_source=openai",
+        "https://homegymforum.com/",
+        "https://podcasts.apple.com/us/podcast/16-rogue-or-rep-with-cost-in-mind-part-1-with-joe-gray/id1593736660?i=1000548366050&utm_source=openai",
+        "https://thefitness.wiki/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://thehiveindex.com/communities/r-homegym/?utm_source=openai",
+        "https://gummysearch.com/r/GarageGym/?utm_source=openai",
+        "https://startingstrength.com/resources/forum/gyms-and-equipment/94288-garage-gym-suggestions-uneven-floors-gym.html",
+        "https://t-nation.com/t/creating-a-home-gym/277260?utm_source=openai",
+        "https://homegymforum.com/",
+        "https://podcasts.apple.com/us/podcast/16-rogue-or-rep-with-cost-in-mind-part-1-with-joe-gray/id1593736660?i=1000548366050&utm_source=openai"
+      ]
+    },
+    {
+      "query": "best espresso machine under 500 reddit",
+      "elapsed_s": 46.28,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://www.reddit.com/r/espresso/comments/1ruh0fp/whats_better_between_gaggia_classic_pro_pid_vs/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1smjdez/gaggia_classic_pro_e24_vs_breville_bambino_plus/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1rrojvb/convince_me_not_to_get_the_cafelat_robot_500/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1h6e8pl/does_anyone_have_this_or_any_other_manual/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1jpfyc1?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/16t15gb?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/espresso/comments/1ruh0fp/whats_better_between_gaggia_classic_pro_pid_vs/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1smjdez/gaggia_classic_pro_e24_vs_breville_bambino_plus/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1rrojvb/convince_me_not_to_get_the_cafelat_robot_500/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1h6e8pl/does_anyone_have_this_or_any_other_manual/?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/1jpfyc1?utm_source=openai",
+        "https://www.reddit.com/r/espresso/comments/16t15gb?utm_source=openai"
+      ]
+    },
+    {
+      "query": "is Manscaped a legit brand?",
+      "elapsed_s": 41.59,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://www.manscaped.com/pages/about?utm_source=openai",
+        "https://www.target.com/c/men-s-shaving/manscaped/-/N-4tevlZvcpal?utm_source=openai",
+        "https://www.businesswire.com/news/home/20211123005563/en/MANSCAPED-a-Leading-Mens-Lifestyle-and-Consumer-Brand-to-Become-a-Publicly-Traded-Company-via-Business-Combination-With-Bright-Lights-Acquisition-Corp.?utm_source=openai",
+        "https://www.bbb.org/us/ca/carlsbad/profile/hygiene-products/manscaped-1126-172020684?utm_source=openai",
+        "https://www.trustpilot.com/review/manscaped.com?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.manscaped.com/pages/about?utm_source=openai",
+        "https://www.target.com/c/men-s-shaving/manscaped/-/N-4tevlZvcpal?utm_source=openai",
+        "https://www.businesswire.com/news/home/20211123005563/en/MANSCAPED-a-Leading-Mens-Lifestyle-and-Consumer-Brand-to-Become-a-Publicly-Traded-Company-via-Business-Combination-With-Bright-Lights-Acquisition-Corp.?utm_source=openai",
+        "https://www.bbb.org/us/ca/carlsbad/profile/hygiene-products/manscaped-1126-172020684?utm_source=openai",
+        "https://www.trustpilot.com/review/manscaped.com?utm_source=openai"
+      ]
+    },
+    {
+      "query": "is Ridge Wallet worth it or a scam?",
+      "elapsed_s": 51.2,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://www.wired.com/review/ridge-wallet/",
+        "https://ridge.com/pages/returns-exchanges%20?utm_source=openai",
+        "https://ridge.com/collections/wallets/products/aluminum-black?variant=39585827979338&utm_source=openai",
+        "https://packhacker.com/travel-gear/the-ridge/wallet-titanium/",
+        "https://ridge.com/pages/warranty-policy?utm_source=openai",
+        "https://www.aarp.org/money/scams-fraud/rfid-wallets-purses//?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.wired.com/review/ridge-wallet/",
+        "https://ridge.com/pages/returns-exchanges%20?utm_source=openai",
+        "https://ridge.com/collections/wallets/products/aluminum-black?variant=39585827979338&utm_source=openai",
+        "https://packhacker.com/travel-gear/the-ridge/wallet-titanium/",
+        "https://www.aarp.org/money/scams-fraud/rfid-wallets-purses//?utm_source=openai",
+        "https://ridge.com/pages/warranty-policy?utm_source=openai"
+      ]
+    },
+    {
+      "query": "is Blueland a trustworthy brand?",
+      "elapsed_s": 185.29,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://www.bcorporation.net/en-us/find-a-b-corp/company/one-home-brands-inc/?utm_source=openai",
+        "https://assets.bbbprograms.org/docs/default-source/bbb-national-programs/case-digests/naddigest_2024_environmental.pdf",
+        "https://www.trustpilot.com/review/blueland.com?utm_source=openai",
+        "https://www.bbb.org/us/ny/new-york/profile/cleaning-supplies/blueland-0121-87139106",
+        "https://www.epa.gov/saferchoice/2024-safer-choice-partner-year-award-winners"
+      ],
+      "kept_urls": [
+        "https://www.bcorporation.net/en-us/find-a-b-corp/company/one-home-brands-inc/?utm_source=openai",
+        "https://assets.bbbprograms.org/docs/default-source/bbb-national-programs/case-digests/naddigest_2024_environmental.pdf",
+        "https://www.trustpilot.com/review/blueland.com?utm_source=openai",
+        "https://www.bbb.org/us/ny/new-york/profile/cleaning-supplies/blueland-0121-87139106",
+        "https://www.epa.gov/saferchoice/2024-safer-choice-partner-year-award-winners"
+      ]
+    }
+  ]
+}

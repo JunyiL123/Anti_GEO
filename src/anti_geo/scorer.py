@@ -4,6 +4,7 @@ from anti_geo.config import DEFAULT_CONFIG, DefenseConfig
 from anti_geo.content_signals import extract_content_signals
 from anti_geo.domain_signals import extract_domain_signals
 from anti_geo.fetch import fetch_page
+from anti_geo.hosts import is_major_news_host
 from anti_geo.models import FetchResult, SourceScore
 
 
@@ -17,6 +18,7 @@ def _apply_concealment_trust_penalties(
     fetch: FetchResult,
     config: DefenseConfig,
 ) -> float:
+    """Penalize instruction/GEO IPI only — not CSS chrome / paywall hidden-ratio."""
     concealment = fetch.concealment
     if concealment is None or not concealment.flags:
         return trust
@@ -26,23 +28,16 @@ def _apply_concealment_trust_penalties(
         penalty = min(0.25, config.concealment_trust_penalty_max)
         trust -= penalty
         reasons.append("concealed_instruction_injection")
+    elif "visible_instruction_pattern" in flags:
+        penalty = min(0.25, config.concealment_trust_penalty_max)
+        trust -= penalty
+        reasons.append("visible_instruction_injection")
 
-    if (
-        concealment.hidden_word_count >= config.concealment_hidden_words_min
-        and concealment.hidden_ratio > config.concealment_hidden_ratio_alert
-    ):
-        # Scale 0.12–0.18 by how far ratio exceeds the alert threshold.
-        excess = min(
-            1.0,
-            (concealment.hidden_ratio - config.concealment_hidden_ratio_alert)
-            / max(1.0 - config.concealment_hidden_ratio_alert, 0.01),
-        )
-        ratio_penalty = 0.12 + 0.06 * excess
-        trust -= ratio_penalty
-        reasons.append(f"concealed_hidden_ratio_{concealment.hidden_ratio:.0%}")
-
+    # Structured channel only matters when it carries IPI / GEO rhetoric.
     if "structured_concealed" in flags and (
-        "hidden_instruction_pattern" in flags or "hidden_geo_rhetoric" in flags
+        "hidden_instruction_pattern" in flags
+        or "visible_instruction_pattern" in flags
+        or "hidden_geo_rhetoric" in flags
     ):
         trust -= 0.08
         reasons.append("structured_concealment_payload")
@@ -56,7 +51,7 @@ def score_source(
     query: str | None = None,
     config: DefenseConfig = DEFAULT_CONFIG,
 ) -> SourceScore:
-    """Infer trust from observable signals only — no hardcoded per-domain labels."""
+    """Infer trust from fetch/domain/content signals (+ small institutional/news boosts)."""
     fetch = fetch or fetch_page(url)
     domain = extract_domain_signals(url, fetch)
     content = extract_content_signals(fetch.text, query, config)
@@ -105,6 +100,11 @@ def score_source(
     if fetch.ok and (host.endswith(".gov") or host.endswith(".edu")):
         trust += 0.10
         reasons.append("institutional_tld")
+
+    # Curated major news / wire outlets (NYT, Guardian, Reuters, …).
+    if fetch.ok and is_major_news_host(host or url):
+        trust += 0.10
+        reasons.append("major_news_outlet")
 
     if not domain.is_https:
         trust -= 0.12

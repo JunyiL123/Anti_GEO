@@ -86,9 +86,9 @@ def main() -> None:
     _merge(args.combined, args.site_key, payload)
     print(
         f"[{args.site_key}] done action={result.llm_action} "
-        f"geo_risk={result.referral_profile.geo_risk:.3f} "
-        f"elevated={result.referral_profile.geo_elevated} "
-        f"suspected={result.referral_profile.geo_suspected} "
+        f"parasitic_geo_risk={result.referral_profile.parasitic_geo_risk:.3f} "
+        f"elevated={result.referral_profile.parasitic_geo_elevated} "
+        f"suspected={result.referral_profile.parasitic_geo_suspected} "
         f"N={result.referral_profile.n_verified}",
         flush=True,
     )

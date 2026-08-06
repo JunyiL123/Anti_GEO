@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-08-06T05:29:57.680411+00:00",
+  "cm_json": "data/permissions_eval/confusion_matrices_v3_adjudicated.json",
+  "protocol": "data/permissions_eval/eval_loop_protocol.json",
+  "decisions": {
+    "retrieve_permission": {
+      "action": "active",
+      "macro_f1": 0.4679054054054054,
+      "bar": 0.6,
+      "reason": "macro_f1=0.468 < bar=0.600"
+    },
+    "mention_permission": {
+      "action": "monitor_only",
+      "macro_f1": 0.39175257731958757,
+      "bar": 0.95,
+      "reason": "not a promotion driver"
+    },
+    "factual_permission": {
+      "action": "active",
+      "macro_f1": 0.3894266781907231,
+      "bar": 0.65,
+      "reason": "macro_f1=0.389 < bar=0.650"
+    },
+    "endorsement_permission": {
+      "action": "active",
+      "macro_f1": 0.6867256637168142,
+      "bar": 0.85,
+      "reason": "macro_f1=0.687 < bar=0.850"
+    },
+    "parasitic": {
+      "action": "active",
+      "macro_f1": 0.30985915492957744,
+      "bar": 0.75,
+      "reason": "macro_f1=0.310 < bar=0.750"
+    }
+  },
+  "freeze": [],
+  "active": [
+    "retrieve_permission",
+    "factual_permission",
+    "endorsement_permission",
+    "parasitic"
+  ],
+  "monitor_only": [
+    "mention_permission"
+  ],
+  "n_errors": 62,
+  "errors_by_field": {
+    "mention_permission": 21,
+    "retrieve_permission": 14,
+    "factual_permission": 18,
+    "parasitic": 6,
+    "endorsement_permission": 3
+  }
+}

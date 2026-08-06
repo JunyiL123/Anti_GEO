@@ -1,0 +1,83 @@
+{
+  "name": "ai_assisted_eval_loop",
+  "version": "1",
+  "description": "G0 protocol freeze + field-wise promote/stop bars for the AI-assisted draft→adjudicate→CM→fix loop. Machine-readable companion to AI_ASSISTED_EVAL_LOOP.md.",
+  "live_runs": {
+    "default": false,
+    "note": "Tooling may be built anytime. Do not start label_sheet_anti_geo / blind-judge API batches / full-sheet CM campaigns while another agent owns in-flight data/permissions_eval artifacts."
+  },
+  "g0_protocol": {
+    "gold": "data/permissions_eval/label_sheet_v0_adjudication.json",
+    "baseline_preds": "data/permissions_eval/label_sheet_v0_anti_geo_mode_a_forced_retune_20260727.json",
+    "baseline_cm": "data/permissions_eval/confusion_matrices_retune_20260727.md",
+    "current_preds": "data/permissions_eval/label_sheet_v0_anti_geo_mode_a_forced_clamp_20260803_no_defer_match.json",
+    "current_cm": "data/permissions_eval/confusion_matrices_clamp_20260803_no_defer_match.md",
+    "label_guide": "data/permissions_eval/LABEL_GUIDE.md",
+    "mode_a_forced": true,
+    "mode_b_ugc": true,
+    "query_intent": "commercial",
+    "skip_ids": ["p37"],
+    "primary_comparison": "anti_vs_adjudicated",
+    "noise_ceiling_comparison": "human_vs_llm",
+    "forbid_primary": [
+      "anti_vs_llm",
+      "no_defer_match_as_primary_promotion",
+      "targeted_rematch_n_swap"
+    ]
+  },
+  "promote_stop_bars": {
+    "metric": "macro_f1",
+    "prefer_sheet": "held_out",
+    "fallback_sheet": "frozen_prior_gold",
+    "fields": {
+      "endorsement_permission": {
+        "bar": 0.85,
+        "role": "hold",
+        "notes": "Imbalanced; report allow support"
+      },
+      "parasitic": {
+        "bar": 0.75,
+        "role": "hold",
+        "notes": "State empty/rare gold suspected; prefer kappa / per-class"
+      },
+      "factual_permission": {
+        "bar": 0.65,
+        "role": "active_gap",
+        "notes": "Primary gap; systematic-error cut also counts"
+      },
+      "retrieve_permission": {
+        "bar": 0.6,
+        "role": "active_gap",
+        "notes": "No defer-collapse-only gains"
+      },
+      "mention_permission": {
+        "bar": 0.95,
+        "role": "monitor_only",
+        "notes": "Near-constant allow; not a promotion driver"
+      }
+    }
+  },
+  "knob_freeze": {
+    "rule": "If field macro_f1 >= bar on prefer_sheet (else fallback), do not change knobs aimed at that field unless documenting a held-out regression repair.",
+    "current_clamp_implication": {
+      "freeze": ["endorsement_permission", "parasitic", "mention_permission"],
+      "active": ["factual_permission", "retrieve_permission"]
+    }
+  },
+  "rotation": {
+    "candidate_batch_size": [10, 20],
+    "held_out_never_used_for_tuning": true,
+    "freeze_prior_gold_after_promotion": true,
+    "never_tune_only_on": "label_sheet_v0 ids alone"
+  },
+  "paper": {
+    "claim_ready": "AI-assisted gold labeling: an LLM proposes draft permissions/parasitic labels from LABEL_GUIDE only; a human adjudicates (accept/edit/reject) to produce evaluation gold; Anti-GEO is re-run as the system under test; primary CMs compare system predictions to adjudication; Human–LLM agreement is a label-noise ceiling; Group A and Group B remain independent.",
+    "not_claim_ready": [
+      "RLHF/RLAIF",
+      "LLM labels are ground truth",
+      "LLM–system agreement validates correctness",
+      "fused A+B F1",
+      "large-scale SOTA from pilot n≈40"
+    ]
+  }
+}

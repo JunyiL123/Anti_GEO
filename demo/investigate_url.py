@@ -14,10 +14,9 @@ Examples:
 
   PERPLEXITY_API_KEY=... PYTHONPATH=src python demo/investigate_url.py URL --engine perplexity
 
-  # Azure: LLM seeds (auto when env set) + web_search citation discovery
-  export AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
-  export AZURE_OPENAI_API_KEY=...
-  export AZURE_OPENAI_DEPLOYMENT=gpt-5.5
+  # OpenAI Platform (or Azure): LLM seeds (auto when env set) + web_search
+  export OPENAI_API_KEY=sk-...
+  # export OPENAI_MODEL=gpt-5
   PYTHONPATH=src python demo/investigate_url.py URL --engine azure
 
   # Progress bar + ETA on stderr (auto on TTY; use --no-progress to hide)

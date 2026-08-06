@@ -1,7 +1,9 @@
+from anti_geo.config import DEFAULT_CONFIG
 from anti_geo.models import FetchResult, PageContextSignals
 from anti_geo.pipeline import analyze_query
 from anti_geo.retrieval import (
     ScoredChunk,
+    _chunk_l1_penalty,
     compute_pawc,
     defended_rerank,
     diversify_by_host,
@@ -64,6 +66,55 @@ def test_tfidf_prefers_geo_text_on_recommendation_query():
     texts = [_editorial_fetch().text, _geo_fetch().text]
     scores = tfidf_retrieval_scores(QUERY, texts)
     assert scores[1] > scores[0]
+
+
+def test_commercial_intent_zeros_style_l1_penalty():
+    """Shopping/nav: rhetoric and retrieval-manipulation do not contribute to L1 on main."""
+    info = _chunk_l1_penalty(
+        query_intent="informational",
+        segment_role="main",
+        page_role="factual_blog",
+        rhetorical=0.8,
+        retrieval_risk=0.7,
+        intent_mismatch=0.0,
+        config=DEFAULT_CONFIG,
+    )
+    shop = _chunk_l1_penalty(
+        query_intent="commercial",
+        segment_role="main",
+        page_role="factual_blog",
+        rhetorical=0.8,
+        retrieval_risk=0.7,
+        intent_mismatch=0.0,
+        config=DEFAULT_CONFIG,
+    )
+    nav = _chunk_l1_penalty(
+        query_intent="navigational",
+        segment_role="main_post",
+        page_role="factual_blog",
+        rhetorical=0.8,
+        retrieval_risk=0.7,
+        intent_mismatch=0.0,
+        config=DEFAULT_CONFIG,
+    )
+    assert info > 0.3
+    assert shop == 0.0
+    assert nav == 0.0
+
+
+def test_commercial_intent_keeps_style_l1_on_comment_surfaces():
+    """Buried UGC promos still take style L1 on shopping intents."""
+    penalty = _chunk_l1_penalty(
+        query_intent="commercial",
+        segment_role="comment",
+        page_role="ugc_thread",
+        rhetorical=0.8,
+        retrieval_risk=0.7,
+        intent_mismatch=0.0,
+        config=DEFAULT_CONFIG,
+    )
+    # style (0.8*0.5*0.8 + 0.7*0.35) + comment 0.3 + ugc 0.12, capped at 0.85
+    assert penalty >= 0.7
 
 
 def test_defended_rerank_flips_geo_lead():

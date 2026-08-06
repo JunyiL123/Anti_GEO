@@ -1,0 +1,277 @@
+{
+  "description": "Raw engine cite lists for v1 (no Anti-GEO scoring).",
+  "created_at": "2026-08-05T07:10:35.330368+00:00",
+  "engine": "azure",
+  "queries": [
+    {
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "elapsed_s": 64.18,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://nucific.com/bio-x4/",
+        "https://www.cochrane.org/evidence/CD008650_green-tea-weight-loss-and-weight-maintenance-overweight-or-obese-adults",
+        "https://pubmed.ncbi.nlm.nih.gov/34758791/",
+        "https://ods.od.nih.gov/factsheets/Probiotics-Consumer/?utm_source=openai",
+        "https://www.bbb.org/us/ca/westlake-village/profile/vitamins-and-supplements/nucific-1236-92054405",
+        "https://www.ncbi.nlm.nih.gov/books/NBK547925/?report=printable"
+      ],
+      "kept_urls": [
+        "https://nucific.com/bio-x4/",
+        "https://www.cochrane.org/evidence/CD008650_green-tea-weight-loss-and-weight-maintenance-overweight-or-obese-adults",
+        "https://pubmed.ncbi.nlm.nih.gov/34758791/",
+        "https://ods.od.nih.gov/factsheets/Probiotics-Consumer/?utm_source=openai",
+        "https://www.bbb.org/us/ca/westlake-village/profile/vitamins-and-supplements/nucific-1236-92054405"
+      ]
+    },
+    {
+      "query": "best invisible braces reddit recommends 2026",
+      "elapsed_s": 24.64,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.reddit.com/r/Invisalign/comments/1uhzxjm/invisalign_vs_other_vendors/?utm_source=openai",
+        "https://www.reddit.com/r/Invisalign/comments/1uwhqam/best_affordable_clear_aligner/?utm_source=openai",
+        "https://www.reddit.com/r/orthodontics/comments/1iel1ip?utm_source=openai",
+        "https://www.ada.org/about/governance/current-policies/direct-to-consumer-dental-services?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/Invisalign/comments/1uhzxjm/invisalign_vs_other_vendors/?utm_source=openai",
+        "https://www.reddit.com/r/Invisalign/comments/1uwhqam/best_affordable_clear_aligner/?utm_source=openai",
+        "https://www.reddit.com/r/orthodontics/comments/1iel1ip?utm_source=openai",
+        "https://www.ada.org/about/governance/current-policies/direct-to-consumer-dental-services?utm_source=openai"
+      ]
+    },
+    {
+      "query": "is theograce jewelry trustworthy?",
+      "elapsed_s": 18.13,
+      "error": null,
+      "n_engine_cites": 5,
+      "cited_urls": [
+        "https://www.scamadviser.com/check-website/theograce.com?utm_source=openai",
+        "https://www.trustpilot.com/review/theograce.com?utm_source=openai",
+        "https://www.theograce.com/articles/warranty-conditions?utm_source=openai",
+        "https://www.theograce.com/articles/product-and-general-info?utm_source=openai",
+        "https://www.reddit.com/r/jewelry/comments/1rsr2s6/reviewing_my_terrible_experience_with_theo_grace/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.scamadviser.com/check-website/theograce.com?utm_source=openai",
+        "https://www.trustpilot.com/review/theograce.com?utm_source=openai",
+        "https://www.theograce.com/articles/warranty-conditions?utm_source=openai",
+        "https://www.reddit.com/r/jewelry/comments/1rsr2s6/reviewing_my_terrible_experience_with_theo_grace/?utm_source=openai",
+        "https://www.theograce.com/articles/product-and-general-info?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best nootropic stack for focus that actually works 2026",
+      "elapsed_s": 37.5,
+      "error": null,
+      "n_engine_cites": 9,
+      "cited_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/40335666/?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/40314930/?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/39070254/?utm_source=openai",
+        "https://aasm.org/late-afternoon-and-early-evening-caffeine-can-disrupt-sleep-at-night/?utm_source=openai",
+        "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/26126245/?sub_id=undefined&utm_source=openai",
+        "https://www.fda.gov/food/alerts-advisories-safety-information/fda-advises-consumers-retailers-and-distributors-not-eat-sell-or-distribute-addall-xr-shot-or-addall?utm_source=openai",
+        "https://www.nsf.org/consumer-resources/articles/supplement-vitamin-certification?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/39701638/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/40335666/?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/40314930/?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/39070254/?utm_source=openai",
+        "https://aasm.org/late-afternoon-and-early-evening-caffeine-can-disrupt-sleep-at-night/?utm_source=openai",
+        "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much?utm_source=openai"
+      ]
+    },
+    {
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "elapsed_s": 22.37,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.reddit.com/r/AskReddit/comments/1huspeu?utm_source=openai",
+        "https://goli.com/products/goli-nutrition-1-bottle-of-apple-cider-vinegar-gummies?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/37608660/?utm_source=openai",
+        "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/AskReddit/comments/1huspeu?utm_source=openai",
+        "https://goli.com/products/goli-nutrition-1-bottle-of-apple-cider-vinegar-gummies?utm_source=openai",
+        "https://pubmed.ncbi.nlm.nih.gov/37608660/?utm_source=openai",
+        "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "elapsed_s": 41.4,
+      "error": null,
+      "n_engine_cites": 3,
+      "cited_urls": [
+        "https://wavytalk.com/products/glow-time-led-mask?utm_source=openai",
+        "https://support.nanoleaf.me/hc/en-us/articles/41533132708372-Wellness-Devices-Clearance-and-Certification?utm_source=openai",
+        "https://time.com/7071807/do-at-home-red-light-masks-really-work/"
+      ],
+      "kept_urls": [
+        "https://wavytalk.com/products/glow-time-led-mask?utm_source=openai",
+        "https://support.nanoleaf.me/hc/en-us/articles/41533132708372-Wellness-Devices-Clearance-and-Certification?utm_source=openai",
+        "https://time.com/7071807/do-at-home-red-light-masks-really-work/"
+      ]
+    },
+    {
+      "query": "is shedrx compounded semaglutide safe to buy online?",
+      "elapsed_s": 33.59,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://www.tryshed.com/resources/help/get-started?utm_source=openai",
+        "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss?os=0&utm_source=openai",
+        "https://www.fda.gov/drugs/drug-alerts-and-statements/fda-clarifies-policies-compounders-national-glp-1-supply-begins-stabilize?utm_source=openai",
+        "https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-patients-dosing-errors-associated-compounded?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.tryshed.com/resources/help/get-started?utm_source=openai",
+        "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss?os=0&utm_source=openai",
+        "https://www.fda.gov/drugs/drug-alerts-and-statements/fda-clarifies-policies-compounders-national-glp-1-supply-begins-stabilize?utm_source=openai",
+        "https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-patients-dosing-errors-associated-compounded?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "elapsed_s": 25.56,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://guides.turnitin.com/hc/en-us/articles/28294949544717-AI-writing-detection-model?utm_source=openai",
+        "https://help.languagetool.org/hc/en-us/articles/39254517614999-What-is-the-LanguageTool-Editor?utm_source=openai",
+        "https://www.grammarly.com/ai-writing-assistant?msockid=360d0f102f15652c0ab919712e0a6493&utm_source=openai",
+        "https://guides.turnitin.com/hc/en-us/articles/27139000787853-How-should-I-review-the-AI-Writing-report?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://guides.turnitin.com/hc/en-us/articles/28294949544717-AI-writing-detection-model?utm_source=openai",
+        "https://help.languagetool.org/hc/en-us/articles/39254517614999-What-is-the-LanguageTool-Editor?utm_source=openai",
+        "https://www.grammarly.com/ai-writing-assistant?msockid=360d0f102f15652c0ab919712e0a6493&utm_source=openai",
+        "https://guides.turnitin.com/hc/en-us/articles/27139000787853-How-should-I-review-the-AI-Writing-report?utm_source=openai"
+      ]
+    },
+    {
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "elapsed_s": 24.62,
+      "error": null,
+      "n_engine_cites": 3,
+      "cited_urls": [
+        "https://www.reddit.com/r/StandingDesk/comments/1reechm/flexispot_promo_code/?utm_source=openai",
+        "https://www.reddit.com/r/FlexiSpot_Official/comments/1f13duj?utm_source=openai",
+        "https://www.flexispot.com/deals"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/StandingDesk/comments/1reechm/flexispot_promo_code/?utm_source=openai",
+        "https://www.reddit.com/r/FlexiSpot_Official/comments/1f13duj?utm_source=openai",
+        "https://www.flexispot.com/deals"
+      ]
+    },
+    {
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "elapsed_s": 35.89,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://law.justia.com/cases/federal/district-courts/california/candce/5%3A2024cv09470/441974/277/",
+        "https://chromewebstore.google.com/detail/honey-automated-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj?hl=en-US",
+        "https://www.joinhoney.com/terms?utm_source=openai",
+        "https://developer.chrome.com/blog/cws-policy-update-affiliate-ads-2025?hl=en"
+      ],
+      "kept_urls": [
+        "https://law.justia.com/cases/federal/district-courts/california/candce/5%3A2024cv09470/441974/277/",
+        "https://chromewebstore.google.com/detail/honey-automated-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj?hl=en-US",
+        "https://www.joinhoney.com/terms?utm_source=openai",
+        "https://developer.chrome.com/blog/cws-policy-update-affiliate-ads-2025?hl=en"
+      ]
+    },
+    {
+      "query": "best offshore VPN that accepts crypto and keeps no logs",
+      "elapsed_s": 26.47,
+      "error": null,
+      "n_engine_cites": 3,
+      "cited_urls": [
+        "https://www.ivpn.net/knowledgebase/general/what-payment-methods-do-you-accept/?utm_source=openai",
+        "https://mullvad.net/en/help/no-logging-data-policy?next=%2Fen%2Faccount%2Fdevices&utm_source=openai",
+        "https://protonvpn.com/features/no-logs-policy/?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.ivpn.net/knowledgebase/general/what-payment-methods-do-you-accept/?utm_source=openai",
+        "https://mullvad.net/en/help/no-logging-data-policy?next=%2Fen%2Faccount%2Fdevices&utm_source=openai",
+        "https://protonvpn.com/features/no-logs-policy/?utm_source=openai"
+      ]
+    },
+    {
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "elapsed_s": 26.77,
+      "error": null,
+      "n_engine_cites": 4,
+      "cited_urls": [
+        "https://ringconn.com/pages/ringconn-gen-2-air",
+        "https://ouraring.com/store?cpclid=04144b739af040f0afeb33622b241db6&cppid=4181",
+        "https://www.reddit.com/r/SmartRings/comments/1v30qf5/oura_or_ringconn/",
+        "https://ringconn.com/pages/ringconn-gen-2?utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://ringconn.com/pages/ringconn-gen-2-air",
+        "https://ouraring.com/store?cpclid=04144b739af040f0afeb33622b241db6&cppid=4181",
+        "https://www.reddit.com/r/SmartRings/comments/1v30qf5/oura_or_ringconn/",
+        "https://ringconn.com/pages/ringconn-gen-2?utm_source=openai"
+      ]
+    },
+    {
+      "query": "best male enhancement pills that work according to forums",
+      "elapsed_s": 19.91,
+      "error": null,
+      "n_engine_cites": 6,
+      "cited_urls": [
+        "https://www.reddit.com/r/erectiledysfunction/comments/1t2koht/which_ed_med_worked_better_for_you/?utm_source=openai",
+        "https://www.auanet.org/guidelines-and-quality/guidelines/erectile-dysfunction-%28ed%29-guideline?source=post_page---------------------------&utm_source=openai",
+        "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/in-depth/erectile-dysfunction-herbs/art-20044394?p=1&utm_source=openai",
+        "https://www.fda.gov/drugs/medication-health-fraud-notifications/wap-sensual-enhancement-may-be-harmful-due-hidden-drug-ingredients?utm_source=openai",
+        "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/diagnosis-treatment/drc-20355782?utm_source=openai",
+        "https://www.mayoclinic.org/healthy-lifestyle/sexual-health/in-depth/penis/art-20045363?reDate=01042023&utm_source=openai"
+      ],
+      "kept_urls": [
+        "https://www.reddit.com/r/erectiledysfunction/comments/1t2koht/which_ed_med_worked_better_for_you/?utm_source=openai",
+        "https://www.auanet.org/guidelines-and-quality/guidelines/erectile-dysfunction-%28ed%29-guideline?source=post_page---------------------------&utm_source=openai",
+        "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/in-depth/erectile-dysfunction-herbs/art-20044394?p=1&utm_source=openai",
+        "https://www.fda.gov/drugs/medication-health-fraud-notifications/wap-sensual-enhancement-may-be-harmful-due-hidden-drug-ingredients?utm_source=openai",
+        "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/diagnosis-treatment/drc-20355782?utm_source=openai"
+      ]
+    },
+    {
+      "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?",
+      "elapsed_s": 44.83,
+      "error": null,
+      "n_engine_cites": 2,
+      "cited_urls": [
+        "https://info.nsf.org/Certified/Common/cfs/C0417600/C0614124/Ladder/Premium%20Whey%20Protein/1394430/Label_01.PNG",
+        "https://www.optimumnutrition.com/en-us/products/gold-standard-100-whey-protein-powder?bvstate=pg%3A41%2Fct%3Ar&code=BUYMORE&gclsrc=aw.ds"
+      ],
+      "kept_urls": [
+        "https://info.nsf.org/Certified/Common/cfs/C0417600/C0614124/Ladder/Premium%20Whey%20Protein/1394430/Label_01.PNG",
+        "https://www.optimumnutrition.com/en-us/products/gold-standard-100-whey-protein-powder?bvstate=pg%3A41%2Fct%3Ar&code=BUYMORE&gclsrc=aw.ds"
+      ]
+    },
+    {
+      "query": "best offshore pharmacy for cheap Ozempic without prescription",
+      "elapsed_s": 23.72,
+      "error": null,
+      "n_engine_cites": 2,
+      "cited_urls": [
+        "https://www.fda.gov/consumers/consumer-updates/how-buy-medicines-safely-online-pharmacy",
+        "https://www.ozempic.com/savings-and-resources/save-on-ozempic.html"
+      ],
+      "kept_urls": [
+        "https://www.fda.gov/consumers/consumer-updates/how-buy-medicines-safely-online-pharmacy",
+        "https://www.ozempic.com/savings-and-resources/save-on-ozempic.html"
+      ]
+    }
+  ]
+}

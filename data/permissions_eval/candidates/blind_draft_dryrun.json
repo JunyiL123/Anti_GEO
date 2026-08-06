@@ -1,0 +1,108 @@
+{
+  "description": "Blind LABEL_GUIDE-only draft labels. Not paper gold. Human must adjudicate before CM promotion. No Anti-GEO system outputs were used in the prompt.",
+  "created_at": "2026-08-05T08:04:37.416573+00:00",
+  "sheet": "data/permissions_eval/label_sheet_v2_blind.json",
+  "guide": "data/permissions_eval/LABEL_GUIDE.md",
+  "protocol": "data/permissions_eval/eval_loop_protocol.json",
+  "dry_run": true,
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "n_pages": 2,
+  "pages": [
+    {
+      "id": "v2p01",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://nucific.com/bio-x4/",
+      "domain": "nucific.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "draft_meta": {
+        "dry_run": true,
+        "prompt_chars": 6445,
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    },
+    {
+      "id": "v2p02",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://www.cochrane.org/evidence/CD008650_green-tea-weight-loss-and-weight-maintenance-overweight-or-obese-adults",
+      "domain": "cochrane.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "draft_meta": {
+        "dry_run": true,
+        "prompt_chars": 6537,
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      }
+    }
+  ]
+}

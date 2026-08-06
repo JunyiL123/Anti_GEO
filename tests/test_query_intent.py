@@ -48,6 +48,7 @@ def test_ambiguous_defaults_without_llm(monkeypatch):
     monkeypatch.delenv("AZURE_OPENAI_ENDPOINT", raising=False)
     monkeypatch.delenv("AZURE_OPENAI_API_KEY", raising=False)
     monkeypatch.delenv("AZURE_OPENAI_DEPLOYMENT", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     hit = resolve_query_intent("chicken parm", "auto", allow_llm=True)
     assert hit.intent == "informational"
     assert hit.source == "default"

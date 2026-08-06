@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "elapsed_s": 210.2,
+  "content_role": "factual_blog",
+  "permissions": {
+    "retrieve": "allow",
+    "mention": "allow",
+    "factual": "allow",
+    "endorsement": "deny",
+    "source": "llm_hybrid"
+  },
+  "parasitic_geo_risk": 0.0,
+  "parasitic_source": "heuristic",
+  "referral_status": "sparse",
+  "n_verified": 0,
+  "llm_action": "block_endorsement",
+  "seed_source": "llm",
+  "n_seeds": 10
+}

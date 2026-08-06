@@ -12,7 +12,12 @@ import re
 from dataclasses import dataclass, field
 from urllib.parse import urlparse
 
-from anti_geo.content_signals import detect_planted_mention, extract_content_signals
+from anti_geo.content_signals import (
+    PLANT_STANCE_UNKNOWN,
+    classify_plant_stance,
+    detect_planted_mention,
+    extract_content_signals,
+)
 from anti_geo.independence import analyze_independence
 from anti_geo.models import IndependenceReport, PageSegment
 from anti_geo.platform_role import THREAD_PATH_RE, is_parasitic_referrer
@@ -69,6 +74,8 @@ class ReferrerContentScore:
     scored: bool = False
     thread_surface: float = 0.0
     editability: float = 0.0
+    # promotional | complaint | neutral | unknown — Mode B hard-share stance
+    plant_stance: str = PLANT_STANCE_UNKNOWN
 
 
 @dataclass
@@ -338,6 +345,7 @@ def score_excerpt(
             scored=False,
             thread_surface=thread_surface,
             editability=editability,
+            plant_stance=PLANT_STANCE_UNKNOWN,
         )
     content = extract_content_signals(excerpt, entity=entity)
     planted = detect_planted_mention(excerpt, entity=entity)
@@ -349,6 +357,7 @@ def score_excerpt(
         flags=flags,
         planted=planted,
     )
+    stance = classify_plant_stance(excerpt, flags=flags)
     return ReferrerContentScore(
         url=url,
         manipulability=manipulability,
@@ -360,6 +369,7 @@ def score_excerpt(
         scored=True,
         thread_surface=thread_surface,
         editability=editability,
+        plant_stance=stance,
     )
 
 

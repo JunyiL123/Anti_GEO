@@ -1,0 +1,1878 @@
+{
+  "description": "Confusion matrices for four permissions + 3-class parasitic. Primary gold = adjudicated_labels; Anti-GEO = Mode A forced preds.",
+  "created_at": "2026-08-04T10:22:13.839066+00:00",
+  "sources": {
+    "adjudication": "data/permissions_eval/label_sheet_v1_adjudication.json",
+    "anti_geo": "data/permissions_eval/label_sheet_v1_anti_geo_mode_a_forced.json"
+  },
+  "fields": [
+    "retrieve_permission",
+    "mention_permission",
+    "factual_permission",
+    "endorsement_permission",
+    "parasitic"
+  ],
+  "ordinal": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "n_adjudication_pages": 47,
+  "n_anti_geo_pages": 48,
+  "comparisons": {
+    "anti_vs_adjudicated": {
+      "gold": "adjudicated",
+      "pred": "anti",
+      "n_pages_pool": 47,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              36,
+              7,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.7872340425531915,
+          "macro_f1": 0.356902356902357,
+          "quadratic_weighted_kappa": 0.2557856272838003,
+          "off_by_one_rate": 0.19148936170212766,
+          "label_counts_gold": {
+            "allow": 44,
+            "downrank": 3,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 37,
+            "downrank": 8,
+            "defer": 2,
+            "reject": 0
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              45,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9574468085106383,
+          "macro_f1": 0.4891304347826087,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.0425531914893617,
+          "label_counts_gold": {
+            "allow": 47,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 45,
+            "deny": 2
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              6,
+              0,
+              1,
+              0
+            ],
+            [
+              15,
+              18,
+              5,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.5106382978723404,
+          "macro_f1": 0.2623152709359606,
+          "quadratic_weighted_kappa": 0.17362637362637368,
+          "off_by_one_rate": 0.425531914893617,
+          "label_counts_gold": {
+            "allow": 7,
+            "attribute_only": 40,
+            "require_corroboration": 0,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 21,
+            "attribute_only": 18,
+            "require_corroboration": 6,
+            "deny": 2
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              6,
+              4
+            ],
+            [
+              4,
+              33
+            ]
+          ],
+          "accuracy": 0.8297872340425532,
+          "macro_f1": 0.7459459459459459,
+          "quadratic_weighted_kappa": 0.49189189189189186,
+          "off_by_one_rate": 0.1702127659574468,
+          "label_counts_gold": {
+            "allow": 10,
+            "deny": 37
+          },
+          "label_counts_pred": {
+            "allow": 10,
+            "deny": 37
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 45,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [
+            "v1p20",
+            "v1p33"
+          ],
+          "matrix": [
+            [
+              43,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9555555555555556,
+          "macro_f1": 0.48863636363636365,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.044444444444444446,
+          "label_counts_gold": {
+            "none": 45,
+            "elevated": 0,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 43,
+            "elevated": 2,
+            "suspected": 0
+          }
+        }
+      }
+    },
+    "human_vs_llm": {
+      "gold": "human",
+      "pred": "llm",
+      "n_pages_pool": 47,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              44,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9787234042553191,
+          "macro_f1": 0.8943820224719101,
+          "quadratic_weighted_kappa": 0.789237668161435,
+          "off_by_one_rate": 0.02127659574468085,
+          "label_counts_gold": {
+            "allow": 45,
+            "downrank": 2,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 44,
+            "downrank": 3,
+            "defer": 0,
+            "reject": 0
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              47,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "quadratic_weighted_kappa": 1.0,
+          "off_by_one_rate": 0.0,
+          "label_counts_gold": {
+            "allow": 47,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 47,
+            "deny": 0
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              6,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              39,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9574468085106383,
+          "macro_f1": 0.6326923076923077,
+          "quadratic_weighted_kappa": 0.8401360544217688,
+          "off_by_one_rate": 0.0425531914893617,
+          "label_counts_gold": {
+            "allow": 6,
+            "attribute_only": 40,
+            "require_corroboration": 1,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 7,
+            "attribute_only": 40,
+            "require_corroboration": 0,
+            "deny": 0
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              8,
+              2
+            ],
+            [
+              3,
+              34
+            ]
+          ],
+          "accuracy": 0.8936170212765957,
+          "macro_f1": 0.8467058056099153,
+          "quadratic_weighted_kappa": 0.6936114732724902,
+          "off_by_one_rate": 0.10638297872340426,
+          "label_counts_gold": {
+            "allow": 10,
+            "deny": 37
+          },
+          "label_counts_pred": {
+            "allow": 11,
+            "deny": 36
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              47,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "quadratic_weighted_kappa": 1.0,
+          "off_by_one_rate": 0.0,
+          "label_counts_gold": {
+            "none": 47,
+            "elevated": 0,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 47,
+            "elevated": 0,
+            "suspected": 0
+          }
+        }
+      }
+    },
+    "anti_vs_human": {
+      "gold": "human",
+      "pred": "anti",
+      "n_pages_pool": 47,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              37,
+              7,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.8085106382978723,
+          "macro_f1": 0.367479674796748,
+          "quadratic_weighted_kappa": 0.29323308270676696,
+          "off_by_one_rate": 0.1702127659574468,
+          "label_counts_gold": {
+            "allow": 45,
+            "downrank": 2,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 37,
+            "downrank": 8,
+            "defer": 2,
+            "reject": 0
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              45,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9574468085106383,
+          "macro_f1": 0.4891304347826087,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.0425531914893617,
+          "label_counts_gold": {
+            "allow": 47,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 45,
+            "deny": 2
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              5,
+              0,
+              1,
+              0
+            ],
+            [
+              16,
+              17,
+              5,
+              2
+            ],
+            [
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.46808510638297873,
+          "macro_f1": 0.2391443167305236,
+          "quadratic_weighted_kappa": 0.14270386266094426,
+          "off_by_one_rate": 0.46808510638297873,
+          "label_counts_gold": {
+            "allow": 6,
+            "attribute_only": 40,
+            "require_corroboration": 1,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 21,
+            "attribute_only": 18,
+            "require_corroboration": 6,
+            "deny": 2
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              6,
+              4
+            ],
+            [
+              4,
+              33
+            ]
+          ],
+          "accuracy": 0.8297872340425532,
+          "macro_f1": 0.7459459459459459,
+          "quadratic_weighted_kappa": 0.49189189189189186,
+          "off_by_one_rate": 0.1702127659574468,
+          "label_counts_gold": {
+            "allow": 10,
+            "deny": 37
+          },
+          "label_counts_pred": {
+            "allow": 10,
+            "deny": 37
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 45,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [
+            "v1p20",
+            "v1p33"
+          ],
+          "matrix": [
+            [
+              43,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9555555555555556,
+          "macro_f1": 0.48863636363636365,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.044444444444444446,
+          "label_counts_gold": {
+            "none": 45,
+            "elevated": 0,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 43,
+            "elevated": 2,
+            "suspected": 0
+          }
+        }
+      }
+    },
+    "anti_vs_llm": {
+      "gold": "llm",
+      "pred": "anti",
+      "n_pages_pool": 47,
+      "fields": {
+        "retrieve_permission": {
+          "levels": [
+            "allow",
+            "downrank",
+            "defer",
+            "reject"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              36,
+              7,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.7872340425531915,
+          "macro_f1": 0.356902356902357,
+          "quadratic_weighted_kappa": 0.2557856272838003,
+          "off_by_one_rate": 0.19148936170212766,
+          "label_counts_gold": {
+            "allow": 44,
+            "downrank": 3,
+            "defer": 0,
+            "reject": 0
+          },
+          "label_counts_pred": {
+            "allow": 37,
+            "downrank": 8,
+            "defer": 2,
+            "reject": 0
+          }
+        },
+        "mention_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              45,
+              2
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9574468085106383,
+          "macro_f1": 0.4891304347826087,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.0425531914893617,
+          "label_counts_gold": {
+            "allow": 47,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 45,
+            "deny": 2
+          }
+        },
+        "factual_permission": {
+          "levels": [
+            "allow",
+            "attribute_only",
+            "require_corroboration",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              6,
+              0,
+              1,
+              0
+            ],
+            [
+              15,
+              18,
+              5,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.5106382978723404,
+          "macro_f1": 0.2623152709359606,
+          "quadratic_weighted_kappa": 0.17362637362637368,
+          "off_by_one_rate": 0.425531914893617,
+          "label_counts_gold": {
+            "allow": 7,
+            "attribute_only": 40,
+            "require_corroboration": 0,
+            "deny": 0
+          },
+          "label_counts_pred": {
+            "allow": 21,
+            "attribute_only": 18,
+            "require_corroboration": 6,
+            "deny": 2
+          }
+        },
+        "endorsement_permission": {
+          "levels": [
+            "allow",
+            "deny"
+          ],
+          "n": 47,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p20",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p33",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [],
+          "matrix": [
+            [
+              7,
+              4
+            ],
+            [
+              3,
+              33
+            ]
+          ],
+          "accuracy": 0.851063829787234,
+          "macro_f1": 0.7853881278538812,
+          "quadratic_weighted_kappa": 0.5710560625814862,
+          "off_by_one_rate": 0.14893617021276595,
+          "label_counts_gold": {
+            "allow": 11,
+            "deny": 36
+          },
+          "label_counts_pred": {
+            "allow": 10,
+            "deny": 37
+          }
+        },
+        "parasitic": {
+          "levels": [
+            "none",
+            "elevated",
+            "suspected"
+          ],
+          "n": 45,
+          "ids": [
+            "v1p01",
+            "v1p02",
+            "v1p03",
+            "v1p04",
+            "v1p05",
+            "v1p06",
+            "v1p07",
+            "v1p08",
+            "v1p09",
+            "v1p10",
+            "v1p11",
+            "v1p12",
+            "v1p13",
+            "v1p14",
+            "v1p15",
+            "v1p16",
+            "v1p17",
+            "v1p18",
+            "v1p19",
+            "v1p21",
+            "v1p22",
+            "v1p23",
+            "v1p24",
+            "v1p25",
+            "v1p26",
+            "v1p27",
+            "v1p28",
+            "v1p29",
+            "v1p30",
+            "v1p31",
+            "v1p32",
+            "v1p34",
+            "v1p35",
+            "v1p37",
+            "v1p38",
+            "v1p39",
+            "v1p40",
+            "v1p41",
+            "v1p42",
+            "v1p43",
+            "v1p44",
+            "v1p45",
+            "v1p46",
+            "v1p47",
+            "v1p48"
+          ],
+          "skipped_ids": [
+            "v1p20",
+            "v1p33"
+          ],
+          "matrix": [
+            [
+              43,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "accuracy": 0.9555555555555556,
+          "macro_f1": 0.48863636363636365,
+          "quadratic_weighted_kappa": 0.0,
+          "off_by_one_rate": 0.044444444444444446,
+          "label_counts_gold": {
+            "none": 45,
+            "elevated": 0,
+            "suspected": 0
+          },
+          "label_counts_pred": {
+            "none": 43,
+            "elevated": 2,
+            "suspected": 0
+          }
+        }
+      }
+    }
+  },
+  "parasitic_exclude_ids": [
+    "v1p20",
+    "v1p33"
+  ],
+  "parasitic_exclude_note": "Excluded from parasitic matrices involving Anti-GEO when predictions.parasitic_source is None (Mode B not really run)."
+}

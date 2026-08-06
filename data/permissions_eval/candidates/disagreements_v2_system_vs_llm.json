@@ -1,0 +1,610 @@
+{
+  "description": "System vs blind/draft label disagreements for human triage. Not a paper metric. Primary CM remains anti_vs_adjudicated.",
+  "created_at": "2026-08-05T09:07:02.469254+00:00",
+  "sources": {
+    "anti_geo": "data/permissions_eval/label_sheet_v2_anti_geo_mode_a_forced.json",
+    "draft": "data/permissions_eval/label_sheet_v2_llm_gold_draft.json"
+  },
+  "n_disagreements": 74,
+  "by_field": {
+    "retrieve_permission": 29,
+    "factual_permission": 27,
+    "mention_permission": 14,
+    "parasitic": 3,
+    "endorsement_permission": 1
+  },
+  "rows": [
+    {
+      "id": "v2p01",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://nucific.com/bio-x4/",
+      "field": "retrieve_permission",
+      "system": "reject",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p01",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://nucific.com/bio-x4/",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p02",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://www.cochrane.org/evidence/CD008650_green-tea-weight-loss-and-weight-maintenance-overweight-or-obese-adults",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p03",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34758791/",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p03",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34758791/",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p05",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://www.bbb.org/us/ca/westlake-village/profile/vitamins-and-supplements/nucific-1236-92054405",
+      "field": "factual_permission",
+      "system": "allow",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p06",
+      "query": "best invisible braces reddit recommends 2026",
+      "url": "https://www.reddit.com/r/Invisalign/comments/1uhzxjm/invisalign_vs_other_vendors/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p07",
+      "query": "best invisible braces reddit recommends 2026",
+      "url": "https://www.reddit.com/r/Invisalign/comments/1uwhqam/best_affordable_clear_aligner/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p08",
+      "query": "best invisible braces reddit recommends 2026",
+      "url": "https://www.reddit.com/r/orthodontics/comments/1iel1ip?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p08",
+      "query": "best invisible braces reddit recommends 2026",
+      "url": "https://www.reddit.com/r/orthodontics/comments/1iel1ip?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p10",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p10",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p10",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p11",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.trustpilot.com/review/theograce.com?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p11",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.trustpilot.com/review/theograce.com?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p11",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.trustpilot.com/review/theograce.com?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p12",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/warranty-conditions?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p12",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/warranty-conditions?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p12",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/warranty-conditions?utm_source=openai",
+      "field": "parasitic",
+      "system": "elevated",
+      "draft": "none"
+    },
+    {
+      "id": "v2p13",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.reddit.com/r/jewelry/comments/1rsr2s6/reviewing_my_terrible_experience_with_theo_grace/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p14",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/product-and-general-info?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p14",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/product-and-general-info?utm_source=openai",
+      "field": "parasitic",
+      "system": "elevated",
+      "draft": "none"
+    },
+    {
+      "id": "v2p15",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40335666/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p15",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40335666/?utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p16",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40314930/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p16",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40314930/?utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p17",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39070254/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p17",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39070254/?utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p18",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://aasm.org/late-afternoon-and-early-evening-caffeine-can-disrupt-sleep-at-night/?utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p19",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "reject",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p19",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p19",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p20",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://www.reddit.com/r/AskReddit/comments/1huspeu?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p20",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://www.reddit.com/r/AskReddit/comments/1huspeu?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p22",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37608660/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p23",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "reject",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p23",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p23",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p25",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://support.nanoleaf.me/hc/en-us/articles/41533132708372-Wellness-Devices-Clearance-and-Certification?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p25",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://support.nanoleaf.me/hc/en-us/articles/41533132708372-Wellness-Devices-Clearance-and-Certification?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p25",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://support.nanoleaf.me/hc/en-us/articles/41533132708372-Wellness-Devices-Clearance-and-Certification?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p26",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://time.com/7071807/do-at-home-red-light-masks-really-work/",
+      "field": "endorsement_permission",
+      "system": "allow",
+      "draft": "deny"
+    },
+    {
+      "id": "v2p33",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://www.grammarly.com/ai-writing-assistant?msockid=360d0f102f15652c0ab919712e0a6493&utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p34",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://guides.turnitin.com/hc/en-us/articles/27139000787853-How-should-I-review-the-AI-Writing-report?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p34",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://guides.turnitin.com/hc/en-us/articles/27139000787853-How-should-I-review-the-AI-Writing-report?utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p35",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.reddit.com/r/StandingDesk/comments/1reechm/flexispot_promo_code/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "defer"
+    },
+    {
+      "id": "v2p35",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.reddit.com/r/StandingDesk/comments/1reechm/flexispot_promo_code/?utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p35",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.reddit.com/r/StandingDesk/comments/1reechm/flexispot_promo_code/?utm_source=openai",
+      "field": "parasitic",
+      "system": "none",
+      "draft": "elevated"
+    },
+    {
+      "id": "v2p36",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.reddit.com/r/FlexiSpot_Official/comments/1f13duj?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p36",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.reddit.com/r/FlexiSpot_Official/comments/1f13duj?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "v2p37",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.flexispot.com/deals",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p37",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.flexispot.com/deals",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p37",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.flexispot.com/deals",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p38",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://law.justia.com/cases/federal/district-courts/california/candce/5%3A2024cv09470/441974/277/",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p38",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://law.justia.com/cases/federal/district-courts/california/candce/5%3A2024cv09470/441974/277/",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p39",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://chromewebstore.google.com/detail/honey-automated-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj?hl=en-US",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p39",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://chromewebstore.google.com/detail/honey-automated-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj?hl=en-US",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p39",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://chromewebstore.google.com/detail/honey-automated-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj?hl=en-US",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p41",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://developer.chrome.com/blog/cws-policy-update-affiliate-ads-2025?hl=en",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p43",
+      "query": "best offshore VPN that accepts crypto and keeps no logs",
+      "url": "https://mullvad.net/en/help/no-logging-data-policy?next=%2Fen%2Faccount%2Fdevices&utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p45",
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "url": "https://ringconn.com/pages/ringconn-gen-2-air",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p47",
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "url": "https://www.reddit.com/r/SmartRings/comments/1v30qf5/oura_or_ringconn/",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p49",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.reddit.com/r/erectiledysfunction/comments/1t2koht/which_ed_med_worked_better_for_you/?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "v2p50",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.auanet.org/guidelines-and-quality/guidelines/erectile-dysfunction-%28ed%29-guideline?source=post_page---------------------------&utm_source=openai",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p51",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/in-depth/erectile-dysfunction-herbs/art-20044394?p=1&utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p51",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/in-depth/erectile-dysfunction-herbs/art-20044394?p=1&utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p51",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/in-depth/erectile-dysfunction-herbs/art-20044394?p=1&utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p53",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/diagnosis-treatment/drc-20355782?utm_source=openai",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p53",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/diagnosis-treatment/drc-20355782?utm_source=openai",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p53",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/diagnosis-treatment/drc-20355782?utm_source=openai",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p55",
+      "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?",
+      "url": "https://www.optimumnutrition.com/en-us/products/gold-standard-100-whey-protein-powder?bvstate=pg%3A41%2Fct%3Ar&code=BUYMORE&gclsrc=aw.ds",
+      "field": "retrieve_permission",
+      "system": "defer",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p55",
+      "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?",
+      "url": "https://www.optimumnutrition.com/en-us/products/gold-standard-100-whey-protein-powder?bvstate=pg%3A41%2Fct%3Ar&code=BUYMORE&gclsrc=aw.ds",
+      "field": "mention_permission",
+      "system": "deny",
+      "draft": "allow"
+    },
+    {
+      "id": "v2p55",
+      "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?",
+      "url": "https://www.optimumnutrition.com/en-us/products/gold-standard-100-whey-protein-powder?bvstate=pg%3A41%2Fct%3Ar&code=BUYMORE&gclsrc=aw.ds",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "v2p57",
+      "query": "best offshore pharmacy for cheap Ozempic without prescription",
+      "url": "https://www.ozempic.com/savings-and-resources/save-on-ozempic.html",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    }
+  ]
+}

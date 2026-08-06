@@ -1,0 +1,2658 @@
+{
+  "shard": "shard_timeout_retry",
+  "started_at": "2026-07-14T15:08:08.688309+00:00",
+  "engine": "azure",
+  "investigations": [
+    {
+      "query": "best online therapy platforms",
+      "elapsed_s": 1365.5,
+      "error": null,
+      "result": {
+        "query": "best online therapy platforms",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://growtherapy.com/",
+          "https://headway.co/",
+          "https://helloalma.com/",
+          "https://www.talkspace.com/pricing",
+          "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/",
+          "https://www.brightside.com/faqs/how-much-does-it-cost/",
+          "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8",
+          "https://thriveworks.com/",
+          "https://www.apa.org/about/policy/telepsychology-revisions",
+          "https://www.samhsa.gov/mental-health/988/faqs"
+        ],
+        "claim_entity": "Therapy",
+        "site_workers": 2,
+        "ugc_skipped": 0,
+        "mode_b_ran": 10,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 10 non-UGC (site_workers=2).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural UGC/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://growtherapy.com/",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 15,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.01542857142857143,
+              "retrieval_manipulation_risk": 0.08000000000000002,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 15,
+              "mix": {
+                "commercial_product": 6,
+                "factual_blog": 9
+              },
+              "citations_domain_mix": {
+                "factual_blog": 24,
+                "institutional": 1
+              },
+              "geo_suspected": false,
+              "citations_sampled": 25,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.4,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://therapyinsuranceguide.com/how-to-find-a-therapist-that-takes-your-insurance/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://headway.co/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0218,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://helloalma.com/cg/general-therapy/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.psychologytoday.com/us/therapists?category=online-counseling",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0286,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://helloalma.com/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0167,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://www.psychologytoday.com/us/therapists/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://secure.helloalma.com/providers-landing/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0167,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://helloalma.com/cg/general-therapy-insurance/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0095,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://care.headway.co/therapists/online-therapy",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://care.headway.co/therapists",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how can I find an online therapist that accepts my insurance",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.healthline.com/health/therapy-for-every-budget",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "what does therapy cost with insurance for online appointments",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.healthline.com/health/mental-health/online-therapy-that-takes-insurance",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "what does therapy cost with insurance for online appointments",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.helpguide.org/mental-health/treatment/best-online-therapy-with-insurance",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "what does therapy cost with insurance for online appointments",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.healthline.com/health/grow-therapy",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "is Grow Therapy legit reddit",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/grow-therapy-review/",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "https://growtherapy.com",
+                  "seed_query": "is Grow Therapy legit reddit",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Stopped after 5 seeds: 15 verified referrers (cap 15).",
+                "Scored 8 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 1/5 seed answers (AI-visible footprint, not a verified referrer)."
+              ],
+              "referrer_content_scored": 8,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "clean",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": true,
+              "evidence_weak": false,
+              "mechanisms": [],
+              "semantic_risk": 0.01542857142857143,
+              "retrieval_manipulation_risk": 0.08000000000000002,
+              "n_verified": 15,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.01542857142857143
+          },
+          {
+            "url": "https://headway.co/",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "attribute_only",
+            "llm_actions": [
+              "attribute_only",
+              "mention_only"
+            ],
+            "source_trust": 0.53,
+            "endorsement_risk": 0.0,
+            "n_verified": 3,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9500000000000001,
+              "source_trust": 0.53,
+              "rhetorical_manipulation": 0.01850613154960981,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.55,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "attribute_only",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "partial",
+              "confidence": "low",
+              "n_verified": 3,
+              "mix": {
+                "commercial_product": 3
+              },
+              "citations_domain_mix": {
+                "factual_blog": 22,
+                "institutional": 21,
+                "expert_listicle": 1,
+                "editorial": 2
+              },
+              "geo_suspected": null,
+              "citations_sampled": 46,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 1.0,
+                "aligned": false,
+                "label": "coordinated_commercial"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.choosingtherapy.com/headway-review/",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "https://headway.co",
+                  "seed_query": "does Headway cover therapy and psychiatry with insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0241,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.prnewswire.com/news-releases/headway-launches-nationwide-solution-to-bridge-the-primary-care-mental-health-divide-through-insurance-302453801.html",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "headway",
+                  "seed_query": "does Headway cover therapy and psychiatry with insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0099,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/headway-for-therapists-review/",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "https://headway.co",
+                  "seed_query": "does Headway cover therapy and psychiatry with insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0316,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [
+                "per-seed fetch cap reached (12) for: how does online therapy covered by insur"
+              ],
+              "notes": [
+                "Scored 3 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 4/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "Verified referrers skew commercial while target is editorial \u2014 possible coordinated promotion pattern.",
+                "N below mix threshold; profile judgment deferred to L1-L3.",
+                "Semantic alignment flag \u2014 review manually; not auto-convict."
+              ],
+              "referrer_content_scored": 3,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page"
+              ],
+              "semantic_risk": 0.01850613154960981,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 3,
+              "geo_suspected": null,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "attribute_only",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.01850613154960981
+          },
+          {
+            "url": "https://helloalma.com/",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.022727272727272724,
+              "retrieval_manipulation_risk": 0.2,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 9
+              },
+              "geo_suspected": false,
+              "citations_sampled": 9,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 4/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.028409090909090905,
+              "retrieval_manipulation_risk": 0.2,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.028409090909090905
+          },
+          {
+            "url": "https://www.talkspace.com/pricing",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.68,
+            "endorsement_risk": 0.0,
+            "n_verified": 6,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.68,
+              "rhetorical_manipulation": 0.00116327378479435,
+              "retrieval_manipulation_risk": 0.05,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.0,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 6,
+              "mix": {
+                "commercial_product": 5,
+                "factual_blog": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 11
+              },
+              "geo_suspected": false,
+              "citations_sampled": 11,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 3,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.8333333333333334,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.choosingtherapy.com/how-much-does-talkspace-cost/",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "talkspace.com/pricing",
+                  "seed_query": "how much does Talkspace cost",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.2667,
+                  "content_flags": [
+                    "comparative_superlatives",
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://reddgrow.ai/directory/mental-health/talkspace",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "talkspace.com/pricing",
+                  "seed_query": "Talkspace reviews reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0067,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/talkspace-review/",
+                  "role": "commercial_product",
+                  "connection": "url_link",
+                  "connection_confidence": "high",
+                  "matched_marker": "talkspace.com/pricing",
+                  "seed_query": "Talkspace reviews reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.2758,
+                  "content_flags": [
+                    "comparative_superlatives",
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://psychcentral.com/reviews/talkspace-reviews",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "talkspace",
+                  "seed_query": "Talkspace reviews reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.indeed.com/cmp/Talkspace/reviews?fjobtitle=Therapist",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "talkspace",
+                  "seed_query": "is Talkspace worth it reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0195,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.helpguide.org/mental-health/treatment/talkspace-review",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "talkspace",
+                  "seed_query": "is Talkspace worth it reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.027,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 6 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 3/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 6,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "clean",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [],
+              "semantic_risk": 0.00116327378479435,
+              "retrieval_manipulation_risk": 0.05,
+              "n_verified": 6,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.00116327378479435
+          },
+          {
+            "url": "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 5,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 5,
+              "mix": {
+                "commercial_product": 3,
+                "institutional": 1,
+                "factual_blog": 1
+              },
+              "citations_domain_mix": {
+                "factual_blog": 8,
+                "institutional": 1
+              },
+              "geo_suspected": false,
+              "citations_sampled": 9,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "medium",
+                "referrer_commercial_share": 0.6,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.healthline.com/health/mental-health/betterhelp-review",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "betterhelp",
+                  "seed_query": "is BetterHelp worth it reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0021,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.ftc.gov/enforcement/refunds/betterhelp-refunds",
+                  "role": "institutional",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "betterhelp",
+                  "seed_query": "is BetterHelp worth it reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0171,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.firstsession.com/resources/betterhelp-reviews-survey-results",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "betterhelp",
+                  "seed_query": "is BetterHelp worth it reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0234,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/betterhelp-financial-aid/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "betterhelp",
+                  "seed_query": "BetterHelp pricing reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0055,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/betterhelp-review/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "betterhelp",
+                  "seed_query": "site:reddit.com BetterHelp cost reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0227,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 5 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 1/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 5,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "clean",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "n_verified": 5,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          },
+          {
+            "url": "https://www.brightside.com/faqs/how-much-does-it-cost/",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 4,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.0073519400953029265,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 4,
+              "mix": {
+                "commercial_product": 4
+              },
+              "citations_domain_mix": {
+                "factual_blog": 11
+              },
+              "geo_suspected": false,
+              "citations_sampled": 11,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 4,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 1.0,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.helpguide.org/mental-health/treatment/brightside-health-review",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "brightside",
+                  "seed_query": "Brightside mental health pricing and reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.reviews.io/company-reviews/store/brightside-com",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "brightside",
+                  "seed_query": "Brightside mental health pricing and reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0173,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/brightside-health-review/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "brightside",
+                  "seed_query": "Brightside mental health pricing and reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0182,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://onlinementalhealthreviews.com/what-reddit-says-about-brightside-health/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "brightside",
+                  "seed_query": "is Brightside legit reddit",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0879,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 4 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 4/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 4,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.0073519400953029265,
+              "retrieval_manipulation_risk": 0.06666666666666667,
+              "n_verified": 4,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0073519400953029265
+          },
+          {
+            "url": "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 6,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.008502772643253234,
+              "retrieval_manipulation_risk": 0.08000000000000002,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 6,
+              "mix": {
+                "commercial_product": 4,
+                "factual_blog": 2
+              },
+              "citations_domain_mix": {
+                "factual_blog": 16
+              },
+              "geo_suspected": false,
+              "citations_sampled": 16,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 3,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.6666666666666666,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.talkspace.com/psychiatry",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "what",
+                  "seed_query": "online therapy cost without insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0033,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://openpathcollective.org/pricing-and-eligibility-for-affordable-therapy/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "what",
+                  "seed_query": "online therapy cost without insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.talkspace.com/pricing",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "what",
+                  "seed_query": "online therapy cost without insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.betterhelp.com/advice/psychology/how-much-does-betterhelp-cost/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "what",
+                  "seed_query": "online therapy cost without insurance",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [
+                    "front_loaded",
+                    "mentions_alternatives"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.helpguide.org/mental-health/treatment/online-therapy-com-review",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "online-therapy",
+                  "seed_query": "Online-Therapy.com reddit reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.choosingtherapy.com/online-therapy-com-review/",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "online-therapy",
+                  "seed_query": "Online-Therapy.com reddit reviews",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0098,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 6 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Target cited in 3/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 6,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "clean",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [],
+              "semantic_risk": 0.008502772643253234,
+              "retrieval_manipulation_risk": 0.08000000000000002,
+              "n_verified": 6,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.008502772643253234
+          },
+          {
+            "url": "https://thriveworks.com/",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 9,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.02007242628039317,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 9,
+              "mix": {
+                "factual_blog": 3,
+                "commercial_product": 4,
+                "institutional": 2
+              },
+              "citations_domain_mix": {
+                "factual_blog": 11,
+                "institutional": 4
+              },
+              "geo_suspected": false,
+              "citations_sampled": 15,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 0,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.4444444444444444,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://www.psychologytoday.com/us/therapists/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how do I find therapy or psychiatry near me",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.apaservices.org/practice/ce/expert/telehealth-practice-psychology",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "online therapy vs in person therapy which is better",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0826,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.cambridge.org/core/journals/the-british-journal-of-psychiatry/article/telepsychiatry-versus-facetoface-treatment-systematic-review-and-metaanalysis-of-randomised-controlled-trials/CF163E6A0284F0CF3FA09AE06619CBE3",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "online therapy vs in person therapy which is better",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0619,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://mental.jmir.org/2023/1/e44790",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "online therapy vs in person therapy which is better",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0205,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "body"
+                },
+                {
+                  "url": "https://www.nimh.nih.gov/health/topics/psychotherapies",
+                  "role": "institutional",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "what is the difference between a therapist and a psychiatrist",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.psychiatry.org/patients-families/what-is-psychiatry",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "what is the difference between a therapist and a psychiatrist",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [
+                    "front_loaded"
+                  ],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.nimh.nih.gov/health/topics/mental-health-medications",
+                  "role": "institutional",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "can a therapist help me get medication for anxiety or depression",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0011,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://helplinefaqs.nami.org/article/255-i-need-to-see-a-psychiatrist-therapist-how-can-i-find-one",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how to book a first therapy or psychiatry appointment online",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "main_post"
+                },
+                {
+                  "url": "https://www.psychologytoday.com/us",
+                  "role": "commercial_product",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "therapy",
+                  "seed_query": "how to book a first therapy or psychiatry appointment online",
+                  "content_scored": false,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": ""
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 8 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 8,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "clean",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [],
+              "semantic_risk": 0.02007242628039317,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 9,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.02007242628039317
+          },
+          {
+            "url": "https://www.apa.org/about/policy/telepsychology-revisions",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "defer_fetch",
+            "llm_actions": [
+              "defer_fetch",
+              "block_factual_use",
+              "block_endorsement",
+              "mention_only",
+              "downrank"
+            ],
+            "source_trust": 0.0,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.2,
+              "source_trust": 0.0,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.37000000000000005,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "defer",
+              "mention_permission": "allow",
+              "factual_permission": "deny",
+              "endorsement_permission": "deny"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "institutional": 7,
+                "factual_blog": 10
+              },
+              "geo_suspected": false,
+              "citations_sampled": 17,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 5,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 5/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "defer_fetch",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          },
+          {
+            "url": "https://www.samhsa.gov/mental-health/988/faqs",
+            "is_ugc": false,
+            "content_role": "institutional",
+            "llm_action": "defer_fetch",
+            "llm_actions": [
+              "defer_fetch",
+              "block_factual_use",
+              "block_endorsement",
+              "mention_only",
+              "attribute_only"
+            ],
+            "source_trust": 0.20000000000000004,
+            "endorsement_risk": 0.0,
+            "n_verified": 7,
+            "ugc_verified_share": 0.0,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.2,
+              "source_trust": 0.20000000000000004,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.47000000000000003,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "defer",
+              "mention_permission": "allow",
+              "factual_permission": "deny",
+              "endorsement_permission": "deny"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "low",
+              "n_verified": 7,
+              "mix": {
+                "factual_blog": 7
+              },
+              "citations_domain_mix": {
+                "institutional": 6,
+                "factual_blog": 7
+              },
+              "geo_suspected": false,
+              "citations_sampled": 13,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 3,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "aligned"
+              },
+              "referrers_verified": [
+                {
+                  "url": "https://988lifeline.org/faq/calling-the-988-lifeline/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "who can call 988 crisis lifeline SAMHSA",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://988lifeline.org/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "who can call 988 crisis lifeline SAMHSA",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://988lifeline.org/contact-us/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "who can call 988 crisis lifeline SAMHSA",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://988lifeline.org/faq/texting-the-988-lifeline/faq-are-all-988-lifeline-text-communications-secure-and-confidential/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "SAMHSA 988 lifeline confidentiality and privacy rules",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://988lifeline.org/faq/about-us/faq-does-the-988-lifeline-have-geolocation-capabilities/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "SAMHSA 988 lifeline confidentiality and privacy rules",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://988lifeline.org/confidentiality/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "SAMHSA 988 lifeline confidentiality and privacy rules",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                },
+                {
+                  "url": "https://988lifeline.org/faq/about-us/faq-what-does-confidential-mean-when-saying-contacting-the-line-is-free-and-confidential/",
+                  "role": "factual_blog",
+                  "connection": "brand_mention",
+                  "connection_confidence": "weak",
+                  "matched_marker": "samhsa",
+                  "seed_query": "SAMHSA 988 lifeline confidentiality and privacy rules",
+                  "content_scored": true,
+                  "content_high_risk": false,
+                  "content_semantic_risk": 0.0,
+                  "content_flags": [],
+                  "content_manipulability": 0.0,
+                  "content_segment_role": "footer"
+                }
+              ],
+              "discovery_errors": [],
+              "notes": [
+                "Scored 7 high-manipulability referrers (top-8 by structure); high-risk=0.",
+                "Scored referrer excerpts look textually coordinated.",
+                "Target cited in 3/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "N below mix threshold; profile judgment deferred to L1-L3."
+              ],
+              "referrer_content_scored": 7,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": true
+            },
+            "list_tier": "medium",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": true,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": false,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "n_verified": 7,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": true,
+              "llm_action": "defer_fetch",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          }
+        ],
+        "independence": {
+          "urls": [
+            "https://growtherapy.com/",
+            "https://headway.co/",
+            "https://helloalma.com/",
+            "https://www.talkspace.com/pricing",
+            "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/",
+            "https://www.brightside.com/faqs/how-much-does-it-cost/",
+            "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8",
+            "https://thriveworks.com/",
+            "https://www.samhsa.gov/mental-health/988/faqs"
+          ],
+          "naive_source_count": 9,
+          "cluster_count": 9,
+          "max_cluster_similarity": 0.175,
+          "is_likely_coordinated": false,
+          "pairwise_similarity": {
+            "https://growtherapy.com/ \u2194 https://headway.co/": 0.126,
+            "https://growtherapy.com/ \u2194 https://helloalma.com/": 0.135,
+            "https://growtherapy.com/ \u2194 https://www.talkspace.com/pricing": 0.047,
+            "https://growtherapy.com/ \u2194 https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/": 0.108,
+            "https://growtherapy.com/ \u2194 https://www.brightside.com/faqs/how-much-does-it-cost/": 0.128,
+            "https://growtherapy.com/ \u2194 https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8": 0.158,
+            "https://growtherapy.com/ \u2194 https://thriveworks.com/": 0.13,
+            "https://growtherapy.com/ \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://headway.co/ \u2194 https://helloalma.com/": 0.048,
+            "https://headway.co/ \u2194 https://www.talkspace.com/pricing": 0.034,
+            "https://headway.co/ \u2194 https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/": 0.018,
+            "https://headway.co/ \u2194 https://www.brightside.com/faqs/how-much-does-it-cost/": 0.071,
+            "https://headway.co/ \u2194 https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8": 0.038,
+            "https://headway.co/ \u2194 https://thriveworks.com/": 0.066,
+            "https://headway.co/ \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://helloalma.com/ \u2194 https://www.talkspace.com/pricing": 0.052,
+            "https://helloalma.com/ \u2194 https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/": 0.051,
+            "https://helloalma.com/ \u2194 https://www.brightside.com/faqs/how-much-does-it-cost/": 0.125,
+            "https://helloalma.com/ \u2194 https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8": 0.175,
+            "https://helloalma.com/ \u2194 https://thriveworks.com/": 0.069,
+            "https://helloalma.com/ \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://www.talkspace.com/pricing \u2194 https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/": 0.05,
+            "https://www.talkspace.com/pricing \u2194 https://www.brightside.com/faqs/how-much-does-it-cost/": 0.065,
+            "https://www.talkspace.com/pricing \u2194 https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8": 0.074,
+            "https://www.talkspace.com/pricing \u2194 https://thriveworks.com/": 0.04,
+            "https://www.talkspace.com/pricing \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/ \u2194 https://www.brightside.com/faqs/how-much-does-it-cost/": 0.08,
+            "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/ \u2194 https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8": 0.157,
+            "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/ \u2194 https://thriveworks.com/": 0.094,
+            "https://www.betterhelp.com/advice/psychology/betterhelp-pricing-what-you-can-expect-to-pay-for-therapy/ \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://www.brightside.com/faqs/how-much-does-it-cost/ \u2194 https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8": 0.157,
+            "https://www.brightside.com/faqs/how-much-does-it-cost/ \u2194 https://thriveworks.com/": 0.142,
+            "https://www.brightside.com/faqs/how-much-does-it-cost/ \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8 \u2194 https://thriveworks.com/": 0.096,
+            "https://www.online-therapy.com/faq/what-is-the-cost-for-online-therapy-8 \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0,
+            "https://thriveworks.com/ \u2194 https://www.samhsa.gov/mental-health/988/faqs": 0.0
+          },
+          "reasons": []
+        },
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "pass_through"
+          ],
+          "response_mode": "direct_answer",
+          "safe_answer": "Q: best online therapy platforms\n\nA: Therapy Near You & Online Therapy that takes your Insurance - Grow Therapy Log in Clients Providers How Grow works Get care By state By city Therapy resources Become a Grow provider Therapist / Counselors Prescribers Provider resources Partner with Grow Employers Physicians Payors About us Contact us Blog Log in Clients Providers Find a provider Mental health made easy, covered by insurance Talk T"
+        }
+      }
+    },
+    {
+      "query": "best meal kit delivery service",
+      "elapsed_s": 785.7,
+      "error": null,
+      "result": {
+        "query": "best meal kit delivery service",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305",
+          "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html",
+          "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html",
+          "https://www.tasteofhome.com/collection/best-meal-delivery-service/"
+        ],
+        "claim_entity": "Tested",
+        "site_workers": 2,
+        "ugc_skipped": 0,
+        "mode_b_ran": 4,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 4 non-UGC (site_workers=2).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural UGC/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.04361774744027304,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 14,
+                "ugc_thread": 1
+              },
+              "geo_suspected": false,
+              "citations_sampled": 15,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 1/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.04361774744027304,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.04361774744027304
+          },
+          {
+            "url": "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "downrank",
+            "llm_actions": [
+              "pass",
+              "downrank"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.03730366492146596,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.65,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 20,
+                "ugc_thread": 3
+              },
+              "geo_suspected": false,
+              "citations_sampled": 23,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 2,
+              "semantic_alignment": {
+                "target_commercial_tier": "medium",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "Target cited in 2/5 seed answers (AI-visible footprint, not a verified referrer).",
+                "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.03730366492146596,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "downrank",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.03730366492146596
+          },
+          {
+            "url": "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "attribute_only",
+            "llm_actions": [
+              "attribute_only",
+              "mention_only",
+              "downrank"
+            ],
+            "source_trust": 0.5,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.5,
+              "rhetorical_manipulation": 0.025500910746812384,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.73,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "attribute_only",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "sparse",
+              "discovery_status": "success",
+              "confidence": "medium",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 24,
+                "ugc_thread": 3
+              },
+              "geo_suspected": false,
+              "citations_sampled": 27,
+              "seed_queries_run": 5,
+              "target_cited_in_answers": 0,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [],
+              "notes": [
+                "No verified referrers after checking citations. Parasitic GEO footprint unlikely."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": true,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page",
+                "referrer"
+              ],
+              "semantic_risk": 0.025500910746812384,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 0,
+              "geo_suspected": false,
+              "referral_status": "sparse",
+              "referral_confidence": "medium",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "attribute_only",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.025500910746812384
+          },
+          {
+            "url": "https://www.tasteofhome.com/collection/best-meal-delivery-service/",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.7100000000000001,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.7100000000000001,
+              "rhetorical_manipulation": 0.03004484304932735,
+              "retrieval_manipulation_risk": 0.1,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.83,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "inconclusive",
+              "discovery_status": "partial",
+              "confidence": "low",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 17
+              },
+              "geo_suspected": null,
+              "citations_sampled": 17,
+              "seed_queries_run": 3,
+              "target_cited_in_answers": 0,
+              "semantic_alignment": {
+                "target_commercial_tier": "high",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [
+                "engine query failed (meal kit delivery services reddit recomm...): Request timed out.",
+                "engine query failed (HelloFresh vs Home Chef reddit reviews...): Request timed out."
+              ],
+              "notes": [
+                "No verified referrers; discovery may be incomplete."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.03004484304932735,
+              "retrieval_manipulation_risk": 0.1,
+              "n_verified": 0,
+              "geo_suspected": null,
+              "referral_status": "inconclusive",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.03004484304932735
+          }
+        ],
+        "independence": {
+          "urls": [
+            "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305",
+            "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html",
+            "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html",
+            "https://www.tasteofhome.com/collection/best-meal-delivery-service/"
+          ],
+          "naive_source_count": 4,
+          "cluster_count": 4,
+          "max_cluster_similarity": 0.22,
+          "is_likely_coordinated": false,
+          "pairwise_similarity": {
+            "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305 \u2194 https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html": 0.136,
+            "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305 \u2194 https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html": 0.14,
+            "https://www.nbcnews.com/select/shopping/best-meal-delivery-services-rcna224305 \u2194 https://www.tasteofhome.com/collection/best-meal-delivery-service/": 0.168,
+            "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html \u2194 https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html": 0.22,
+            "https://www.the-independent.com/extras/indybest/us/best-meal-delivery-service-kit-b2922276.html \u2194 https://www.tasteofhome.com/collection/best-meal-delivery-service/": 0.173,
+            "https://health.yahoo.com/wellness/nutrition/meal-kits/article/best-meal-delivery-services-kits-181408146.html \u2194 https://www.tasteofhome.com/collection/best-meal-delivery-service/": 0.169
+          },
+          "reasons": []
+        },
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "pass_through"
+          ],
+          "response_mode": "direct_answer",
+          "safe_answer": "Q: best meal kit delivery service\n\nA: 11 Best Meal Delivery Services of 2026, Tested and Reviewed IE 11 is not supported. For an optimal experience visit our site on another browser. Top stories Ulta's Big Beauty Summer Sale The best spin shoes of 2026 Everything you need to beat the heat this summer The best portable air conditioners of 2026 The best filtered showerheads of 2026 50 best oral care products, tested and reviewed by our "
+        }
+      }
+    },
+    {
+      "query": "best dog food for allergies reddit",
+      "elapsed_s": 1021.0,
+      "error": null,
+      "result": {
+        "query": "best dog food for allergies reddit",
+        "query_intent": "commercial",
+        "intent_source": "manual",
+        "intent_rule": null,
+        "cited_urls": [
+          "https://www.royalcanin.com/us/dogs/products/vet-products/ultamino-4014",
+          "https://www.hillspet.com/dog-food/prescription-diet-zd-food-sensitivities-dry",
+          "https://www.proplanvetdirect.com/ha-hydrolyzed-vegetarian",
+          "https://www.cavd.ca/images/CAVD_Illustrated_Diet_Trial_Handout_for_Dogs.pdf"
+        ],
+        "claim_entity": "FlateDecode",
+        "site_workers": 2,
+        "ugc_skipped": 0,
+        "mode_b_ran": 4,
+        "notes": [
+          "Mode B skipped for 0 UGC cites; ran on 4 non-UGC (site_workers=2).",
+          "Per-cite actions: L1-L3, optionally tightened by Mode B structural UGC/editorial mix; L3 independence runs on the cite set."
+        ],
+        "rows": [
+          {
+            "url": "https://www.royalcanin.com/us/dogs/products/vet-products/ultamino-4014",
+            "is_ugc": false,
+            "content_role": "commercial_product",
+            "llm_action": "defer_fetch",
+            "llm_actions": [
+              "defer_fetch",
+              "block_factual_use",
+              "block_endorsement",
+              "mention_only"
+            ],
+            "source_trust": 0.05000000000000007,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.2,
+              "source_trust": 0.05000000000000007,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.47000000000000003,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "defer",
+              "mention_permission": "allow",
+              "factual_permission": "deny",
+              "endorsement_permission": "deny"
+            },
+            "referral_profile": {
+              "status": "inconclusive",
+              "discovery_status": "partial",
+              "confidence": "low",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "commercial_product": 1,
+                "review_profile": 1,
+                "factual_blog": 1
+              },
+              "geo_suspected": null,
+              "citations_sampled": 3,
+              "seed_queries_run": 1,
+              "target_cited_in_answers": 1,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [
+                "engine query failed (Royal Canin Ultamino reddit...): Request timed out.",
+                "engine query failed (site:reddit.com Royal Canin Ultamino dog...): Request timed out.",
+                "engine query failed (is Royal Canin Ultamino worth it for dog...): Request timed out.",
+                "engine query failed (Royal Canin Ultamino vs hydrolyzed prote...): Request timed out."
+              ],
+              "notes": [
+                "Target cited in 1/1 seed answers (AI-visible footprint, not a verified referrer)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page"
+              ],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "n_verified": 0,
+              "geo_suspected": null,
+              "referral_status": "inconclusive",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "defer_fetch",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          },
+          {
+            "url": "https://www.hillspet.com/dog-food/prescription-diet-zd-food-sensitivities-dry",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "defer_fetch",
+            "llm_actions": [
+              "defer_fetch",
+              "block_factual_use",
+              "block_endorsement",
+              "mention_only"
+            ],
+            "source_trust": 0.0,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.2,
+              "source_trust": 0.0,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.37000000000000005,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "defer",
+              "mention_permission": "allow",
+              "factual_permission": "deny",
+              "endorsement_permission": "deny"
+            },
+            "referral_profile": {
+              "status": "inconclusive",
+              "discovery_status": "partial",
+              "confidence": "low",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "institutional": 1,
+                "factual_blog": 1
+              },
+              "geo_suspected": null,
+              "citations_sampled": 2,
+              "seed_queries_run": 2,
+              "target_cited_in_answers": 2,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [
+                "engine query failed (what dog food helps dogs with food sensi...): Request timed out.",
+                "engine query failed (how does hydrolyzed protein dog food wor...): Request timed out.",
+                "engine query failed (Hill's Prescription Diet z/d dog food si...): Request timed out."
+              ],
+              "notes": [
+                "Target cited in 2/2 seed answers (AI-visible footprint, not a verified referrer)."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page"
+              ],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "n_verified": 0,
+              "geo_suspected": null,
+              "referral_status": "inconclusive",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "defer_fetch",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          },
+          {
+            "url": "https://www.proplanvetdirect.com/ha-hydrolyzed-vegetarian",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "defer_fetch",
+            "llm_actions": [
+              "defer_fetch",
+              "block_factual_use",
+              "block_endorsement",
+              "mention_only"
+            ],
+            "source_trust": 0.0,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.2,
+              "source_trust": 0.0,
+              "rhetorical_manipulation": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.37000000000000005,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "defer",
+              "mention_permission": "allow",
+              "factual_permission": "deny",
+              "endorsement_permission": "deny"
+            },
+            "referral_profile": {
+              "status": "inconclusive",
+              "discovery_status": "partial",
+              "confidence": "low",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 13,
+                "editorial": 1
+              },
+              "geo_suspected": null,
+              "citations_sampled": 14,
+              "seed_queries_run": 3,
+              "target_cited_in_answers": 0,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [
+                "engine query failed (what is product...): Request timed out.",
+                "engine query failed (evidence for product...): Request timed out."
+              ],
+              "notes": [
+                "No verified referrers; discovery may be incomplete."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": true,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [
+                "on_page"
+              ],
+              "semantic_risk": 0.0,
+              "retrieval_manipulation_risk": 0.0,
+              "n_verified": 0,
+              "geo_suspected": null,
+              "referral_status": "inconclusive",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "defer_fetch",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.0
+          },
+          {
+            "url": "https://www.cavd.ca/images/CAVD_Illustrated_Diet_Trial_Handout_for_Dogs.pdf",
+            "is_ugc": false,
+            "content_role": "factual_blog",
+            "llm_action": "pass",
+            "llm_actions": [
+              "pass"
+            ],
+            "source_trust": 0.55,
+            "endorsement_risk": 0.0,
+            "n_verified": 0,
+            "ugc_verified_share": null,
+            "ugc_verified_count": 0,
+            "mode_b_error": null,
+            "from_source_pool": false,
+            "subscores": {
+              "fetch_confidence": 0.9,
+              "source_trust": 0.55,
+              "rhetorical_manipulation": 0.005622803592346739,
+              "retrieval_manipulation_risk": 0.0,
+              "endorsement_risk": 0.0,
+              "factual_claim_reliability": 0.63,
+              "intent_mismatch": 0.25,
+              "harm_severity": 0.15
+            },
+            "permissions": {
+              "retrieve_permission": "allow",
+              "mention_permission": "allow",
+              "factual_permission": "allow",
+              "endorsement_permission": "allow"
+            },
+            "referral_profile": {
+              "status": "inconclusive",
+              "discovery_status": "partial",
+              "confidence": "low",
+              "n_verified": 0,
+              "mix": {},
+              "citations_domain_mix": {
+                "factual_blog": 34,
+                "editorial": 4
+              },
+              "geo_suspected": null,
+              "citations_sampled": 38,
+              "seed_queries_run": 4,
+              "target_cited_in_answers": 0,
+              "semantic_alignment": {
+                "target_commercial_tier": "none",
+                "referrer_commercial_share": 0.0,
+                "aligned": true,
+                "label": "inconclusive"
+              },
+              "referrers_verified": [],
+              "discovery_errors": [
+                "engine query failed (evidence for product...): Request timed out."
+              ],
+              "notes": [
+                "No verified referrers; discovery may be incomplete."
+              ],
+              "referrer_content_scored": 0,
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false
+            },
+            "list_tier": "review",
+            "tier_signals": {
+              "on_page_hard": false,
+              "on_page_soft": false,
+              "parasitic_hard": false,
+              "parasitic_soft": false,
+              "evidence_strong": false,
+              "evidence_weak": true,
+              "mechanisms": [],
+              "semantic_risk": 0.005622803592346739,
+              "retrieval_manipulation_risk": 0.0,
+              "n_verified": 0,
+              "geo_suspected": null,
+              "referral_status": "inconclusive",
+              "referral_confidence": "low",
+              "referrer_content_high_risk": 0,
+              "referrer_content_coordinated": false,
+              "llm_action": "pass",
+              "is_ugc": false
+            },
+            "semantic_risk": 0.005622803592346739
+          }
+        ],
+        "independence": null,
+        "guard": {
+          "utterance_type": "mention",
+          "corroborated": true,
+          "actions": [
+            "pass_through"
+          ],
+          "response_mode": "direct_answer",
+          "safe_answer": "Q: best dog food for allergies reddit\n\nA: %PDF-1.3 %\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd 5 0 obj << /Length 6 0 R /Filter /FlateDecode >> stream x\u0001\ufffd\ufffd\u06ce]Ir\ufffd\ufffd\ufffdS,\u001b\u0010@\u0002\u036d}>\ufffd\u0017\ufffdX\ufffd\ufffd`Y \ufffd\u0017\ufffd\ufffd\"Y\ufffd:\ufffdT\u0015\ufffd\ufffd \u04c6n\ufffdW\ufffd\ufffdED\ufffdZ\ufffd\ufffd\u02160\u0018T\uf7d9\ufffd\ufffd\ufffd\ufffd\ufffd\u0011\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd?\u000e+\ufffdwXo\ufffd\ufffdy3<\\ \u007f\u0018\ufffd\ufffd\ufffdZ\ufffd\ufffd?\u007f\ufffd\ufffd\ufffd?\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdqx\ufffd^\ufffd\ufffd\ufffdy7 \ufffd\ufffd\ufffdv\ufffdnO\ufffd\ufffdv}\ufffd\ufffd\ufffdp>.\u03c7\ufffda8Rh#\u0601\ufffdi\ufffd \u007f\ufffd\u03ab\ufffd\ufffd\u001bk\ufffd\u000f\ufffd i~-.\ufffdw\ufffd\ufffdyyX\ufffdvC\ufffd\ufffdyu^\ufffdl\ufffdU~\u05d1cP\ufffd\ufffd\ufffd\ufffd;\ufffd\ufffd\ufffd\ufffdY\ufffd >T\u0007\ufffd\ufffd\ufffd\ufffd\ufffd\u00fb\ufffd\u0016\ufffd\ufffd\ufffd\ufffd;.\ufffdkX\ufffd\u007f\ufffd\ufffd\ufffd_o;\ufffd8\ufffdV\ufffd\ufffdi\ufffd \ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u06c6\ufffd\ufffd\ufffd\ufffdz\ufffd#v^\ufffd\ufffd\ufffd\u00152\ufffd\u03a7m\ufffdZ\ufffd\ufffd\u001aB\ufffdw\ufffd\ufffdq\ufffd:\ufffd\ufffdC\u0007\u07dd\u000e\ufffd\ufffdY\ufffd:\ufffd\u0011jM*\ufffd^\ufffds6R\ufffd]\ufffdv$$\u0011\"p\ufffd\ufffdm\u0018\ufffd\ufffd\ufffd^\ufffdN\ufffd\ufffdv\ufffdm\ufffd\ufffd\ufffdq=t\ufffdx\ufffd"
+        }
+      }
+    },
+    {
+      "query": "best home security camera system reddit",
+      "elapsed_s": 55.9,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 124, in _connect\n    stream = self._network_backend.connect_tcp(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 207, in connect_tcp\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best cordless vacuum under 300 reddit",
+      "elapsed_s": 49.3,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 156, in _connect\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best language learning app 2026 reddit",
+      "elapsed_s": 41.2,
+      "error": "APIConnectionError: Connection error.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 124, in _connect\n    stream = self._network_backend.connect_tcp(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 207, in connect_tcp\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectError: [Errno 8] nodename nor servname provided, or not known\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1037, in request\n    raise APIConnectionError(request=request) from err\nopenai.APIConnectionError: Connection error.\n",
+      "result": null
+    },
+    {
+      "query": "best budgeting app for couples reddit",
+      "elapsed_s": 91.4,
+      "error": "APIConnectionError: Connection error.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 124, in _connect\n    stream = self._network_backend.connect_tcp(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 207, in connect_tcp\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectError: [Errno 8] nodename nor servname provided, or not known\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1037, in request\n    raise APIConnectionError(request=request) from err\nopenai.APIConnectionError: Connection error.\n",
+      "result": null
+    },
+    {
+      "query": "best electric toothbrush reddit",
+      "elapsed_s": 22.8,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 156, in _connect\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best portable monitor for travel reddit",
+      "elapsed_s": 16.4,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 124, in _connect\n    stream = self._network_backend.connect_tcp(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 207, in connect_tcp\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    },
+    {
+      "query": "best sleep tracking wearable reddit",
+      "elapsed_s": 23.4,
+      "error": "APITimeoutError: Request timed out.",
+      "traceback": "Traceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 101, in map_httpcore_exceptions\n    yield\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 250, in handle_request\n    resp = self._pool.handle_request(req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 256, in handle_request\n    raise exc from None\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py\", line 236, in handle_request\n    response = connection.handle_request(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 101, in handle_request\n    raise exc\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 78, in handle_request\n    stream = self._connect(request)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_sync/connection.py\", line 156, in _connect\n    stream = stream.start_tls(**kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_backends/sync.py\", line 154, in start_tls\n    with map_exceptions(exc_map):\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpcore/_exceptions.py\", line 14, in map_exceptions\n    raise to_exc(exc) from exc\nhttpcore.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1005, in request\n    response = self._client.send(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 914, in send\n    response = self._send_handling_auth(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 942, in _send_handling_auth\n    response = self._send_handling_redirects(\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 979, in _send_handling_redirects\n    response = self._send_single_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_client.py\", line 1014, in _send_single_request\n    response = transport.handle_request(request)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 249, in handle_request\n    with map_httpcore_exceptions():\n  File \"/opt/homebrew/Cellar/python@3.11/3.11.6_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py\", line 155, in __exit__\n    self.gen.throw(typ, value, traceback)\n  File \"/opt/homebrew/lib/python3.11/site-packages/httpx/_transports/default.py\", line 118, in map_httpcore_exceptions\n    raise mapped_exc(message) from exc\nhttpx.ConnectTimeout: _ssl.c:989: The handshake operation timed out\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/demo/batch_geo_risk_list.py\", line 278, in run_shard\n    result = investigate_query(\n             ^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/query_investigation.py\", line 300, in investigate_query\n    resp = resolved.query(query)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/audit/engines.py\", line 122, in query\n    text, cited_urls, cited_domains, source_pool = query_with_web_search(q)\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/junyiliu/Desktop/AI Safety Internship/Anti-GEO/src/anti_geo/azure_client.py\", line 268, in query_with_web_search\n    response = client.responses.create(\n               ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/resources/responses/responses.py\", line 876, in create\n    return self._post(\n           ^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1297, in post\n    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/homebrew/lib/python3.11/site-packages/openai/_base_client.py\", line 1023, in request\n    raise APITimeoutError(request=request) from err\nopenai.APITimeoutError: Request timed out.\n",
+      "result": null
+    }
+  ],
+  "updated_at": "2026-07-14T16:06:01.503110+00:00",
+  "finished_at": "2026-07-14T16:06:01.514813+00:00"
+}

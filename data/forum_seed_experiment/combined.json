@@ -1,0 +1,1156 @@
+{
+  "generated_at": "2026-07-16T00:44:35.799094+00:00",
+  "mode": "A",
+  "note": "Parallel Mode A search queries (not URL Mode B)",
+  "queries": {
+    "broker_india": {
+      "query": "best discount broker app india",
+      "query_intent": "commercial",
+      "intent_source": "heuristic",
+      "intent_rule": "commercial",
+      "cited_urls": [
+        "https://zerodha.com/charges/",
+        "https://groww.in/pricing",
+        "https://dhan.co/pricing/",
+        "https://upstox.com/brokerage-charges/"
+      ],
+      "claim_entity": "Zerodha brokerage charges, fees & taxes on trading and investing",
+      "site_workers": 4,
+      "ugc_skipped": 0,
+      "mode_b_ran": 4,
+      "notes": [
+        "Intent resolved via heuristic, rule=commercial.",
+        "Mode B skipped for 0 UGC cites; ran on 4 non-UGC (site_workers=4).",
+        "Per-cite actions: L1-L3, optionally tightened by Mode B structural parasitic-surface/editorial mix; L3 independence runs on the cite set."
+      ],
+      "rows": [
+        {
+          "url": "https://zerodha.com/charges/",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "downrank",
+          "llm_actions": [
+            "pass",
+            "downrank"
+          ],
+          "source_trust": 0.7100000000000001,
+          "endorsement_risk": 0.0,
+          "n_verified": 0,
+          "parasitic_verified_share": null,
+          "parasitic_verified_count": 0,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.7100000000000001,
+            "rhetorical_manipulation": 0.004988452655889146,
+            "retrieval_manipulation_risk": 0.04000000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "medium",
+            "n_verified": 0,
+            "mix": {},
+            "citations_domain_mix": {
+              "factual_blog": 14
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 14,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 9,
+            "semantic_alignment": {
+              "target_commercial_tier": "none",
+              "referrer_commercial_share": 0.0,
+              "aligned": true,
+              "label": "inconclusive"
+            },
+            "referrers_verified": [],
+            "discovery_errors": [],
+            "notes": [
+              "Target cited in 9/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+            ],
+            "referrer_content_scored": 0,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://groww.in/pricing",
+          "is_ugc": false,
+          "content_role": "commercial_product",
+          "llm_action": "downrank",
+          "llm_actions": [
+            "pass",
+            "downrank"
+          ],
+          "source_trust": 0.6100000000000001,
+          "endorsement_risk": 0.0,
+          "n_verified": 9,
+          "parasitic_verified_share": 0.4444444444444444,
+          "parasitic_verified_count": 4,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.6100000000000001,
+            "rhetorical_manipulation": 0.021181262729124233,
+            "retrieval_manipulation_risk": 0.06666666666666667,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "low",
+            "n_verified": 9,
+            "mix": {
+              "factual_blog": 5,
+              "review_profile": 2,
+              "ugc_thread": 2
+            },
+            "citations_domain_mix": {
+              "factual_blog": 17,
+              "review_profile": 3,
+              "ugc_thread": 2
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.5636,
+            "geo_elevated": true,
+            "citations_sampled": 22,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 11,
+            "semantic_alignment": {
+              "target_commercial_tier": "low",
+              "referrer_commercial_share": 0.2222222222222222,
+              "aligned": false,
+              "label": "mismatch"
+            },
+            "referrers_verified": [
+              {
+                "url": "https://www.business-standard.com/markets/news/groww-invest-tech-pays-rs-47-85l-to-sebi-settles-regulatory-lapses-case-125051401353_1.html",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "is Groww legit for stock trading",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0021,
+                "content_flags": [],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "main_post"
+              },
+              {
+                "url": "https://optionx.trade/brokers/compare/zerodha-vs-groww",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww brokerage charges reddit",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0503,
+                "content_flags": [
+                  "front_loaded"
+                ],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://enit.nseindia.com/MemDirWeb/brokerDetailPage_Beta?h_MemType=members&memID=3064",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "is Groww legit for stock trading",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0309,
+                "content_flags": [],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://play.google.com/store/apps/details?hl=en-US&id=com.nextbillion.groww",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww trading app reviews forum",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://www.consumercomplaints.in/bycompany/groww-a512287.html",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww trading app reviews forum",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0346,
+                "content_flags": [],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://www.mouthshut.com/product-reviews/groww-reviews-926003053",
+                "role": "review_profile",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww trading app reviews forum",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.5,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.5,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://www.techjockey.com/reviews/groww",
+                "role": "review_profile",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww trading app reviews forum",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0178,
+                "content_flags": [],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.55,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://forum.fintrakk.com/t/groww-demat-trading-account-reviews-brokerage/1283",
+                "role": "ugc_thread",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww trading app reviews forum",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0182,
+                "content_flags": [
+                  "front_loaded"
+                ],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.55,
+                "content_editability": 0.0,
+                "content_segment_role": "main_post"
+              },
+              {
+                "url": "https://forum.fintrakk.com/t/groww-app-review-trading-app-platform/1195",
+                "role": "ugc_thread",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "groww",
+                "seed_query": "Groww trading app reviews forum",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0057,
+                "content_flags": [],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.55,
+                "content_editability": 0.0,
+                "content_segment_role": "main_post"
+              }
+            ],
+            "discovery_errors": [],
+            "notes": [
+              "Scored 9 referrers (elevated=9, adaptive_filler=0); high-risk=0.",
+              "Target cited in 11/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "Verified referrers skew non-commercial while target is product/commercial.",
+              "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk.",
+              "GEO elevated (geo_risk=0.56, parasitic=4/9) \u2014 soft downrank; not a hard geo_suspected convict."
+            ],
+            "referrer_content_scored": 9,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://dhan.co/pricing/",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "source_trust": 0.53,
+          "endorsement_risk": 0.0,
+          "n_verified": 3,
+          "parasitic_verified_share": 0.0,
+          "parasitic_verified_count": 0,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.53,
+            "rhetorical_manipulation": 0.007464503042596347,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.0,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "low",
+            "n_verified": 3,
+            "mix": {
+              "commercial_product": 3
+            },
+            "citations_domain_mix": {
+              "factual_blog": 13
+            },
+            "geo_suspected": null,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 13,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 10,
+            "semantic_alignment": {
+              "target_commercial_tier": "low",
+              "referrer_commercial_share": 1.0,
+              "aligned": false,
+              "label": "coordinated_commercial"
+            },
+            "referrers_verified": [
+              {
+                "url": "https://groww.in/calculators/brokerage-calculator",
+                "role": "commercial_product",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "dhan",
+                "seed_query": "how do stock broker brokerage fees work in India",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.1875,
+                "content_flags": [
+                  "comparative_superlatives"
+                ],
+                "content_manipulability": 0.15,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.15,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://groww.in/pricing",
+                "role": "commercial_product",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "dhan",
+                "seed_query": "what charges do trading apps take for stock delivery and intraday",
+                "content_scored": false,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.15,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.15,
+                "content_segment_role": ""
+              },
+              {
+                "url": "https://dhanhq.co/trading-apis",
+                "role": "commercial_product",
+                "connection": "url_link",
+                "connection_confidence": "high",
+                "matched_marker": "dhan.co/pricing",
+                "seed_query": "Dhan API charges and brokerage",
+                "content_scored": false,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.15,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.15,
+                "content_segment_role": ""
+              }
+            ],
+            "discovery_errors": [],
+            "notes": [
+              "Scored 1 referrers (elevated=0, adaptive_filler=1); high-risk=0.",
+              "Target cited in 10/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "Verified referrers skew commercial while target is editorial \u2014 possible coordinated promotion pattern.",
+              "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk.",
+              "Semantic alignment flag \u2014 review manually; not auto-convict."
+            ],
+            "referrer_content_scored": 1,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://upstox.com/brokerage-charges/",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "source_trust": 0.7100000000000001,
+          "endorsement_risk": 0.0,
+          "n_verified": 2,
+          "parasitic_verified_share": 0.0,
+          "parasitic_verified_count": 0,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.7100000000000001,
+            "rhetorical_manipulation": 0.0098026734563972,
+            "retrieval_manipulation_risk": 0.04000000000000001,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "low",
+            "n_verified": 2,
+            "mix": {
+              "factual_blog": 2
+            },
+            "citations_domain_mix": {
+              "factual_blog": 11
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 11,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 8,
+            "semantic_alignment": {
+              "target_commercial_tier": "none",
+              "referrer_commercial_share": 0.0,
+              "aligned": true,
+              "label": "aligned"
+            },
+            "referrers_verified": [
+              {
+                "url": "https://zerodha.com/charges/",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "brokerage charges",
+                "seed_query": "how do discount brokers charge for intraday and delivery trades",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "main_post"
+              },
+              {
+                "url": "https://support.geojit.com/support/solutions/articles/89000020054-what-is-the-maximum-brokerage-a-broker-can-charge-",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "brokerage charges",
+                "seed_query": "how to calculate brokerage and other charges for Indian stock market trades",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.55,
+                "content_segment_role": "main_post"
+              }
+            ],
+            "discovery_errors": [],
+            "notes": [
+              "Scored 2 referrers (elevated=2, adaptive_filler=0); high-risk=0.",
+              "Target cited in 8/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+            ],
+            "referrer_content_scored": 2,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        }
+      ],
+      "independence": {
+        "urls": [
+          "https://zerodha.com/charges/",
+          "https://groww.in/pricing",
+          "https://dhan.co/pricing/",
+          "https://upstox.com/brokerage-charges/"
+        ],
+        "naive_source_count": 4,
+        "cluster_count": 4,
+        "max_cluster_similarity": 0.116,
+        "is_likely_coordinated": false,
+        "pairwise_similarity": {
+          "https://zerodha.com/charges/ \u2194 https://groww.in/pricing": 0.103,
+          "https://zerodha.com/charges/ \u2194 https://dhan.co/pricing/": 0.116,
+          "https://zerodha.com/charges/ \u2194 https://upstox.com/brokerage-charges/": 0.102,
+          "https://groww.in/pricing \u2194 https://dhan.co/pricing/": 0.102,
+          "https://groww.in/pricing \u2194 https://upstox.com/brokerage-charges/": 0.078,
+          "https://dhan.co/pricing/ \u2194 https://upstox.com/brokerage-charges/": 0.079
+        },
+        "reasons": []
+      },
+      "guard": {
+        "utterance_type": "mention",
+        "corroborated": true,
+        "actions": [
+          "pass_through"
+        ],
+        "response_mode": "direct_answer",
+        "safe_answer": "Q: best discount broker app india\n\nA: Zerodha brokerage charges, fees & taxes on trading and investing Signup About Products Pricing Support Signup Open account About Products Pricing Support Kite Trading platform Console Backoffice Kite Connect Trading APIs Coin Mutual funds Varsity Trading Q&A Utilities Calculators Brokerage calculator Margin calculator SIP calculator Updates Z-Connect blog Circulars / Bulletin IPOs Markets Educatio"
+      },
+      "slug": "broker_india"
+    },
+    "jewellery_gift": {
+      "query": "best personalized jewellery gift",
+      "query_intent": "commercial",
+      "intent_source": "heuristic",
+      "intent_rule": "commercial",
+      "cited_urls": [
+        "https://www.etsy.com/market/personalized_birthstone_jewelry_gifts",
+        "https://ajluxe.com/blogs/jewelry-guide/best-personalized-jewelry-gifts"
+      ],
+      "claim_entity": "best personalized jewellery gift",
+      "site_workers": 2,
+      "ugc_skipped": 0,
+      "mode_b_ran": 2,
+      "notes": [
+        "Intent resolved via heuristic, rule=commercial.",
+        "Mode B skipped for 0 UGC cites; ran on 2 non-UGC (site_workers=2).",
+        "Per-cite actions: L1-L3, optionally tightened by Mode B structural parasitic-surface/editorial mix; L3 independence runs on the cite set."
+      ],
+      "rows": [
+        {
+          "url": "https://www.etsy.com/market/personalized_birthstone_jewelry_gifts",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "source_trust": 0.68,
+          "endorsement_risk": 0.0,
+          "n_verified": 4,
+          "parasitic_verified_share": 0.25,
+          "parasitic_verified_count": 1,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9500000000000001,
+            "source_trust": 0.68,
+            "rhetorical_manipulation": 0.0,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "low",
+            "n_verified": 4,
+            "mix": {
+              "factual_blog": 2,
+              "expert_listicle": 1,
+              "ugc_thread": 1
+            },
+            "citations_domain_mix": {
+              "factual_blog": 33,
+              "ugc_thread": 1,
+              "review_profile": 1,
+              "institutional": 1
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.2245,
+            "geo_elevated": false,
+            "citations_sampled": 36,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 2,
+            "semantic_alignment": {
+              "target_commercial_tier": "none",
+              "referrer_commercial_share": 0.25,
+              "aligned": true,
+              "label": "aligned"
+            },
+            "referrers_verified": [
+              {
+                "url": "https://diamondsncolors.com/top-birthstone-jewelry-trends-for-2026-personalized-zodiac-inspired-designs/",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "etsy",
+                "seed_query": "what are good birthstone jewelry gift ideas",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0664,
+                "content_flags": [
+                  "front_loaded"
+                ],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "main_post"
+              },
+              {
+                "url": "https://www.thegoodtrade.com/features/birthstone-necklace-rings-jewelry-sustainable/",
+                "role": "expert_listicle",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "etsy",
+                "seed_query": "affordable handmade birthstone jewelry gifts",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0158,
+                "content_flags": [
+                  "front_loaded"
+                ],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.55,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://ehunt.ai/etsy-competitor-research/best-etsy-birthstone-necklace",
+                "role": "factual_blog",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "etsy",
+                "seed_query": "personalized birthstone necklace Etsy reddit",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.1104,
+                "content_flags": [],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.55,
+                "content_segment_role": "body"
+              },
+              {
+                "url": "https://www.reddit.com/r/EngagementRings/comments/1j8et7u/desperate_to_find_somewhere_reputable_online_for/?rdt=43895",
+                "role": "ugc_thread",
+                "connection": "brand_mention",
+                "connection_confidence": "weak",
+                "matched_marker": "etsy",
+                "seed_query": "site:reddit.com Etsy birthstone jewelry gift recommendations",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.021,
+                "content_flags": [],
+                "content_manipulability": 1.0,
+                "content_thread_surface": 1.0,
+                "content_editability": 0.0,
+                "content_segment_role": "main_post"
+              }
+            ],
+            "discovery_errors": [],
+            "notes": [
+              "Scored 4 referrers (elevated=4, adaptive_filler=0); high-risk=0.",
+              "Target cited in 2/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+            ],
+            "referrer_content_scored": 4,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://ajluxe.com/blogs/jewelry-guide/best-personalized-jewelry-gifts",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "downrank",
+          "llm_actions": [
+            "pass",
+            "downrank"
+          ],
+          "source_trust": 0.7100000000000001,
+          "endorsement_risk": 0.0,
+          "n_verified": 0,
+          "parasitic_verified_share": null,
+          "parasitic_verified_count": 0,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9500000000000001,
+            "source_trust": 0.7100000000000001,
+            "rhetorical_manipulation": 0.044689932211900575,
+            "retrieval_manipulation_risk": 0.08571428571428572,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "medium",
+            "n_verified": 0,
+            "mix": {},
+            "citations_domain_mix": {
+              "factual_blog": 37,
+              "commercial_product": 2
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 39,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 0,
+            "semantic_alignment": {
+              "target_commercial_tier": "none",
+              "referrer_commercial_share": 0.0,
+              "aligned": true,
+              "label": "inconclusive"
+            },
+            "referrers_verified": [],
+            "discovery_errors": [],
+            "notes": [
+              "No verified referrers after checking citations. Parasitic GEO footprint unlikely."
+            ],
+            "referrer_content_scored": 0,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        }
+      ],
+      "independence": {
+        "urls": [
+          "https://www.etsy.com/market/personalized_birthstone_jewelry_gifts",
+          "https://ajluxe.com/blogs/jewelry-guide/best-personalized-jewelry-gifts"
+        ],
+        "naive_source_count": 2,
+        "cluster_count": 2,
+        "max_cluster_similarity": 0.083,
+        "is_likely_coordinated": false,
+        "pairwise_similarity": {
+          "https://www.etsy.com/market/personalized_birthstone_jewelry_gifts \u2194 https://ajluxe.com/blogs/jewelry-guide/best-personalized-jewelry-gifts": 0.083
+        },
+        "reasons": []
+      },
+      "guard": {
+        "utterance_type": "mention",
+        "corroborated": true,
+        "actions": [
+          "pass_through"
+        ],
+        "response_mode": "direct_answer",
+        "safe_answer": "Q: best personalized jewellery gift\n\nA: Personalized Birthstone Jewelry Gifts - 60+ Gift Ideas for 2026 Etsy Categories Browse Search for items or shops Clear search Skip to Content Sign in 0 Cart Gifts New Arrivals Home Favorites Fashion Finds Vintage Registry Gift Cards Personalized Birthstone Jewelry Gifts 5,000+ items with ads Learn more Sellers looking to grow their business and reach more interested buyers can use Etsy\u2019s advertisi"
+      },
+      "slug": "jewellery_gift"
+    },
+    "headphones_forums": {
+      "query": "best headphones forums",
+      "query_intent": "commercial",
+      "intent_source": "heuristic",
+      "intent_rule": "commercial",
+      "cited_urls": [
+        "https://www.head-fi.org/forums/",
+        "https://www.audiosciencereview.com/forum/index.php",
+        "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+        "https://forum.headphones.com/top",
+        "https://forums.whathifi.com/forums/headphones-etc/",
+        "https://www.head-fi.org/forums/high-end-audio-forum.113/"
+      ],
+      "claim_entity": "best headphones forums",
+      "site_workers": 2,
+      "ugc_skipped": 2,
+      "mode_b_ran": 2,
+      "notes": [
+        "Intent resolved via heuristic, rule=commercial.",
+        "Mode B skipped for 2 UGC cites; ran on 2 non-UGC (site_workers=2).",
+        "Per-cite actions: L1-L3, optionally tightened by Mode B structural parasitic-surface/editorial mix; L3 independence runs on the cite set."
+      ],
+      "rows": [
+        {
+          "url": "https://www.audiosciencereview.com/forum/index.php",
+          "is_ugc": true,
+          "content_role": "ugc_thread",
+          "llm_action": "pass",
+          "llm_actions": [
+            "pass"
+          ],
+          "source_trust": 0.7100000000000001,
+          "endorsement_risk": 0.0,
+          "n_verified": null,
+          "parasitic_verified_share": null,
+          "parasitic_verified_count": null,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.7100000000000001,
+            "rhetorical_manipulation": 0.02983293556085919,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "skipped",
+            "discovery_status": "skipped",
+            "confidence": "low",
+            "n_verified": 0,
+            "mix": {},
+            "citations_domain_mix": {},
+            "geo_suspected": null,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 0,
+            "seed_queries_run": 0,
+            "target_cited_in_answers": 0,
+            "semantic_alignment": null,
+            "referrers_verified": [],
+            "discovery_errors": [],
+            "notes": [
+              "Mode B skipped for UGC cite."
+            ],
+            "referrer_content_scored": 0,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "downrank",
+          "llm_actions": [
+            "pass",
+            "downrank"
+          ],
+          "source_trust": 0.7100000000000001,
+          "endorsement_risk": 0.0,
+          "n_verified": 0,
+          "parasitic_verified_share": null,
+          "parasitic_verified_count": 0,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9,
+            "source_trust": 0.7100000000000001,
+            "rhetorical_manipulation": 0.039075907590759074,
+            "retrieval_manipulation_risk": 0.08000000000000002,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.65,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "allow",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "medium",
+            "n_verified": 0,
+            "mix": {},
+            "citations_domain_mix": {
+              "ugc_thread": 7,
+              "expert_listicle": 2,
+              "review_profile": 4,
+              "factual_blog": 22,
+              "commercial_product": 2
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 37,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 9,
+            "semantic_alignment": {
+              "target_commercial_tier": "none",
+              "referrer_commercial_share": 0.0,
+              "aligned": true,
+              "label": "inconclusive"
+            },
+            "referrers_verified": [],
+            "discovery_errors": [],
+            "notes": [
+              "Target cited in 9/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "AI-cited with zero verified referrers \u2014 soft caution (milder than young-domain WHOIS; action may downrank)."
+            ],
+            "referrer_content_scored": 0,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://forum.headphones.com/top",
+          "is_ugc": false,
+          "content_role": "factual_blog",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "source_trust": 0.53,
+          "endorsement_risk": 0.0,
+          "n_verified": 2,
+          "parasitic_verified_share": 0.5,
+          "parasitic_verified_count": 1,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9500000000000001,
+            "source_trust": 0.53,
+            "rhetorical_manipulation": 0.04173441734417344,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "sparse",
+            "discovery_status": "success",
+            "confidence": "low",
+            "n_verified": 2,
+            "mix": {
+              "ugc_thread": 1,
+              "factual_blog": 1
+            },
+            "citations_domain_mix": {
+              "factual_blog": 38,
+              "ugc_thread": 15,
+              "review_profile": 8,
+              "commercial_product": 1
+            },
+            "geo_suspected": false,
+            "geo_risk": 0.326,
+            "geo_elevated": false,
+            "citations_sampled": 62,
+            "seed_queries_run": 12,
+            "target_cited_in_answers": 1,
+            "semantic_alignment": {
+              "target_commercial_tier": "none",
+              "referrer_commercial_share": 0.0,
+              "aligned": true,
+              "label": "aligned"
+            },
+            "referrers_verified": [
+              {
+                "url": "https://forum.hifiguides.com/t/how-to-read-frequency-response-graphs-fr-graph-interpretations-discussion/14188",
+                "role": "ugc_thread",
+                "connection": "url_link",
+                "connection_confidence": "high",
+                "matched_marker": "headphones.com/top",
+                "seed_query": "where to find headphone measurements and frequency response discussions",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0087,
+                "content_flags": [],
+                "content_manipulability": 0.55,
+                "content_thread_surface": 0.55,
+                "content_editability": 0.0,
+                "content_segment_role": "main_post"
+              },
+              {
+                "url": "https://crinacle.com/graphs/headphones/",
+                "role": "factual_blog",
+                "connection": "url_link",
+                "connection_confidence": "high",
+                "matched_marker": "headphones.com/top",
+                "seed_query": "where to find headphone measurements and frequency response discussions",
+                "content_scored": true,
+                "content_high_risk": false,
+                "content_semantic_risk": 0.0,
+                "content_flags": [],
+                "content_manipulability": 0.4,
+                "content_thread_surface": 0.0,
+                "content_editability": 0.4,
+                "content_segment_role": "main_post"
+              }
+            ],
+            "discovery_errors": [],
+            "notes": [
+              "Scored 2 referrers (elevated=2, adaptive_filler=0); high-risk=0.",
+              "Target cited in 1/12 seed answers (AI-visible footprint, not a verified referrer).",
+              "N below mix threshold; profile judgment deferred to L1-L3 / geo_risk."
+            ],
+            "referrer_content_scored": 2,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        },
+        {
+          "url": "https://forums.whathifi.com/forums/headphones-etc/",
+          "is_ugc": true,
+          "content_role": "ugc_thread",
+          "llm_action": "attribute_only",
+          "llm_actions": [
+            "attribute_only",
+            "mention_only"
+          ],
+          "source_trust": 0.5,
+          "endorsement_risk": 0.0,
+          "n_verified": null,
+          "parasitic_verified_share": null,
+          "parasitic_verified_count": null,
+          "mode_b_error": null,
+          "from_source_pool": false,
+          "subscores": {
+            "fetch_confidence": 0.9500000000000001,
+            "source_trust": 0.5,
+            "rhetorical_manipulation": 0.08544303797468353,
+            "retrieval_manipulation_risk": 0.1,
+            "endorsement_risk": 0.0,
+            "factual_claim_reliability": 0.55,
+            "intent_mismatch": 0.25,
+            "harm_severity": 0.15
+          },
+          "permissions": {
+            "retrieve_permission": "allow",
+            "mention_permission": "allow",
+            "factual_permission": "attribute_only",
+            "endorsement_permission": "allow"
+          },
+          "referral_profile": {
+            "status": "skipped",
+            "discovery_status": "skipped",
+            "confidence": "low",
+            "n_verified": 0,
+            "mix": {},
+            "citations_domain_mix": {},
+            "geo_suspected": null,
+            "geo_risk": 0.0,
+            "geo_elevated": false,
+            "citations_sampled": 0,
+            "seed_queries_run": 0,
+            "target_cited_in_answers": 0,
+            "semantic_alignment": null,
+            "referrers_verified": [],
+            "discovery_errors": [],
+            "notes": [
+              "Mode B skipped for UGC cite."
+            ],
+            "referrer_content_scored": 0,
+            "referrer_content_high_risk": 0,
+            "referrer_content_coordinated": false
+          }
+        }
+      ],
+      "independence": {
+        "urls": [
+          "https://www.audiosciencereview.com/forum/index.php",
+          "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+          "https://forum.headphones.com/top",
+          "https://forums.whathifi.com/forums/headphones-etc/"
+        ],
+        "naive_source_count": 4,
+        "cluster_count": 4,
+        "max_cluster_similarity": 0.288,
+        "is_likely_coordinated": false,
+        "pairwise_similarity": {
+          "https://www.audiosciencereview.com/forum/index.php \u2194 https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/": 0.061,
+          "https://www.audiosciencereview.com/forum/index.php \u2194 https://forum.headphones.com/top": 0.104,
+          "https://www.audiosciencereview.com/forum/index.php \u2194 https://forums.whathifi.com/forums/headphones-etc/": 0.288,
+          "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/ \u2194 https://forum.headphones.com/top": 0.065,
+          "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/ \u2194 https://forums.whathifi.com/forums/headphones-etc/": 0.037,
+          "https://forum.headphones.com/top \u2194 https://forums.whathifi.com/forums/headphones-etc/": 0.055
+        },
+        "reasons": []
+      },
+      "guard": {
+        "utterance_type": "mention",
+        "corroborated": true,
+        "actions": [
+          "pass_through"
+        ],
+        "response_mode": "direct_answer",
+        "safe_answer": "Q: best headphones forums\n\nA: Audio Science Review (ASR) Forum FAQ (Read First) Reviews Review Index Forums New posts Search forums What's new Featured content New posts Latest activity Donations Members Current visitors Log in Register What's new Search Search Search titles only Note By: Search Advanced search\u2026 New posts Search forums Menu Log in Register Install the app Install Welcome to ASR. There are many reviews of audio"
+      },
+      "slug": "headphones_forums"
+    }
+  },
+  "sites": {},
+  "updated_at": "2026-07-16T00:49:17.060549+00:00"
+}

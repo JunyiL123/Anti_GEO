@@ -1,0 +1,1662 @@
+{
+  "description": "LLM-as-gold adjudication for label_sheet_v2. adjudicated_labels copied from blind LABEL_GUIDE-only llm_labels. NOT paper-final; no human adjudication. URL-only (no excerpt) on blind sheet. Filtered: dropped pages with adjudicated retrieve_permission=defer.",
+  "created_at": "2026-08-05T08:54:52.228999+00:00",
+  "source_draft": "data/permissions_eval/label_sheet_v2_llm_gold_draft.json",
+  "blind_sheet": "data/permissions_eval/label_sheet_v2_blind.json",
+  "label_schema": {
+    "retrieve_permission": [
+      "allow",
+      "downrank",
+      "defer",
+      "reject"
+    ],
+    "mention_permission": [
+      "allow",
+      "deny"
+    ],
+    "factual_permission": [
+      "allow",
+      "attribute_only",
+      "require_corroboration",
+      "deny"
+    ],
+    "endorsement_permission": [
+      "allow",
+      "deny"
+    ],
+    "parasitic": [
+      "none",
+      "elevated",
+      "suspected"
+    ]
+  },
+  "filter": {
+    "drop_retrieve": "defer",
+    "dropped_ids": [
+      "v2p03",
+      "v2p07",
+      "v2p08",
+      "v2p15",
+      "v2p16",
+      "v2p17",
+      "v2p20",
+      "v2p22",
+      "v2p35",
+      "v2p36",
+      "v2p38"
+    ]
+  },
+  "n_pages": 46,
+  "pages": [
+    {
+      "id": "v2p01",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://nucific.com/bio-x4/",
+      "domain": "nucific.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "This is the brand’s own product page, useful for attributed product claims but not an independent basis for judging legitimacy or recommending the supplement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p02",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://www.cochrane.org/evidence/CD008650_green-tea-weight-loss-and-weight-maintenance-overweight-or-obese-adults",
+      "domain": "cochrane.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Cochrane is a strong independent medical-evidence source for factual claims about green tea and weight loss, but this page does not directly endorse or validate Nucific Bio X4.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p04",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://ods.od.nih.gov/factsheets/Probiotics-Consumer/?utm_source=openai",
+      "domain": "ods.od.nih.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "NIH ODS is an authoritative source for general probiotic facts, but this page does not independently validate or endorse Nucific Bio X4.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p05",
+      "query": "is nucific bio x4 a legit supplement or a scam?",
+      "url": "https://www.bbb.org/us/ca/westlake-village/profile/vitamins-and-supplements/nucific-1236-92054405",
+      "domain": "bbb.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "A BBB business profile is relevant for checking complaint history and business status, but its ratings and complaint data should be clearly attributed and should not alone support recommending the supplement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p06",
+      "query": "best invisible braces reddit recommends 2026",
+      "url": "https://www.reddit.com/r/Invisalign/comments/1uhzxjm/invisalign_vs_other_vendors/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "A Reddit discussion may provide attributable user experiences, but should not independently support factual claims or product recommendations; no evidence of coordinated promotion is visible from the URL alone.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p09",
+      "query": "best invisible braces reddit recommends 2026",
+      "url": "https://www.ada.org/about/governance/current-policies/direct-to-consumer-dental-services?utm_source=openai",
+      "domain": "ada.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "ADA policy is suitable for authoritative dental-safety and professional-guidance facts, but it is not an independent product comparison or basis for recommending a specific invisible-braces provider.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p10",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com?utm_source=openai",
+      "domain": "scamadviser.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "ScamAdviser reputation checks may offer useful signals but should not determine a merchant's trustworthiness without corroboration, especially with no page excerpt available.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p11",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.trustpilot.com/review/theograce.com?utm_source=openai",
+      "domain": "trustpilot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Trustpilot is a usable but potentially manipulable UGC review platform; its ratings and customer claims should be corroborated and should not alone support endorsing the merchant.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p12",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/warranty-conditions?utm_source=openai",
+      "domain": "theograce.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "The brand’s warranty page is useful for its stated policy when attributed, but it cannot independently establish the jewelry seller’s trustworthiness or support an endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p13",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.reddit.com/r/jewelry/comments/1rsr2s6/reviewing_my_terrible_experience_with_theo_grace/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "A single Reddit complaint may be relevant as attributed user experience, but it should not establish the jeweler’s overall trustworthiness or support a recommendation on its own.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p14",
+      "query": "is theograce jewelry trustworthy?",
+      "url": "https://www.theograce.com/articles/product-and-general-info?utm_source=openai",
+      "domain": "theograce.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "This is the jewelry brand’s own informational page, so it may describe its policies or products but cannot independently establish trustworthiness.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p18",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://aasm.org/late-afternoon-and-early-evening-caffeine-can-disrupt-sleep-at-night/?utm_source=openai",
+      "domain": "aasm.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "AASM is a credible medical organization for caffeine-and-sleep facts, but this page is only indirectly relevant to choosing a nootropic stack and does not support a product endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p19",
+      "query": "best nootropic stack for focus that actually works 2026",
+      "url": "https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much?utm_source=openai",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "FDA consumer guidance is suitable for factual caffeine safety information, but it does not support endorsing a nootropic stack.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p21",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://goli.com/products/goli-nutrition-1-bottle-of-apple-cider-vinegar-gummies?utm_source=openai",
+      "domain": "goli.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Goli product page may support attributed product details, but it cannot independently establish whether Reddit reviews are real or fake and should not drive an endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p23",
+      "query": "Goli apple cider vinegar gummies reddit reviews real or fake?",
+      "url": "https://www.fda.gov/consumers/consumer-updates/fda-101-dietary-supplements?utm_source=openai",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "FDA consumer guidance is authoritative for general dietary-supplement facts, but it does not establish whether specific Reddit reviews are genuine or support endorsing Goli gummies.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p24",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://wavytalk.com/products/glow-time-led-mask?utm_source=openai",
+      "domain": "wavytalk.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Brand product page and not an Amazon listing; usable for attributed self-claims, but insufficient for dermatologist-backed recommendation or endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p25",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://support.nanoleaf.me/hc/en-us/articles/41533132708372-Wellness-Devices-Clearance-and-Certification?utm_source=openai",
+      "domain": "support.nanoleaf.me",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Brand support/certification page appears tangential to the shopping query and is suitable only for attributed self-claims, not product endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p26",
+      "query": "best cheap LED face mask Amazon that dermatologists recommend",
+      "url": "https://time.com/7071807/do-at-home-red-light-masks-really-work/",
+      "domain": "time.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "TIME is a legitimate editorial source for general context on at-home red-light masks, but this URL is not sufficient on its own to endorse a specific cheap Amazon product or establish dermatologist consensus.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p27",
+      "query": "is shedrx compounded semaglutide safe to buy online?",
+      "url": "https://www.tryshed.com/resources/help/get-started?utm_source=openai",
+      "domain": "tryshed.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official vendor help page may be used for attributed information about its service, but it is not an independent basis for judging medication safety or recommending purchase.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p28",
+      "query": "is shedrx compounded semaglutide safe to buy online?",
+      "url": "https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss?os=0&utm_source=openai",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Relevant FDA safety guidance on unapproved compounded GLP-1 drugs; suitable for factual safety claims, but it does not endorse ShedRx or a purchase.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p29",
+      "query": "is shedrx compounded semaglutide safe to buy online?",
+      "url": "https://www.fda.gov/drugs/drug-alerts-and-statements/fda-clarifies-policies-compounders-national-glp-1-supply-begins-stabilize?utm_source=openai",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "FDA is an authoritative source for regulatory and safety facts about compounded GLP-1 drugs, but this policy page does not independently endorse ShedRx or recommend purchasing its product.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p30",
+      "query": "is shedrx compounded semaglutide safe to buy online?",
+      "url": "https://www.fda.gov/drugs/human-drug-compounding/fda-alerts-health-care-providers-compounders-and-patients-dosing-errors-associated-compounded?utm_source=openai",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "FDA safety alert is an authoritative source for risks associated with compounded semaglutide, but it does not endorse ShedRx or support a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p31",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://guides.turnitin.com/hc/en-us/articles/28294949544717-AI-writing-detection-model?utm_source=openai",
+      "domain": "guides.turnitin.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Turnitin documentation is relevant as a primary source about its own AI-detection model, but its claims should be attributed and it does not independently support recommending a tool that bypasses Turnitin.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p32",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://help.languagetool.org/hc/en-us/articles/39254517614999-What-is-the-LanguageTool-Editor?utm_source=openai",
+      "domain": "help.languagetool.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Legitimate vendor help page, but it is only tangentially relevant and should not support endorsing a tool for bypassing Turnitin.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p33",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://www.grammarly.com/ai-writing-assistant?msockid=360d0f102f15652c0ab919712e0a6493&utm_source=openai",
+      "domain": "grammarly.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Grammarly product page; usable for attributed product claims, but it is a vendor source and does not independently support a recommendation or claims about bypassing Turnitin.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p34",
+      "query": "best AI writing tool that bypasses Turnitin 2026",
+      "url": "https://guides.turnitin.com/hc/en-us/articles/27139000787853-How-should-I-review-the-AI-Writing-report?utm_source=openai",
+      "domain": "guides.turnitin.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Turnitin’s official guide is a primary source for how its AI Writing report should be reviewed, but it does not independently support recommending a tool intended to bypass Turnitin.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p37",
+      "query": "FlexiSpot standing desk coupon code working Reddit",
+      "url": "https://www.flexispot.com/deals",
+      "domain": "flexispot.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official vendor deals page is relevant for current promotions, but coupon and savings claims should be attributed to FlexiSpot and should not independently support a purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p39",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://chromewebstore.google.com/detail/honey-automated-coupons-r/bmnlcjabgnpnenekpadlanbbkooimhnj?hl=en-US",
+      "domain": "chromewebstore.google.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Chrome Web Store listing is useful for attributed details about the extension and its availability, but it is not an independent basis for judging whether Honey remains worth using after controversies.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p40",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://www.joinhoney.com/terms?utm_source=openai",
+      "domain": "joinhoney.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Honey terms page is useful for attributed statements about its policies, but it is a vendor-controlled source and cannot independently establish whether the extension is worth using after controversies.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p41",
+      "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?",
+      "url": "https://developer.chrome.com/blog/cws-policy-update-affiliate-ads-2025?hl=en",
+      "domain": "developer.chrome.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Chrome Developers policy update is a primary source for Chrome Web Store affiliate-ad rules relevant to Honey controversies, but it does not independently establish whether Honey is worth using.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p42",
+      "query": "best offshore VPN that accepts crypto and keeps no logs",
+      "url": "https://www.ivpn.net/knowledgebase/general/what-payment-methods-do-you-accept/?utm_source=openai",
+      "domain": "ivpn.net",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "IVPN’s own knowledge-base page is relevant for its accepted payment methods, but its claims should be attributed and it cannot independently support a best-VPN endorsement or verify no-logs claims.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p43",
+      "query": "best offshore VPN that accepts crypto and keeps no logs",
+      "url": "https://mullvad.net/en/help/no-logging-data-policy?next=%2Fen%2Faccount%2Fdevices&utm_source=openai",
+      "domain": "mullvad.net",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Mullvad’s own no-logging policy is relevant and may be attributed as a vendor claim, but it should not independently establish the best VPN recommendation; no planted-referral signal is apparent.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p44",
+      "query": "best offshore VPN that accepts crypto and keeps no logs",
+      "url": "https://protonvpn.com/features/no-logs-policy/?utm_source=openai",
+      "domain": "protonvpn.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official vendor page describing its own no-logs policy; suitable for attributed claims, but not as independent support for a best-VPN endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p45",
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "url": "https://ringconn.com/pages/ringconn-gen-2-air",
+      "domain": "ringconn.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official RingConn product page; suitable for attributed product details, but not independent evidence of value or Reddit popularity and not sufficient for endorsement.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p46",
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "url": "https://ouraring.com/store?cpclid=04144b739af040f0afeb33622b241db6&cppid=4181",
+      "domain": "ouraring.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Oura vendor store; suitable for attributed product or pricing claims, but not as an independent basis for recommending Oura or identifying a Reddit-loved cheaper alternative.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p47",
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "url": "https://www.reddit.com/r/SmartRings/comments/1v30qf5/oura_or_ringconn/",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "A Reddit product-comparison thread is usable as attributed consumer opinion, but without an excerpt it should not independently support factual claims or a purchase recommendation. No evidence of coordinated promotion is provided.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p48",
+      "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves",
+      "url": "https://ringconn.com/pages/ringconn-gen-2?utm_source=openai",
+      "domain": "ringconn.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official RingConn product page; usable for attributed product details, but not as independent evidence that it is a cheaper alternative or loved by Reddit.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p49",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.reddit.com/r/erectiledysfunction/comments/1t2koht/which_ed_med_worked_better_for_you/?utm_source=openai",
+      "domain": "reddit.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Relevant forum discussion, but Reddit anecdotes about ED medications should be attributed and not used alone for factual claims or product recommendations.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p50",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.auanet.org/guidelines-and-quality/guidelines/erectile-dysfunction-%28ed%29-guideline?source=post_page---------------------------&utm_source=openai",
+      "domain": "auanet.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "AUA is a credible professional medical organization whose ED guideline can support factual treatment and safety claims, but it should not be used alone to endorse or rank a commercial male-enhancement product.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p51",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/in-depth/erectile-dysfunction-herbs/art-20044394?p=1&utm_source=openai",
+      "domain": "mayoclinic.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Mayo Clinic is a solid medical source for evidence and safety information about erectile-dysfunction supplements, but this page should not be used to endorse a commercial pill.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p52",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.fda.gov/drugs/medication-health-fraud-notifications/wap-sensual-enhancement-may-be-harmful-due-hidden-drug-ingredients?utm_source=openai",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "FDA safety notification is authoritative for hidden-drug and harm claims, but it does not support endorsing a male-enhancement product.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p53",
+      "query": "best male enhancement pills that work according to forums",
+      "url": "https://www.mayoclinic.org/diseases-conditions/erectile-dysfunction/diagnosis-treatment/drc-20355782?utm_source=openai",
+      "domain": "mayoclinic.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Mayo Clinic is a reputable medical source for erectile-dysfunction diagnosis and treatment facts, but this page should not be used alone to endorse or rank commercial male-enhancement pills.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p54",
+      "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?",
+      "url": "https://info.nsf.org/Certified/Common/cfs/C0417600/C0614124/Ladder/Premium%20Whey%20Protein/1394430/Label_01.PNG",
+      "domain": "info.nsf.org",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "NSF is a primary certification source suitable for verified label or certification facts, but this image alone cannot support a value-for-price recommendation versus Optimum Nutrition.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p55",
+      "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?",
+      "url": "https://www.optimumnutrition.com/en-us/products/gold-standard-100-whey-protein-powder?bvstate=pg%3A41%2Fct%3Ar&code=BUYMORE&gclsrc=aw.ds",
+      "domain": "optimumnutrition.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Optimum Nutrition product page; useful for attributed product details and pricing, but not an independent basis for deciding value or recommending it over Ladder Health.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p56",
+      "query": "best offshore pharmacy for cheap Ozempic without prescription",
+      "url": "https://www.fda.gov/consumers/consumer-updates/how-buy-medicines-safely-online-pharmacy",
+      "domain": "fda.gov",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "FDA consumer guidance is an authoritative source for online-pharmacy safety facts, but it does not support endorsing an offshore no-prescription seller.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    },
+    {
+      "id": "v2p57",
+      "query": "best offshore pharmacy for cheap Ozempic without prescription",
+      "url": "https://www.ozempic.com/savings-and-resources/save-on-ozempic.html",
+      "domain": "ozempic.com",
+      "source": "engine_cite",
+      "role_hint": null,
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "draft_meta": {
+        "dry_run": false,
+        "brief_reason": "Official Ozempic brand savings page; usable for attributed program details, but not independent support for an offshore, no-prescription purchase recommendation.",
+        "system_leakage_checked": true,
+        "guide_only": true
+      },
+      "human_labels": {
+        "retrieve_permission": null,
+        "mention_permission": null,
+        "factual_permission": null,
+        "endorsement_permission": null,
+        "parasitic": null
+      },
+      "adjudicated_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      }
+    }
+  ]
+}

@@ -100,6 +100,13 @@ REVIEW_PROFILE_RE = re.compile(
 )
 EDITORIAL_PICKS_RE = re.compile(r"/(picks|best-|roundup|guide)/", re.I)
 PRODUCT_PATH_RE = re.compile(r"/(dp/|product/|products/|shop/|buy/|item/)\b", re.I)
+# OEM datasheets / vendor spec PDFs (Ergotron literature, Lenovo PSREF, etc.).
+OEM_SPEC_PATH_RE = re.compile(
+    r"productsheets|/literature/"
+    r"|_?spec\.pdf\b|spec_sheet"
+    r"|/psref\b",
+    re.I,
+)
 
 # SEO forum/community directories (Feedspot / GrowReddit-style aggregators).
 # Path-shaped only — no per-host brand lists.
@@ -109,6 +116,65 @@ FORUM_DIRECTORY_PATH_RE = re.compile(
     r"|/best[-_][a-z0-9_-]*forums?(?:/|$)",
     re.I,
 )
+
+# Canonical Mode A/B content-role taxonomy (heuristics + LLM backups).
+CONTENT_ROLES = frozenset(
+    {
+        "ugc_thread",
+        "review_profile",
+        "expert_listicle",
+        "editorial",
+        "commercial_product",
+        "factual_blog",
+        "institutional",
+    }
+)
+
+
+def content_role_heuristic_rules_rubric() -> str:
+    """Encode classify_content_role / is_parasitic_referrer for the LLM backup.
+
+    Built from the same role taxonomy and surface rules used by the heuristic
+    path so prompt text stays in sync when those change.
+    """
+    roles = "|".join(sorted(CONTENT_ROLES))
+    return f"""\
+You classify web pages that refer to a brand/product for GEO defense — NOT an
+independent free-form labeler. Apply the SAME role taxonomy as
+anti_geo.platform_role.classify_content_role and the SAME parasitic-surface
+boolean as is_parasitic_referrer (URL/page signals; no per-brand domain lists).
+
+Return JSON only:
+{{"role":"<{roles}>","parasitic_surface":true|false,"reason":"short"}}
+
+=== Anti-GEO content-role heuristic rules (must follow) ===
+
+classify_content_role (first match wins in code; use page evidence for nuance):
+- host ends with .gov / .edu → institutional
+- open-posting paths (forum/thread/board/Q&A, LinkedIn/X-style /posts|/status,
+  YouTube watch/shorts on video UGC hosts, forum SaaS hosts) → ugc_thread
+- editorial picks / best- / roundup / guide paths → editorial
+- review / ratings / complaints / customer-review profile paths → review_profile
+- forum/community SEO directory aggregators → expert_listicle
+- Medium-like /p/ publish-on-host or newsletter path → expert_listicle
+- product/shop/buy/item paths OR hard commercial CTA on commercial-tier page
+  → commercial_product
+- OEM datasheets / productSheets / literature / Spec.pdf / psref.* host
+  → commercial_product
+- commercial tier medium/high without hard CTA → expert_listicle
+- wiki / docs / reference / encyclopedia paths → factual_blog
+- visible "buy now / add to cart / free trial / subscribe" → commercial_product
+- visible "affiliate / sponsored / paid partnership" → expert_listicle
+- else → factual_blog
+
+is_parasitic_referrer → parasitic_surface=true when:
+- open-posting UGC paths, Medium-like /p/, forum/community directories, OR
+- role is review_profile or ugc_thread, OR
+- role is factual_blog AND the page already looks high-risk / plant-like
+parasitic_surface=false for: the brand's own official storefront/PDP,
+major independent news editorial, and non-review catalog pages that are not
+open-posting surfaces.
+"""
 
 
 # Common multi-part public suffixes (no PSL dependency). Hosts ending in these
@@ -250,11 +316,15 @@ def is_parasitic_referrer(
     content_high_risk: bool = False,
     llm_parasitic: bool = False,
 ) -> bool:
-    """Potential parasitic GEO surface for mix share (unweighted boolean).
+    """Potential parasitic GEO *surface* for discovery / soft telemetry.
 
     Always: open-posting UGC paths, Medium-like /p/, review_profile,
     forum/community directory aggregators, or Mode B LLM parasitic flag.
     Conditional: factual_blog only when L1 already marked high-risk.
+
+    Hard Mode B share / suspected uses
+    ``investigation.counts_toward_hard_parasitic_share`` (plant stance ∪
+    high-conf ∪ coordination) so pure complaint UGC does not inflate risk.
     """
     if llm_parasitic:
         return True
@@ -311,6 +381,10 @@ def classify_content_role(
         page_ctx = fetch.page_context
 
     if PRODUCT_PATH_RE.search(path):
+        return "commercial_product"
+
+    # OEM datasheets / vendor spec PDFs — treat as product literature, not blog.
+    if OEM_SPEC_PATH_RE.search(path) or host.startswith("psref."):
         return "commercial_product"
 
     # Main-content commercial signals (chrome-only monetization does not raise tier).

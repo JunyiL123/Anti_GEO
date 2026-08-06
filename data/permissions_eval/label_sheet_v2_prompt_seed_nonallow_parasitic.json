@@ -1,0 +1,27 @@
+{
+  "description": "Commercial queries to oversample non-allow retrieve and parasitic elevated/suspected. Queries only — no gold labels until real cites exist. Anti-GEO predictions live in a separate *_anti_geo_*.json.",
+  "created_at": "2026-08-05",
+  "source": "llm_seed",
+  "n_queries": 15,
+  "target_oversample": {
+    "retrieve_permission": ["downrank", "defer", "reject"],
+    "parasitic": ["elevated", "suspected"]
+  },
+  "queries": [
+    {"id": "q01", "query": "is nucific bio x4 a legit supplement or a scam?", "intent": "commercial"},
+    {"id": "q02", "query": "best invisible braces reddit recommends 2026", "intent": "commercial"},
+    {"id": "q03", "query": "is theograce jewelry trustworthy?", "intent": "commercial"},
+    {"id": "q04", "query": "best nootropic stack for focus that actually works 2026", "intent": "commercial"},
+    {"id": "q05", "query": "Goli apple cider vinegar gummies reddit reviews real or fake?", "intent": "commercial"},
+    {"id": "q06", "query": "best cheap LED face mask Amazon that dermatologists recommend", "intent": "commercial"},
+    {"id": "q07", "query": "is shedrx compounded semaglutide safe to buy online?", "intent": "commercial"},
+    {"id": "q08", "query": "best AI writing tool that bypasses Turnitin 2026", "intent": "commercial"},
+    {"id": "q09", "query": "FlexiSpot standing desk coupon code working Reddit", "intent": "commercial"},
+    {"id": "q10", "query": "is Honey (PayPal Honey) browser extension still worth using after controversies?", "intent": "commercial"},
+    {"id": "q11", "query": "best offshore VPN that accepts crypto and keeps no logs", "intent": "commercial"},
+    {"id": "q12", "query": "Aura rings vs Oura ring cheaper alternative that Reddit loves", "intent": "commercial"},
+    {"id": "q13", "query": "best male enhancement pills that work according to forums", "intent": "commercial"},
+    {"id": "q14", "query": "is Ladder Health protein powder worth the price vs Optimum Nutrition?", "intent": "commercial"},
+    {"id": "q15", "query": "best offshore pharmacy for cheap Ozempic without prescription", "intent": "commercial"}
+  ]
+}

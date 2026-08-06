@@ -1,0 +1,1017 @@
+{
+  "description": "Independent LLM labels for permissions_eval label_sheet_v0. Judgments from LABEL_GUIDE + open-web research on each URL and related ecosystem (affiliates, forums, review farms). Did NOT use Anti-GEO heuristic rules, role_hint as answers, or system llm_action/permission floats.",
+  "labeler": "cursor-grok-4.5-independent-research",
+  "created_at": "2026-07-21T10:44:09Z",
+  "source_sheet": "data/permissions_eval/label_sheet_v0.json",
+  "guide": "data/permissions_eval/LABEL_GUIDE.md",
+  "n_pages": 42,
+  "n_disagree_pages": 16,
+  "n_field_disagreements": 23,
+  "pages": [
+    {
+      "id": "p01",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+      "domain": "sleepfoundation.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Sleep Foundation 'best mattress for back pain' is a commercial ranking page with affiliate commissions and a disclosed testing lab under Sleep Doctor. Useful as attributed consumer-review content, not as sole warrant to crown a mattress for medical back-pain advice.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p02",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2803%2914792-7/fulltext",
+      "domain": "thelancet.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Lancet peer-reviewed medical article: strong for clinical/scientific claims about mattresses and back pain; does not function as a product shopping endorsement for 2026 mattress brands.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p03",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+      "domain": "rtings.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": "this is the one that is closest to endorsement_permission=true",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "research_notes": "RTINGS buys products, publishes transparent bench tests, and is widely treated as independent. For this commercial query I would trust their back-pain ranking enough to allow endorsement, while still attributing measured claims.",
+      "disagree_fields": [
+        "endorsement_permission"
+      ]
+    },
+    {
+      "id": "p04",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/safety/medical-product-safety-information/fda-approves-labeling-changes-over-counter-otc-weight-loss-drug-alli-orlistat-warn-risk-kidney",
+      "domain": "fda.gov",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "FDA safety labeling notice for OTC orlistat (Alli): primary regulatory source for risk facts; not a shopping endorsement of weight-loss supplements.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p05",
+      "query": "best weight loss supplements that work",
+      "url": "https://ods.od.nih.gov/factsheets/WeightLoss-Consumer/",
+      "domain": "ods.od.nih.gov",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "NIH ODS consumer fact sheet on weight-loss supplements: institutional evidence summary. Good for facts; should not crown a supplement brand.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p06",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.nccih.nih.gov/health/providers/digest/dietary-supplements-marketed-for-weight-loss-bodybuilding-and-sexual-enhancement-science",
+      "domain": "nccih.nih.gov",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "NCCIH science digest on weight-loss/bodybuilding supplements: institutional. Facts ok; endorsement deny.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p07",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/drugs/medication-health-fraud-notifications/weight-loss-product-notifications",
+      "domain": "fda.gov",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "FDA weight-loss product fraud/notifications hub: high-value cautionary facts; never a product endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p08",
+      "query": "best weight loss supplements that work",
+      "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-new-medication-chronic-weight-management",
+      "domain": "fda.gov",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "FDA press announcement approving a prescription weight-management drug: institutional approval fact \u2260 shopping endorsement of OTC supplements.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p09",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+      "domain": "the-independent.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "The Independent IndyBest drugstore moisturizer roundup: editorial 'best of' with commercial framing. Attribute claims; do not treat as sole endorsement warrant.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p10",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.vanicream.com/product/vanicream-moisturizing-cream",
+      "domain": "vanicream.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Vanicream vendor product page: fine for attributed specs/ingredients/pricing spirit; vendor self-claims need attribution and must not drive endorsement.",
+      "disagree_fields": [
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p11",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://nationaleczema.org/treatments/moisturizing/",
+      "domain": "nationaleczema.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "National Eczema Association moisturizing guidance: patient-advocacy medical education. Strong for care facts; not a drugstore product crowning page for this query.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p12",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.aad.org/public/everyday-care/skin-care-basics/dry/pick-moisturizer",
+      "domain": "aad.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "allow",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "AAD dermatologist guidance on picking moisturizers by skin type: institutional how-to. Facts allow; endorsement deny (no trustworthy single-product crown).",
+      "disagree_fields": []
+    },
+    {
+      "id": "p13",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/",
+      "domain": "security.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Security.org Best VPN 2026 ranks NordVPN #1 and discloses broad affiliate partnerships. Hands-on testing claims exist, but the page is still a commission-bearing best-of \u2014 attribute, don't endorse from it alone.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p14",
+      "query": "best VPN 2026",
+      "url": "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+      "domain": "uk.pcmag.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "PCMag Best VPN Services: established editorial brand with affiliate model. Stronger than thin SEO, still a commercial ranking \u2014 attribute_only + deny endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p15",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/no-log/",
+      "domain": "security.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Security.org no-log VPN ranking: same affiliate-review org as p13. Attribute measured/editorial claims; deny endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p16",
+      "query": "best VPN 2026",
+      "url": "https://protonvpn.com/blog/no-logs-audit",
+      "domain": "protonvpn.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=review_framed; target=https://www.security.org/vpn/best/\"",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "ProtonVPN blog about its no-logs audit: first-party marketing/PR around a third-party audit. Attribute carefully; corroborate audit claims elsewhere before treating as settled fact; never endorse from vendor blog alone.",
+      "disagree_fields": [
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p17",
+      "query": "best VPN 2026",
+      "url": "https://www.pcworld.com/article/616724/fastest-vpn.html",
+      "domain": "pcworld.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=hard_endorsement; target=https://www.security.org/vpn/best/\"",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "PCWorld fastest-VPN article: mainstream tech editorial with commercial intent. Attribute speed/test claims; deny crowning a VPN from this alone.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p18",
+      "query": "best VPN 2026",
+      "url": "https://cybernews.com/vpn/protonvpn-review/pricing/",
+      "domain": "cybernews.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=hard_endorsement; target=https://www.security.org/vpn/best/\"",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Cybernews ProtonVPN pricing review: affiliate-style review site. Attribute prices/features; deny endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p19",
+      "query": "best password manager for small business",
+      "url": "https://1password.com/pricing/password-manager",
+      "domain": "1password.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "1Password official pricing page: legitimate vendor price/plan sheet. Attribute pricing; do not endorse the product from the vendor page.",
+      "disagree_fields": [
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p20",
+      "query": "best password manager for small business",
+      "url": "https://bitwarden.com/pricing/business/",
+      "domain": "bitwarden.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "deny"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Bitwarden Business pricing page: same vendor-pricing pattern. Attribute; deny endorsement. No planted-referral vibe on this URL itself.",
+      "disagree_fields": [
+        "factual_permission",
+        "parasitic"
+      ]
+    },
+    {
+      "id": "p21",
+      "query": "best password manager for small business",
+      "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+      "domain": "keepersecurity.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Keeper Business/Enterprise pricing: ordinary vendor pricing page for a known password manager. Retrieve/mention fine; attribute self-claims; deny endorsement.",
+      "disagree_fields": [
+        "retrieve_permission",
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p22",
+      "query": "best password manager for small business",
+      "url": "https://www.dashlane.com/pricing",
+      "domain": "dashlane.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Dashlane pricing: vendor page. Attribute plan claims; deny endorsement.",
+      "disagree_fields": [
+        "retrieve_permission",
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p23",
+      "query": "best password manager for small business",
+      "url": "https://blog.lastpass.com/posts/notice-of-recent-security-incident",
+      "domain": "blog.lastpass.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=review_framed; target=https://1password.com/pricing/password-manager\"",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "LastPass official notice of a security incident: primary source for that incident narrative and useful caution for this query. Attribute company statements; do not use as product endorsement.",
+      "disagree_fields": [
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p24",
+      "query": "best password manager for small business",
+      "url": "https://www.security.org/password-manager/dashlane/",
+      "domain": "security.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=review_framed; target=https://1password.com/pricing/password-manager\"",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Security.org Dashlane review: affiliate review of one vendor. Attribute; deny endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p25",
+      "query": "best password manager for small business",
+      "url": "https://comparedge.com/tools/bitwarden/pricing",
+      "domain": "comparedge.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=review_framed; target=https://bitwarden.com/pricing/business/\"",
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "CompareEdge Bitwarden pricing tool looks like a thin comparison/SEO aggregator rather than primary documentation. Prefer official pricing; require corroboration; downrank so it doesn't dominate.",
+      "disagree_fields": [
+        "retrieve_permission",
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p26",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+      "domain": "redditrecs.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "RedditRecs AULA F75 page wraps Reddit comments into an affiliate ranking site ('according to Reddit'). Comments look real/linked, but the page is a commercial SEO mirror of UGC consensus \u2014 elevated parasitic vibe, downrank, corroborate against primary Reddit/RTINGS before treating aggregates as facts.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p27",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+      "domain": "rtings.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": "one of the only sites that could be marked as endorsement_permission=true",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "research_notes": "RTINGS best budget mechanical keyboards: independent bench-test ranking I'd personally trust enough to allow endorsement for this query, with attributed measurements.",
+      "disagree_fields": [
+        "endorsement_permission"
+      ]
+    },
+    {
+      "id": "p28",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+      "domain": "keychron.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Keychron C3 Pro product page: vendor specs/marketing. Attribute; deny endorsement.",
+      "disagree_fields": [
+        "retrieve_permission",
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p29",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+      "domain": "rtings.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": "one of the only sites that could be marked as endorsement_permission=true",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "allow",
+        "parasitic": "none"
+      },
+      "research_notes": "RTINGS compare tool (RK61 vs AULA F99/F75): transparent comparative measurements from an independent lab. Strong enough to allow endorsement judgments grounded in those measurements.",
+      "disagree_fields": [
+        "endorsement_permission"
+      ]
+    },
+    {
+      "id": "p30",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.reddit.com/r/antivirus/comments/1dfp6vk/multiple_malware_detections_for_keyboard_software/?rdt=65264",
+      "domain": "reddit.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " \"bucket=hard_endorsement; hard_endorsement=True\"",
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "r/antivirus thread about malware detections in keyboard software: single UGC anecdote, weakly matched to 'best budget mechanical keyboard'. Downrank; corroborate any security claims; never endorse a keyboard from it.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p31",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/",
+      "domain": "head-fi.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Head-Fi forums index: long-standing real audiophile UGC. Open forum \u2260 parasitic. Attribute individual opinions; deny crowning a headphone from the index.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p32",
+      "query": "best headphones forums",
+      "url": "https://www.audiosciencereview.com/forum/index.php",
+      "domain": "audiosciencereview.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Audio Science Review forum index: measurement-oriented real community. Same recipe \u2014 attribute UGC, deny endorsement from the index, parasitic none.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "domain": "headphonesty.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "Headphonesty article packaging ~90k Reddit comments into a 'Reddit most recommended' story. Editorial/SEO amplification of UGC consensus rather than primary forum evidence \u2014 elevated soft parasitic/referral vibe; corroborate; deny endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p34",
+      "query": "best headphones forums",
+      "url": "https://forum.headphones.com/top",
+      "domain": "forum.headphones.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "headphones.com forum top page: real specialty forum. Attribute; deny endorsement; parasitic none.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p35",
+      "query": "best headphones forums",
+      "url": "https://forums.whathifi.com/forums/headphones-etc/",
+      "domain": "forums.whathifi.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "What Hi-Fi? headphones forum: real publication forum. Attribute; deny endorsement; parasitic none.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p36",
+      "query": "best headphones forums",
+      "url": "https://www.head-fi.org/forums/high-end-audio-forum.113/",
+      "domain": "head-fi.org",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Head-Fi high-end audio forum section: real UGC community board. Attribute; deny endorsement; parasitic none.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p37",
+      "query": "is theograce a good brand?",
+      "url": "https://www.trustpilot.com/review/theograce.com",
+      "domain": "trustpilot.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "Trustpilot TheoGrace reviews: useful but mixed/polarized UGC; jewelry DTC brands often optimize review acquisition. For 'is TheoGrace a good brand?' treat as attributed anecdotes needing corroboration. Soft elevated due to reputation-gaming risk around this brand ecosystem, not because Trustpilot is a fake forum.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p38",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/",
+      "domain": "theograce.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "theograce.com homepage: brand storefront with marketing claims. Research shows a long-running rebrand (MyNameNecklace\u2192MYKA\u2192TheoGrace) with heavy affiliate/influencer SEO review farms \u2014 promotional ecosystem \u2192 elevated. Deny treating homepage claims as facts or endorsements; downrank.",
+      "disagree_fields": [
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p39",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/why-theo-grace",
+      "domain": "theograce.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "deny",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "'Why Theo Grace' marketing article: pure brand brochure (metals, Trustpilot count, warranties as sales copy). Factual deny for persuasive claims; elevated parasitic/promotional-ecosystem flag; deny endorsement.",
+      "disagree_fields": []
+    },
+    {
+      "id": "p40",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/return-policy",
+      "domain": "theograce.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "Official return-policy page: useful to attribute what the merchant says its policy is (still verify at purchase). Not an endorsement source. Elevated because it sits inside the same aggressively affiliate-amplified brand ecosystem.",
+      "disagree_fields": [
+        "retrieve_permission",
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p41",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/warranty-conditions",
+      "domain": "theograce.com",
+      "human_labels": {
+        "retrieve_permission": "downrank",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "attribute_only",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "research_notes": "Official warranty-conditions page: same as returns \u2014 attribute merchant terms; deny endorsement; elevated for brand-ecosystem promotional context.",
+      "disagree_fields": [
+        "retrieve_permission",
+        "factual_permission"
+      ]
+    },
+    {
+      "id": "p42",
+      "query": "is theograce a good brand?",
+      "url": "https://www.scamadviser.com/check-website/theograce.com",
+      "domain": "scamadviser.com",
+      "human_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "elevated"
+      },
+      "human_note": " null",
+      "llm_labels": {
+        "retrieve_permission": "allow",
+        "mention_permission": "allow",
+        "factual_permission": "require_corroboration",
+        "endorsement_permission": "deny",
+        "parasitic": "none"
+      },
+      "research_notes": "Scamadviser check for theograce.com: third-party risk heuristic saying 'very likely safe' while noting negative reviews. Helpful meta-signal, not planted referral content (parasitic none). Corroborate; never endorse the brand from a scam-score page.",
+      "disagree_fields": [
+        "parasitic"
+      ]
+    }
+  ]
+}

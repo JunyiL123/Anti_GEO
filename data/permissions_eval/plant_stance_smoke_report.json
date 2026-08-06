@@ -1,0 +1,185 @@
+{
+  "pass": 13,
+  "fail": 2,
+  "mix_surface": 5,
+  "mix_hard": 2,
+  "rows": [
+    {
+      "status": "PASS",
+      "name": "theograce_fixture:fathers_day",
+      "source": "repo fixture (marked plant)",
+      "planted": true,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": true,
+      "flags": [
+        "planted_mention"
+      ],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "theograce_fixture:boyfriend_bracelet",
+      "source": "repo fixture (marked plant)",
+      "planted": true,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": true,
+      "flags": [
+        "planted_mention"
+      ],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "theograce_fixture:birthday_cry",
+      "source": "repo fixture (marked plant)",
+      "planted": true,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": true,
+      "flags": [
+        "planted_mention"
+      ],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "lemonn_fixture:market_red",
+      "source": "repo fixture (marked plant)",
+      "planted": true,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": true,
+      "flags": [
+        "planted_mention"
+      ],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "lemonn_fixture:buying_dips",
+      "source": "repo fixture (marked plant)",
+      "planted": true,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": true,
+      "flags": [
+        "planted_mention"
+      ],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "lemonn_fixture:tax_export",
+      "source": "repo fixture (marked plant)",
+      "planted": false,
+      "stance": "neutral",
+      "hard": false,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "pure_complaint_theograce",
+      "source": "synthetic negative control",
+      "planted": false,
+      "stance": "complaint",
+      "hard": false,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "complaint_shaped_plant",
+      "source": "synthetic FN trap",
+      "planted": false,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "brooklinen_coupon_style",
+      "source": "v3 gold parasitic pattern",
+      "planted": false,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": false,
+      "flags": [
+        "balanced_hedging"
+      ],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "flexispot_coupon_style",
+      "source": "v2 gold parasitic pattern",
+      "planted": false,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "FAIL",
+      "name": "mentionlayer_playbook_plant",
+      "source": "public playbook (MentionLayer)",
+      "planted": false,
+      "stance": "neutral",
+      "hard": false,
+      "high_risk": false,
+      "flags": [],
+      "notes": "hard want True got False"
+    },
+    {
+      "status": "PASS",
+      "name": "reddwise_playbook_plant",
+      "source": "public playbook (ReddWise)",
+      "planted": false,
+      "stance": "promotional",
+      "hard": true,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "organic_neutral_ugc",
+      "source": "organic control",
+      "planted": false,
+      "stance": "neutral",
+      "hard": false,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "PASS",
+      "name": "trustpilot_complaint_only",
+      "source": "complaint review hub",
+      "planted": false,
+      "stance": "complaint",
+      "hard": false,
+      "high_risk": false,
+      "flags": [],
+      "notes": ""
+    },
+    {
+      "status": "FAIL",
+      "name": "jewelryreviewsonline_theograce",
+      "source": "cached fetch (Mode B referrer)",
+      "planted": false,
+      "stance": "complaint",
+      "hard": false,
+      "high_risk": false,
+      "flags": [],
+      "notes": "hard want True got False"
+    }
+  ]
+}

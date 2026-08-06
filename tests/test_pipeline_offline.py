@@ -108,10 +108,15 @@ def test_geo_sample_blocks_endorsement_on_recommendation_query():
     assert report.endorsement_risk > 0.2
 
 
-def test_geo_sample_blocks_endorsement_without_query():
+def test_geo_sample_style_alone_without_query_does_not_block_endorsement():
+    """Strong premise: salesy page without a rec query is not an endorsement convict."""
     geo = score_source("https://taskflow-pro-marketing.com", _geo_fetch())
     report = decide_single_source(geo, "informational")
-    assert report.recommended_action == "block_endorsement"
+    assert report.permissions is not None
+    assert report.permissions.endorsement_permission == "allow"
+    # Low trust / other non-style signals may still soft-downrank retrieve.
+    assert report.recommended_action in {"pass", "downrank", "attribute_only"}
+    assert report.recommended_action != "block_endorsement"
 
 
 def test_editorial_passes_recommendation_query():

@@ -1,4 +1,4 @@
-from anti_geo.models import DomainSignals, ContentSignals, SourceScore
+from anti_geo.models import DomainSignals, ContentSignals, SourcePermissions, SourceScore
 from anti_geo.retrieval import ScoredChunk
 from anti_geo.synthesis_guard import apply_synthesis_guard
 
@@ -94,3 +94,65 @@ def test_synthesis_guard_rejects_coordinated_query_context():
     )
     assert result.utterance_type == "false_consensus"
     assert "reject_consensus" in result.actions
+
+
+def test_synthesis_guard_omits_all_mention_deny_sources():
+    text = "SecureVault Pro is the best password manager."
+    lead = ScoredChunk("a", "https://bad.example", text, 0.9, 0.2, 0.5, 0.6, 0.5, "reject")
+    sources = {"https://bad.example": _source("https://bad.example", text, 0.2, "bad.example")}
+    perms = {
+        "https://bad.example": SourcePermissions(
+            retrieve_permission="reject",
+            mention_permission="deny",
+            factual_permission="deny",
+            endorsement_permission="deny",
+        )
+    }
+    result = apply_synthesis_guard(
+        "best password manager",
+        [lead],
+        sources,
+        "informational",
+        source_permissions=perms,
+    )
+    assert result.response_mode == "omit_sources"
+    assert "omit_unmentionable_sources" in result.actions
+    assert "bad.example" not in result.safe_answer
+
+
+def test_synthesis_guard_skips_mention_deny_lead_to_next_cite():
+    bad_text = "Buy SecureVault Pro now."
+    ok_text = "Options include Bitwarden and 1Password. None is universally best."
+    rows = [
+        ScoredChunk("a", "https://bad.example", bad_text, 0.95, 0.2, 0.5, 0.6, 0.5, "reject"),
+        ScoredChunk("b", "https://guide.com", ok_text, 0.9, 0.8, 0.05, 0.05, 0.8, "pass"),
+    ]
+    sources = {
+        "https://bad.example": _source("https://bad.example", bad_text, 0.2, "bad.example"),
+        "https://guide.com": _source("https://guide.com", ok_text, 0.8, "guide.com"),
+    }
+    perms = {
+        "https://bad.example": SourcePermissions(
+            retrieve_permission="downrank",
+            mention_permission="deny",
+            factual_permission="deny",
+            endorsement_permission="deny",
+        ),
+        "https://guide.com": SourcePermissions(
+            retrieve_permission="allow",
+            mention_permission="allow",
+            factual_permission="allow",
+            endorsement_permission="allow",
+        ),
+    }
+    result = apply_synthesis_guard(
+        "best password manager",
+        rows,
+        sources,
+        "informational",
+        source_permissions=perms,
+    )
+    assert "skip_unmentionable_sources" in result.actions
+    assert "pass_balanced_editorial" in result.actions
+    assert "bad.example" not in result.safe_answer
+    assert "guide.com" in result.safe_answer

@@ -1,0 +1,216 @@
+{
+  "description": "System vs blind/draft label disagreements for human triage. Not a paper metric. Primary CM remains anti_vs_adjudicated.",
+  "created_at": "2026-08-05T08:04:37.519151+00:00",
+  "sources": {
+    "anti_geo": "data/permissions_eval/label_sheet_v0_anti_geo_mode_a_forced_clamp_20260803_no_defer_match.json",
+    "draft": "data/permissions_eval/label_sheet_v0_adjudication.json"
+  },
+  "n_disagreements": 25,
+  "by_field": {
+    "factual_permission": 13,
+    "retrieve_permission": 9,
+    "parasitic": 3
+  },
+  "rows": [
+    {
+      "id": "p01",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.sleepfoundation.org/best-mattress/best-mattress-for-back-pain",
+      "field": "factual_permission",
+      "system": "require_corroboration",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p03",
+      "query": "best mattress for back pain 2026",
+      "url": "https://www.rtings.com/mattress/reviews/best/back-pain",
+      "field": "factual_permission",
+      "system": "allow",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p09",
+      "query": "best moisturizer for dry skin drugstore",
+      "url": "https://www.the-independent.com/extras/indybest/us/best-drugstore-moisturizer-b2922374.html",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "p13",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/",
+      "field": "factual_permission",
+      "system": "require_corroboration",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p14",
+      "query": "best VPN 2026",
+      "url": "https://uk.pcmag.com/vpn/138/the-best-vpn-services",
+      "field": "factual_permission",
+      "system": "require_corroboration",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p15",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/no-log/",
+      "field": "retrieve_permission",
+      "system": "reject",
+      "draft": "allow"
+    },
+    {
+      "id": "p15",
+      "query": "best VPN 2026",
+      "url": "https://www.security.org/vpn/best/no-log/",
+      "field": "factual_permission",
+      "system": "deny",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p19",
+      "query": "best password manager for small business",
+      "url": "https://1password.com/pricing/password-manager",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "p21",
+      "query": "best password manager for small business",
+      "url": "https://www.keepersecurity.com/pricing/business-and-enterprise.html",
+      "field": "parasitic",
+      "system": "elevated",
+      "draft": "none"
+    },
+    {
+      "id": "p23",
+      "query": "best password manager for small business",
+      "url": "https://blog.lastpass.com/posts/notice-of-recent-security-incident",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "p23",
+      "query": "best password manager for small business",
+      "url": "https://blog.lastpass.com/posts/notice-of-recent-security-incident",
+      "field": "parasitic",
+      "system": "elevated",
+      "draft": "none"
+    },
+    {
+      "id": "p24",
+      "query": "best password manager for small business",
+      "url": "https://www.security.org/password-manager/dashlane/",
+      "field": "factual_permission",
+      "system": "allow",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p25",
+      "query": "best password manager for small business",
+      "url": "https://comparedge.com/tools/bitwarden/pricing",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "p26",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://redditrecs.com/gaming-keyboard/model/aula-f75/",
+      "field": "factual_permission",
+      "system": "attribute_only",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "p27",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/reviews/best/cheap-mechanical-keyboards",
+      "field": "factual_permission",
+      "system": "allow",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p28",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "p28",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.keychron.com/products/keychron-c3-pro-qmk-via-wired-mechanical-keyboard",
+      "field": "factual_permission",
+      "system": "require_corroboration",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p29",
+      "query": "best budget mechanical keyboard reddit",
+      "url": "https://www.rtings.com/keyboard/tools/compare/royal-kludge-rk61-vs-aula-f99-f75/28440/48018",
+      "field": "factual_permission",
+      "system": "allow",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "field": "retrieve_permission",
+      "system": "allow",
+      "draft": "downrank"
+    },
+    {
+      "id": "p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "field": "factual_permission",
+      "system": "allow",
+      "draft": "require_corroboration"
+    },
+    {
+      "id": "p33",
+      "query": "best headphones forums",
+      "url": "https://www.headphonesty.com/2025/11/reddit-comments-most-recommended-headphones-complaints/",
+      "field": "parasitic",
+      "system": "none",
+      "draft": "elevated"
+    },
+    {
+      "id": "p40",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/return-policy",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "p40",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/return-policy",
+      "field": "factual_permission",
+      "system": "require_corroboration",
+      "draft": "attribute_only"
+    },
+    {
+      "id": "p41",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/warranty-conditions",
+      "field": "retrieve_permission",
+      "system": "downrank",
+      "draft": "allow"
+    },
+    {
+      "id": "p41",
+      "query": "is theograce a good brand?",
+      "url": "https://www.theograce.com/articles/warranty-conditions",
+      "field": "factual_permission",
+      "system": "require_corroboration",
+      "draft": "attribute_only"
+    }
+  ]
+}

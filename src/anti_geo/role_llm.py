@@ -13,21 +13,16 @@ from dataclasses import dataclass
 
 from anti_geo.azure_client import chat_completion_json, is_azure_configured, load_azure_config
 from anti_geo.models import FetchResult
-from anti_geo.platform_role import classify_content_role, is_parasitic_referrer
+from anti_geo.platform_role import (
+    CONTENT_ROLES,
+    classify_content_role,
+    content_role_heuristic_rules_rubric,
+    is_parasitic_referrer,
+)
 
 logger = logging.getLogger(__name__)
 
-ALLOWED_ROLES = frozenset(
-    {
-        "ugc_thread",
-        "review_profile",
-        "expert_listicle",
-        "editorial",
-        "commercial_product",
-        "factual_blog",
-        "institutional",
-    }
-)
+ALLOWED_ROLES = CONTENT_ROLES
 
 # Heuristic roles that may miss open-posting / review-hub shapes.
 AMBIGUOUS_ROLES = frozenset({"factual_blog", "commercial_product"})
@@ -50,36 +45,27 @@ class RoleLlmResult:
     reason: str = ""
 
 
-def _llm_classify_role(url: str, title: str, text: str) -> RoleLlmResult | None:
+def _llm_classify_role(
+    url: str,
+    title: str,
+    text: str,
+    *,
+    heuristic_role: str,
+) -> RoleLlmResult | None:
     excerpt = (text or "").strip()[:_LLM_ROLE_EXCERPT]
     if not excerpt and not (title or "").strip():
         return None
     messages = [
         {
             "role": "system",
-            "content": (
-                "You classify web pages that refer to a brand/product for GEO defense. "
-                "Return JSON only: "
-                '{"role":"<one of: ugc_thread|review_profile|expert_listicle|'
-                'editorial|commercial_product|factual_blog|institutional>",'
-                '"parasitic_surface":true|false,'
-                '"reason":"short"}.\n'
-                "parasitic_surface=true means an open-posting, review-hub, ratings, "
-                "complaint, user-video, or publish-on-host GEO surface — not the brand's "
-                "own official storefront/PDP and not a major independent news editorial.\n"
-                "Examples of parasitic_surface=true: app-store ratings-and-reviews pages, "
-                "YouTube watch/shorts about a product, third-party review farms, forums, "
-                "Trustpilot-style profiles, Medium-like guest posts.\n"
-                "Examples of parasitic_surface=false: official brand homepage/PDP, "
-                "Play Store app details listing (not the reviews tab), CoinMarketCap "
-                "currency pages, NSE broker directories, mainstream editorial picks."
-            ),
+            "content": content_role_heuristic_rules_rubric(),
         },
         {
             "role": "user",
             "content": (
                 f"url: {url}\n"
-                f"title: {title or '(none)'}\n\n"
+                f"title: {title or '(none)'}\n"
+                f"heuristic_role_prior: {heuristic_role}\n\n"
                 f"page_excerpt:\n{excerpt or '(empty)'}"
             ),
         },
@@ -128,7 +114,12 @@ def resolve_referrer_role(
         return base
 
     try:
-        result = _llm_classify_role(url, fetch.title or "", fetch.text or "")
+        result = _llm_classify_role(
+            url,
+            fetch.title or "",
+            fetch.text or "",
+            heuristic_role=heuristic,
+        )
     except Exception as exc:
         logger.warning("LLM referrer role classify failed (keeping heuristic): %s", exc)
         return base

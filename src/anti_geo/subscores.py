@@ -61,6 +61,8 @@ def compute_rhetorical_manipulation(source: SourceScore) -> float:
     concealment = source.concealment
     if concealment and "hidden_geo_rhetoric" in concealment.flags:
         risk = min(1.0, risk + 0.2)
+    elif concealment and "hidden_chrome_rhetoric" in concealment.flags:
+        risk = min(1.0, risk + 0.08)
     return risk
 
 
@@ -114,7 +116,7 @@ def compute_factual_claim_reliability(
         reliability += 0.08
     if "established_domain" in source.reasons:
         reliability += 0.1
-    if "institutional_tld" in source.reasons:
+    if "institutional_tld" in source.reasons or "major_news_outlet" in source.reasons:
         reliability += 0.1
 
     if content.word_count < config.thin_content_words:
